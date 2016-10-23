@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "GameActivity")]
+    [Activity(Label = "Games")]
     public class GameActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -20,6 +20,8 @@ namespace AndroidApp.Activities
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(savedInstanceState);
 
+
+            SetContentView(Resource.Layout.GameLayout);
             // Create your application here
         }
     }

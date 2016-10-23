@@ -1,4 +1,5 @@
-﻿using Android.App;
+﻿using System.Reflection.Emit;
+using Android.App;
 using Android.Widget;
 using Android.OS;
 using Android.Views;
@@ -35,6 +36,11 @@ namespace AndroidApp
             FindViewById<ImageButton>(Resource.Id.eventButton).Click += delegate
             {
                 StartActivity(typeof(EventActivity));
+            };
+
+            FindViewById<ImageButton>(Resource.Id.centerImageButton1).Click += delegate
+            {
+                StartActivity(typeof(ContactActivity));
             };
         }
     }

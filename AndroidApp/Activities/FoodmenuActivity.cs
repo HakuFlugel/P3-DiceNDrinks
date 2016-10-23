@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "FoodmenuActivity")]
+    [Activity(Label = "Menu")]
     public class FoodmenuActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -20,6 +20,8 @@ namespace AndroidApp.Activities
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(savedInstanceState);
 
+
+            SetContentView(Resource.Layout.foodmenuLayout);
             // Create your application here
         }
     }

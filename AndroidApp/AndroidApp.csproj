@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\ContactActivity.cs" />
     <Compile Include="Activities\EventActivity.cs" />
     <Compile Include="Activities\FoodmenuActivity.cs" />
     <Compile Include="Activities\GameActivity.cs" />
@@ -74,6 +75,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ReservationLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\contactLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

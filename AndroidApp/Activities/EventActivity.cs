@@ -12,13 +12,15 @@ using Android.Widget;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "EventActivity")]
+    [Activity(Label = "Events")]
     public class EventActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(savedInstanceState);
+
+            SetContentView(Resource.Layout.eventLayout);
 
             // Create your application here
         }
