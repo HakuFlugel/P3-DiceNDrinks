@@ -38,16 +38,48 @@ namespace AdministratorPanel {
             foreach (var item in games)
                 listOfGames += item.ToString() + Environment.NewLine;
 
+
+
+
+
+
+
             TextBox allGames = new TextBox();
             allGames.Multiline = true;
             allGames.ScrollBars = ScrollBars.Both;
-            allGames.Dock = DockStyle.Fill;
+            allGames.Dock = DockStyle.Left;
+
             
             allGames.Text = listOfGames;
             allGames.ReadOnly = true;
             allGames.Location = new Point(5, 10);
 
             Controls.Add(allGames);
+
+
+
+
+
+            /*
+             In two collums.. Not quite working as I wanted (obviously) but will save this as an reference if need be.
+             TextBox[] allGames = {
+                new TextBox(), new TextBox() };
+
+            foreach(var item in allGames) {
+                item.Multiline = true;
+                item.ScrollBars = ScrollBars.Both;
+                item.ReadOnly = true;
+                item.Location = new Point(5, 10);
+            }
+            foreach(var item in games) {
+                listOfGamesID += item.id + Environment.NewLine;
+                listOfGameNames += item.name + Environment.NewLine;
+            }
+            allGames[1].Text = listOfGameNames; allGames[1].Dock = DockStyle.Left;
+            allGames[0].Text = listOfGamesID; allGames[0].Dock = DockStyle.Left;
+            
+            Controls.AddRange(allGames);
+            */
 
         }
     }
@@ -75,10 +107,6 @@ namespace AdministratorPanel {
             this.minPlayTime = minPlayTime;
             this.maxPlayTime = maxPlayTime;
             this.thumbnail = thumbnail;
-        }
-        public override string ToString() {
-
-            return id + " " + name;
         }
     }
 }
