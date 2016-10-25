@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    class CalendarTab : TabPage {
+    public class CalendarTab : TabPage
+    {
+        private Calendar calendar;
+
         public CalendarTab() {
-            Text = "Calender";
+            Text = "Calendar";
+
+            calendar = new Calendar();
+            Controls.Add(calendar);
+
+
         }
     }
 }
