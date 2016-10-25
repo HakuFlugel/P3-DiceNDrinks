@@ -8,27 +8,31 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel {
     class GamesTab : TabPage {
-        private Form form;
-        private List<Games> games;
+  
         
 
 
 
-        public GamesTab(Form form, List<Games> games) {
+        public GamesTab() {
+            // For testing purpose only
+            List<Games> games = new List<Games>();
+            games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+
             Text = "Games";
-            this.form = form;
-            this.games = games;
+         
             
-            displayGames();
+            displayGames(games);
 
         }
        
        
 
-        private void displayGames() {
+        private void displayGames(List<Games> games) {
 
-            int formWidth = form.Width;
-            int formHeight = form.Height;
+            
             string listOfGames = "";
             Font font = new Font("Microsoft Sans Serif", 12);
             foreach (var item in games)
@@ -37,9 +41,8 @@ namespace AdministratorPanel {
             TextBox allGames = new TextBox();
             allGames.Multiline = true;
             allGames.ScrollBars = ScrollBars.Both;
-            allGames.Width = formWidth - 35;
-            allGames.Height = formHeight - 150;
-            allGames.Font = font;
+            allGames.Dock = DockStyle.Fill;
+            
             allGames.Text = listOfGames;
             allGames.ReadOnly = true;
             allGames.Location = new Point(5, 10);

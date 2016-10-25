@@ -15,13 +15,7 @@ namespace AdministratorPanel {
 
 
         public Program() {
-            // For testing purpose only
-            List<Games> games = new List<Games>();
-            games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-
+           
 
             form = new Form();
             form.Width = width;
@@ -35,7 +29,7 @@ namespace AdministratorPanel {
             TabPage[] tabs = {
                     new CalendarTab(),
                     new ProductsTab(),
-                    new GamesTab(form, games),
+                    new GamesTab(),
                     new EventsTab()
             };
 
