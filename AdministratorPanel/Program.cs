@@ -24,10 +24,10 @@ namespace AdministratorPanel {
             cp.Dock = DockStyle.Fill;
 
            TabPage[] tabs = {
-                    new TabPage("Calendar"),
-                    new TabPage("Products"),
-                    new TabPage("Games"),
-                    new TabPage("Events")
+                    new CalendarTab(),
+                    new ProductsTab(),
+                    new GamesTab(),
+                    new EventsTab()
             };
 
 

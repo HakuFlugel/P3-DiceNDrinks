@@ -7,5 +7,8 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel {
     class EventsTab : TabPage {
+        public EventsTab() {
+            Text = "Events";
+        }
     }
 }
