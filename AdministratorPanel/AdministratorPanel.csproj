@@ -36,6 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Calendar.cs" />
     <Compile Include="CalendarTab.cs">
       <SubType>Component</SubType>
     </Compile>

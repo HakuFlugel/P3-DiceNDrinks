@@ -8,59 +8,41 @@ using System.Drawing;
 
 
 namespace AdministratorPanel {
-    class Program {
-
-        private Form form;
-
+    public class Program : Form {
 
         public Program() {
-            form = new Form();
-            form.Width = 1400;
-            form.Height = 1000;
 
-            
+            MinimumSize = new Size(480, 270);
+
+            Width = 960;
+            Height = 540;
+
 
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
 
-           TabPage[] tabs = {
-                    new CalendarTab(),
-                    new ProductsTab(),
-                    new GamesTab(),
-                    new EventsTab()
+            TabPage[] tabs = {
+                new CalendarTab(),
+                new ProductsTab(),
+                new GamesTab(),
+                new EventsTab()
             };
 
 
             cp.Controls.AddRange(tabs);
-            form.Controls.Add(cp);
+            Controls.Add(cp);
 
-            form.Activate();
-            form.Show();
 
+            Activate();
+            Show();
 
         }
 
         private void Start() {
-            Application.Run();
+
+            DoubleBuffered = true;
+            Application.Run(this);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         static void Main(string[] args) {
@@ -68,7 +50,5 @@ namespace AdministratorPanel {
             Program p = new Program();
             p.Start();
         }
-
-
     }
 }

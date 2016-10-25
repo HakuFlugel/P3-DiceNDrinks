@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    class GamesTab : TabPage {
+    public class GamesTab : TabPage {
         public GamesTab() {
             Text = "Games";
         }
