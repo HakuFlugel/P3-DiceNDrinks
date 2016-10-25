@@ -28,12 +28,12 @@
                     p1:layout_weight="1"
                     p1:scaleX="1"
                     p1:scaleY="1"
-                    p1:scaleType="fitXY"
+                    p1:scaleType="centerCrop"
                     p1:layout_height="match_parent"
                     p1:layout_width="match_parent"
                     p1:padding="0dp" />
                 <ImageButton
-                    p1:src="@drawable/front1"
+                    p1:src="@drawable/top_right_menu"
                     p1:layout_column="1"
                     p1:id="@+id/foodmenuButton"
                     p1:layout_weight="1"
@@ -42,7 +42,7 @@
                     p1:padding="0dp"
                     p1:scaleX="1"
                     p1:scaleY="1"
-                    p1:scaleType="fitXY" />
+                    p1:scaleType="centerCrop" />
             </TableRow>
             <TableRow
                 p1:id="@+id/tableRow2"
@@ -50,16 +50,16 @@
                 p1:layout_height="match_parent"
                 p1:layout_width="match_parent">
                 <ImageButton
-                    p1:src="@drawable/cat"
+                    p1:src="@drawable/bottom_left_reservation"
                     p1:layout_column="0"
                     p1:id="@+id/reservationButton"
                     p1:layout_weight="1"
                     p1:layout_height="match_parent"
                     p1:layout_width="match_parent"
-                    p1:scaleType="fitXY"
+                    p1:scaleType="centerCrop"
                     p1:padding="0dp" />
                 <ImageButton
-                    p1:src="@drawable/cat"
+                    p1:src="@drawable/bottom_right_events"
                     p1:layout_column="1"
                     p1:id="@+id/eventButton"
                     p1:layout_weight="1"
@@ -103,17 +103,11 @@
             p1:scaleY="1"
             p1:scaleX="1"
             p1:rotation="180" />
-
-        <LinearLayout 
+        <LinearLayout
             p1:id="@id/content"
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
-            p1:rotation="180" 
-            p1:background="#ff000000">
-          
-            
-    
-        </LinearLayout>
-
+            p1:rotation="180"
+            p1:background="#ff000000" />
     </SlidingDrawer>
 </FrameLayout>
