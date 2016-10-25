@@ -22,7 +22,7 @@
                 p1:layout_weight="1"
                 p1:layout_width="match_parent">
                 <ImageButton
-                    p1:src="@drawable/top_left"
+                    p1:src="@drawable/top_left_games"
                     p1:layout_column="0"
                     p1:id="@+id/gameButton"
                     p1:layout_weight="1"
@@ -83,31 +83,4 @@
             p1:scaleX="1"
             p1:scaleY="1" />
     </RelativeLayout>
-    <SlidingDrawer
-        p1:id="@+id/drawer"
-        p1:layout_width="200dp"
-        p1:layout_height="match_parent"
-        p1:handle="@+id/handle"
-        p1:orientation="horizontal"
-        p1:content="@+id/content"
-        p1:rotation="180"
-        p1:scaleY="1"
-        p1:scaleX="1">
-        <ImageView
-            p1:id="@id/handle"
-            p1:layout_width="44dip"
-            p1:layout_height="22dip"
-            p1:src="@android:drawable/arrow_up_float"
-            p1:cropToPadding="true"
-            p1:scaleType="fitXY"
-            p1:scaleY="1"
-            p1:scaleX="1"
-            p1:rotation="180" />
-        <ImageView
-            p1:id="@id/content"
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:src="@drawable/j"
-            p1:rotation="180" />
-    </SlidingDrawer>
 </FrameLayout>
