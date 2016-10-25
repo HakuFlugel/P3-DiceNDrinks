@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    public class CalendarTab : TabPage {
-
-        public CalendarTab()
-        {
-            Name = "Calendar";
+    class CalendarTab : TabPage {
+        public CalendarTab() {
+            Text = "Calender";
         }
-
     }
 }
