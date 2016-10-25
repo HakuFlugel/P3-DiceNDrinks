@@ -1,7 +1,8 @@
 ﻿namespace Shared
 {
-    public class ProductSection
+    public class PriceElement
     {
         public string name;
+        public int price;
     }
 }
