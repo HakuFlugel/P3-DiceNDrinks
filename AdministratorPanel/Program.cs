@@ -17,7 +17,6 @@ namespace AdministratorPanel {
             Width = 960;
             Height = 540;
 
-
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
 
