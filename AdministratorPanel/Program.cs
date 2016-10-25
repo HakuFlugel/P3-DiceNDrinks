@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 
@@ -12,8 +7,7 @@ namespace AdministratorPanel {
 
         public Program() {
 
-            MinimumSize = new Size(480, 270);
-
+            MinimumSize = new Size(960, 540);
             Width = 960;
             Height = 540;
 

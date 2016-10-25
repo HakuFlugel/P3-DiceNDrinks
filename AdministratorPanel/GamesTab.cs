@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
@@ -14,10 +11,16 @@ namespace AdministratorPanel {
 
 
 
-        public GamesTab(Form form, List<Games> games) {
+        public GamesTab() {
             Text = "Games";
-            this.form = form;
-            this.games = games;
+
+            // For testing purpose only
+            games = new List<Games>();
+            games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+
 
             displayGames();
 
@@ -27,8 +30,6 @@ namespace AdministratorPanel {
 
         private void displayGames() {
 
-            int formWidth = form.Width;
-            int formHeight = form.Height;
             string listOfGames = "";
             Font font = new Font("Microsoft Sans Serif", 12);
             foreach (var item in games)
@@ -37,12 +38,10 @@ namespace AdministratorPanel {
             TextBox allGames = new TextBox();
             allGames.Multiline = true;
             allGames.ScrollBars = ScrollBars.Both;
-            allGames.Width = formWidth - 35;
-            allGames.Height = formHeight - 150;
+            allGames.Dock = DockStyle.Fill;
             allGames.Font = font;
             allGames.Text = listOfGames;
             allGames.ReadOnly = true;
-            allGames.Location = new Point(5, 10);
 
             Controls.Add(allGames);
 
