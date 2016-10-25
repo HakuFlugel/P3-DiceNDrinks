@@ -5,30 +5,30 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel {
     public class GamesTab : TabPage {
-        private Form form;
-        private List<Games> games;
+
 
 
 
 
         public GamesTab() {
-            Text = "Games";
-
             // For testing purpose only
-            games = new List<Games>();
+            List<Games> games = new List<Games>();
             games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
 
+            Text = "Games";
 
-            displayGames();
+
+            displayGames(games);
 
         }
 
 
 
-        private void displayGames() {
+        private void displayGames(List<Games> games) {
+
 
             string listOfGames = "";
             Font font = new Font("Microsoft Sans Serif", 12);
@@ -38,12 +38,39 @@ namespace AdministratorPanel {
             TextBox allGames = new TextBox();
             allGames.Multiline = true;
             allGames.ScrollBars = ScrollBars.Both;
-            allGames.Dock = DockStyle.Fill;
-            allGames.Font = font;
+            allGames.Dock = DockStyle.Left;
+
+
             allGames.Text = listOfGames;
             allGames.ReadOnly = true;
+            allGames.Location = new Point(5, 10);
 
             Controls.Add(allGames);
+
+
+
+
+
+            /*
+             In two collums.. Not quite working as I wanted (obviously) but will save this as an reference if need be.
+             TextBox[] allGames = {
+                new TextBox(), new TextBox() };
+
+            foreach(var item in allGames) {
+                item.Multiline = true;
+                item.ScrollBars = ScrollBars.Both;
+                item.ReadOnly = true;
+                item.Location = new Point(5, 10);
+            }
+            foreach(var item in games) {
+                listOfGamesID += item.id + Environment.NewLine;
+                listOfGameNames += item.name + Environment.NewLine;
+            }
+            allGames[1].Text = listOfGameNames; allGames[1].Dock = DockStyle.Left;
+            allGames[0].Text = listOfGamesID; allGames[0].Dock = DockStyle.Left;
+
+            Controls.AddRange(allGames);
+            */
 
         }
     }
@@ -71,10 +98,6 @@ namespace AdministratorPanel {
             this.minPlayTime = minPlayTime;
             this.maxPlayTime = maxPlayTime;
             this.thumbnail = thumbnail;
-        }
-        public override string ToString() {
-
-            return id + " " + name;
         }
     }
 }
