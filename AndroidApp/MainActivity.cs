@@ -1,9 +1,11 @@
 ﻿using System.Reflection.Emit;
 using Android.App;
+using Android.Graphics.Pdf;
 using Android.Widget;
 using Android.OS;
 using Android.Views;
 using AndroidApp.Activities;
+using Mono.Security.Interface;
 using Shared;
 
 namespace AndroidApp
@@ -23,6 +25,7 @@ namespace AndroidApp
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
                 StartActivity(typeof(GameActivity));
+                
             };
 
             FindViewById<ImageButton>(Resource.Id.foodmenuButton).Click += delegate
@@ -44,6 +47,22 @@ namespace AndroidApp
             {
                 StartActivity(typeof(ContactActivity));
             };
+        }
+
+
+
+
+        public override void OnBackPressed()
+        {
+            AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
+            exitApp.SetMessage("Do you really want to exit?");
+            exitApp.SetPositiveButton("Yes", (senderAlert, args) => { base.OnBackPressed(); });
+            exitApp.SetNegativeButton("No", (senderAlert, args) => { return; });
+
+            Dialog exit = exitApp.Create();
+
+            exit.Show();
+
         }
     }
 }

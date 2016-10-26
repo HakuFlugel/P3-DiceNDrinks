@@ -24,10 +24,6 @@ namespace AndroidApp.Activities
 
             SetContentView(Resource.Layout.GameLayout);
             // Create your application here
-            FindViewById<Button>(Resource.Id.button1).Click += delegate
-            {
-                FindViewById<Button>(Resource.Id.button1).Text = Locale.Default.DisplayLanguage;
-            };
 
         }
     }
