@@ -49,6 +49,7 @@
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="PendingReservationList.cs" />
     <Compile Include="ProductCategoryTab.cs">
       <SubType>Component</SubType>
     </Compile>
