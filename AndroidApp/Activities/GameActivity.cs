@@ -26,7 +26,7 @@ namespace AndroidApp.Activities
             // Create your application here
             FindViewById<Button>(Resource.Id.button1).Click += delegate
             {
-                
+                FindViewById<Button>(Resource.Id.button1).Text = Locale.Default.DisplayLanguage;
             };
 
         }

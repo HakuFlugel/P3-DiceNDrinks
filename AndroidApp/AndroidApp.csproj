@@ -120,7 +120,7 @@
     <AndroidResource Include="Resources\drawable\Bottom_Right_Events.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values-dk\Strings.xml" />
+    <AndroidResource Include="Resources\values-da\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values-en\Strings.xml" />
