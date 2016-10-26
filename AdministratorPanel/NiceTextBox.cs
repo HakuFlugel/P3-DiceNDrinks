@@ -53,6 +53,7 @@ namespace AdministratorPanel {
                 if (value && clearButton == null)
                 {
                     clearButton = new Button();
+                    clearButton.Width = clearButton.Height;
                     clearButton.Text = "X";
                     clearButton.Dock = DockStyle.Right;
 
