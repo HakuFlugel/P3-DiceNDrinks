@@ -17,7 +17,7 @@ namespace AdministratorPanel {
             TabPage[] tabs = {
                 new CalendarTab(),
                 new ProductsTab(),
-                new GamesTab(),
+                new GamesTab(this),
                 new EventsTab()
             };
 
