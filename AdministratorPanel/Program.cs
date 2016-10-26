@@ -15,17 +15,21 @@ namespace AdministratorPanel {
 
         public Program() {
             form = new Form();
-            form.Width = 1400;
-            form.Height = 1000;
-
-            
+            //form.Width = 1400;
+            //form.Height = 1000;
+            form.AutoSize = true;
+            //form.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            form.AutoScaleMode = AutoScaleMode.Dpi;
 
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
+            cp.Font = new Font(cp.Font.OriginalFontName, cp.Font.Size*2); //todo: look at this font size
+
+  
 
            TabPage[] tabs = {
                     new TabPage("Calendar"),
-                    new TabPage("Products"),
+                    new ProductCategoryTab(),
                     new TabPage("Games"),
                     new TabPage("Events")
             };

@@ -7,5 +7,15 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel {
     class CalendarTab : TabPage {
+
+
+
+        public CalendarTab() {
+
+        }
+
+
+
+
     }
 }

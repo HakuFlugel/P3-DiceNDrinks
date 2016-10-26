@@ -7,5 +7,13 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel {
     class ProductsTab : TabPage {
+
+        public ProductsTab() {
+
+        }
+
+
+
+
     }
 }
