@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidApp", "AndroidApp\AndroidApp.csproj", "{35C22195-8DFE-436D-8DA2-B6045B18CDC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministratorPanel", "AdministratorPanel\AdministratorPanel.csproj", "{A57FF545-879B-40C0-A0C5-D6B7E8260269}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,10 +23,6 @@ Global
 		{35C22195-8DFE-436D-8DA2-B6045B18CDC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35C22195-8DFE-436D-8DA2-B6045B18CDC7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35C22195-8DFE-436D-8DA2-B6045B18CDC7}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A57FF545-879B-40C0-A0C5-D6B7E8260269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A57FF545-879B-40C0-A0C5-D6B7E8260269}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A57FF545-879B-40C0-A0C5-D6B7E8260269}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A57FF545-879B-40C0-A0C5-D6B7E8260269}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Java.Util;
 
 namespace AndroidApp.Activities
 {
@@ -23,6 +24,11 @@ namespace AndroidApp.Activities
 
             SetContentView(Resource.Layout.GameLayout);
             // Create your application here
+            FindViewById<Button>(Resource.Id.button1).Click += delegate
+            {
+                
+            };
+
         }
     }
 }
