@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    class NiceTextBox : TextBox {
-        public string waterMark = "";
-        public NiceTextBox(string waterMark) {
-            this.waterMark = waterMark;
-            Text = waterMark;
+    class NiceTextBox : TextBox
+    {
+        private bool waterMarkActive = true;
+        private string _waterMark = "";
+        public string waterMark
+        {
+            get { return _waterMark; }
+            set
+            {
+                _waterMark = value;
+                Text = value;
+            }
         }
+
         protected override void OnGotFocus(EventArgs e) {
-            if(waterMark != "") {
+            if(Text == waterMark && waterMarkActive) {
                 Text = "";
             }
             base.OnGotFocus(e);
@@ -21,8 +29,54 @@ namespace AdministratorPanel {
         protected override void OnLostFocus(EventArgs e) {
             if(Text == "") {
                 Text = waterMark;
+                waterMarkActive = true;
             }
+            else
+            {
+                waterMarkActive = false;
+            }
+
             base.OnLostFocus(e);
         }
+
+
+        // TODO: Untested, WIP
+        private bool _clearable = false;
+        private Button clearButton;
+
+        public bool clearable
+        {
+            get { return _clearable; }
+            set
+            {
+                _clearable = value;
+                if (value && clearButton == null)
+                {
+                    clearButton = new Button();
+                    clearButton.Text = "X";
+                    clearButton.Dock = DockStyle.Right;
+
+                    clearButton.Click += (sender, ev) =>
+                    {
+                        Text = Focused ? "" : waterMark;
+                        waterMarkActive = true;
+                    };
+
+                    Controls.Add(clearButton);
+                } else if (!value && clearButton != null)
+                {
+                    Controls.Remove(clearButton);
+                    clearButton = null;
+                }
+            }
+        }
+
+        public NiceTextBox() {
+
+
+        }
+
+
+
     }
 }
