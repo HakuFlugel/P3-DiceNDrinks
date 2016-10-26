@@ -1,70 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Drawing;
 
 
 namespace AdministratorPanel {
-    class Program {
-
-        private Form form;
-
+    public class Program : Form {
 
         public Program() {
-            form = new Form();
-            //form.Width = 1400;
-            //form.Height = 1000;
-            form.AutoSize = true;
+            
+  
+            //form.AutoSize = true;
             //form.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            form.AutoScaleMode = AutoScaleMode.Dpi;
+            AutoScaleMode = AutoScaleMode.Dpi;
+
+            MinimumSize = new Size(960, 540);
+            Width = 960;
+            Height = 540;
 
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
-            cp.Font = new Font(cp.Font.OriginalFontName, cp.Font.Size*2); //todo: look at this font size
 
-  
-
-           TabPage[] tabs = {
-                    new TabPage("Calendar"),
-                    new ProductCategoryTab(),
-                    new TabPage("Games"),
-                    new TabPage("Events")
+            TabPage[] tabs = {
+                new CalendarTab(),
+                new ProductsTab(),
+                new GamesTab(this),
+                new EventsTab()
             };
 
 
             cp.Controls.AddRange(tabs);
-            form.Controls.Add(cp);
+            Controls.Add(cp);
 
-            form.Activate();
-            form.Show();
 
+            Activate();
+            Show();
 
         }
 
         private void Start() {
-            Application.Run();
+
+            DoubleBuffered = true;
+            Application.Run(this);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         static void Main(string[] args) {
@@ -72,7 +48,5 @@ namespace AdministratorPanel {
             Program p = new Program();
             p.Start();
         }
-
-
     }
 }

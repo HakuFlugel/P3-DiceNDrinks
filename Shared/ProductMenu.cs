@@ -8,7 +8,7 @@ namespace Shared
 
         public ProductMenu()
         {
-            categories[0].name = "Food";
+            categories[0].name = "Food"; /*Food and drinks and food!!*/
             categories[1].name = "Drinks";
             categories[2].name = "Food";
 

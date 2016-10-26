@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Calendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CalendarTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -51,10 +54,15 @@
     <Compile Include="ProductItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NiceTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProductsTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Program.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
