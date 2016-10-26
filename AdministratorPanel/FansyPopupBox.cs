@@ -39,7 +39,7 @@ namespace AdministratorPanel {
 
             for(int i = 0; i < 2; i++) {
                 Button[] buttons = { new Button(), new Button(), new Button() };
-                buttons[0].Click += cancle; buttons[1].Click += Delete;
+                buttons[0].Click += cancle; buttons[1].Click += Delete; buttons[2].Click += Save;
                 foreach(var item in buttons) {
                     item.Size = new Size(134, 48);
                     item.Location = new Point(startLoacttion.X, startLoacttion.Y);
@@ -51,21 +51,28 @@ namespace AdministratorPanel {
             }
         }
 
-        private void Delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
-        }
+        abstract public void Save(object sender, EventArgs e);
+
+        abstract public void Delete(object sender, EventArgs e);
 
         private void cancle(object sender, EventArgs e) {
             messageBox.Close();
         }
     }
-}
+    class ProductPopupbox : FansyPopupBox {
+        //for products
+        public int pRice;
 
-/*
-  public bool isGames = false;
-        //shared
-        
+        public override void Delete(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
 
+        public override void Save(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+    }
+
+    class GamesPopupbox : FansyPopupBox {
         //for games
         public int gYear;
         public string gGenre = "";
@@ -74,8 +81,31 @@ namespace AdministratorPanel {
         public int gMinPlayers;
         public int gMaxPlayers;
 
-        //for products
-        public int pRice;
+        public override void Delete(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        public override void Save(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+    }
+
+
+}
+
+
+
+
+
+
+/*
+  public bool isGames = false;
+        //shared
+        
+
+        
+
+        
 
 
      */
