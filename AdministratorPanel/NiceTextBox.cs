@@ -70,13 +70,5 @@ namespace AdministratorPanel {
                 }
             }
         }
-
-        public NiceTextBox() {
-
-
-        }
-
-
-
     }
 }
