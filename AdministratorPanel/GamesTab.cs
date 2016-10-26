@@ -13,10 +13,10 @@ namespace AdministratorPanel {
         public GamesTab() {
             // For testing purpose only
             List<Games> games = new List<Games>();
-            games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 1, 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 3, 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 5, 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 4, 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
 
             Text = "Games";
 
@@ -80,18 +80,21 @@ namespace AdministratorPanel {
         public string name;
         public string genre;
         public string description;
+        public int difficulty;
         public int publishedYear;
+        
 
         public int minPlayers, maxPlayers;
         public int minPlayTime, maxPlayTime;
 
         public string thumbnail, image;
 
-        public Games(string id, string name, string genre, string description, int publishedYear, int minPlayers, int maxPlayers, int minPlayTime, int maxPlayTime, string thumbnail) {
+        public Games(string id, string name, string genre, string description, int difficulty, int publishedYear, int minPlayers, int maxPlayers, int minPlayTime, int maxPlayTime, string thumbnail) {
             this.id = id;
             this.name = name;
             this.genre = genre;
             this.description = description;
+            this.difficulty = difficulty;
             this.publishedYear = publishedYear;
             this.minPlayers = minPlayers;
             this.maxPlayers = maxPlayers;
