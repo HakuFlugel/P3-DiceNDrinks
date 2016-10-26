@@ -23,7 +23,7 @@ namespace AdministratorPanel {
                 new CalendarTab(),
                 new ProductsTab(),
                 new GamesTab(this),
-                new EventsTab()
+                new EventsTab(this)
             };
 
 

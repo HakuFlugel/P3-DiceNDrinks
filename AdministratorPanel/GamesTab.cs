@@ -9,7 +9,7 @@ namespace AdministratorPanel {
 
         Form form;
         List<Games> games;
-
+        public Action<string> UserSearchText { get; set; }
 
         public GamesTab(Form form) {
             // For testing purpose only
@@ -36,22 +36,28 @@ namespace AdministratorPanel {
             }
         private Control gibSeachBar() {
 
-            NiceTextBox input = new NiceTextBox("Seach...");
+            NiceTextBox input = new NiceTextBox();
+            input.waterMark = "Search...";
+            input.clearable = true;
             
             input.Width = form.Width / 3;
             input.Location = new Point(((form.Width - input.Width) / 2), 5);
+            
             return input;
         }
 
-       
+
 
         private Control gibSeachBarButton() {
             Button seachButton = new Button();
-           // seachButton.Click += SeachButton_Click;
+            
+            
             return seachButton;
         }
-        
-        
+
+        private void SeachButton_Click(object sender, EventArgs e) {
+            
+        }
 
         private Control gibButton() {
 
