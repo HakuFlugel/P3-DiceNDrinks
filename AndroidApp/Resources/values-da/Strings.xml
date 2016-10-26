@@ -2,4 +2,7 @@
 
 <resources>
   <string name="button1">Hej Verden!</string>
+  <string name="exit">Vil du virkelig gerne afslutte?</string>
+  <string name="yes">Ja</string>
+  <string name="no">Nej</string>
 </resources>

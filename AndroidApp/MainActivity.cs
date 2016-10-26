@@ -55,9 +55,9 @@ namespace AndroidApp
         public override void OnBackPressed()
         {
             AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
-            exitApp.SetMessage("Do you really want to exit?");
-            exitApp.SetPositiveButton("Yes", (senderAlert, args) => { base.OnBackPressed(); });
-            exitApp.SetNegativeButton("No", (senderAlert, args) => { return; });
+            exitApp.SetMessage(Resource.String.exit);
+            exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
+            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { return; });
 
             Dialog exit = exitApp.Create();
 
