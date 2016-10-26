@@ -45,6 +45,7 @@
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="FansyPopupBox.cs" />
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
