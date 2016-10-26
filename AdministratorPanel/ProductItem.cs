@@ -23,7 +23,7 @@ namespace AdministratorPanel {
             Update();
             //table();
             this.name = p.name;
-            this.Text = Information();
+            //this.Text = Information();
             this.priceElements = p.PriceElements;
             this.Image = image;
             this.TextImageRelation = TextImageRelation.ImageAboveText;
