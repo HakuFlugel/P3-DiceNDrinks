@@ -48,6 +48,9 @@
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NiceTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProductsTab.cs">
       <SubType>Component</SubType>
     </Compile>

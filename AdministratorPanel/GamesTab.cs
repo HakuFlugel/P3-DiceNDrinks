@@ -7,10 +7,10 @@ namespace AdministratorPanel {
     public class GamesTab : TabPage {
 
 
+        Form form;
 
 
-
-        public GamesTab() {
+        public GamesTab(Form form) {
             // For testing purpose only
             List<Games> games = new List<Games>();
             games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 1, 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
@@ -19,37 +19,60 @@ namespace AdministratorPanel {
             games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 4, 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
 
             Text = "Games";
-
-
-            displayGames(games);
+            this.form = form;
+            allControls(games);
 
         }
 
+        private void allControls(List<Games> games) {
+            string seached = null;
+            Control[] allControls = {
+                gibSeachBar(),
+                gibGameBox(games,seached)
+                };
+
+            Controls.AddRange(allControls);
+            }
+        private Control gibSeachBar() {
+
+            NiceTextBox input = new NiceTextBox("Seach...");
+            
+            input.Width = form.Width / 3;
+            input.Location = new Point(((form.Width - input.Width) / 2), 5);
+            return input;
+        }
+
+       
+
+        private Control gibSeachBarButton() {
+
+            return null;
+        }
+
+        private Control gibButton() {
 
 
-        private void displayGames(List<Games> games) {
+            return null;
+        }
 
-
+        private Control gibGameBox(List<Games> games,string seached) {
             string listOfGames = "";
             Font font = new Font("Microsoft Sans Serif", 12);
             foreach (var item in games)
-                listOfGames += item.ToString() + Environment.NewLine;
+                listOfGames += item.id + " " + item.name + Environment.NewLine;
 
             TextBox allGames = new TextBox();
             allGames.Multiline = true;
             allGames.ScrollBars = ScrollBars.Both;
-            allGames.Dock = DockStyle.Left;
+            allGames.Width = form.Width - 40;
+            allGames.Height = form.Height - 200;
+            allGames.Location = new Point(10, (form.Height - allGames.Height) / 2 - 50);
 
 
             allGames.Text = listOfGames;
             allGames.ReadOnly = true;
-            allGames.Location = new Point(5, 10);
 
-            Controls.Add(allGames);
-
-
-
-
+            return allGames;
 
             /*
              In two collums.. Not quite working as I wanted (obviously) but will save this as an reference if need be.
