@@ -6,6 +6,11 @@ namespace AdministratorPanel {
     public class Program : Form {
 
         public Program() {
+            
+  
+            //form.AutoSize = true;
+            //form.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            AutoScaleMode = AutoScaleMode.Dpi;
 
             MinimumSize = new Size(960, 540);
             Width = 960;

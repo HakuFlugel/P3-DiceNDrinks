@@ -8,11 +8,12 @@ namespace AdministratorPanel {
 
 
         Form form;
-
+        List<Games> games;
+        public Action<string> UserSearchText { get; set; }
 
         public GamesTab(Form form) {
             // For testing purpose only
-            List<Games> games = new List<Games>();
+            games = new List<Games>();
             games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
@@ -20,15 +21,15 @@ namespace AdministratorPanel {
 
             Text = "Games";
             this.form = form;
-            allControls(games);
+            allControls();
 
         }
 
-        private void allControls(List<Games> games) {
+        private void allControls() {
             string seached = null;
             Control[] allControls = {
                 gibSeachBar(),
-                gibGameBox(games,seached)
+                gibGameBox(seached)
                 };
 
             Controls.AddRange(allControls);
@@ -41,14 +42,21 @@ namespace AdministratorPanel {
             
             input.Width = form.Width / 3;
             input.Location = new Point(((form.Width - input.Width) / 2), 5);
+            
             return input;
         }
 
-       
+
 
         private Control gibSeachBarButton() {
+            Button seachButton = new Button();
+            
+            
+            return seachButton;
+        }
 
-            return null;
+        private void SeachButton_Click(object sender, EventArgs e) {
+            
         }
 
         private Control gibButton() {
@@ -57,7 +65,7 @@ namespace AdministratorPanel {
             return null;
         }
 
-        private Control gibGameBox(List<Games> games,string seached) {
+        private Control gibGameBox(string seached) {
             string listOfGames = "";
             Font font = new Font("Microsoft Sans Serif", 12);
             foreach (var item in games)

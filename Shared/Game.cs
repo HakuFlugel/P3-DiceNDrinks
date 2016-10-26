@@ -11,6 +11,7 @@ namespace Shared
 
         public string name;
         public string description;
+        public int difficulity;
         public int publishedYear;
 
         public int minPlayers, maxPlayers;
