@@ -35,7 +35,9 @@ namespace AdministratorPanel {
             }
         private Control gibSeachBar() {
 
-            NiceTextBox input = new NiceTextBox("Seach...");
+            NiceTextBox input = new NiceTextBox();
+            input.waterMark = "Search...";
+            input.clearable = true;
             
             input.Width = form.Width / 3;
             input.Location = new Point(((form.Width - input.Width) / 2), 5);
