@@ -1,5 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace AdministratorPanel {
+    public partial class ProductPopupbox : Form {
+        
+        public string sName = "";
+        public string sDescription = "";
+        public string sID = "";
+        public bool hasBeenEdi = false;
+        public string sImage = "";
+        public int pPrice = 0;
+
+        public ProductPopupbox() {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            
+            InitializeComponent();
+        }
+        public void openMessageBox() {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e) {
+            if (hasBeenEdi) {
+                if (DialogResult.Yes ==
+                    MessageBox.Show("Are you sure? Everything unsaved will be lost.",
+                    "About to close",
+                    MessageBoxButtons.YesNo)) {
+                    hasBeenEdi = false;
+                    this.Close();
+                }
+            }
+        }
+        
+
+        private void textBox2_TextChanged(object sender, EventArgs e) {
+
+        }
+
+        
+    }
+}
+
+
+/*using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
