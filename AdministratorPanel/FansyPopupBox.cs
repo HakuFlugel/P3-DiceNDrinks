@@ -46,7 +46,6 @@ namespace AdministratorPanel {
                     startLoacttion.X += 318;
                     
                 }
-                
 
             }
         }
@@ -62,13 +61,14 @@ namespace AdministratorPanel {
     class ProductPopupbox : FansyPopupBox {
         //for products
         public int pRice;
+        ProductPopupbox() {
+
+        }
 
         public override void Delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
         }
 
         public override void Save(object sender, EventArgs e) {
-            throw new NotImplementedException();
         }
     }
 
@@ -81,12 +81,14 @@ namespace AdministratorPanel {
         public int gMinPlayers;
         public int gMaxPlayers;
 
+        GamesPopupbox() {
+
+        }
+
         public override void Delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
         }
 
         public override void Save(object sender, EventArgs e) {
-            throw new NotImplementedException();
         }
     }
 
