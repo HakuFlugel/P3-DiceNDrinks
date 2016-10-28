@@ -59,10 +59,11 @@ namespace AdministratorPanel {
             
         }
 
-        private Control gibButton() {
+        private Control gibEditButton() {
+            Button editButton = new Button();
+            editButton.Size = new Size(134, 48);
 
-
-            return null;
+            return editButton;
         }
 
         private Control gibGameBox(string seached) {
