@@ -21,13 +21,19 @@ namespace AdministratorPanel {
             headtlp.ColumnCount = 1;
 
             FlowLayoutPanel topflp = new FlowLayoutPanel();
+            topflp.Dock = DockStyle.Top;
+            topflp.AutoSize = true;
             FlowLayoutPanel lowerflp = new FlowLayoutPanel();
+            lowerflp.Dock = DockStyle.Fill;
             lowerflp.AutoScroll = true;
+            lowerflp.FlowDirection = FlowDirection.TopDown;
+            lowerflp.WrapContents = false;
 
-            TableLayoutPanel eList = new TableLayoutPanel();
-            eList.RowCount = 1;
-            eList.ColumnCount = 2;
-            FlowLayoutPanel eLoList
+
+            for (int i = 0; i < 20; i++) {
+                EventItem ei = new EventItem();
+                lowerflp.Controls.Add(ei);
+            }
 
             topflp.Controls.Add(new Button { Height = 20, Width = 100, Text = "Test :D" });
             //lowerflp.Controls.Add(new Button { })

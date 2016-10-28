@@ -13,7 +13,7 @@ namespace AdministratorPanel {
         private int sizeX = 160;
         private int sizeY = 160;
 
-        private Image image = Image.FromFile("C:/Users/Bruger/Desktop/Red.png");
+        //private Image image = Image.FromFile("C:/Users/Bruger/Desktop/Red.png");
 
         public ProductItem(Product p) {
             Update();
@@ -31,7 +31,7 @@ namespace AdministratorPanel {
 
             //1
             PictureBox pb = new PictureBox();
-            pb.Image = image;
+            //pb.Image = image;
             Controls.Add(pb);
 
             //2
