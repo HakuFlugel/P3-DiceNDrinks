@@ -1,5 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace AdministratorPanel {
+    public partial class ProductPopupbox : Form {
+        
+        public string sName = "";
+        public string sDescription = "";
+        public string sID = "";
+        public bool hasBeenEdi = false;
+        public string sImage = "";
+        public int pPrice = 0;
+
+        public ProductPopupbox() {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            
+            InitializeComponent();
+        }
+        public void openMessageBox() {
+
+        }
+
+        
+    }
+}
+
+
+/*using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;

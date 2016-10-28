@@ -48,7 +48,12 @@
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FansyPopupBox.cs" />
+    <Compile Include="ProductPopupbox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductPopupbox.Designer.cs">
+      <DependentUpon>ProductPopupbox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,14 +79,22 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{6bfec132-8dc8-488f-a302-09be8758a671}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProductPopupbox.resx">
+      <DependentUpon>ProductPopupbox.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
