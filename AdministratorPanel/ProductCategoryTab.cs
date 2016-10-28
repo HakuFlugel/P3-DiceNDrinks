@@ -14,7 +14,7 @@ namespace AdministratorPanel {
         //List<Objects> products = new List<Objects>();
 
         public ProductCategoryTab(string name) {
-            Name = name;
+            Text = name;
             FlowLayout();
 
            
