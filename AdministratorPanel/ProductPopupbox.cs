@@ -28,23 +28,6 @@ namespace AdministratorPanel {
 
         }
 
-        private void button2_Click(object sender, EventArgs e) {
-            if (hasBeenEdi) {
-                if (DialogResult.Yes ==
-                    MessageBox.Show("Are you sure? Everything unsaved will be lost.",
-                    "About to close",
-                    MessageBoxButtons.YesNo)) {
-                    hasBeenEdi = false;
-                    this.Close();
-                }
-            }
-        }
-        
-
-        private void textBox2_TextChanged(object sender, EventArgs e) {
-
-        }
-
         
     }
 }
