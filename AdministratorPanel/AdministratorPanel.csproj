@@ -48,9 +48,10 @@
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProductPopupbox.cs">
-      <SubType>Form</SubType>
+    <Compile Include="FancyPopupBox.cs">
+      <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ProductPopupbox.cs" />
     <Compile Include="ProductPopupbox.Designer.cs">
       <DependentUpon>ProductPopupbox.cs</DependentUpon>
     </Compile>
