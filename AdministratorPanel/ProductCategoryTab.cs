@@ -13,10 +13,10 @@ namespace AdministratorPanel {
 
         //List<Objects> products = new List<Objects>();
 
-        public ProductCategoryTab() {
-            Name = "Products";
-
+        public ProductCategoryTab(string name) {
+            Name = name;
             FlowLayout();
+
            
         }
 
@@ -24,25 +24,45 @@ namespace AdministratorPanel {
 
             FlowLayoutPanel flowPanel = new FlowLayoutPanel();
             flowPanel.Dock = DockStyle.Fill;
+            flowPanel.AutoScroll = true;
+
+            PriceElement pr = new PriceElement();
+            pr.name = "first";
+            pr.price = 69;
+
+            List<PriceElement> prl = new List<PriceElement>();
+            prl.Add(pr);
+            prl.Add(pr);
+            prl.Add(pr);
+            prl.Add(pr);
 
             Product p1 = new Product();
             p1.name = "derp";
-            Product p2 = new Product();
-            p2.name = "herp";
-
-            Product p3 = new Product();
-            p3.name = "skov";
+            p1.PriceElements = prl;
 
             List<Product> pl = new List<Product>();
             pl.Add(p1);
-            pl.Add(p2);
-            pl.Add(p3);
             pl.Add(p1);
-            pl.Add(p2);
-            pl.Add(p3);
             pl.Add(p1);
-            pl.Add(p2);
-            pl.Add(p3);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
+            pl.Add(p1);
 
             foreach (var item in pl) {
                 flowPanel.Controls.Add(new ProductItem(item));
