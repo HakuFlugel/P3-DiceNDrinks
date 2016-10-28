@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace Shared
 {
@@ -11,6 +12,7 @@ namespace Shared
 
         public string name;
         public string description;
+        public List<string> genre;
         public int difficulity;
         public int publishedYear;
 

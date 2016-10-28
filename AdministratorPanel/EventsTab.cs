@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Shared;
 
 namespace AdministratorPanel {
     public class EventsTab : TabPage {
@@ -7,12 +8,6 @@ namespace AdministratorPanel {
         public EventsTab(Form form) {
             this.form = form;
             Text = "Events";
-            
-            /*Button newEvent = new Button {
-                Height = 20,
-                Width = 100,
-                Text = "New Event",
-                Location = new Point(form.Width - (Width / 4) * 3, 10)};*/
 
             TableLayoutPanel headtlp = new TableLayoutPanel();
             headtlp.Dock = DockStyle.Fill;
@@ -23,26 +18,28 @@ namespace AdministratorPanel {
             FlowLayoutPanel topflp = new FlowLayoutPanel();
             topflp.Dock = DockStyle.Top;
             topflp.AutoSize = true;
-            FlowLayoutPanel lowerflp = new FlowLayoutPanel();
-            lowerflp.Dock = DockStyle.Fill;
-            lowerflp.AutoScroll = true;
-            lowerflp.FlowDirection = FlowDirection.TopDown;
-            lowerflp.WrapContents = false;
 
+            TableLayoutPanel lowertlp = new TableLayoutPanel();
+            lowertlp.Dock = DockStyle.Fill;
+            lowertlp.AutoScroll = true;
+            lowertlp.ColumnCount = 1;
+            lowertlp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
 
             for (int i = 0; i < 20; i++) {
-                EventItem ei = new EventItem();
-                lowerflp.Controls.Add(ei);
+                EventItem ei = new EventItem(new Event());
+                lowertlp.Controls.Add(ei);
             }
 
-            topflp.Controls.Add(new Button { Height = 20, Width = 100, Text = "Test :D" });
-            //lowerflp.Controls.Add(new Button { })
-            
-            headtlp.Controls.Add(topflp);
-            headtlp.Controls.Add(lowerflp);
+            Button addEvent = new Button();
+            addEvent.Height = 20;
+            addEvent.Width = 100;
+            addEvent.Text = "Add Event";
+            //addEvent.Click += new System.EventHandler(this.);
 
-            //Controls.Add(newEvent);
-            //headtlp.Controls.Add(new Button { Height = 20, Width = 100, Text = "Test :D" });
+            topflp.Controls.Add(addEvent);           
+            headtlp.Controls.Add(topflp);
+            headtlp.Controls.Add(lowertlp);
+
             Controls.Add(headtlp);
             
         }
