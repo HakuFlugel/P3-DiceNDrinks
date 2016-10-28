@@ -8,8 +8,8 @@ namespace AdministratorPanel {
         public Program() {
             
   
-            //form.AutoSize = true;
-            //form.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            //AutoSize = true;
+            //AutoSizeMode = AutoSizeMode.GrowOnly;
             AutoScaleMode = AutoScaleMode.Dpi;
 
             MinimumSize = new Size(960, 540);
@@ -18,6 +18,9 @@ namespace AdministratorPanel {
 
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
+
+            //cp.AutoSize = true;
+
 
             TabPage[] tabs = {
                 new CalendarTab(),

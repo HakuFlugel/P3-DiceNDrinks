@@ -27,7 +27,7 @@ namespace AdministratorPanel {
             TableLayoutPanel eList = new TableLayoutPanel();
             eList.RowCount = 1;
             eList.ColumnCount = 2;
-            FlowLayoutPanel eLoList
+            //FlowLayoutPanel eLoList
 
             topflp.Controls.Add(new Button { Height = 20, Width = 100, Text = "Test :D" });
             //lowerflp.Controls.Add(new Button { })
