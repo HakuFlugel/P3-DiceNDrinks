@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System;
+using System.Reflection.Emit;
 using Android.App;
 using Android.Graphics.Pdf;
 using Android.Widget;
@@ -10,11 +11,13 @@ using Shared;
 
 namespace AndroidApp
 {
-    [Activity(Label = "Dice 'n Drinks", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(/*Theme = "@style/Theme.NoTitle",*/ Label = "Dice 'n Drinks", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
+
         protected override void OnCreate(Bundle bundle)
         {
+
             RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(bundle);
 
