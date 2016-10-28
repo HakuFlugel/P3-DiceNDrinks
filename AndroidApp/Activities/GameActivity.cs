@@ -9,16 +9,15 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Java.Util;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "Games")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
     public class GameActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            
             base.OnCreate(savedInstanceState);
 
 

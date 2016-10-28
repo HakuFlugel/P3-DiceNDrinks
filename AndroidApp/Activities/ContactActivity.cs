@@ -12,12 +12,12 @@ using Android.Widget;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "Contact")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Contact")]
     public class ContactActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.contactLayout);

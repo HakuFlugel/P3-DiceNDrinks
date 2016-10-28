@@ -10,19 +10,40 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
+
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "Menu")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu")]
     public class FoodmenuActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            
             base.OnCreate(savedInstanceState);
 
 
             SetContentView(Resource.Layout.foodmenuLayout);
             // Create your application here
+
+            ListView listView = (ListView)FindViewById(Resource.Id.listView1);
+
+            //base adaptor should be food list
+            //listView.Adapter = new ArrayAdapter<>();
+            //TODO: ArrayAdapter to make listview
+
+            FindViewById<ImageButton>(Resource.Id.foodButton).Click += delegate
+            {
+                //todo: Fetch food list and set it as adapter
+            };
+            FindViewById<ImageButton>(Resource.Id.drinkButton).Click += delegate
+            {
+                //todo: Fetch drink list and set it as adapter
+            };
+            FindViewById<ImageButton>(Resource.Id.miscButton).Click += delegate
+            {
+                //todo: Fetch misc list and set it as adapter
+            };
+
         }
     }
 }

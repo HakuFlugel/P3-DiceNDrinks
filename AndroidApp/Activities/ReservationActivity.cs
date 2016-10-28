@@ -12,12 +12,12 @@ using Android.Widget;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "Reservation")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation")]
     public class ReservationActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            
             base.OnCreate(savedInstanceState);
 
 

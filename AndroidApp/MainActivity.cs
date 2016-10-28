@@ -11,14 +11,13 @@ using Shared;
 
 namespace AndroidApp
 {
-    [Activity(/*Theme = "@style/Theme.NoTitle",*/ Label = "Dice 'n Drinks", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Dice 'n Drinks", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
 
         protected override void OnCreate(Bundle bundle)
         {
 
-            RequestWindowFeature(WindowFeatures.NoTitle);
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Main);

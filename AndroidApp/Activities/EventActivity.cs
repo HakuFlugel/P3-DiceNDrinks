@@ -12,12 +12,12 @@ using Android.Widget;
 
 namespace AndroidApp.Activities
 {
-    [Activity(Label = "Events")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Events")]
     public class EventActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            RequestWindowFeature(WindowFeatures.NoTitle);
+            
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.eventLayout);

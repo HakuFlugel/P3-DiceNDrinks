@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-</LinearLayout>
+<FrameLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:minWidth="25px"
+    p1:minHeight="25px"
+    p1:layout_width="match_parent"
+    p1:layout_height="match_parent"
+    p1:id="@+id/frameLayout1">
+    <LinearLayout
+        p1:orientation="vertical"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/linearLayout1"
+        p1:padding="8dp">
+        <TableRow
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/tableRow1">
+            <Button
+                p1:text="Food"
+                p1:id="@+id/foodButton"
+                p1:layout_weight="1" />
+            <Button
+                p1:text="Drinks"
+                p1:id="@+id/drinkButton"
+                p1:layout_weight="1" />
+            <Button
+                p1:text="Misc."
+                p1:id="@+id/miscButton"
+                p1:layout_weight="1" />
+        </TableRow>
+        <ListView
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/listView1"
+            p1:padding="8dp" />
+    </LinearLayout>
+</FrameLayout>
