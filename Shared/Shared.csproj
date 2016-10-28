@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="PriceElement.cs" />
     <Compile Include="Product.cs" />

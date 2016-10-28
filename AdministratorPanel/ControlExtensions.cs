@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace AdministratorPanel {
     public static class ControlExtensions {
 
-        public static void MakeSuperClickable(this Control control, EventHandler clickEvent) {
+        public static void MakeSuperClickable(this Control control, EventHandler clickEvent) { // TODO: hover events too?
             ControlEventArgs cev = new ControlEventArgs(control);
 
             clickEvent += (sender, ev) => { ((Control)sender).Focus(); };
