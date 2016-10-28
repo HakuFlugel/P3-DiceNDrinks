@@ -42,6 +42,9 @@
     <Compile Include="CalendarTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EventItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -49,7 +52,9 @@
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PendingReservationList.cs" />
+    <Compile Include="PendingReservationList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProductCategoryTab.cs">
       <SubType>Component</SubType>
     </Compile>
