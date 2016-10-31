@@ -87,6 +87,13 @@ namespace AdministratorPanel {
                 }
             }
         }
+
+        private bool _defaultSelection = false;
+        public bool defaultSeletion {
+            get { return _defaultSelection; }
+            set { _defaultSelection = value; TabIndex = 0; }
+        }
+
         NiceDropDownBox() {
             DrawMode = DrawMode.Normal;
             DropDownWidth = 250;
