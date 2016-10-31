@@ -72,4 +72,25 @@ namespace AdministratorPanel {
             }
         }
     }
+
+    class NiceDropDownBox : ComboBox {
+        private bool _userCanWrite = false;
+        public bool userCanWrite {
+            get { return _userCanWrite; }
+            set {
+                _userCanWrite = value;
+                if(value) {
+                    DropDownStyle = ComboBoxStyle.DropDownList;
+                }
+                else {
+                    DropDownStyle = ComboBoxStyle.DropDown;
+                }
+            }
+        }
+        NiceDropDownBox() {
+            DrawMode = DrawMode.Normal;
+            DropDownWidth = 250;
+
+        }
+    }
 }
