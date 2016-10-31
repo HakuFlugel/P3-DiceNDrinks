@@ -43,17 +43,20 @@ namespace AdministratorPanel {
             Button delete = new Button();
             delete.Text = "Delete";
             delete.Dock = DockStyle.Left;
+            delete.Click += this.delete;
             p.Controls.Add(delete);
             
 
             Button cancel = new Button();
             cancel.Text = "Cancel";
             cancel.Dock = DockStyle.Right;
+            cancel.Click += this.cancel;
             p.Controls.Add(cancel);
 
             Button save = new Button();
             save.Text = "Save";
             save.Dock = DockStyle.Right;
+            save.Click += this.save;
             p.Controls.Add(save);
 
 
@@ -67,53 +70,40 @@ namespace AdministratorPanel {
 
         protected abstract Control CreateControls();
 
-        /*private void defaultButtons() {
-            Point startLoacttion = new Point(12, 393);
 
-            for (int i = 0; i < 2; i++) {
-                Button[] buttons = { new Button(), new Button(), new Button() };
-                buttons[0].Click += cancle; buttons[1].Click += Delete; buttons[2].Click += Save;
+        abstract public void save(object sender, EventArgs e);
 
-                buttons[0].Location = new Point(496, 393);
-                buttons[1].Location = new Point(636, 393);
-                buttons[2].Location = new Point(12, 393);
+        abstract public void delete(object sender, EventArgs e);
 
-                foreach (var item in buttons) {
-                    item.Size = new Size(134, 48);
-                    item.Location = new Point(startLoacttion.X, startLoacttion.Y);
-                    
-
-                }
-
-            }
-        }*/
-
-        /*abstract public void Save(object sender, EventArgs e);
-
-        abstract public void Delete(object sender, EventArgs e);
-
-        private void cancle(object sender, EventArgs e) {
-            if (hasBeenEdi) {
+        private void cancel(object sender, EventArgs e) {
+            if (isChanged) {
                 if (DialogResult.Yes ==
                     MessageBox.Show("Are you sure? Everything unsaved will be lost.",
                     "About to close",
                     MessageBoxButtons.YesNo)) {
-                    hasBeenEdi = false;
-                    messageBox.Close();
+                    isChanged = false;
+                    Close();
                 }
             }
-        }*/
+        }
     }
 
     class ProductPopupbox : FansyPopupBox {
         //for products
-        public int pRice;
         Product product;
         public ProductPopupbox(Product product) {
             
             this.product = product;
             
 
+        }
+
+        public override void delete(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        public override void save(object sender, EventArgs e) {
+            throw new NotImplementedException();
         }
 
         protected override Control CreateControls() {
@@ -130,7 +120,12 @@ namespace AdministratorPanel {
             name.TextChanged += (sender, ev) => {
                 isChanged = true;
             };
-            ComboBox stuff = new ComboBox();
+            ComboBox catagory = new ComboBox();
+            catagory.DrawMode = DrawMode.OwnerDrawFixed;
+            catagory.DropDownStyle = ComboBoxStyle.DropDownList;
+            catagory.Name = "Catagory";
+            catagory.TabIndex = 0;
+            
 
             return tbtb;
         }
