@@ -32,12 +32,12 @@ namespace AdministratorPanel {
             leftTable.Controls.Add(b);
 
             //// Right side
-            TableLayoutPanel rightTable = new TableLayoutPanel();
-            rightTable.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
-            rightTable.Dock = DockStyle.Fill;
+            TableLayoutPanel rightTable = new ReservationList();
+            //rightTable.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
+            //rightTable.Dock = DockStyle.Fill;
             //rightTable.AutoSize = true;
             //rightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            rightTable.BorderStyle = BorderStyle.Fixed3D;
+            //rightTable.BorderStyle = BorderStyle.Fixed3D;
             outerTable.Controls.Add(rightTable);
 
 

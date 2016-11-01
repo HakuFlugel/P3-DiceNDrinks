@@ -51,6 +51,8 @@
     <Compile Include="FancyPopupBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NiceTextBox.cs" />
+    <Compile Include="PendingReservationItem.cs" />
     <Compile Include="ProductPopupbox.cs" />
     <Compile Include="ProductPopupbox.Designer.cs">
       <DependentUpon>ProductPopupbox.cs</DependentUpon>
@@ -67,9 +69,6 @@
     <Compile Include="ProductItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NiceTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ProductsTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -77,6 +76,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ControlExtensions.cs" />
+    <Compile Include="ReservationItem.cs" />
+    <Compile Include="ReservationList.cs" />
+    <Compile Include="NiceButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -19,18 +20,28 @@ namespace AdministratorPanel
             clickEvent += (sender, ev) => { ((Control) sender).Focus(); };
 
             OnControlAdded(cev, clickEvent);
-        }
 
-        private static Color smartRGB(params int[] par)
-        {
-            for (int i = 0; i < par.Length; i++)
+            EventHandler mouseEnter = (sender, ev) =>
             {
-                par[i] = par[i] > 255 ? 255 : par[i] < 0 ? 0 : par[i];
-            }
+                Color b = control.BackColor;
+                //e.Control.ForeColor = e.Control.BackColor;
+                control.BackColor = smartRGB(b.R - 20, b.G - 20, b.B - 20);
+            };
+            EventHandler mouseLeave = (sender, ev) =>
+            {
+                Color b = control.BackColor;
+                //e.Control.ForeColor = e.Control.BackColor;
+                control.BackColor = smartRGB(b.R + 20, b.G + 20, b.B + 20);
+            };
 
+            control.MouseEnter -= mouseEnter;
+            control.MouseEnter += mouseEnter;
 
-            return Color.FromArgb(par[0], par[1], par[2]);
+            control.MouseLeave -= mouseLeave;
+            control.MouseLeave += mouseLeave;
         }
+
+
 
         private static void OnControlAdded(ControlEventArgs e, EventHandler clickEvent)
         {
@@ -43,31 +54,14 @@ namespace AdministratorPanel
                     OnControlAdded(cev, clickEvent);
                 }
             };
-            EventHandler mouseEnter = (sender, ev) =>
-            {
-                Color b = e.Control.BackColor;
-                //e.Control.ForeColor = e.Control.BackColor;
-                e.Control.BackColor = smartRGB(b.R - 20, b.G - 20, b.B - 20);
-            };
-            EventHandler mouseLeave = (sender, ev) =>
-            {
-                Color b = e.Control.BackColor;
-                //e.Control.ForeColor = e.Control.BackColor;
-                e.Control.BackColor = smartRGB(b.R + 20, b.G + 20, b.B + 20);
-            };
 
             e.Control.Click -= clickEvent;
             e.Control.Click += clickEvent;
             e.Control.ControlAdded -= controladded;
             e.Control.ControlAdded += controladded;
 
-            e.Control.MouseEnter -= mouseEnter;
-            e.Control.MouseEnter += mouseEnter;
-
-            e.Control.MouseLeave -= mouseLeave;
-            e.Control.MouseLeave += mouseLeave;
-
             controladded(e.Control, e);
         }
     }
 }
+*/
