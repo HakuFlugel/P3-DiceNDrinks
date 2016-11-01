@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Drawing;
-using Shared;
 
-namespace AdministratorPanel {
-    class EventItem : NiceButton {
+namespace AdministratorPanel
+{
+    public class ReservationItem : NiceButton
+    {
 
-        public EventItem(Event e) {
+        public ReservationItem()
+        {
             RowCount = 1;
-            ColumnCount = 2;
+            ColumnCount = 1;
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;
             AutoSize = true;
@@ -21,7 +18,8 @@ namespace AdministratorPanel {
             //this.MakeSuperClickable((s, ev) => { this.BackColor = Color.Red; });
 
 
-            Controls.Add(new Label{ Text = "Dinmor"});
+            Controls.Add(new Label{ Text = "Dinmor\n\ntests\n\ntest", AutoSize = true});
         }
+
     }
 }

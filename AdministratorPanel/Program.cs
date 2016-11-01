@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 
-
 namespace AdministratorPanel {
     public class Program : Form {
 
