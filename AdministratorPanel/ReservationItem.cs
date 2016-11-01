@@ -18,7 +18,7 @@ namespace AdministratorPanel
             //this.MakeSuperClickable((s, ev) => { this.BackColor = Color.Red; });
 
 
-            Controls.Add(new Label{ Text = "Dinmor"});
+            Controls.Add(new Label{ Text = "Dinmor\n\ntests\n\ntest", AutoSize = true});
         }
 
     }
