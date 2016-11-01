@@ -49,7 +49,9 @@
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PendingReservationList.cs" />
+    <Compile Include="PendingReservationList.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProductCategoryTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -77,6 +79,10 @@
       <Project>{6bfec132-8dc8-488f-a302-09be8758a671}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="images\Red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

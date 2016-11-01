@@ -10,128 +10,81 @@ using System.Drawing;
 namespace AdministratorPanel {
     class ProductItem : TableLayoutPanel {
 
-        private int sizeX = 160;
-        private int sizeY = 160;
+        private int sizeX = 192;
+        private int sizeY = 192;
+        private Image image;
 
-        private Image image = Image.FromFile("C:/Users/Bruger/Desktop/Red.png");
+        public ProductItem(Product product) {
 
-        public ProductItem(Product p) {
-            Update();
-            //table();
-            //this.name = p.name;
-            ////this.Text = Information();
-            //this.priceElements = p.PriceElements;
-            ////this.Image = image;
+            Update(product);
 
-            //BorderStyle = BorderStyle.FixedSingle;
             BackColor = Color.LightGray;
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize; // note skal måske ændres
             RowCount = 3;
             ColumnCount = 1;
-
+            
             //1
-            PictureBox pb = new PictureBox();
-            pb.Image = image;
-            Controls.Add(pb);
+            Panel pn = new Panel();
+            pn.Height = 64;
+            pn.Width = ClientSize.Width;
+            
+            pn.BackgroundImage = image;
+            pn.BackgroundImageLayout = ImageLayout.Zoom;
+            pn.BackColor = Color.Black;
+            Controls.Add(pn);
 
             //2
-            Label lb = new Label();
-            lb.Text = p.name;
-            Controls.Add(lb);
+            Label productName = new Label();
+            productName.Dock = DockStyle.Fill;
+            productName.Text = product.name;
+            Controls.Add(productName);
 
             //3
-            TableLayoutPanel tb = new TableLayoutPanel();
-            tb.AutoSize = true;
-            tb.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-                //RowCount = 0;
-            ColumnCount = 2;
-            Controls.Add(Information(p,tb));
+            TableLayoutPanel priceTable = new TableLayoutPanel();
+            priceTable.AutoSize = true;
+            priceTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            priceTable.Dock = DockStyle.Fill;
+            priceTable.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            priceTable.ColumnCount = 2;
 
-            //done
+            Controls.Add(Information(product,priceTable));
 
             this.MakeSuperClickable((sender, ev) => {Console.WriteLine("Loli-pop"); });
         }
 
         private TableLayoutPanel Information(Product p, TableLayoutPanel tb) {
-            StringBuilder sb = new StringBuilder();
-            Label temp = new Label();
+            
             List<Label> lList = new List<Label>();
-
-            sb.AppendLine(p.name);
             
             foreach (var item in p.PriceElements) {
-                sb.Append(item.name);
-                temp.Text = sb.ToString();
-                lList.Add(temp);
-                sb.Clear();
+                StringBuilder prefix = new StringBuilder();
+                StringBuilder price = new StringBuilder();
 
-                sb.Append("Price: ");
-                sb.Append(item.name);
-                temp.Text = sb.ToString();
-                lList.Add(temp);
-                sb.Clear();
+                Label preLabel = new Label();
+                Label priceLabel = new Label();
+
+                prefix.Append(item.name);
+                Console.WriteLine(item.name);
+                preLabel.Text = prefix.ToString();
+                lList.Add(preLabel);
+                
+                price.Append("Price: ");
+                price.Append(item.price);
+                priceLabel.Text = price.ToString();
+                lList.Add(priceLabel);
             }
-
-            //foreach (var item in lList) {
-            //    Console.WriteLine(item.Text);
-            //}
 
             tb.Controls.AddRange(lList.ToArray());
             return tb;
         }
 
-        private void table() {
-
-            Name = "Information";
-            BackColor = Color.Transparent;
-            Panel p = new Panel();
-
-            Controls.Add(new Button { Height = 20, Width = 20, Text = "1" });
-            Controls.Add(new Button { Height = 20, Width = 20, Text = "2" });
-            Controls.Add(new Button { Height = 20, Width = 20, Text = "3" });
-            Controls.Add(new Button { Height = 20, Width = 20, Text = "4" });
-        }
-
-        private void Update(){
+        private void Update(Product product){
+            
+            image = Image.FromFile(product.image);
+           
             this.Height = sizeY;
             this.Width = sizeX;
             
         }
-
-
-
-
-
-
-
-
-        //protected override void OnClick(EventArgs e) {
-        //    base.OnClick(e);
-        //    Console.WriteLine("clicked " + this);
-        //}
-
-        //private void ControlAdded(Control control) {
-
-        //}
-
-        //protected override void OnControlAdded(ControlEventArgs e) {
-        //    EventHandler click = (sender, ev) => { OnClick(ev); };
-        //    ControlEventHandler controladded = (sender, ev) => {
-        //        //OnControlAdded(ev);
-
-        //        foreach (Control control in e.Control.Controls) {
-        //            ControlEventArgs cev = new ControlEventArgs(control);
-        //            OnControlAdded(cev);
-        //            //controladded(this, cev);
-        //        }
-        //    };
-
-        //    e.Control.Click -= click;
-        //    e.Control.Click += click;
-        //    e.Control.ControlAdded -= controladded;
-        //    e.Control.ControlAdded += controladded;
-
-        //    base.OnControlAdded(e);
-        //}
     }
 }
