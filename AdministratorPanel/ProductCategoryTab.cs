@@ -32,7 +32,7 @@ namespace AdministratorPanel {
             prl.Add(pr);
             prl.Add(pr);
 
-            Product p1 = new Product();
+            Product p1 = new Product("","");
             p1.name = "derp";
             p1.PriceElements = prl;
 

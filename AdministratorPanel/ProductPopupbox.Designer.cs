@@ -1,4 +1,4 @@
-﻿namespace AdministratorPanel {
+﻿/*namespace AdministratorPanel {
     partial class ProductPopupbox {
         /// <summary>
         /// Required designer variable.
@@ -176,4 +176,4 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label7;
     }
-}
+}*/
