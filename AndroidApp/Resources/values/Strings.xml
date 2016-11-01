@@ -8,5 +8,8 @@
   <string name="foodButton">Food</string>
   <string name="drinkButton">Drinks</string>
   <string name="miscButton">Misc.</string>
+  <string name="playerButton">Misc.</string>
+  <string name="difficultyButton">Misc.</string>
+  <string name="gametimeButton">Misc.</string>
 
 </resources>
