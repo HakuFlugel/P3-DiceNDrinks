@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
@@ -70,6 +66,34 @@ namespace AdministratorPanel {
                     clearButton = null;
                 }
             }
+        }
+    }
+
+    class NiceDropDownBox : ComboBox {
+        private bool _userCanWrite = false;
+        public bool userCanWrite {
+            get { return _userCanWrite; }
+            set {
+                _userCanWrite = value;
+                if(value) {
+                    DropDownStyle = ComboBoxStyle.DropDownList;
+                }
+                else {
+                    DropDownStyle = ComboBoxStyle.DropDown;
+                }
+            }
+        }
+
+        private bool _defaultSelection = false;
+        public bool defaultSeletion {
+            get { return _defaultSelection; }
+            set { _defaultSelection = value; TabIndex = 0; }
+        }
+
+        public NiceDropDownBox() {
+            DrawMode = DrawMode.Normal;
+            DropDownWidth = 250;
+
         }
     }
 }

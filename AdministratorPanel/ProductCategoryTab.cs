@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Shared;
 
@@ -27,7 +23,7 @@ namespace AdministratorPanel {
             flowPanel.AutoScroll = true;
 
             PriceElement pr = new PriceElement();
-            pr.name = "first";
+            pr.name = "Text for product";
             pr.price = 69;
 
             List<PriceElement> prl = new List<PriceElement>();
@@ -37,7 +33,8 @@ namespace AdministratorPanel {
             prl.Add(pr);
 
             Product p1 = new Product();
-            p1.name = "derp";
+            p1.image = "images/Red.png";
+            p1.name = "Name of product";
             p1.PriceElements = prl;
 
             List<Product> pl = new List<Product>();
@@ -70,6 +67,5 @@ namespace AdministratorPanel {
 
             Controls.Add(flowPanel);
         }
-
     }
 }
