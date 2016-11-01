@@ -19,15 +19,7 @@ namespace AdministratorPanel
             }
         }
 
-
-
-
         public NiceButton()
-        {
-
-        }
-
-        private void calculateColors()
         {
 
         }
