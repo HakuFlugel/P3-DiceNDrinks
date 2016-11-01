@@ -94,7 +94,7 @@ namespace AdministratorPanel {
             set { _defaultSelection = value; TabIndex = 0; }
         }
 
-        NiceDropDownBox() {
+        public NiceDropDownBox() {
             DrawMode = DrawMode.Normal;
             DropDownWidth = 250;
 

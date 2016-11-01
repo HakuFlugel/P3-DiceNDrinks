@@ -113,6 +113,12 @@ namespace AdministratorPanel {
             tbtb.ColumnCount = 2;
 
             Panel leftPanel = new Panel();
+            Panel one = new Panel();
+            one.AutoSize = true;
+            
+
+            leftPanel.Controls.Add(one);
+
 
             NiceTextBox name = new NiceTextBox();
             name.clearable = true;
@@ -120,9 +126,8 @@ namespace AdministratorPanel {
             name.TextChanged += (sender, ev) => {
                 isChanged = true;
             };
-            ComboBox catagory = new ComboBox();
-            catagory.DrawMode = DrawMode.OwnerDrawFixed;
-            catagory.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            NiceDropDownBox catagory = new NiceDropDownBox();
             catagory.Name = "Catagory";
             catagory.TabIndex = 0;
             
