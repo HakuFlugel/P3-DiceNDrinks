@@ -42,10 +42,21 @@
     <Compile Include="CalendarTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EventItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FansyPopupBox.cs" />
+    <Compile Include="FancyPopupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NiceTextBox.cs" />
+    <Compile Include="PendingReservationItem.cs" />
+    <Compile Include="ProductPopupbox.cs" />
+    <Compile Include="ProductPopupbox.Designer.cs">
+      <DependentUpon>ProductPopupbox.cs</DependentUpon>
+    </Compile>
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -58,21 +69,23 @@
     <Compile Include="ProductItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NiceTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ProductsTab.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ControlExtensions.cs" />
+    <Compile Include="ReservationItem.cs" />
+    <Compile Include="ReservationList.cs" />
+    <Compile Include="NiceButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
@@ -80,9 +93,18 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="images\Red.png" />
+    <EmbeddedResource Include="ProductPopupbox.resx">
+      <DependentUpon>ProductPopupbox.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="images" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,4 +1,39 @@
-﻿using System;
+﻿/*using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+
+namespace AdministratorPanel {
+    public partial class ProductPopupbox : Form {
+        
+        public string sName = "";
+        public string sDescription = "";
+        public string sID = "";
+        public bool hasBeenEdi = false;
+        public string sImage = "";
+        public int pPrice = 0;
+
+        public ProductPopupbox() {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            
+            InitializeComponent();
+        }
+        public void openMessageBox() {
+
+        }
+
+        
+    }
+}
+*/
+
+/*using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +42,12 @@ using System.Windows.Forms;
 using System.Drawing;
 
 namespace AdministratorPanel {
-    abstract class FansyPopupBox {
+    abstract class FansyPopupBox : TableLayoutPanel {
         private Form messageBox = new Form();
-        public string sTitle = "";
         public string sName = "";
         public string sDescription = "";
         public string sID = "";
+        public bool hasBeenEdi = false;
         public string sImage = "";
         public List<Control> control = new List<Control>();
 
@@ -29,7 +64,6 @@ namespace AdministratorPanel {
         public void openMessageBox() {
 
             defaultButtons();
-            messageBox.Text = sTitle;
             messageBox.Controls.AddRange(control.ToArray());
            
         }
@@ -46,7 +80,6 @@ namespace AdministratorPanel {
                     startLoacttion.X += 318;
                     
                 }
-                
 
             }
         }
@@ -56,19 +89,35 @@ namespace AdministratorPanel {
         abstract public void Delete(object sender, EventArgs e);
 
         private void cancle(object sender, EventArgs e) {
-            messageBox.Close();
+            if(hasBeenEdi) {
+                if (DialogResult.Yes ==
+                    MessageBox.Show("Are you sure? Everything unsaved will be lost.",
+                    "About to close",
+                    MessageBoxButtons.YesNo)) {
+                    hasBeenEdi = false;
+                    messageBox.Close();
+                }
+            }
         }
     }
     class ProductPopupbox : FansyPopupBox {
         //for products
         public int pRice;
+        ProductPopupbox() {
+            Text = "Product details";
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            
+            RowCount = 3;
+            ColumnCount = 2;
+
+        }
 
         public override void Delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
+
         }
 
         public override void Save(object sender, EventArgs e) {
-            throw new NotImplementedException();
+
         }
     }
 
@@ -81,12 +130,14 @@ namespace AdministratorPanel {
         public int gMinPlayers;
         public int gMaxPlayers;
 
+        GamesPopupbox() {
+            Text = "Game details";
+        }
+
         public override void Delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
         }
 
         public override void Save(object sender, EventArgs e) {
-            throw new NotImplementedException();
         }
     }
 

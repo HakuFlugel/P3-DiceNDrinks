@@ -8,7 +8,7 @@ using Shared;
 using System.Drawing;
 
 namespace AdministratorPanel {
-    class ProductItem : TableLayoutPanel {
+    class ProductItem : NiceButton {
 
         private int sizeX = 192;
         private int sizeY = 192;
@@ -18,7 +18,9 @@ namespace AdministratorPanel {
 
             Update(product);
 
-            BackColor = Color.LightGray;
+            //BorderStyle = BorderStyle.FixedSingle;
+            bgColor = Color.LightGray;
+
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize; // note skal måske ændres
             RowCount = 3;
             ColumnCount = 1;
@@ -49,7 +51,7 @@ namespace AdministratorPanel {
 
             Controls.Add(Information(product,priceTable));
 
-            this.MakeSuperClickable((sender, ev) => {Console.WriteLine("Loli-pop"); });
+            //this.MakeSuperClickable((sender, ev) => {Console.WriteLine("Loli-pop"); });
         }
 
         private TableLayoutPanel Information(Product p, TableLayoutPanel tb) {

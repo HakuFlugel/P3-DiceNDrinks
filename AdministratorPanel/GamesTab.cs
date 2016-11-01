@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Shared;
 
 namespace AdministratorPanel {
     public class GamesTab : TabPage {
@@ -36,6 +37,13 @@ namespace AdministratorPanel {
             }
         private Control gibSeachBar() {
 
+            Button but = new Button();
+            but.Text = "Pop";
+            but.Click += (s, e) => {
+                ProductPopupbox p = new ProductPopupbox(new Product("Køøls Skid","image/location/"));
+                p.Show();
+            };
+            return but;
             NiceTextBox input = new NiceTextBox();
             input.waterMark = "Search...";
             input.clearable = true;
@@ -59,10 +67,11 @@ namespace AdministratorPanel {
             
         }
 
-        private Control gibButton() {
+        private Control gibEditButton() {
+            Button editButton = new Button();
+            editButton.Size = new Size(134, 48);
 
-
-            return null;
+            return editButton;
         }
 
         private Control gibGameBox(string seached) {

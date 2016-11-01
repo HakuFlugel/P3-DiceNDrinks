@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Shared;
 
@@ -14,8 +10,10 @@ namespace AdministratorPanel {
         //List<Objects> products = new List<Objects>();
 
         public ProductCategoryTab(string name) {
-            Name = name;
-            FlowLayout(); 
+            Text = name;
+            FlowLayout();
+
+           
         }
 
         public void FlowLayout() {
@@ -69,6 +67,5 @@ namespace AdministratorPanel {
 
             Controls.Add(flowPanel);
         }
-
     }
 }
