@@ -49,10 +49,14 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="FancyPopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NiceTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NiceTextBox.cs" />
-    <Compile Include="PendingReservationItem.cs" />
+    <Compile Include="PendingReservationItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ProductPopupbox.cs" />
     <Compile Include="ProductPopupbox.Designer.cs">
       <DependentUpon>ProductPopupbox.cs</DependentUpon>
@@ -75,9 +79,15 @@
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReservationItem.cs" />
-    <Compile Include="ReservationList.cs" />
-    <Compile Include="NiceButton.cs" />
+    <Compile Include="ReservationItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NiceButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -103,9 +113,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="images" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

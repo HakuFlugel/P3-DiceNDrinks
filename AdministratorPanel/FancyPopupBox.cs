@@ -10,6 +10,8 @@ namespace AdministratorPanel {
     /*abstract*/
     abstract class FansyPopupBox : Form {
         public bool isChanged = false;
+        protected Padding labelPadding = new Padding(5, 0, 5, 0);
+        protected Padding otherPadding = new Padding(5, 0, 5, 20);
 
         public FansyPopupBox() {
 
@@ -90,7 +92,7 @@ namespace AdministratorPanel {
 
     class ProductPopupbox : FansyPopupBox {
         //for products
-        Product product;
+        protected Product product;
         public ProductPopupbox(Product product) {
             
             this.product = product;
@@ -107,50 +109,184 @@ namespace AdministratorPanel {
         }
 
         protected override Control CreateControls() {
+            
+
             TableLayoutPanel tbtb = new TableLayoutPanel();
             tbtb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             tbtb.RowCount = 1;
             tbtb.ColumnCount = 2;
 
-            Panel leftPanel = new Panel();
+            tbtb.Controls.Add(leftTable());
+            tbtb.Controls.Add(reightTable());
 
-            NiceTextBox name = new NiceTextBox();
-            name.clearable = true;
-            name.waterMark = "Insert name....";
-            name.TextChanged += (sender, ev) => {
-                isChanged = true;
-            };
-            ComboBox catagory = new ComboBox();
-            catagory.DrawMode = DrawMode.OwnerDrawFixed;
-            catagory.DropDownStyle = ComboBoxStyle.DropDownList;
-            catagory.Name = "Catagory";
-            catagory.TabIndex = 0;
             
 
             return tbtb;
         }
+
+        private TableLayoutPanel leftTable() {
+            TableLayoutPanel tb = new TableLayoutPanel();
+            tb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            tb.RowCount = 6;
+            tb.ColumnCount = 1;
+
+            Label nameLabel = new Label();
+            nameLabel.Text = "Name";
+            nameLabel.Margin = labelPadding;
+            tb.Controls.Add(nameLabel);
+
+            NiceTextBox nameTextBox = new NiceTextBox();
+            nameTextBox.clearable = true;
+            nameTextBox.waterMark = "Insert name....";
+            nameTextBox.TextChanged += (sender, ev) => {
+                isChanged = true;
+            };
+            nameTextBox.Margin = otherPadding;
+            tb.Controls.Add(nameTextBox);
+
+            Label catagoryLabel = new Label();
+            catagoryLabel.Text = "Catagory";
+            catagoryLabel.Margin = labelPadding;
+            tb.Controls.Add(catagoryLabel);
+
+            NiceDropDownBox catagoryDropDown = new NiceDropDownBox();
+            if (product == null)
+                catagoryDropDown.defaultSeletion = true;
+            if (product != null)
+                catagoryDropDown.Margin = otherPadding;
+            catagoryDropDown.SelectedIndexChanged += (sender, ev) => {
+                isChanged = true;
+            };
+
+            tb.Controls.Add(catagoryDropDown);
+
+            Label sectionLabel = new Label();
+            sectionLabel.Text = "Section";
+            sectionLabel.Margin = labelPadding;
+            tb.Controls.Add(sectionLabel);
+
+            NiceDropDownBox sectionDropDown = new NiceDropDownBox();
+            if (product == null)
+                sectionDropDown.defaultSeletion = true;
+
+            sectionDropDown.Margin = otherPadding;
+            sectionDropDown.SelectedIndexChanged += (sender, ev) => {
+                isChanged = true;
+            };
+
+            tb.Controls.Add(sectionDropDown);
+
+            return tb;
+        }
+
+        private TableLayoutPanel reightTable() {
+            TableLayoutPanel tb = new TableLayoutPanel();
+            tb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            tb.RowCount = 6;
+            tb.ColumnCount = 1;
+
+            Label nameLabel = new Label();
+            nameLabel.Text = "Price range";
+            nameLabel.Margin = labelPadding;
+            tb.Controls.Add(nameLabel);
+
+            TableLayoutPanel price = new TableLayoutPanel();
+            price.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            price.RowCount = 3;
+            price.ColumnCount = 1;
+
+            TableLayoutPanel priceVname = new TableLayoutPanel();
+            priceVname.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            priceVname.RowCount = 1;
+            priceVname.ColumnCount = 2;
+
+            
+
+
+
+
+
+
+
+            return tb;
+        }
     }
-}
 
-//    class GamesPopupbox : FansyPopupBox {
-//        //for games
-//        public int gYear;
-//        public string gGenre = "";
-//        public int gMinTime;
-//        public int gMaxTime;
-//        public int gMinPlayers;
-//        public int gMaxPlayers;
 
-//        GamesPopupbox() {
-//            Text = "Game details";
+//class GamesPopupbox : FansyPopupBox {
+//    //for games
+//    public int gYear;
+//    public string gGenre = "";
+//    public int gMinTime;
+//    public int gMaxTime;
+//    public int gMinPlayers;
+//    public int gMaxPlayers;
+
+//    GamesPopupbox() {
+//        Text = "Game details";
+//    }
+
+
+//        protected override Control CreateControls() {
+//            Padding labelPadding = new Padding(5, 0, 5, 0);
+//            Padding otherPadding = new Padding(5, 0, 5, 20);
+//            TableLayoutPanel tbtb = new TableLayoutPanel();
+//            tbtb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+//            tbtb.RowCount = 1;
+//            tbtb.ColumnCount = 2;
+
+//            TableLayoutPanel left = new TableLayoutPanel();
+//            left.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+//            left.RowCount = 1;
+//            left.ColumnCount = 6;
+
+//            Label nameLabel = new Label();
+//            nameLabel.Text = "name";
+//            nameLabel.Margin = labelPadding;
+
+//            NiceTextBox nameTextBox = new NiceTextBox();
+//            nameTextBox.clearable = true;
+//            nameTextBox.waterMark = "Insert name....";
+//            nameTextBox.TextChanged += (sender, ev) => {
+//                isChanged = true;
+//            };
+//            nameTextBox.Margin = otherPadding;
+
+//            Label catagoryLabel = new Label();
+//            catagoryLabel.Text = "Catagory";
+//            catagoryLabel.Margin = labelPadding;
+
+//            NiceDropDownBox catagoryDropDown = new NiceDropDownBox();
+
+//            if (product == null)
+//                catagoryDropDown.defaultSeletion = true;
+//            if (product != null)
+
+
+//                catagoryDropDown.Margin = otherPadding;
+
+//            Label sectionLabel = new Label();
+//            sectionLabel.Text = "Section";
+//            sectionLabel.Margin = labelPadding;
+
+//            NiceDropDownBox sectionDropDown = new NiceDropDownBox();
+//            if (product == null)
+//                catagoryDropDown.defaultSeletion = true;
+
+
+//            catagoryDropDown.Margin = otherPadding;
+
+//            return tbtb;
 //        }
 
-//        public override void Delete(object sender, EventArgs e) {
+//        public override void save(object sender, EventArgs e) {
+//            throw new NotImplementedException();
 //        }
 
-//        public override void Save(object sender, EventArgs e) {
+//        public override void delete(object sender, EventArgs e) {
+//            throw new NotImplementedException();
 //        }
 //    }
 
 
-//}
+}

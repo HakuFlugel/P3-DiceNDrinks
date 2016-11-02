@@ -17,6 +17,7 @@ namespace AdministratorPanel {
 
             FlowLayoutPanel topflp = new FlowLayoutPanel();
             topflp.Dock = DockStyle.Top;
+            topflp.FlowDirection = FlowDirection.RightToLeft;
             topflp.AutoSize = true;
 
             TableLayoutPanel lowertlp = new TableLayoutPanel();
