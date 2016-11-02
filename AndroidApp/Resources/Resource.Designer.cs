@@ -78,14 +78,8 @@ namespace AndroidApp
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060015
-			public const int button1 = 2131099669;
-			
 			// aapt resource value: 0x7f060012
 			public const int centerImageButton1 = 2131099666;
-			
-			// aapt resource value: 0x7f060013
-			public const int datePicker1 = 2131099667;
 			
 			// aapt resource value: 0x7f060008
 			public const int difficultyButton = 2131099656;
@@ -140,9 +134,6 @@ namespace AndroidApp
 			
 			// aapt resource value: 0x7f06000f
 			public const int tableRow2 = 2131099663;
-			
-			// aapt resource value: 0x7f060014
-			public const int timePicker1 = 2131099668;
 			
 			static Id()
 			{
