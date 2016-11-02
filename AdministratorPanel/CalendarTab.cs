@@ -1,11 +1,26 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using Shared;
 
 namespace AdministratorPanel {
     public class CalendarTab : TabPage
     {
         private Calendar calendar;
+        private List<Reservation> reservations = new List<Reservation>();
 
         public CalendarTab() {
+
+            for (int i = 0; i < 10; i++)
+            {
+                Reservation res = new Reservation();
+                res.time = DateTime.Now;
+
+
+
+                reservations.Add(res);
+            }
+
             Text = "Calendar";
 
             TableLayoutPanel outerTable = new TableLayoutPanel();
@@ -32,12 +47,8 @@ namespace AdministratorPanel {
             leftTable.Controls.Add(b);
 
             //// Right side
-            TableLayoutPanel rightTable = new ReservationList();
-            //rightTable.GrowStyle = TableLayoutPanelGrowStyle.AddColumns;
-            //rightTable.Dock = DockStyle.Fill;
-            //rightTable.AutoSize = true;
-            //rightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            //rightTable.BorderStyle = BorderStyle.Fixed3D;
+            ReservationList rightTable = new ReservationList(calendar, reservations);
+            //rightTable.makeItems(reservations, DateTime.Today);
             outerTable.Controls.Add(rightTable);
 
 

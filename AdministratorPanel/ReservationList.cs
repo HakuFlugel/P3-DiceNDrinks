@@ -1,44 +1,43 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using Shared;
 
 namespace AdministratorPanel
 {
     public class ReservationList : TableLayoutPanel
     {
-        public ReservationList()
+        private Calendar calendar;
+        private List<Reservation> reservations;
+
+        public ReservationList(Calendar calendar, List<Reservation> reservations)
         {
+            this.calendar = calendar;
+            this.reservations = reservations;
+
+            calendar.DateSelected += (sender, args) => { this.makeItems(args.Start);};
+            makeItems(DateTime.Today);
+
             Dock = DockStyle.Fill;
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             //AutoScroll = true;
             VScroll = true;
+        }
 
-            for (int i = 0; i < 12; i++)
+        public void makeItems(DateTime day)
+        {
+            Controls.Clear();
+
+            foreach (var res in reservations.Where((Reservation res) => res.time.Date == day.Date))
             {
-
-                ReservationItem reservationItem = new ReservationItem();
+                ReservationItem reservationItem = new ReservationItem(res);
 
                 Controls.Add(reservationItem);
-
-//                NiceButton reservation = new NiceButton();
-//                reservation.Text = "66/6 6666\nLars | 42\nJens | 66\n\ntesttse";
-//                reservation.Padding = new Padding(4);
-//                //reservation.TextAlign = ContentAlignment.MiddleCenter;
-//                reservation.Height = 30;
-//                //pendingReservation.Height = (int)(button.Height * 3 / 1.5);
-//                //pendingReservation.Anchor = AnchorStyles.Left & AnchorStyles.Right /*& AnchorStyles.Top*/;
-//                reservation.Dock = DockStyle.Top;
-//                reservation.Margin = new Padding(4, 2, 20, 2);
-//                reservation.bgColor = Color.LightGray;
-//                //reservation.AutoSize = true;
-//                //reservation.AutoSizeMode = AutoSizeMode.GrowOnly;
-//
-//                //reservation.MakeSuperClickable((s,e) => { reservation.BackColor = Color.Red; });
-//
-//                Controls.Add(reservation);
             }
-
         }
     }
 }
