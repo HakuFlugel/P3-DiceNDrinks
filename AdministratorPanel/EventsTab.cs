@@ -6,13 +6,12 @@ using Shared;
 
 namespace AdministratorPanel {
     public class EventsTab : TabPage {
-        Form form;
-        private List<Event> Events;
+        private List<Event> Events = new List<Event>();
 
-        public EventsTab(Form form, List<Event> Events) {
-
+        public EventsTab() {
+            /*Test below this*/
             Events.Add(new Event() {
-                name = "Pandekage dag",
+                name = "Pandekage dagv2",
                 description = "This is a test",
                 startDate = new System.DateTime(2016, 11, 3, 22, 00, 00),
                 endDate = new System.DateTime(2016, 11, 3, 23, 00, 00)
@@ -35,8 +34,8 @@ namespace AdministratorPanel {
                 startDate = new System.DateTime(2016, 10, 3, 22, 00, 00),
                 endDate = new System.DateTime(2016, 10, 6, 23, 00, 00)
             });
-            this.Events = Events;
-            this.form = form;
+            /*Test data ends here*/
+
             Text = "Events";
 
             TableLayoutPanel headtlp = new TableLayoutPanel();
@@ -50,21 +49,11 @@ namespace AdministratorPanel {
             topflp.FlowDirection = FlowDirection.RightToLeft;
             topflp.AutoSize = true;
 
-            
-
             EventList lowertlp = new EventList();
 
-            for (int i = 0; i < 3; i++) {
-                EventItem ei = new EventItem(new Event() { name = "Pandekage dag", description = "This is a test", startDate = new System.DateTime(2016, 11, 3, 22, 00, 00), endDate = new System.DateTime(2016, 11, 3, 23, 00, 00) });
-                lowertlp.Controls.Add(ei);
-            }
-
-            Events.OrderBy<Da>
-            
-            foreach (var item in Events) {
+            foreach (var item in Events.OrderBy((Event e) => e.startDate)) {
                 lowertlp.Controls.Add(new EventItem(item));
             }
-
 
             Button addEvent = new Button();
             addEvent.Height = 20;

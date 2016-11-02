@@ -12,8 +12,8 @@ namespace AdministratorPanel {
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //AutoScroll = true;
-            VScroll = true;
+            AutoScroll = true;
+            //VScroll = true;
         }
     }
 }

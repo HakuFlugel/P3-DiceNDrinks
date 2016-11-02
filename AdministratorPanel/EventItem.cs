@@ -40,7 +40,7 @@ namespace AdministratorPanel {
             lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 750 });
 
             Controls.Add(lft);
-            Controls.Add(new Label { Text = startDate.ToString() + "\n" + endDate.ToString(), Dock = DockStyle.Right, AutoSize = true });
+            Controls.Add(new Label { Text = "\n" + startDate.ToString() + "\n" + endDate.ToString(), Dock = DockStyle.Right, AutoSize = true });
 
 
         }
