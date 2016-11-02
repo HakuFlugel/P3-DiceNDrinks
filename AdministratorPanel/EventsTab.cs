@@ -1,10 +1,13 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using Shared;
 
 namespace AdministratorPanel {
     public class EventsTab : TabPage {
         Form form;
+        public List<Event> Events = new List<Event>();
+
         public EventsTab(Form form) {
             this.form = form;
             Text = "Events";
@@ -20,15 +23,17 @@ namespace AdministratorPanel {
             topflp.FlowDirection = FlowDirection.RightToLeft;
             topflp.AutoSize = true;
 
-            TableLayoutPanel lowertlp = new TableLayoutPanel();
-            lowertlp.Dock = DockStyle.Fill;
-            lowertlp.AutoScroll = true;
-            lowertlp.ColumnCount = 1;
-            lowertlp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            
 
-            for (int i = 0; i < 20; i++) {
-                EventItem ei = new EventItem(new Event());
+            EventList lowertlp = new EventList();
+
+            for (int i = 0; i < 3; i++) {
+                EventItem ei = new EventItem(new Event() { name = "Pandekage dag", description = "This is a test", startDate = new System.DateTime(2016, 11, 3, 22, 00, 00), endDate = new System.DateTime(2016, 11, 3, 23, 00, 00) });
                 lowertlp.Controls.Add(ei);
+            }
+            foreach (var item in Events) {
+
+                //lowertlp.Controls.Add(ei);
             }
 
             Button addEvent = new Button();
@@ -44,7 +49,5 @@ namespace AdministratorPanel {
             Controls.Add(headtlp);
             
         }
-
-
     }
 }
