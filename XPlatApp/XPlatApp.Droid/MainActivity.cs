@@ -12,7 +12,7 @@ using Shared;
 
 namespace XPlatApp.Droid
 {
-	[Activity (Label = "XPlatApp", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+	[Activity (Theme = "@style/Theme.NoTitle", Label = "Dice 'n Drinks", Icon = "@drawable/icon", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
 	public class MainActivity : Xamarin.Forms.Platform.Android.FormsApplicationActivity
 	{
 		protected override void OnCreate (Bundle bundle)
