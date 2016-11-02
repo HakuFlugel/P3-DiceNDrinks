@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Shared;
 
 namespace AdministratorPanel {
-    public class ProductsTab : TabPage {
+    public class ProductsTab : AdminTabPage {
 
         public List<Product> products;
 

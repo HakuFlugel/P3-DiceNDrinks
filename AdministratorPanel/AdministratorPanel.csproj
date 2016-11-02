@@ -91,6 +91,9 @@
     <Compile Include="NiceButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="AdminTabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

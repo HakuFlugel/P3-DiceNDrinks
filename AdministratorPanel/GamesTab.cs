@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Shared;
 
 namespace AdministratorPanel {
-    public class GamesTab : TabPage {
+    public class GamesTab : AdminTabPage {
 
 
         Form form;

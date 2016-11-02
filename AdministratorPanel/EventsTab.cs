@@ -5,7 +5,7 @@ using System.Linq;
 using Shared;
 
 namespace AdministratorPanel {
-    public class EventsTab : TabPage {
+    public class EventsTab : AdminTabPage {
         private List<Event> Events = new List<Event>();
 
         public EventsTab() {

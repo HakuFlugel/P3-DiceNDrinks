@@ -44,6 +44,9 @@ namespace AdministratorPanel {
             Application.Run(this);
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            
+        }
 
         static void Main(string[] args) {
 
