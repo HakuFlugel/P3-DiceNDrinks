@@ -5,10 +5,7 @@
   <string name="exit">Vil du virkelig gerne afslutte?</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
-  <string name="foodButton">Mad</string>
-  <string name="drinkButton">Drikkevarer</string>
-  <string name="miscButton">Andet</string>
-  <string name="playerButton">Spillere</string>
-  <string name="difficultyButton">Sværhedsgrad</string>
-  <string name="gametimeButton">Spilletid</string>
+  <string name="foodButton">Food</string>
+  <string name="drinkButton">Drinks</string>
+  <string name="miscButton">Misc.</string>
 </resources>
