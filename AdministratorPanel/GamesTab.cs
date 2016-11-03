@@ -40,7 +40,7 @@ namespace AdministratorPanel {
             Button but = new Button();
             but.Text = "Pop";
             but.Click += (s, e) => {
-                ProductPopupbox p = new ProductPopupbox(new Product("Køøls Skid","image/location/"));
+                TestPopupbox p = new TestPopupbox(new Product("Køøls Skid","image/location/"));
                 p.Show();
             };
             return but;
