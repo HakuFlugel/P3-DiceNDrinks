@@ -19,7 +19,11 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public override void Load() {
+            //throw new NotImplementedException();
         }
     }
 }

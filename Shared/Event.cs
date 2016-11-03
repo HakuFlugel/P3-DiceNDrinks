@@ -2,6 +2,7 @@
 
 namespace Shared
 {
+    [Serializable]
     public class Event
     {
         public string name;

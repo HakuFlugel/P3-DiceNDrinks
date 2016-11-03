@@ -4,38 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Shared;
 using System;
+using System.Xml;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         private List<Event> Evnts = new List<Event>();
 
         public EventsTab() {
-            /*Test below this*/
-            Evnts.Add(new Event() {
-                name = "Pandekage dagv2",
-                description = "This is a test",
-                startDate = new DateTime(2016, 11, 3, 22, 00, 00),
-                endDate = new DateTime(2016, 11, 3, 23, 00, 00)
-            });
-            Evnts.Add(new Event() {
-                name = "Pandekage dag",
-                description = "This is a test",
-                startDate = new DateTime(2016, 11, 3, 19, 00, 00),
-                endDate = new DateTime(2016, 11, 3, 23, 30, 00)
-            });
-            Evnts.Add(new Event() {
-                name = "Æbleskiver dag",
-                description = "This is a test",
-                startDate = new DateTime(2015, 11, 3, 22, 00, 00),
-                endDate = new DateTime(2015, 11, 3, 23, 00, 00)
-            });
-            Evnts.Add(new Event() {
-                name = "Nedren dag",
-                description = "This is a test",
-                startDate = new DateTime(2016, 10, 3, 22, 00, 00),
-                endDate = new DateTime(2016, 10, 6, 23, 00, 00)
-            });
-            /*Test data ends here*/
+            Load();
 
             Text = "Events";
 
@@ -60,7 +38,10 @@ namespace AdministratorPanel {
             addEvent.Height = 20;
             addEvent.Width = 100;
             addEvent.Text = "Add Event";
-            //addEvent.Click += new System.EventHandler(this.);
+            addEvent.Click += (s, e) => {
+                EventPopupBox p = new EventPopupBox();
+                p.Show();
+            };
 
             topflp.Controls.Add(addEvent);           
             headtlp.Controls.Add(topflp);
@@ -71,7 +52,18 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            throw new NotImplementedException();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
+            using (StreamWriter textWriter = new StreamWriter(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+                serializer.Serialize(textWriter, Evnts);
+            }
+        }
+
+        public override void Load() {
+            //XmlDeclaration deserializer = new XmlDeclaration();
+            XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
+            using (StreamReader fileReader = new StreamReader(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+                Evnts = deserializer.Deserialize(fileReader) as List<Event>;
+            }
         }
     }
 }

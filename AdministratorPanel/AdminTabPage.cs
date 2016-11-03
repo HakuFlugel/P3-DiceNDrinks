@@ -10,6 +10,8 @@ using System.Xml.Serialization;
 namespace AdministratorPanel {
     abstract public class AdminTabPage : TabPage {
         abstract public void Save();
+
+        abstract public void Load();
             //using (StreamWriter sw = new StreamWriter("config.xml")) {
                 //XmlSerializer ser = new XmlSerializer(typeof(MyFormState));
                 //ser.Serialize(sw, state);

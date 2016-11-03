@@ -11,12 +11,12 @@ namespace AdministratorPanel
 {
     /*abstract*/
 
-    abstract class FansyPopupBox : Form
+    abstract class FancyPopupBox : Form
     {
         protected Padding labelPadding = new Padding(5, 0, 5, 0);
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
 
-        public FansyPopupBox()
+        public FancyPopupBox()
         {
 
             //MinimumSize = new Size(800, 600);
@@ -75,7 +75,7 @@ namespace AdministratorPanel
         }
     }
 
-    class TestPopupbox : FansyPopupBox
+    class TestPopupbox : FancyPopupBox
     {
         //for products
         protected Product product;

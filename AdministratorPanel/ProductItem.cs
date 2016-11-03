@@ -66,7 +66,6 @@ namespace AdministratorPanel {
                 Label priceLabel = new Label();
 
                 prefix.Append(item.name);
-                Console.WriteLine(item.name);
                 preLabel.Text = prefix.ToString();
                 lList.Add(preLabel);
                 

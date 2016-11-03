@@ -48,6 +48,9 @@
     <Compile Include="EventList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EventPopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
