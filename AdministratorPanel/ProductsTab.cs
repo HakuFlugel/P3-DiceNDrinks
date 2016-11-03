@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Collections.Generic;
 using Shared;
+using System;
 
 namespace AdministratorPanel {
     public class ProductsTab : AdminTabPage {
@@ -15,6 +16,10 @@ namespace AdministratorPanel {
             tb.Controls.Add(new ProductCategoryTab("test"));
             Controls.Add(tb);
 
+        }
+
+        public override void Save() {
+            throw new NotImplementedException();
         }
     }
 }

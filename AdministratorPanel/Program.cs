@@ -19,7 +19,7 @@ namespace AdministratorPanel {
             cp.Dock = DockStyle.Fill;
 
             //cp.AutoSize = true;
-
+            
 
             TabPage[] tabs = {
                 new CalendarTab(),
@@ -27,7 +27,7 @@ namespace AdministratorPanel {
                 new GamesTab(this),
                 new EventsTab()
             };
-
+            
 
             cp.Controls.AddRange(tabs);
             Controls.Add(cp);

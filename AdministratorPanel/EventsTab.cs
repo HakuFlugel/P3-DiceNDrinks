@@ -3,36 +3,37 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using Shared;
+using System;
 
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
-        private List<Event> Events = new List<Event>();
+        private List<Event> Evnts = new List<Event>();
 
         public EventsTab() {
             /*Test below this*/
-            Events.Add(new Event() {
+            Evnts.Add(new Event() {
                 name = "Pandekage dagv2",
                 description = "This is a test",
-                startDate = new System.DateTime(2016, 11, 3, 22, 00, 00),
-                endDate = new System.DateTime(2016, 11, 3, 23, 00, 00)
+                startDate = new DateTime(2016, 11, 3, 22, 00, 00),
+                endDate = new DateTime(2016, 11, 3, 23, 00, 00)
             });
-            Events.Add(new Event() {
+            Evnts.Add(new Event() {
                 name = "Pandekage dag",
                 description = "This is a test",
-                startDate = new System.DateTime(2016, 11, 3, 19, 00, 00),
-                endDate = new System.DateTime(2016, 11, 3, 23, 30, 00)
+                startDate = new DateTime(2016, 11, 3, 19, 00, 00),
+                endDate = new DateTime(2016, 11, 3, 23, 30, 00)
             });
-            Events.Add(new Event() {
+            Evnts.Add(new Event() {
                 name = "Æbleskiver dag",
                 description = "This is a test",
-                startDate = new System.DateTime(2015, 11, 3, 22, 00, 00),
-                endDate = new System.DateTime(2015, 11, 3, 23, 00, 00)
+                startDate = new DateTime(2015, 11, 3, 22, 00, 00),
+                endDate = new DateTime(2015, 11, 3, 23, 00, 00)
             });
-            Events.Add(new Event() {
+            Evnts.Add(new Event() {
                 name = "Nedren dag",
                 description = "This is a test",
-                startDate = new System.DateTime(2016, 10, 3, 22, 00, 00),
-                endDate = new System.DateTime(2016, 10, 6, 23, 00, 00)
+                startDate = new DateTime(2016, 10, 3, 22, 00, 00),
+                endDate = new DateTime(2016, 10, 6, 23, 00, 00)
             });
             /*Test data ends here*/
 
@@ -51,7 +52,7 @@ namespace AdministratorPanel {
 
             EventList lowertlp = new EventList();
 
-            foreach (var item in Events.OrderBy((Event e) => e.startDate)) {
+            foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
                 lowertlp.Controls.Add(new EventItem(item));
             }
 
@@ -67,6 +68,10 @@ namespace AdministratorPanel {
 
             Controls.Add(headtlp);
             
+        }
+
+        public override void Save() {
+            throw new NotImplementedException();
         }
     }
 }
