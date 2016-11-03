@@ -19,15 +19,15 @@ namespace AdministratorPanel {
             cp.Dock = DockStyle.Fill;
 
             //cp.AutoSize = true;
-
+            
 
             TabPage[] tabs = {
                 new CalendarTab(),
                 new ProductsTab(),
                 new GamesTab(this),
-                new EventsTab(this)
+                new EventsTab()
             };
-
+            
 
             cp.Controls.AddRange(tabs);
             Controls.Add(cp);
@@ -44,6 +44,9 @@ namespace AdministratorPanel {
             Application.Run(this);
         }
 
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            
+        }
 
         static void Main(string[] args) {
 

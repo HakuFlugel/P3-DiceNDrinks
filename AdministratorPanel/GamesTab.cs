@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Shared;
 
 namespace AdministratorPanel {
-    public class GamesTab : TabPage {
+    public class GamesTab : AdminTabPage {
 
 
         Form form;
@@ -114,6 +114,10 @@ namespace AdministratorPanel {
             Controls.AddRange(allGames);
             */
 
+        }
+
+        public override void Save() {
+            throw new NotImplementedException();
         }
     }
     class Games {

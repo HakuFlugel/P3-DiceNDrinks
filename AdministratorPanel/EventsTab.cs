@@ -1,12 +1,42 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using Shared;
+using System;
 
 namespace AdministratorPanel {
-    public class EventsTab : TabPage {
-        Form form;
-        public EventsTab(Form form) {
-            this.form = form;
+    public class EventsTab : AdminTabPage {
+        private List<Event> Evnts = new List<Event>();
+
+        public EventsTab() {
+            /*Test below this*/
+            Evnts.Add(new Event() {
+                name = "Pandekage dagv2",
+                description = "This is a test",
+                startDate = new DateTime(2016, 11, 3, 22, 00, 00),
+                endDate = new DateTime(2016, 11, 3, 23, 00, 00)
+            });
+            Evnts.Add(new Event() {
+                name = "Pandekage dag",
+                description = "This is a test",
+                startDate = new DateTime(2016, 11, 3, 19, 00, 00),
+                endDate = new DateTime(2016, 11, 3, 23, 30, 00)
+            });
+            Evnts.Add(new Event() {
+                name = "Æbleskiver dag",
+                description = "This is a test",
+                startDate = new DateTime(2015, 11, 3, 22, 00, 00),
+                endDate = new DateTime(2015, 11, 3, 23, 00, 00)
+            });
+            Evnts.Add(new Event() {
+                name = "Nedren dag",
+                description = "This is a test",
+                startDate = new DateTime(2016, 10, 3, 22, 00, 00),
+                endDate = new DateTime(2016, 10, 6, 23, 00, 00)
+            });
+            /*Test data ends here*/
+
             Text = "Events";
 
             TableLayoutPanel headtlp = new TableLayoutPanel();
@@ -20,15 +50,10 @@ namespace AdministratorPanel {
             topflp.FlowDirection = FlowDirection.RightToLeft;
             topflp.AutoSize = true;
 
-            TableLayoutPanel lowertlp = new TableLayoutPanel();
-            lowertlp.Dock = DockStyle.Fill;
-            lowertlp.AutoScroll = true;
-            lowertlp.ColumnCount = 1;
-            lowertlp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            EventList lowertlp = new EventList();
 
-            for (int i = 0; i < 20; i++) {
-                EventItem ei = new EventItem(new Event());
-                lowertlp.Controls.Add(ei);
+            foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
+                lowertlp.Controls.Add(new EventItem(item));
             }
 
             Button addEvent = new Button();
@@ -45,6 +70,8 @@ namespace AdministratorPanel {
             
         }
 
-
+        public override void Save() {
+            throw new NotImplementedException();
+        }
     }
 }

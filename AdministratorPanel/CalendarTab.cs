@@ -4,8 +4,7 @@ using System.Windows.Forms;
 using Shared;
 
 namespace AdministratorPanel {
-    public class CalendarTab : TabPage
-    {
+    public class CalendarTab : AdminTabPage {
         private Calendar calendar;
         private List<Reservation> reservations = new List<Reservation>();
 
@@ -57,6 +56,10 @@ namespace AdministratorPanel {
             /*
 
 */
+        }
+
+        public override void Save() {
+            throw new NotImplementedException();
         }
     }
 }
