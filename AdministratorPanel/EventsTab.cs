@@ -53,7 +53,7 @@ namespace AdministratorPanel {
 
         public override void Save() {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
-            using (StreamWriter textWriter = new StreamWriter(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+            using (StreamWriter textWriter = new StreamWriter(@"fix.xml")) {
                 serializer.Serialize(textWriter, Evnts);
             }
         }
@@ -61,7 +61,7 @@ namespace AdministratorPanel {
         public override void Load() {
             //XmlDeclaration deserializer = new XmlDeclaration();
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (StreamReader fileReader = new StreamReader(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+            using (StreamReader fileReader = new StreamReader(@"fix.xml")) {
                 Evnts = deserializer.Deserialize(fileReader) as List<Event>;
             }
         }
