@@ -27,7 +27,10 @@ namespace AndroidAppV2.Activities
 
             //base adaptor should be random? list
             //listView.Adapter = new ArrayAdapter<>();
-            //TODO: ArrayAdapter to make listview
+            //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter så de kan vises i appen
+            //TODO: derudover skal der også laves funktionalitet til at sortere listen...
+            //https://developer.xamarin.com/recipes/android/data/adapters/use_an_arrayadapter/
+            //https://developer.xamarin.com/api/type/Xamarin.Forms.ListView/
 
             FindViewById<Button>(Resource.Id.playerButton).Click += delegate
             {

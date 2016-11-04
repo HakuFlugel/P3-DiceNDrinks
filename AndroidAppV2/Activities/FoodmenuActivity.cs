@@ -29,7 +29,10 @@ namespace AndroidAppV2.Activities
 
             //base adaptor should be food list
             //listView.Adapter = new ArrayAdapter<>();
-            //TODO: ArrayAdapter to make listview
+
+            //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter så de kan vises i appen
+            //https://developer.xamarin.com/recipes/android/data/adapters/use_an_arrayadapter/
+            //https://developer.xamarin.com/api/type/Xamarin.Forms.ListView/
 
             FindViewById<Button>(Resource.Id.foodButton).Click += delegate
             {

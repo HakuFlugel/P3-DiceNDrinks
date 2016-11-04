@@ -23,6 +23,10 @@ namespace AndroidAppV2.Activities
             SetContentView(Resource.Layout.eventLayout);
 
             // Create your application here
+
+            //TODO: Her skal der laves link til Facebook med FB SDK...
+            //https://components.xamarin.com/gettingstarted/facebook-sdk
+
         }
     }
 }

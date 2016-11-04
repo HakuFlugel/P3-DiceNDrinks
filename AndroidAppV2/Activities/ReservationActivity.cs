@@ -26,6 +26,8 @@ namespace AndroidAppV2.Activities
 
             SetContentView(Resource.Layout.ReservationLayout);
             // Create your application here
+            //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
+
 
             TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.button1);
@@ -63,8 +65,7 @@ namespace AndroidAppV2.Activities
 
         public static DatePickerFragment NewInstance(Action<DateTime> onDateSelected)
         {
-            DatePickerFragment frag = new DatePickerFragment();
-            frag._dateSelectedHandler = onDateSelected;
+            DatePickerFragment frag = new DatePickerFragment {_dateSelectedHandler = onDateSelected};
             return frag;
         }
 
@@ -99,8 +100,7 @@ namespace AndroidAppV2.Activities
 
         public static TimePickerFragment NewInstance(Action<DateTime> onDateSelected)
         {
-            TimePickerFragment frag = new TimePickerFragment();
-            frag._timeSelectedHandler = onDateSelected;
+            TimePickerFragment frag = new TimePickerFragment {_timeSelectedHandler = onDateSelected};
             return frag;
         }
 
@@ -109,7 +109,11 @@ namespace AndroidAppV2.Activities
             // Use the current time as the default values for the picker
             DateTime currently = DateTime.Now;
             // Create a new instance of TimePickerDialog and return it
-            TimePickerDialog dialog = new TimePickerDialog(Activity, this, currently.Hour, currently.Minute, true);
+            TimePickerDialog dialog = new TimePickerDialog(Activity, 
+                                                            this, 
+                                                            currently.Hour, 
+                                                            currently.Minute, 
+                                                            true);
 
             return dialog;
         }

@@ -23,6 +23,10 @@ namespace AndroidAppV2.Activities
             SetContentView(Resource.Layout.contactLayout);
 
             // Create your application here
+
+            //TODO: Vi skal ikke rigtig lave noget vidt her... kun noget tekst og så måske lave en map
+            //https://developer.xamarin.com/recipes/android/fundamentals/intent/launch_the_map_application/
+
         }
     }
 }

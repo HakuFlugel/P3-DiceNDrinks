@@ -25,7 +25,6 @@ namespace AndroidAppV2
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
                 StartActivity(typeof(GameActivity));
-
             };
 
             FindViewById<ImageButton>(Resource.Id.foodmenuButton).Click += delegate
@@ -57,7 +56,7 @@ namespace AndroidAppV2
             AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
             exitApp.SetMessage(Resource.String.exit);
             exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
-            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { return; });
+            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Scratch Ass*/ });
 
             Dialog exit = exitApp.Create();
 
