@@ -1,12 +1,13 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using Shared;
 
 namespace AdministratorPanel
 {
     public class ReservationItem : NiceButton
     {
 
-        public ReservationItem()
+        public ReservationItem(Reservation reservation)
         {
             RowCount = 1;
             ColumnCount = 1;
@@ -15,10 +16,8 @@ namespace AdministratorPanel
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
-            //this.MakeSuperClickable((s, ev) => { this.BackColor = Color.Red; });
 
-
-            Controls.Add(new Label{ Text = "Dinmor\n\ntests\n\ntest", AutoSize = true});
+            Controls.Add(new Label{ Text = "Dinmor\n\ntests\n\ntest", AutoSize = true}); // TODO: add content from reservation
         }
 
     }

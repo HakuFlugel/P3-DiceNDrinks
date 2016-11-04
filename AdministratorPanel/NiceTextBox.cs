@@ -75,19 +75,23 @@ namespace AdministratorPanel {
             get { return _userCanWrite; }
             set {
                 _userCanWrite = value;
-                if(value) {
+                if(value) 
                     DropDownStyle = ComboBoxStyle.DropDownList;
-                }
-                else {
+                else 
                     DropDownStyle = ComboBoxStyle.DropDown;
-                }
             }
         }
 
         private bool _defaultSelection = false;
         public bool defaultSeletion {
-            get { return _defaultSelection; }
-            set { _defaultSelection = value; TabIndex = 0; }
+            get {
+                return _defaultSelection;
+            }
+            set {
+                _defaultSelection = value;
+                if (value)
+                    TabIndex = 0;
+            }
         }
 
         public NiceDropDownBox() {

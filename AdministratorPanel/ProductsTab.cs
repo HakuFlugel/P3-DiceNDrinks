@@ -81,5 +81,13 @@ namespace AdministratorPanel {
 
             return productList;
         }
+
+        public override void Save() {
+            //throw new NotImplementedException();
+        }
+
+        public override void Load() {
+            //throw new NotImplementedException();
+        }
     }
 }

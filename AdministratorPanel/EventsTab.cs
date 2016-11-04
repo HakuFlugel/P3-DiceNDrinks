@@ -1,12 +1,20 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 using Shared;
+using System;
+using System.Xml;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace AdministratorPanel {
-    public class EventsTab : TabPage {
-        Form form;
-        public EventsTab(Form form) {
-            this.form = form;
+    public class EventsTab : AdminTabPage {
+        private List<Event> Evnts = new List<Event>();
+
+        public EventsTab() {
+            Load();
+
             Text = "Events";
 
             TableLayoutPanel headtlp = new TableLayoutPanel();
@@ -17,24 +25,23 @@ namespace AdministratorPanel {
 
             FlowLayoutPanel topflp = new FlowLayoutPanel();
             topflp.Dock = DockStyle.Top;
+            topflp.FlowDirection = FlowDirection.RightToLeft;
             topflp.AutoSize = true;
 
-            TableLayoutPanel lowertlp = new TableLayoutPanel();
-            lowertlp.Dock = DockStyle.Fill;
-            lowertlp.AutoScroll = true;
-            lowertlp.ColumnCount = 1;
-            lowertlp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            EventList lowertlp = new EventList();
 
-            for (int i = 0; i < 20; i++) {
-                EventItem ei = new EventItem(new Event());
-                lowertlp.Controls.Add(ei);
+            foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
+                lowertlp.Controls.Add(new EventItem(item));
             }
 
             Button addEvent = new Button();
             addEvent.Height = 20;
             addEvent.Width = 100;
             addEvent.Text = "Add Event";
-            //addEvent.Click += new System.EventHandler(this.);
+            addEvent.Click += (s, e) => {
+                EventPopupBox p = new EventPopupBox();
+                p.Show();
+            };
 
             topflp.Controls.Add(addEvent);           
             headtlp.Controls.Add(topflp);
@@ -44,6 +51,19 @@ namespace AdministratorPanel {
             
         }
 
+        public override void Save() {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
+            using (StreamWriter textWriter = new StreamWriter(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+                serializer.Serialize(textWriter, Evnts);
+            }
+        }
 
+        public override void Load() {
+            //XmlDeclaration deserializer = new XmlDeclaration();
+            XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
+            using (StreamReader fileReader = new StreamReader(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+                Evnts = deserializer.Deserialize(fileReader) as List<Event>;
+            }
+        }
     }
 }

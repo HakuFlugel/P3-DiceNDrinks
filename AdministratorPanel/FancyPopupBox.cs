@@ -6,46 +6,37 @@ using System.Windows.Forms;
 using System.Drawing;
 using System;
 using Shared;
-namespace AdministratorPanel {
+
+namespace AdministratorPanel
+{
     /*abstract*/
-    abstract class FansyPopupBox : Form {
-        public bool isChanged = false;
 
-        public FansyPopupBox() {
+    abstract class FancyPopupBox : Form
+    {
+        protected Padding labelPadding = new Padding(5, 0, 5, 0);
+        protected Padding otherPadding = new Padding(5, 0, 5, 20);
 
-            MinimumSize = new Size(800, 400);
+        public FancyPopupBox()
+        {
+
+            //MinimumSize = new Size(800, 600);
+            //MaximumSize = MinimumSize;
             AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            TableLayoutPanel tb = new TableLayoutPanel();
-            tb.BackColor = Color.AliceBlue;
-            Controls.Add(tb);
-            tb.Dock = DockStyle.Fill;
-
-            tb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tb.RowCount = 2;
-            tb.ColumnCount = 1;
-
-            tb.Controls.Add(CreateControls());
-
-            /*TableLayoutPanel splitButtons = new TableLayoutPanel();
-            splitButtons.RowCount = 1;
-            splitButtons.ColumnCount = 2;
-            splitButtons.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;*/
-            //tb.Controls.Add(splitButtons);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
 
             Panel p = new Panel();
             p.Height = 42;
+            //p.AutoSize = true;
             p.Dock = DockStyle.Bottom;
             p.BackColor = Color.LightBlue;
-            tb.Controls.Add(p);
+            p.Padding = new Padding(8);
+            Controls.Add(p);
 
             Button delete = new Button();
             delete.Text = "Delete";
             delete.Dock = DockStyle.Left;
             delete.Click += this.delete;
             p.Controls.Add(delete);
-            
 
             Button cancel = new Button();
             cancel.Text = "Cancel";
@@ -59,103 +50,88 @@ namespace AdministratorPanel {
             save.Click += this.save;
             p.Controls.Add(save);
 
+            Controls.Add(CreateControls());
 
-
-            //2?
-
-
-            //3?
 
         }
 
         protected abstract Control CreateControls();
 
+        protected abstract void save(object sender, EventArgs e);
 
-        abstract public void save(object sender, EventArgs e);
+        protected abstract void delete(object sender, EventArgs e);
 
-        abstract public void delete(object sender, EventArgs e);
+        private void cancel(object sender, EventArgs e)
+        {
 
-        private void cancel(object sender, EventArgs e) {
-            if (isChanged) {
-                if (DialogResult.Yes ==
-                    MessageBox.Show("Are you sure? Everything unsaved will be lost.",
+            if (DialogResult.Yes ==
+                MessageBox.Show("Are you sure? Everything unsaved will be lost.",
                     "About to close",
-                    MessageBoxButtons.YesNo)) {
-                    isChanged = false;
-                    Close();
+                    MessageBoxButtons.YesNo))
+            {
+                Close();
+            }
+
+        }
+    }
+
+    class TestPopupbox : FancyPopupBox
+    {
+        //for products
+        protected Product product;
+
+        public TestPopupbox(Product product)
+        {
+
+            this.product = product;
+
+
+        }
+
+        protected override void delete(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void save(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Control CreateControls()
+        {
+
+
+            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.AutoSize = true;
+            tableLayoutPanel.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Controls.Add(tableLayoutPanel);
+
+            for (int ppp = 0; ppp < 2; ppp++)
+            {
+                TableLayoutPanel tp = new TableLayoutPanel();
+                tp.ColumnCount = 1;
+                tp.Dock = DockStyle.Fill;
+                tp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+                tp.AutoSize = true;
+                tableLayoutPanel.Controls.Add(tp);
+                for (int i = 0; i < 20; i++)
+                {
+                    NiceTextBox tb = new NiceTextBox();
+                    //tb.Dock = DockStyle.Fill;
+                    tb.waterMark = i.ToString();
+                    tb.clearable = true;
+                    tb.Width = 400;
+
+                    tp.Controls.Add(tb);
                 }
             }
-        }
-    }
 
-    class ProductPopupbox : FansyPopupBox {
-        //for products
-        Product product;
-        public ProductPopupbox(Product product) {
-            
-            this.product = product;
-            
-
+            return tableLayoutPanel;
         }
 
-        public override void delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        public override void save(object sender, EventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        protected override Control CreateControls() {
-            TableLayoutPanel tbtb = new TableLayoutPanel();
-            tbtb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tbtb.RowCount = 1;
-            tbtb.ColumnCount = 2;
-
-            Panel leftPanel = new Panel();
-            Panel one = new Panel();
-            one.AutoSize = true;
-            
-
-            leftPanel.Controls.Add(one);
-
-
-            NiceTextBox name = new NiceTextBox();
-            name.clearable = true;
-            name.waterMark = "Insert name....";
-            name.TextChanged += (sender, ev) => {
-                isChanged = true;
-            };
-
-            NiceDropDownBox catagory = new NiceDropDownBox();
-            catagory.Name = "Catagory";
-            catagory.TabIndex = 0;
-            
-
-            return tbtb;
-        }
     }
 }
-
-//    class GamesPopupbox : FansyPopupBox {
-//        //for games
-//        public int gYear;
-//        public string gGenre = "";
-//        public int gMinTime;
-//        public int gMaxTime;
-//        public int gMinPlayers;
-//        public int gMaxPlayers;
-
-//        GamesPopupbox() {
-//            Text = "Game details";
-//        }
-
-//        public override void Delete(object sender, EventArgs e) {
-//        }
-
-//        public override void Save(object sender, EventArgs e) {
-//        }
-//    }
-
-
-//}

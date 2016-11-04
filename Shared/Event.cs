@@ -2,11 +2,13 @@
 
 namespace Shared
 {
+    [Serializable]
     public class Event
     {
         public string name;
         public string description;
-        public DateTime date;
+        public DateTime startDate;
+        public DateTime endDate;
 
     }
 }
