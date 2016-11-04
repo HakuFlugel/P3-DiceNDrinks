@@ -6,12 +6,13 @@ namespace Shared
     {
         public string name;
         public string image;
-        public string section;
-        public string category;
-        public List<PriceElement> PriceElements;
+        public List<PriceElement> PriceElements = new List<PriceElement>();
         public Product(string name, string image) {
             this.name = name; this.image = image;
         }
-       
+
+        public Product() {
+
+        }
     }
 }

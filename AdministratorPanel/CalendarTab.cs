@@ -57,5 +57,13 @@ namespace AdministratorPanel {
 
 */
         }
+
+        public override void Save() {
+            //throw new NotImplementedException();
+        }
+
+        public override void Load() {
+            //throw new NotImplementedException();
+        }
     }
 }

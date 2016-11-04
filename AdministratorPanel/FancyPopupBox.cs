@@ -6,42 +6,37 @@ using System.Windows.Forms;
 using System.Drawing;
 using System;
 using Shared;
-namespace AdministratorPanel {
+
+namespace AdministratorPanel
+{
     /*abstract*/
-    abstract class FansyPopupBox : Form {
-        public bool isChanged = false;
+
+    abstract class FancyPopupBox : Form
+    {
         protected Padding labelPadding = new Padding(5, 0, 5, 0);
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
 
-        public FansyPopupBox() {
+        public FancyPopupBox()
+        {
 
-            MinimumSize = new Size(800, 400);
+            //MinimumSize = new Size(800, 600);
+            //MaximumSize = MinimumSize;
             AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-
-            TableLayoutPanel tb = new TableLayoutPanel();
-            tb.BackColor = Color.AliceBlue;
-            Controls.Add(tb);
-            tb.Dock = DockStyle.Fill;
-
-            tb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tb.RowCount = 2;
-            tb.ColumnCount = 1;
-
-            tb.Controls.Add(CreateControls());
+            FormBorderStyle = FormBorderStyle.Fixed3D;
 
             Panel p = new Panel();
             p.Height = 42;
+            //p.AutoSize = true;
             p.Dock = DockStyle.Bottom;
             p.BackColor = Color.LightBlue;
-            tb.Controls.Add(p);
+            p.Padding = new Padding(8);
+            Controls.Add(p);
 
             Button delete = new Button();
             delete.Text = "Delete";
             delete.Dock = DockStyle.Left;
             delete.Click += this.delete;
             p.Controls.Add(delete);
-            
 
             Button cancel = new Button();
             cancel.Text = "Cancel";
@@ -55,232 +50,88 @@ namespace AdministratorPanel {
             save.Click += this.save;
             p.Controls.Add(save);
 
+            Controls.Add(CreateControls());
 
-
-            //2?
-
-
-            //3?
 
         }
 
         protected abstract Control CreateControls();
 
+        protected abstract void save(object sender, EventArgs e);
 
-        abstract public void save(object sender, EventArgs e);
+        protected abstract void delete(object sender, EventArgs e);
 
-        abstract public void delete(object sender, EventArgs e);
+        private void cancel(object sender, EventArgs e)
+        {
 
-        private void cancel(object sender, EventArgs e) {
-            if (isChanged) {
-                if (DialogResult.Yes ==
-                    MessageBox.Show("Are you sure? Everything unsaved will be lost.",
+            if (DialogResult.Yes ==
+                MessageBox.Show("Are you sure? Everything unsaved will be lost.",
                     "About to close",
-                    MessageBoxButtons.YesNo)) {
-                    isChanged = false;
-                    Close();
-                }
+                    MessageBoxButtons.YesNo))
+            {
+                Close();
             }
+
         }
     }
 
-    class ProductPopupbox : FansyPopupBox {
+    class TestPopupbox : FancyPopupBox
+    {
         //for products
         protected Product product;
-        public ProductPopupbox(Product product) {
-            
+
+        public TestPopupbox(Product product)
+        {
+
             this.product = product;
-            
+
 
         }
 
-        public override void delete(object sender, EventArgs e) {
+        protected override void delete(object sender, EventArgs e)
+        {
             throw new NotImplementedException();
         }
 
-        public override void save(object sender, EventArgs e) {
+        protected override void save(object sender, EventArgs e)
+        {
             throw new NotImplementedException();
         }
 
-        protected override Control CreateControls() {
-            
+        protected override Control CreateControls()
+        {
 
-            TableLayoutPanel tbtb = new TableLayoutPanel();
-            tbtb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tbtb.RowCount = 1;
-            tbtb.ColumnCount = 2;
 
-            tbtb.Controls.Add(leftTable());
-            tbtb.Controls.Add(reightTable());
+            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.AutoSize = true;
+            tableLayoutPanel.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Controls.Add(tableLayoutPanel);
 
-            
+            for (int ppp = 0; ppp < 2; ppp++)
+            {
+                TableLayoutPanel tp = new TableLayoutPanel();
+                tp.ColumnCount = 1;
+                tp.Dock = DockStyle.Fill;
+                tp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+                tp.AutoSize = true;
+                tableLayoutPanel.Controls.Add(tp);
+                for (int i = 0; i < 20; i++)
+                {
+                    NiceTextBox tb = new NiceTextBox();
+                    //tb.Dock = DockStyle.Fill;
+                    tb.waterMark = i.ToString();
+                    tb.clearable = true;
+                    tb.Width = 400;
 
-            return tbtb;
+                    tp.Controls.Add(tb);
+                }
+            }
+
+            return tableLayoutPanel;
         }
 
-        private TableLayoutPanel leftTable() {
-            TableLayoutPanel tb = new TableLayoutPanel();
-            tb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tb.RowCount = 6;
-            tb.ColumnCount = 1;
-
-            Label nameLabel = new Label();
-            nameLabel.Text = "Name";
-            nameLabel.Margin = labelPadding;
-            tb.Controls.Add(nameLabel);
-
-            NiceTextBox nameTextBox = new NiceTextBox();
-            nameTextBox.clearable = true;
-            nameTextBox.waterMark = "Insert name....";
-            nameTextBox.TextChanged += (sender, ev) => {
-                isChanged = true;
-            };
-            nameTextBox.Margin = otherPadding;
-            tb.Controls.Add(nameTextBox);
-
-            Label catagoryLabel = new Label();
-            catagoryLabel.Text = "Catagory";
-            catagoryLabel.Margin = labelPadding;
-            tb.Controls.Add(catagoryLabel);
-
-            NiceDropDownBox catagoryDropDown = new NiceDropDownBox();
-            if (product == null)
-                catagoryDropDown.defaultSeletion = true;
-            if (product != null)
-                catagoryDropDown.Margin = otherPadding;
-            catagoryDropDown.SelectedIndexChanged += (sender, ev) => {
-                isChanged = true;
-            };
-
-            tb.Controls.Add(catagoryDropDown);
-
-            Label sectionLabel = new Label();
-            sectionLabel.Text = "Section";
-            sectionLabel.Margin = labelPadding;
-            tb.Controls.Add(sectionLabel);
-
-            NiceDropDownBox sectionDropDown = new NiceDropDownBox();
-            if (product == null)
-                sectionDropDown.defaultSeletion = true;
-
-            sectionDropDown.Margin = otherPadding;
-            sectionDropDown.SelectedIndexChanged += (sender, ev) => {
-                isChanged = true;
-            };
-
-            tb.Controls.Add(sectionDropDown);
-
-            return tb;
-        }
-
-        private TableLayoutPanel reightTable() {
-            TableLayoutPanel tb = new TableLayoutPanel();
-            tb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            tb.RowCount = 6;
-            tb.ColumnCount = 1;
-
-            Label nameLabel = new Label();
-            nameLabel.Text = "Price range";
-            nameLabel.Margin = labelPadding;
-            tb.Controls.Add(nameLabel);
-
-            TableLayoutPanel price = new TableLayoutPanel();
-            price.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            price.RowCount = 3;
-            price.ColumnCount = 1;
-
-            TableLayoutPanel priceVname = new TableLayoutPanel();
-            priceVname.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-            priceVname.RowCount = 1;
-            priceVname.ColumnCount = 2;
-
-            
-
-
-
-
-
-
-
-            return tb;
-        }
     }
-
-
-//class GamesPopupbox : FansyPopupBox {
-//    //for games
-//    public int gYear;
-//    public string gGenre = "";
-//    public int gMinTime;
-//    public int gMaxTime;
-//    public int gMinPlayers;
-//    public int gMaxPlayers;
-
-//    GamesPopupbox() {
-//        Text = "Game details";
-//    }
-
-
-//        protected override Control CreateControls() {
-//            Padding labelPadding = new Padding(5, 0, 5, 0);
-//            Padding otherPadding = new Padding(5, 0, 5, 20);
-//            TableLayoutPanel tbtb = new TableLayoutPanel();
-//            tbtb.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-//            tbtb.RowCount = 1;
-//            tbtb.ColumnCount = 2;
-
-//            TableLayoutPanel left = new TableLayoutPanel();
-//            left.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-//            left.RowCount = 1;
-//            left.ColumnCount = 6;
-
-//            Label nameLabel = new Label();
-//            nameLabel.Text = "name";
-//            nameLabel.Margin = labelPadding;
-
-//            NiceTextBox nameTextBox = new NiceTextBox();
-//            nameTextBox.clearable = true;
-//            nameTextBox.waterMark = "Insert name....";
-//            nameTextBox.TextChanged += (sender, ev) => {
-//                isChanged = true;
-//            };
-//            nameTextBox.Margin = otherPadding;
-
-//            Label catagoryLabel = new Label();
-//            catagoryLabel.Text = "Catagory";
-//            catagoryLabel.Margin = labelPadding;
-
-//            NiceDropDownBox catagoryDropDown = new NiceDropDownBox();
-
-//            if (product == null)
-//                catagoryDropDown.defaultSeletion = true;
-//            if (product != null)
-
-
-//                catagoryDropDown.Margin = otherPadding;
-
-//            Label sectionLabel = new Label();
-//            sectionLabel.Text = "Section";
-//            sectionLabel.Margin = labelPadding;
-
-//            NiceDropDownBox sectionDropDown = new NiceDropDownBox();
-//            if (product == null)
-//                catagoryDropDown.defaultSeletion = true;
-
-
-//            catagoryDropDown.Margin = otherPadding;
-
-//            return tbtb;
-//        }
-
-//        public override void save(object sender, EventArgs e) {
-//            throw new NotImplementedException();
-//        }
-
-//        public override void delete(object sender, EventArgs e) {
-//            throw new NotImplementedException();
-//        }
-//    }
-
-
 }

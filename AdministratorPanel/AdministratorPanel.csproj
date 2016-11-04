@@ -48,6 +48,9 @@
     <Compile Include="EventList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EventPopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -60,10 +63,6 @@
     <Compile Include="PendingReservationItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProductPopupbox.cs" />
-    <Compile Include="ProductPopupbox.Designer.cs">
-      <DependentUpon>ProductPopupbox.cs</DependentUpon>
-    </Compile>
     <Compile Include="GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,6 +73,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ProductItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProductSectionItem.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ProductsTab.cs">
@@ -108,11 +110,6 @@
       <Project>{6bfec132-8dc8-488f-a302-09be8758a671}</Project>
       <Name>Shared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ProductPopupbox.resx">
-      <DependentUpon>ProductPopupbox.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\*">

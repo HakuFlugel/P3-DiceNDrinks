@@ -1,8 +1,11 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace AdministratorPanel {
     public class Program : Form {
+
+        List<AdminTabPage> tabs = new List<AdminTabPage>();
 
         public Program() {
             
@@ -20,19 +23,16 @@ namespace AdministratorPanel {
 
             //cp.AutoSize = true;
 
-
-            TabPage[] tabs = {
+            tabs.AddRange(new AdminTabPage[]{
                 new CalendarTab(),
                 new ProductsTab(),
                 new GamesTab(this),
                 new EventsTab()
-            };
+            });
 
-
-            cp.Controls.AddRange(tabs);
+            cp.Controls.AddRange(tabs.ToArray());
             Controls.Add(cp);
-
-
+            
             Activate();
             Show();
 
@@ -45,7 +45,9 @@ namespace AdministratorPanel {
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e) {
-            
+            foreach (var tab in tabs) {
+                tab.Save();
+            }
         }
 
         static void Main(string[] args) {
