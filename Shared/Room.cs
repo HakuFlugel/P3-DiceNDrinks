@@ -1,8 +1,8 @@
 ﻿namespace Shared
 {
-    public class PriceElement
+    public class Room
     {
         public string name;
-        public decimal price;
+        public int seats;
     }
 }
