@@ -16,7 +16,7 @@ namespace AdministratorPanel {
                 Reservation res = new Reservation();
                 res.time = DateTime.Now;
 
-                reservations.Add(res);
+                //reservations.Add(res); TODO: fix
             }
 
             Text = "Calendar";
@@ -45,9 +45,9 @@ namespace AdministratorPanel {
             leftTable.Controls.Add(b);
 
             //// Right side
-            ReservationList rightTable = new ReservationList(calendar, reservations);
+            //ReservationList rightTable = new ReservationList(calendar, reservations); TODO: fix
             //rightTable.makeItems(reservations, DateTime.Today);
-            outerTable.Controls.Add(rightTable);
+            //outerTable.Controls.Add(rightTable); TODO: fix
 
 
 
