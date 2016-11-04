@@ -15,7 +15,7 @@ namespace AdministratorPanel {
         public DateTime startDate;
         public DateTime endDate;
 
-        public EventItem(Event evnt) {
+        public EventItem(EventsTab evntTab,Event evnt) {
             this.name = evnt.name;
             this.description = evnt.description;
             this.startDate = evnt.startDate;
@@ -29,7 +29,7 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
             Click += (s, e) => {
-                EventPopupBox p = new EventPopupBox();
+                EventPopupBox p = new EventPopupBox(evntTab, evnt);
                 p.Show();
             };
 
@@ -44,8 +44,8 @@ namespace AdministratorPanel {
             lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
 
             Controls.Add(lft);
-            Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, MMMM dd, yyyy hh:mm") + 
-                                    "\n\n End date: " + endDate.ToString("ddddd, MMMM dd, yyyy hh: mm"), Dock = DockStyle.Left, AutoSize = true });
+            Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, MMMM dd, yyyy HH:mm") + 
+                                    "\n\n End date: " + endDate.ToString("ddddd, MMMM dd, yyyy HH:mm"), Dock = DockStyle.Left, AutoSize = true });
 
 
         }

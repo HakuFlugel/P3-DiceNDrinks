@@ -34,18 +34,22 @@ namespace AdministratorPanel
 
             Button delete = new Button();
             delete.Text = "Delete";
+            delete.Name = "delete";
             delete.Dock = DockStyle.Left;
             delete.Click += this.delete;
             p.Controls.Add(delete);
 
             Button cancel = new Button();
             cancel.Text = "Cancel";
+            cancel.Name = "cancel";
+
             cancel.Dock = DockStyle.Right;
             cancel.Click += this.cancel;
             p.Controls.Add(cancel);
 
             Button save = new Button();
             save.Text = "Save";
+            save.Name = "save";
             save.Dock = DockStyle.Right;
             save.Click += this.save;
             p.Controls.Add(save);

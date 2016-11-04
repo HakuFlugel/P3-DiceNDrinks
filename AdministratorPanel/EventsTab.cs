@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> Evnts = new List<Event>();
+        EventList lowertlp = new EventList();
 
         public EventsTab() {
             Load();
@@ -28,11 +29,7 @@ namespace AdministratorPanel {
             topflp.FlowDirection = FlowDirection.RightToLeft;
             topflp.AutoSize = true;
 
-            EventList lowertlp = new EventList();
-
-            foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
-                lowertlp.Controls.Add(new EventItem(item));
-            }
+            makeItems();
 
             Button addEvent = new Button();
             addEvent.Height = 20;
@@ -52,17 +49,16 @@ namespace AdministratorPanel {
         }
 
         public void makeItems() {
-            Controls.Clear();
-            EventList lowertlp = new EventList();
+            lowertlp.Controls.Clear();
 
             foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
-                lowertlp.Controls.Add(new EventItem(item));
+                lowertlp.Controls.Add(new EventItem(this, item));
             }
         }
 
         public override void Save() {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
-            using (StreamWriter textWriter = new StreamWriter(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
+            using (StreamWriter textWriter = new StreamWriter(@"fix.xml")) {
                 serializer.Serialize(textWriter, Evnts);
             }
         }
@@ -70,7 +66,7 @@ namespace AdministratorPanel {
         public override void Load() {
             //XmlDeclaration deserializer = new XmlDeclaration();
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (FileStream fileReader = new FileStream(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml", FileMode.OpenOrCreate)) {
+            using (FileStream fileReader = new FileStream(@"C:fix.xml", FileMode.OpenOrCreate)) {
                 try {
                     Evnts = deserializer.Deserialize(fileReader) as List<Event>;
 
