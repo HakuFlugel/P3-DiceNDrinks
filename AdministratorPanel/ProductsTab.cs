@@ -1,9 +1,10 @@
 ﻿using System.Windows.Forms;
 using System.Collections.Generic;
 using Shared;
+using System;
 
 namespace AdministratorPanel {
-    public class ProductsTab : TabPage {
+    public class ProductsTab : AdminTabPage {
         List<ProductCategory> productCategories = new List<ProductCategory>();
         TabControl tabControl = new TabControl();
 
@@ -83,11 +84,11 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override void Load() {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }
