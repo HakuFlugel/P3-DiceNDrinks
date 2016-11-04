@@ -7,60 +7,69 @@ using Shared;
 namespace AdministratorPanel {
     public class GamesTab : AdminTabPage {
 
-
-        Form form;
+        
         List<Games> games;
         public Action<string> UserSearchText { get; set; }
 
-        public GamesTab(Form form) {
+        
+
+        public GamesTab() {
+            
+            Text = "Games";
+            Dock = DockStyle.Fill;
+            
+            Panel top = new Panel();
+            top.Dock = DockStyle.Top;
+            Controls.Add(allControls());
+
             // For testing purpose only
             games = new List<Games>();
             games.Add(new Games("AHZ2xB", "Secret Hitler", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
+            
 
-            Text = "Games";
-            this.form = form;
-            allControls();
+
 
         }
 
-        private void allControls() {
-            string seached = null;
-            Control[] allControls = {
-                gibSeachBar(),
-                gibGameBox(seached)
-                };
 
-            Controls.AddRange(allControls);
-            }
+        private TableLayoutPanel allControls() {
+            TableLayoutPanel tb = new TableLayoutPanel();
+            tb.ColumnCount = 1;
+            tb.RowCount = 3;
+
+            Panel seachPanel = new Panel();
+            seachPanel.AutoSize = true;
+            seachPanel.Dock = DockStyle.Top;
+            seachPanel.Controls.Add(gibSeachBar());
+            tb.Controls.Add(seachPanel);
+
+            tb.Controls.Add(gibGameBox());
+
+
+
+
+            return tb;
+        }
+
+
+
         private Control gibSeachBar() {
-
-            Button but = new Button();
-            but.Text = "Pop";
-            but.Click += (s, e) => {
-                TestPopupbox p = new TestPopupbox(new Product("Køøls Skid","image/location/"));
-                p.Show();
-            };
-            return but;
-            NiceTextBox input = new NiceTextBox();
-            input.waterMark = "Search...";
-            input.clearable = true;
-            
-            input.Width = form.Width / 3;
-            input.Location = new Point(((form.Width - input.Width) / 2), 5);
-            
-            return input;
+            NiceTextBox seachBar = new NiceTextBox();
+            seachBar.waterMark = "Type something to seach..";
+            seachBar.clearable = true;
+            seachBar.Margin = new Padding(20, 5, 20, 5);
+            seachBar.KeyPress += SeachBar_KeyPress;
+            return seachBar;
         }
 
-
-
-        private Control gibSeachBarButton() {
-            Button seachButton = new Button();
-            
-            
-            return seachButton;
+        private void SeachBar_KeyPress(object sender, KeyPressEventArgs e) {
+            if(e.KeyChar !=(char)13) {
+                return;
+            }
+            Console.WriteLine("Not implimented yet.");
         }
 
         private void SeachButton_Click(object sender, EventArgs e) {
@@ -74,48 +83,45 @@ namespace AdministratorPanel {
             return editButton;
         }
 
-        private Control gibGameBox(string seached) {
-            string listOfGames = "";
-            Font font = new Font("Microsoft Sans Serif", 12);
-            foreach (var item in games)
-                listOfGames += item.id + " " + item.name + Environment.NewLine;
+        private TableLayoutPanel gibGameBox() {
+            TableLayoutPanel tb = new TableLayoutPanel();
+            tb.ColumnCount = 1;
+            tb.RowCount = 0;
+            tb.AutoSize = true;
+            tb.AutoScroll = true;
 
-            TextBox allGames = new TextBox();
-            allGames.Multiline = true;
-            allGames.ScrollBars = ScrollBars.Both;
-            allGames.Width = form.Width - 40;
-            allGames.Height = form.Height - 200;
-            allGames.Location = new Point(10, (form.Height - allGames.Height) / 2 - 50);
-
-
-            allGames.Text = listOfGames;
-            allGames.ReadOnly = true;
-
-            return allGames;
-
-            /*
-             In two collums.. Not quite working as I wanted (obviously) but will save this as an reference if need be.
-             TextBox[] allGames = {
-                new TextBox(), new TextBox() };
-
-            foreach(var item in allGames) {
-                item.Multiline = true;
-                item.ScrollBars = ScrollBars.Both;
-                item.ReadOnly = true;
-                item.Location = new Point(5, 10);
+            foreach (var item in games) {
+                tb.RowCount += 1;
+                tb.Controls.Add(gibGames(item));
             }
-            foreach(var item in games) {
-                listOfGamesID += item.id + Environment.NewLine;
-                listOfGameNames += item.name + Environment.NewLine;
-            }
-            allGames[1].Text = listOfGameNames; allGames[1].Dock = DockStyle.Left;
-            allGames[0].Text = listOfGamesID; allGames[0].Dock = DockStyle.Left;
 
-            Controls.AddRange(allGames);
-            */
+            
 
+            return tb;
+
+            
         }
 
+        private Control gibGames(Games item) {
+            TableLayoutPanel game = new TableLayoutPanel();
+            game.ColumnCount = 2;
+            game.RowCount = 1;
+            game.Margin = new Padding(1);
+            game.BackColor = Color.DimGray;
+            game.DoubleClick += (sender, e) => { gameCLICK(item); };
+
+            Label ID = new Label();
+            
+
+
+
+            return game;
+        }
+
+        private void gameCLICK(Games game) {
+            throw new NotImplementedException();
+        }
+        
         public override void Save() {
             //throw new NotImplementedException();
         }

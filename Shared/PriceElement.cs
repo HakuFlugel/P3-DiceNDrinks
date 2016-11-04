@@ -3,6 +3,6 @@
     public class PriceElement
     {
         public string name;
-        public int price;
+        public decimal price;
     }
 }
