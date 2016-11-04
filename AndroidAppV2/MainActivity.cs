@@ -22,8 +22,6 @@ namespace AndroidAppV2
 
             SetContentView(Resource.Layout.Main);
 
-
-
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
                 StartActivity(typeof(GameActivity));

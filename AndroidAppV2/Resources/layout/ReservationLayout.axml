@@ -11,28 +11,33 @@
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
         p1:id="@+id/relativeLayout1">
-        <DatePicker
+        <TextView
+            p1:text="Pick a Date"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:id="@+id/datePicker1"
-            p1:layout_centerHorizontal="true"
-            p1:minWidth="25px"
-            p1:minHeight="25px"
-            p1:datePickerMode="spinner"
-            p1:calendarViewShown="false" />
-      <TimePicker
-    p1:id="@+id/timePicker1"
-    p1:layout_width="wrap_content"
-    p1:layout_height="wrap_content"
-    p1:timePickerMode="spinner"
-    p1:layout_below="@id/datePicker1"
-    p1:layout_centerHorizontal="true" />
-      <Button
-            p1:text="Button"
+            p1:id="@+id/textView1"
+            p1:layout_centerHorizontal="true" />
+        <Button
+            p1:text="DATE"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/button1"
-            p1:layout_below="@id/timePicker1"
+            p1:layout_centerInParent="true" />
+        <TextView
+            p1:text="Pick a Time"
+            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/textView1"
+            p1:id="@+id/textView2"
+            p1:layout_centerHorizontal="true" />
+        <Button
+            p1:text="Time"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/button1"
+            p1:id="@+id/button2"
             p1:layout_centerHorizontal="true" />
     </RelativeLayout>
 </FrameLayout>
