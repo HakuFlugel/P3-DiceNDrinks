@@ -30,12 +30,6 @@ namespace AdministratorPanel {
 
             tb.Controls.Add(CreateControls());
 
-            /*TableLayoutPanel splitButtons = new TableLayoutPanel();
-            splitButtons.RowCount = 1;
-            splitButtons.ColumnCount = 2;
-            splitButtons.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;*/
-            //tb.Controls.Add(splitButtons);
-
             Panel p = new Panel();
             p.Height = 42;
             p.Dock = DockStyle.Bottom;
