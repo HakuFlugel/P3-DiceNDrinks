@@ -66,7 +66,7 @@ namespace AdministratorPanel {
         public override void Load() {
             //XmlDeclaration deserializer = new XmlDeclaration();
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (FileStream fileReader = new FileStream(@"C:fix.xml", FileMode.OpenOrCreate)) {
+            using (FileStream fileReader = new FileStream(@"fix.xml", FileMode.OpenOrCreate)) {
                 try {
                     Evnts = deserializer.Deserialize(fileReader) as List<Event>;
 
