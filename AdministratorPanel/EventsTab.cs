@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
-        private List<Event> Evnts = new List<Event>();
+        public List<Event> Evnts = new List<Event>();
 
         public EventsTab() {
             Load();
@@ -39,7 +39,7 @@ namespace AdministratorPanel {
             addEvent.Width = 100;
             addEvent.Text = "Add Event";
             addEvent.Click += (s, e) => {
-                EventPopupBox p = new EventPopupBox();
+                EventPopupBox p = new EventPopupBox(this);
                 p.Show();
             };
 
@@ -49,6 +49,15 @@ namespace AdministratorPanel {
 
             Controls.Add(headtlp);
             
+        }
+
+        public void makeItems() {
+            Controls.Clear();
+            EventList lowertlp = new EventList();
+
+            foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
+                lowertlp.Controls.Add(new EventItem(item));
+            }
         }
 
         public override void Save() {
@@ -61,9 +70,13 @@ namespace AdministratorPanel {
         public override void Load() {
             //XmlDeclaration deserializer = new XmlDeclaration();
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (StreamReader fileReader = new StreamReader(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml")) {
-                Evnts = deserializer.Deserialize(fileReader) as List<Event>;
-            }
+            using (FileStream fileReader = new FileStream(@"C:\Users\hidde\Source\Repos\P3Datalogi\AdministratorPanel\bin\Debug\fix.xml", FileMode.OpenOrCreate)) {
+                try {
+                    Evnts = deserializer.Deserialize(fileReader) as List<Event>;
+
+                }
+                catch (Exception) { }
+            }   
         }
     }
 }

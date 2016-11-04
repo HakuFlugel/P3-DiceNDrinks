@@ -28,7 +28,11 @@ namespace AdministratorPanel {
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
-            //this.MakeSuperClickable((s, ev) => { this.BackColor = Color.Red; });
+            Click += (s, e) => {
+                EventPopupBox p = new EventPopupBox();
+                p.Show();
+            };
+
 
             TableLayoutPanel lft = new TableLayoutPanel();
             lft.Dock = DockStyle.Top;
@@ -37,15 +41,13 @@ namespace AdministratorPanel {
             lft.AutoSize = true;
 
             lft.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
-            lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 750 });
+            lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
 
             Controls.Add(lft);
-            Controls.Add(new Label { Text = "\n" + startDate.ToString() + "\n" + endDate.ToString(), Dock = DockStyle.Right, AutoSize = true });
+            Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, MMMM dd, yyyy hh:mm") + 
+                                    "\n\n End date: " + endDate.ToString("ddddd, MMMM dd, yyyy hh: mm"), Dock = DockStyle.Left, AutoSize = true });
 
 
-        }
-        protected override void OnClick(EventArgs e) {
-            base.OnClick(e);
         }
     }
 }
