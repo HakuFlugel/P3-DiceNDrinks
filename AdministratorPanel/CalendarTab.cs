@@ -6,7 +6,8 @@ using Shared;
 namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
         private Calendar calendar;
-        private List<Reservation> reservations = new List<Reservation>();
+        private List<Room> rooms;
+        private List<CalendarDay> reservations = new List<CalendarDay>();
 
         public CalendarTab() {
 
@@ -14,8 +15,6 @@ namespace AdministratorPanel {
             {
                 Reservation res = new Reservation();
                 res.time = DateTime.Now;
-
-
 
                 reservations.Add(res);
             }

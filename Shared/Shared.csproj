@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalendarDay.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="PriceElement.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="ProductMenu.cs" />
     <Compile Include="ProductSection.cs" />
     <Compile Include="Reservation.cs" />
+    <Compile Include="Room.cs" />
     <Compile Include="SearchGames.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
