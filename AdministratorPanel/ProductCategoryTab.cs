@@ -2,70 +2,37 @@
 using System.Windows.Forms;
 using Shared;
 
-
-
 namespace AdministratorPanel {
     public class ProductCategoryTab : TabPage{
+        private ProductCategory category;
+        private TableLayoutPanel table = new TableLayoutPanel();
 
-        //List<Objects> products = new List<Objects>();
+        public ProductCategoryTab(ProductCategory productCategory) {
+            this.category = productCategory;
+            Text = productCategory.name;
+            AutoScroll = true;
+            Dock = DockStyle.Fill;
 
-        public ProductCategoryTab(string name) {
-            Text = name;
-            FlowLayout();
+            table.Dock = DockStyle.Top;
+            table.ColumnCount = 1;
+            table.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            table.AutoSize = true;
+            
+            makeItems(productCategory.sections); // make sections
 
-           
+            Controls.Add(table);
         }
 
-        public void FlowLayout() {
+        public void makeItems(List<ProductSection> productSections) {
 
-            FlowLayoutPanel flowPanel = new FlowLayoutPanel();
-            flowPanel.Dock = DockStyle.Fill;
-            flowPanel.AutoScroll = true;
+            table.Controls.Clear();
 
-            PriceElement pr = new PriceElement();
-            pr.name = "Text for product";
-            pr.price = 69;
+            foreach (var item in productSections) {
 
-            List<PriceElement> prl = new List<PriceElement>();
-            prl.Add(pr);
-            prl.Add(pr);
-            prl.Add(pr);
-            prl.Add(pr);
-
-            Product p1 = new Product();
-            p1.image = "images/Red.png";
-            p1.name = "Name of product";
-            p1.PriceElements = prl;
-
-            List<Product> pl = new List<Product>();
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-            pl.Add(p1);
-
-            foreach (var item in pl) {
-                flowPanel.Controls.Add(new ProductItem(item));
+                ProductSectionItem section = new ProductSectionItem(item);
+                section.makeItems(item.products); // makes all productItems in sections
+                table.Controls.Add(section);
             }
-
-            Controls.Add(flowPanel);
         }
     }
 }
