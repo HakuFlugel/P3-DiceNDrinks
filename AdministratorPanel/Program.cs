@@ -26,7 +26,7 @@ namespace AdministratorPanel {
             tabs.AddRange(new AdminTabPage[]{
                 new CalendarTab(),
                 new ProductsTab(),
-                new GamesTab(this),
+                new GamesTab(),
                 new EventsTab()
             });
 

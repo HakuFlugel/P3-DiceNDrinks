@@ -84,7 +84,13 @@
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GamesItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ReservationItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GamesList.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ReservationList.cs">

@@ -16,11 +16,12 @@ namespace AdministratorPanel {
         public GamesTab() {
             
             Text = "Games";
+            AutoSize = true;
             Dock = DockStyle.Fill;
             
             Panel top = new Panel();
             top.Dock = DockStyle.Top;
-            Controls.Add(allControls());
+            
 
             // For testing purpose only
             games = new List<Games>();
@@ -28,10 +29,10 @@ namespace AdministratorPanel {
             games.Add(new Games("J8AkkS", "Dominion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("5ExgGS", "Small Worlds", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
             games.Add(new Games("TYE3sj", "Enter The Gundion", "Horror", "A game about gaming", 2014, 5, 10, 30, 60, "TosetPictureInFuture"));
-            
 
 
 
+            Controls.Add(allControls());
         }
 
 
@@ -39,7 +40,7 @@ namespace AdministratorPanel {
             TableLayoutPanel tb = new TableLayoutPanel();
             tb.ColumnCount = 1;
             tb.RowCount = 3;
-
+            tb.Dock = DockStyle.Top;
             Panel seachPanel = new Panel();
             seachPanel.AutoSize = true;
             seachPanel.Dock = DockStyle.Top;
@@ -61,20 +62,17 @@ namespace AdministratorPanel {
             seachBar.waterMark = "Type something to seach..";
             seachBar.clearable = true;
             seachBar.Margin = new Padding(20, 5, 20, 5);
-            seachBar.KeyPress += SeachBar_KeyPress;
+            seachBar.KeyPress += (sender, e) => { 
+
+                if (e.KeyChar != (char)13) {
+                    return;
+                }
+                Console.WriteLine("Not implimented yet.");
+            };
             return seachBar;
         }
 
-        private void SeachBar_KeyPress(object sender, KeyPressEventArgs e) {
-            if(e.KeyChar !=(char)13) {
-                return;
-            }
-            Console.WriteLine("Not implimented yet.");
-        }
-
-        private void SeachButton_Click(object sender, EventArgs e) {
-            
-        }
+        
 
         private Control gibEditButton() {
             Button editButton = new Button();
@@ -103,15 +101,7 @@ namespace AdministratorPanel {
         }
 
         private Control gibGames(Games item) {
-            TableLayoutPanel game = new TableLayoutPanel();
-            game.ColumnCount = 2;
-            game.RowCount = 1;
-            game.Margin = new Padding(1);
-            game.BackColor = Color.DimGray;
-            game.DoubleClick += (sender, e) => { gameCLICK(item); };
-
-            Label ID = new Label();
-            
+            hej.exe();
 
 
 
