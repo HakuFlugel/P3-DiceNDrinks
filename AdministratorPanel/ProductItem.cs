@@ -13,9 +13,10 @@ namespace AdministratorPanel {
         private int sizeX = 192;
         private int sizeY = 192;
         private Image image;
+        private Product product;
 
         public ProductItem(Product product) {
-
+            this.product = product;
             Update(product);
 
             //BorderStyle = BorderStyle.FixedSingle;
@@ -51,14 +52,13 @@ namespace AdministratorPanel {
 
             Controls.Add(Information(product,priceTable));
 
-            //this.MakeSuperClickable((sender, ev) => {Console.WriteLine("Loli-pop"); });
         }
 
-        private TableLayoutPanel Information(Product p, TableLayoutPanel tb) {
+        private TableLayoutPanel Information(Product product, TableLayoutPanel tb) {
             
             List<Label> lList = new List<Label>();
             
-            foreach (var item in p.PriceElements) {
+            foreach (var item in product.PriceElements) {
                 StringBuilder prefix = new StringBuilder();
                 StringBuilder price = new StringBuilder();
 
@@ -85,7 +85,6 @@ namespace AdministratorPanel {
            
             this.Height = sizeY;
             this.Width = sizeX;
-            
         }
     }
 }
