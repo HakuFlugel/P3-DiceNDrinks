@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
+using System.Globalization;
 
 namespace AdministratorPanel {
     class EventPopupBox : FancyPopupBox {
@@ -47,13 +48,17 @@ namespace AdministratorPanel {
         public EventPopupBox(EventsTab eventsTab, Event evnt = null) {
             this.eventsTab = eventsTab;
             this.evnt = evnt;
-            eventName.Text = evnt.name;
-            eventDescription.Text = evnt.description;
-            startDatePicker.Value = evnt.startDate;
-            endDatePicker.Value = evnt.endDate;
-            startTimePicker.Text = evnt.startDate.ToString("hh:mm");
-            endTimePicker.Text = evnt.endDate.ToString("hh:mm");
-            
+            if (evnt != null) {
+                eventName.Text = evnt.name;
+                eventDescription.Text = evnt.description;
+                startDatePicker.Value = evnt.startDate;
+                endDatePicker.Value = evnt.endDate;
+                startTimePicker.Text = evnt.startDate.ToString("HH:mm");
+                endTimePicker.Text = evnt.endDate.ToString("HH:mm");
+            }
+            else {
+                Controls.Find("delete", true).First().Enabled = false;
+            }
         }
 
         protected override Control CreateControls() {
@@ -91,17 +96,49 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            
+            if (DialogResult.Yes == MessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
+                eventsTab.Evnts.Remove(evnt);
+                eventsTab.makeItems();
+            }
         }
 
         protected override void save(object sender, EventArgs e) {
+            DateTime expectedDate;
+            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate) ||
+                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
+                Console.Write("Thank you Mario, but the DateTime is in another format.");
+                MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+                return;
+            }
+            if (eventName.Text == null || eventDescription.Text == null) {
+                MessageBox.Show("You need to input a name AND a description");
+                return;
+            }
             if (evnt == null) {
                 evnt = new Event();
                 eventsTab.Evnts.Add(evnt);
             }
-            //evnt.description = 
+            evnt.name = eventName.Text;
+            evnt.description = eventDescription.Text;
+            string tempDate = startDatePicker.Value.ToString("dd-MM-yyyy");
+            string tempTime = startTimePicker.Text;
 
-            //eventsTab.
+            /*COPY PASTE(SOME OF IT!!)*/
+            DateTime newStartDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
+                                       CultureInfo.InvariantCulture);
+            /*END OF COPY PASTE*/
+
+            tempDate = endDatePicker.Value.ToString("dd-MM-yyyy");
+            tempTime = endTimePicker.Text;
+
+            DateTime newEndDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
+                           CultureInfo.InvariantCulture);
+
+            evnt.startDate = newStartDate;
+            evnt.endDate = newEndDate;
+
+            this.Close();
+            eventsTab.makeItems();
         }
     }
 }
