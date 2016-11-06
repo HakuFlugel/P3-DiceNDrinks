@@ -14,8 +14,27 @@ namespace AdministratorPanel {
             tabControl.Dock = DockStyle.Fill;
             generateData();
             update();
-            Controls.Add(tabControl);
 
+            TableLayoutPanel flp = new TableLayoutPanel();
+            flp.Dock = DockStyle.Fill;
+            flp.AutoSize = true;
+            flp.RowCount = 2;
+            flp.ColumnCount = 1;
+
+            Button button = new Button();
+            button.Height = 20;
+            button.Width = 100;
+            button.Dock = DockStyle.Right;
+            button.Text = "Add product";
+            button.Click += (s, e) => {
+                ProductPopupBox p = new ProductPopupBox(this);
+                p.Show();
+            };
+
+            flp.Controls.Add(button);
+            flp.Controls.Add(tabControl);
+           
+            Controls.Add(flp);
         }
 
         public void update() {

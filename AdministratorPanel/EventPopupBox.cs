@@ -13,37 +13,30 @@ namespace AdministratorPanel {
         NiceTextBox eventName = new NiceTextBox() {
             Width = 200,
             waterMark = "Event Name",
-            Margin = new Padding(4, 10, 20, 10)
-        };
+            Margin = new Padding(4, 10, 20, 10) };
         NiceTextBox eventDescription = new NiceTextBox() {
             Width = 200,
             Height = 100,
             waterMark = "Event Description",
             Multiline = true,
-            Margin = new Padding(4, 0, 20, 10)
-        };
+            Margin = new Padding(4, 0, 20, 10) };
 
         DateTimePicker startDatePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
-            Margin = new Padding(0, 10, 20, 10)
-        };
+            Margin = new Padding(0, 10, 20, 10) };
         NiceTextBox startTimePicker = new NiceTextBox() {
-            waterMark = "hh:mm"
-        };
+            waterMark = "hh:mm" };
 
         DateTimePicker endDatePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
-            Margin = new Padding(0, 0, 20, 10)
-        };
+            Margin = new Padding(0, 0, 20, 10) };
         NiceTextBox endTimePicker = new NiceTextBox() {
-            waterMark = "hh:mm"
-        };
+            waterMark = "hh:mm" };
+
         private EventsTab eventsTab;
         private Event evnt;
 
-        public EventPopupBox() {
-
-        }
+        public EventPopupBox() { }
 
         public EventPopupBox(EventsTab eventsTab, Event evnt = null) {
             this.eventsTab = eventsTab;
@@ -106,7 +99,7 @@ namespace AdministratorPanel {
             DateTime expectedDate;
             if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate) ||
                 !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
-                Console.Write("Thank you Mario, but the DateTime is in another format.");
+
                 MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
