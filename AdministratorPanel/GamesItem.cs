@@ -10,23 +10,26 @@ namespace AdministratorPanel
 
         public GamesItem(Game game)
         {
-            RowCount = 1;
-            ColumnCount = 1;
+            RowCount = 2;
+            ColumnCount = 2;
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
+
+            Click += (s, e) => {
+                //GamePopupBox p = new GamePopupBox(, );
+            };
+
+            Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial",25) });
+
+
+            Controls.Add(new PictureBox { BackColor = Color.Black, Dock = DockStyle.Right });
+
             
 
-            Controls.Add(new Label{ Text = game.id, AutoSize = true}); // TODO: add content from reservation
-            Controls.Add(new Label { Text = game.name, AutoSize = true });
-
         }
-        protected override void OnClick(EventArgs e) {
-
-
-            base.OnClick(e);
-        }
+        
     }
 }

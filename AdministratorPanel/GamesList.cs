@@ -9,21 +9,19 @@ namespace AdministratorPanel
 {
     public class GamesList : TableLayoutPanel
     {
-        private Calendar calendar;
-        private List<Reservation> reservations;
-
-        public GamesList(Calendar calendar, List<Reservation> reservations)
+        public List<Game> games;
+        public GamesList(string seach, List<Game> games)
         {
-            string seach = "";
-            this.calendar = calendar;
-            this.reservations = reservations;
-            
-            makeItems(seach);
+            this.games = games;
 
+            makeItems(seach);
+            
             Dock = DockStyle.Fill;
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
+            
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            AutoSize = true;
             //AutoScroll = true;
             VScroll = true;
         }
@@ -32,11 +30,10 @@ namespace AdministratorPanel
         {
             Controls.Clear();
 
-            foreach (var res in reservations.Where((Reservation res) => res.time.Date == day.Date))
-            {
-                GamesItem reservationItem = new GamesItem(res);
+            foreach (var res in games.Where((Game gam) => gam.name.ToLower().Contains(seach) )) {
+                GamesItem gameitem = new GamesItem(res);
 
-                Controls.Add(reservationItem);
+                Controls.Add(gameitem);
             }
         }
     }
