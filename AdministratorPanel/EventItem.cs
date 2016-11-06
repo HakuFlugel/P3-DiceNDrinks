@@ -8,7 +8,7 @@ using System.Drawing;
 using Shared;
 
 namespace AdministratorPanel {
-    class EventItem : NiceButton {
+    class EventItem : Buttom {
 
         public string name;
         public string description;

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel
 {
-    public class NiceButton : TableLayoutPanel
+    public class Buttom : TableLayoutPanel
     {
         private Color normalColor;
         private Color hoverColor;
@@ -19,7 +19,7 @@ namespace AdministratorPanel
             }
         }
 
-        public NiceButton()
+        public Buttom()
         {
 
         }

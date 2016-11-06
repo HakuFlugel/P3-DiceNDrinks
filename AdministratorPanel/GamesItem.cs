@@ -5,7 +5,7 @@ using Shared;
 
 namespace AdministratorPanel
 {
-    public class GamesItem : NiceButton
+    public class GamesItem : Buttom
     {
 
         public GamesItem(Game game)
