@@ -7,7 +7,7 @@ namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
         private Calendar calendar;
         private List<Room> rooms;
-        private List<CalendarDay> reservations = new List<CalendarDay>();
+        public List<CalendarDay> reservations = new List<CalendarDay>();
 
         public CalendarTab() {
 
@@ -41,7 +41,7 @@ namespace AdministratorPanel {
             //calendar.Anchor = AnchorStyles.Top;
             leftTable.Controls.Add(calendar);
 
-            PendingReservationList b = new PendingReservationList();
+            PendingReservationList b = new PendingReservationList(this);
             leftTable.Controls.Add(b);
 
             //// Right side
