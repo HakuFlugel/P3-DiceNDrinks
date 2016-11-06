@@ -14,40 +14,40 @@ namespace AdministratorPanel {
             waterMark = "Product Name",
             Margin = new Padding(4, 10, 20, 10)
         };
-        NiceTextBox prodcutDescription = new NiceTextBox() {
-            Width = 200,
-            Height = 100,
-            waterMark = "Product Description",
-            Multiline = true,
-            Margin = new Padding(4, 0, 20, 10)
-        };
         NiceTextBox productImage = new NiceTextBox() {
             Width = 100,
             Height = 100,
             Multiline = true,
             Margin = new Padding(4, 0, 20, 10)
         };
+        Button ButtonBox = new Button() {
+            Width = 80,
+            Height = 20,
+            AutoSize = true,
+            Margin = new Padding(4, 0, 20, 10),
+            Text = "Add Price",
+            };
 
 
-        private List<Buttom> makeItems() {
-            List<Buttom> items = new List<Buttom>();
+        private List<NiceButton> makeItems() {
+            List<NiceButton> items = new List<NiceButton>();
             foreach (var item in product.PriceElements) {
                 Label label = new Label() { Text = item.name + "  " + item.price };
-                Buttom priceElementItem = new Buttom();
+                NiceButton priceElementItem = new NiceButton();
                 priceElementItem.Controls.Add(label);
                 items.Add(priceElementItem);
             }
             return items;
         }
 
-        private ProductsTab eventsTab;
+        private ProductsTab productTab;
         private Product product;
         
         public ProductPopupBox() {
         }
 
-        public ProductPopupBox(ProductsTab eventsTab, Product product = null) {
-            this.eventsTab = eventsTab;
+        public ProductPopupBox(ProductsTab productTab, Product product = null) {
+            this.productTab = productTab;
             this.product = product;
 
             if (this.product != null) {
@@ -61,6 +61,7 @@ namespace AdministratorPanel {
 
         protected override Control CreateControls() {
 
+            // outer panel
             TableLayoutPanel header = new TableLayoutPanel();
             header.RowCount = 1;
             header.ColumnCount = 2;
@@ -70,6 +71,7 @@ namespace AdministratorPanel {
 
             Controls.Add(header);
 
+            // inner panels
             TableLayoutPanel rightPanel = new TableLayoutPanel();
             rightPanel.ColumnCount = 1;
             rightPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
@@ -80,6 +82,7 @@ namespace AdministratorPanel {
             leftPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             leftPanel.Dock = DockStyle.Fill;
 
+            // list of priceelements
             TableLayoutPanel priceElements = new TableLayoutPanel();
             priceElements.ColumnCount = 1;
             priceElements.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
@@ -91,10 +94,14 @@ namespace AdministratorPanel {
                 priceElements.Controls.AddRange(makeItems().ToArray());
             }
 
-            rightPanel.Controls.Add(productName);
-            rightPanel.Controls.Add(priceElements);
+            ButtonBox.Click += (s, e) => {
+                PriceElementPopupBox p = new PriceElementPopupBox(this);
+                p.Show();
+            };
 
-            leftPanel.Controls.Add(prodcutDescription);
+            rightPanel.Controls.Add(productName);
+            rightPanel.Controls.Add(ButtonBox);
+            rightPanel.Controls.Add(priceElements);
 
             header.Controls.Add(rightPanel);
             header.Controls.Add(leftPanel);

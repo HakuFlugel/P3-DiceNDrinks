@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel
 {
-    public class PendingReservationItem : Buttom
+    public class PendingReservationItem : NiceButton
     {
         public PendingReservationItem()
         {

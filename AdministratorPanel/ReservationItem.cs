@@ -4,7 +4,7 @@ using Shared;
 
 namespace AdministratorPanel
 {
-    public class ReservationItem : Buttom
+    public class ReservationItem : NiceButton
     {
 
         public ReservationItem(Reservation reservation)
