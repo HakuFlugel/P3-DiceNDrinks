@@ -29,11 +29,11 @@ namespace AdministratorPanel {
         };
 
 
-        private List<Buttom> makeItems() {
-            List<Buttom> items = new List<Buttom>();
+        private List<NiceButton> makeItems() {
+            List<NiceButton> items = new List<NiceButton>();
             foreach (var item in product.PriceElements) {
                 Label label = new Label() { Text = item.name + "  " + item.price };
-                Buttom priceElementItem = new Buttom();
+                NiceButton priceElementItem = new NiceButton();
                 priceElementItem.Controls.Add(label);
                 items.Add(priceElementItem);
             }

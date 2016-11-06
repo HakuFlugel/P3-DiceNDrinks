@@ -5,7 +5,7 @@ using Shared;
 using System.Drawing;
 
 namespace AdministratorPanel {
-    class ProductItem : Buttom {
+    class ProductItem : NiceButton {
 
         private int sizeX = 192;
         private int sizeY = 192;
