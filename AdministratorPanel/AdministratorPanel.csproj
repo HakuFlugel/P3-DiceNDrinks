@@ -54,6 +54,9 @@
     <Compile Include="EventsTab.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GamePopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FancyPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -39,11 +39,18 @@ namespace AdministratorPanel {
             tb.RowCount = 3;
             
             tb.Dock = DockStyle.Fill;
-            Panel seachPanel = new Panel();
-            seachPanel.AutoSize = true;
-            seachPanel.Dock = DockStyle.Top;
-            seachPanel.Controls.Add(gibSeachBar());
-            tb.Controls.Add(seachPanel);
+            TableLayoutPanel tbtb = new TableLayoutPanel();
+            tbtb.ColumnCount = 2;
+            tbtb.AutoSize = true;
+            tbtb.RowCount = 1;
+            tbtb.Controls.Add(gibSeachBar());
+            Button addGameButton = new Button();
+            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(); };
+            addGameButton.Text = "Add new Game";
+
+            tbtb.Controls.Add(addGameButton);
+
+            tb.Controls.Add(tbtb);
             GamesList game = new GamesList(seach, games);
             tb.Controls.Add(game);
 
@@ -60,7 +67,8 @@ namespace AdministratorPanel {
             seachBar.Text = seach;
             seachBar.waterMark = "Type something to seach..";
             seachBar.clearable = true;
-            
+            seachBar.MinimumSize = new Size(200,0);
+
             seachBar.Margin = new Padding(20, 5, 20, 5);
             seachBar.KeyPress += (sender, e) => {
                 
