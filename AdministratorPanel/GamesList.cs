@@ -22,15 +22,15 @@ namespace AdministratorPanel
             
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             AutoSize = true;
-            //AutoScroll = true;
-            VScroll = true;
+            AutoScroll = true;
+            //VScroll = true;
         }
 
         public void makeItems(string seach)
         {
             Controls.Clear();
 
-            foreach (var res in games.Where((Game gam) => gam.name.ToLower().Contains(seach) )) {
+            foreach (var res in games.Where((Game gam) => (gam.name.ToLower().Contains(seach)) /*|| (seach.StartsWith("id: ")? gam.id.ToLower().Contains(seach.Substring(4,seach.Length-1)) : false  )*/)) {
                 GamesItem gameitem = new GamesItem(res);
 
                 Controls.Add(gameitem);

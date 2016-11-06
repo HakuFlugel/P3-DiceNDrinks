@@ -57,8 +57,10 @@ namespace AdministratorPanel {
 
         private Control gibSeachBar() {
             NiceTextBox seachBar = new NiceTextBox();
+            seachBar.Text = seach;
             seachBar.waterMark = "Type something to seach..";
             seachBar.clearable = true;
+            
             seachBar.Margin = new Padding(20, 5, 20, 5);
             seachBar.KeyPress += (sender, e) => {
                 
@@ -71,12 +73,6 @@ namespace AdministratorPanel {
             return seachBar;
         }
 
-        private Control gibEditButton() {
-            Button editButton = new Button();
-            editButton.Size = new Size(134, 48);
-
-            return editButton;
-        }
 
              
         public override void Save() {
