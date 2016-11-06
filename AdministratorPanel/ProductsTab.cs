@@ -14,8 +14,17 @@ namespace AdministratorPanel {
             tabControl.Dock = DockStyle.Fill;
             generateData();
             update();
-            Controls.Add(tabControl);
 
+            Button button = new Button();
+            button.Height = 20;
+            button.Width = 100;
+            button.Text = "Add Event";
+            button.Click += (s, e) => {
+                ProductPopupBox p = new ProductPopupBox(this);
+                p.Show();
+            };
+                Controls.Add(button);
+            Controls.Add(tabControl);
         }
 
         public void update() {

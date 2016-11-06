@@ -75,6 +75,9 @@
     <Compile Include="ProductItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ProductPopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProductSectionItem.cs">
       <SubType>Component</SubType>
     </Compile>
