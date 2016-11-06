@@ -101,11 +101,11 @@ namespace AdministratorPanel {
         }
 
         private Control gibGames(Games item) {
-            hej.exe();
+            //hej.exe();
+            
 
 
-
-            return game;
+            return null;
         }
 
         private void gameCLICK(Games game) {

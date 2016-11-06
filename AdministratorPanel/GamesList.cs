@@ -18,7 +18,7 @@ namespace AdministratorPanel
             this.calendar = calendar;
             this.reservations = reservations;
             
-            makeItems(seach);
+            //makeItems(seach);
 
             Dock = DockStyle.Fill;
             BorderStyle = BorderStyle.Fixed3D;
@@ -28,7 +28,7 @@ namespace AdministratorPanel
             VScroll = true;
         }
 
-        public void makeItems(string seach)
+        /*public void makeItems(string seach)
         {
             Controls.Clear();
 
@@ -38,6 +38,6 @@ namespace AdministratorPanel
 
                 Controls.Add(reservationItem);
             }
-        }
+        }*/
     }
 }

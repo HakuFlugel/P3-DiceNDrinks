@@ -39,7 +39,7 @@ namespace AdministratorPanel {
             lft.RowCount = 2;
             lft.ColumnCount = 1;
             lft.AutoSize = true;
-
+            
             lft.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
             lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
 
