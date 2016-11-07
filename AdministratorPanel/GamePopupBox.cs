@@ -24,35 +24,52 @@ namespace AdministratorPanel {
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        TableLayoutPanel genreBox = new TableLayoutPanel() {
-            Width = 200,
-            ColumnCount = 1,
-            AutoScroll = true,
-            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
 
+        ListView genreBox = new ListView() {
+            View = View.Details,
+            // Allow the user to edit item text.
+            LabelEdit = true,
+            // Allow the user to rearrange columns.
+            AllowColumnReorder = true,
+            // Display check boxes.
+            CheckBoxes = true,
+            // Select the item and subitems when selection is made.
+            FullRowSelect = true,
+            // Display grid lines.
+            GridLines = true,
+            // Sort the items in the list in ascending order.
+            Sorting = SortOrder.Ascending,
+            //sets bounds.
+            Size = new Size(200, 200)
         };
 
-        public List<string> differentGenres = new List<string>() { "Horror", " Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
+        private List<ListViewItem> genreItems = new List<ListViewItem>();
+
+        public string[] differentGenres ={ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
         private Game game;
         private Game b4EditingGame;
 
         public GamePopupBox() {
+            genreBox.ItemCheck += new ItemCheckEventHandler(memeberChecked);
+            foreach (var item in differentGenres) {
+                ListViewItem check = new ListViewItem(item);
+                Console.WriteLine(check.Text);
+               
+                genreItems.Add(check);
+            }
+                
 
         }
-        public void makeGenreOptions() {
-            foreach(var item in differentGenres) {
-                CheckBox chek = new CheckBox();
-                
-                chek.CheckedChanged += (s, e) => {
-                    if (chek.Checked)
-                        game.genre.Add(item);
-                    else
-                        game.genre.Remove(item);
-                };
-                genreBox.Controls.Add(chek);
-            }
+
+        private void memeberChecked(object sender, ItemCheckEventArgs e) {
+            if (e.CurrentValue == CheckState.Unchecked)
+                game.genre.Add(differentGenres[e.Index]);
+            else
+                game.genre.Remove(differentGenres[e.Index]);
         }
+
+        
 
         public GamePopupBox(GamesTab gametab, Game game) {
             this.gametab = gametab;
@@ -63,10 +80,10 @@ namespace AdministratorPanel {
                 
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
-                foreach(CheckBox item in genreBox.Controls) {
+
+                foreach(ListViewItem item in genreItems )
                     item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
-                }
-                
+
             } else {
                 Controls.Find("delete", true).First().Enabled = false;
             }
@@ -89,6 +106,7 @@ namespace AdministratorPanel {
 
             rght.Controls.Add(gameName);
             rght.Controls.Add(gameDescription);
+            rght.Controls.Add(genreBox);
 
             TableLayoutPanel lft = new TableLayoutPanel();
             lft.ColumnCount = 1;
