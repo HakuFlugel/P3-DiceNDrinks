@@ -24,38 +24,49 @@ namespace AdministratorPanel {
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        DateTimePicker startDatePicker = new DateTimePicker() {
-            Dock = DockStyle.Right,
-            Margin = new Padding(0, 10, 20, 10)
-        };
-        NiceTextBox startTimePicker = new NiceTextBox() {
-            waterMark = "hh:mm"
+        TableLayoutPanel genreBox = new TableLayoutPanel() {
+            Width = 200,
+            ColumnCount = 1,
+            AutoScroll = true,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+
         };
 
-        DateTimePicker endDatePicker = new DateTimePicker() {
-            Dock = DockStyle.Right,
-            Margin = new Padding(0, 0, 20, 10)
-        };
-        NiceTextBox endTimePicker = new NiceTextBox() {
-            waterMark = "hh:mm"
-        };
+        public List<string> differentGenres = new List<string>() { "Horror", " Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
         private Game game;
+        private Game b4EditingGame;
 
         public GamePopupBox() {
 
         }
+        public void makeGenreOptions() {
+            foreach(var item in differentGenres) {
+                CheckBox chek = new CheckBox();
+                
+                chek.CheckedChanged += (s, e) => {
+                    if (chek.Checked)
+                        game.genre.Add(item);
+                    else
+                        game.genre.Remove(item);
+                };
+                genreBox.Controls.Add(chek);
+            }
+        }
 
         public GamePopupBox(GamesTab gametab, Game game) {
             this.gametab = gametab;
-            this.game = game;
+            b4EditingGame = game;
+            this.game = new Game(game);
+            
             if (this.game != null) {
-                //gameName.Text = this.game.name;
-                //gameDescription.Text = this.game.description;
-                //startDatePicker.Value = this.game.startDate;
-                //endDatePicker.Value = this.game.endDate;
-                //startTimePicker.Text = this.game.startDate.ToString("HH:mm");
-                //endTimePicker.Text = this.game.endDate.ToString("HH:mm");
+                
+                gameName.Text = this.game.name;
+                gameDescription.Text = this.game.description;
+                foreach(CheckBox item in genreBox.Controls) {
+                    item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
+                }
+                
             } else {
                 Controls.Find("delete", true).First().Enabled = false;
             }
@@ -84,10 +95,7 @@ namespace AdministratorPanel {
             lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             lft.Dock = DockStyle.Fill;
 
-            lft.Controls.Add(startDatePicker);
-            lft.Controls.Add(endDatePicker);
-            lft.Controls.Add(startTimePicker);
-            lft.Controls.Add(endTimePicker);
+            
 
             header.Controls.Add(rght);
             header.Controls.Add(lft);
@@ -95,7 +103,7 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
-            throw new NotImplementedException();
+            b4EditingGame = game;
         }
 
         protected override void delete(object sender, EventArgs e) {
