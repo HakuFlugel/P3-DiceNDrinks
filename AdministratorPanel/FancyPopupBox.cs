@@ -16,6 +16,7 @@ namespace AdministratorPanel
     {
         protected Padding labelPadding = new Padding(5, 0, 5, 0);
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
+        public bool hasBeenChanged = false;
 
         public FancyPopupBox()
         {
@@ -61,7 +62,7 @@ namespace AdministratorPanel
         protected override void OnFormClosing(FormClosingEventArgs e) {
             switch (e.CloseReason) {
                 case CloseReason.UserClosing:
-                    if (DialogResult.No ==
+                    if (hasBeenChanged && DialogResult.No ==
                         MessageBox.Show("Are you sure? Everything unsaved will be lost.",
                             "About to close", MessageBoxButtons.YesNo)) {
 
@@ -75,7 +76,9 @@ namespace AdministratorPanel
 
         protected abstract Control CreateControls();
 
-        protected abstract void save(object sender, EventArgs e);
+        protected virtual void save(object sender, EventArgs e) {
+            hasBeenChanged = false;
+        }
 
         protected abstract void delete(object sender, EventArgs e);
 

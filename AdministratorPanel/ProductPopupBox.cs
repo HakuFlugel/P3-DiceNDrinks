@@ -110,10 +110,12 @@ namespace AdministratorPanel {
 
                                                                         // shana "Jeg skal nok lave det!"
         protected override void delete(object sender, EventArgs e) {
+            base.save(sender, e);
             throw new NotImplementedException();
         }
 
         protected override void save(object sender, EventArgs e) {
+
             throw new NotImplementedException();
         }
     }

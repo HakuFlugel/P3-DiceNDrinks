@@ -96,6 +96,7 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
+            base.save(sender, e);
             DateTime expectedDate;
             if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate) ||
                 !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {

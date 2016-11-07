@@ -51,22 +51,43 @@ namespace AdministratorPanel {
         private Game b4EditingGame;
 
         public GamePopupBox() {
+            // Checks if there has been any changes in the game, if there is any changes, and they are different from what the game looked before (if it is not a new game) then set hasBeenChanged to true,
+            // hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed, if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
+            gameName.TextChanged += (s, e) => { hasBeenChanged = (b4EditingGame != null) ? ((b4EditingGame.name != gameName.Text) ? true : false) : true; };
+            gameDescription.TextChanged += (s, e) => { hasBeenChanged = (b4EditingGame != null) ? ((b4EditingGame.description != gameDescription.Text) ? true : false) : true; };
+
             genreBox.ItemCheck += new ItemCheckEventHandler(memeberChecked);
             foreach (var item in differentGenres) {
                 ListViewItem check = new ListViewItem(item);
-                Console.WriteLine(check.Text);
+                
                
                 genreItems.Add(check);
+                Console.WriteLine(genreItems.Contains(check));
             }
                 
 
         }
 
         private void memeberChecked(object sender, ItemCheckEventArgs e) {
-            if (e.CurrentValue == CheckState.Unchecked)
+            if (e.CurrentValue == CheckState.Unchecked) {
                 game.genre.Add(differentGenres[e.Index]);
-            else
+
+                if (!b4EditingGame.genre.Any(x => x.Contains(differentGenres[e.Index])))
+                    hasBeenChanged = true;
+                else
+                    hasBeenChanged = false;
+                
+            }
+            else {
                 game.genre.Remove(differentGenres[e.Index]);
+
+                if (b4EditingGame.genre.Any(x => x.Contains(differentGenres[e.Index])))
+                    hasBeenChanged = true;
+                else
+                    hasBeenChanged = false;
+            }
+               
+            
         }
 
         
@@ -121,11 +142,16 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
-            b4EditingGame = game;
+            if(b4EditingGame != null)
+                b4EditingGame = game;
+            else
+                //create game.
+
+            base.save(sender, e);
         }
 
         protected override void delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
+            //delete game
         }
     }
 }
