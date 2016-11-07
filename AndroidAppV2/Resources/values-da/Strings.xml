@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-
+<!--Because Localization MATTERS-->
 <resources>
   <string name="button1">Hej Verden!</string>
   <string name="exit">Vil du virkelig gerne afslutte?</string>
@@ -11,4 +11,5 @@
   <string name="playerButton">Spillere</string>
   <string name="difficultyButton">Sværhedsgrad</string>
   <string name="gametimeButton">Spilletid</string>
+  <string name="mapButton">Find os</string>
 </resources>

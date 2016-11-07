@@ -24,9 +24,16 @@ namespace AndroidAppV2.Activities
 
             // Create your application here
 
-            //TODO: Vi skal ikke rigtig lave noget vidt her... kun noget tekst og så måske lave en map
+            //TODO: Vi skal ikke rigtig lave noget vidt her... kun noget tekst
             //https://developer.xamarin.com/recipes/android/fundamentals/intent/launch_the_map_application/
+            Button button = FindViewById<Button>(Resource.Id.button1);
+            Android.Net.Uri geoUri = Android.Net.Uri.Parse("geo:57.046581, 9.916551?z=18");
+            Intent mapIntent = new Intent(Intent.ActionView, geoUri);
 
+            button.Click += delegate
+            {
+                StartActivity(mapIntent);
+            };
         }
     }
 }
