@@ -7,16 +7,18 @@ namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
         private Calendar calendar;
         private List<Room> rooms;
-        public List<CalendarDay> reservations = new List<CalendarDay>();
+        public List<CalendarDay> CalDay = new List<CalendarDay>();
+        
 
         public CalendarTab() {
-
-            for (int i = 0; i < 10; i++)
+            CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>() };
+            for (int i = 0; i < 3; i++)
             {
-                Reservation res = new Reservation();
-                res.time = DateTime.Now;
-
-                //reservations.Add(res); TODO: fix
+                test.reservations.Add(new Reservation { time = DateTime.Now, name = "fish" + i, pending = true });
+            }
+            for (int j = 0; j < 10; j++) 
+            {    
+                CalDay.Add(test);
             }
 
             Text = "Calendar";

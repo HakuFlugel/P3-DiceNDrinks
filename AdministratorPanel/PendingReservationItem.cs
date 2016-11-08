@@ -14,7 +14,7 @@ namespace AdministratorPanel {
         public DateTime time;
         public bool pending;
 
-        public PendingReservationItem(List<Reservation> reslist) {
+        public PendingReservationItem(CalendarDay calDay, List<Reservation> resList) {
             RowCount = 1;
             ColumnCount = 1;
             bgColor = Color.LightGray;
@@ -26,11 +26,11 @@ namespace AdministratorPanel {
                 EventPopupBox p = new EventPopupBox(evntTab, evnt);
                 p.Show();
             };*/
-            foreach (var res in reslist.FindAll((Reservation reserv) => reserv.pending == true)) {
+
+            Controls.Add(new Label { Text = "Somefucking date" });
+            foreach (var res in resList.FindAll((Reservation reserv) => reserv.pending == true)) {
                 Controls.Add(new Label { Text = res.name });
             }
-
-            Controls.Add(new Label{ Text = "Dinmor"});
         }
     }
 }
