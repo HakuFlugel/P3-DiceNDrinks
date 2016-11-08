@@ -24,13 +24,13 @@ namespace AndroidAppV2.Activities
 
             SetContentView(Resource.Layout.foodmenuLayout);
             // Create your application here
-
+            var itemAdapter = new ItemAdapter(this);
             ListView listView = (ListView)FindViewById(Resource.Id.listView1);
-
+            listView.Adapter = itemAdapter;
             //base adaptor should be food list
-            //listView.Adapter = new ArrayAdapter<>();
 
             //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter så de kan vises i appen
+            //TODO: Dette er igangsat i funktionen ItemAdapter
             //https://developer.xamarin.com/recipes/android/data/adapters/use_an_arrayadapter/
             //https://developer.xamarin.com/api/type/Xamarin.Forms.ListView/
 
