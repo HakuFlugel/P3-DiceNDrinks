@@ -45,7 +45,7 @@ namespace AdministratorPanel {
             tbtb.RowCount = 1;
             tbtb.Controls.Add(gibSeachBar());
             Button addGameButton = new Button();
-            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(); gameBox.Show(); Console.WriteLine("shit about to go down udner"); };
+            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(this,null); gameBox.Show(); Console.WriteLine("shit about to go down udner"); };
             addGameButton.Text = "Add new Game";
 
             tbtb.Controls.Add(addGameButton);
