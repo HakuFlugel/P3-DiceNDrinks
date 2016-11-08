@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System;
 using Shared;
+using System.ComponentModel;
 
 namespace AdministratorPanel
 {
@@ -15,10 +16,11 @@ namespace AdministratorPanel
     {
         protected Padding labelPadding = new Padding(5, 0, 5, 0);
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
+        public bool hasBeenChanged = false;
 
         public FancyPopupBox()
         {
-
+            
             //MinimumSize = new Size(800, 600);
             //MaximumSize = MinimumSize;
             AutoSize = true;
@@ -56,26 +58,33 @@ namespace AdministratorPanel
 
             Controls.Add(CreateControls());
 
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e) {
+            switch (e.CloseReason) {
+                case CloseReason.UserClosing:
+                    if (hasBeenChanged && DialogResult.No ==
+                        MessageBox.Show("Are you sure? Everything unsaved will be lost.",
+                            "About to close", MessageBoxButtons.YesNo)) {
 
+                        e.Cancel = true;
+                    }
+
+                    break;
+            }
+            base.OnFormClosing(e);
         }
 
         protected abstract Control CreateControls();
 
-        protected abstract void save(object sender, EventArgs e);
+        protected virtual void save(object sender, EventArgs e) {
+            hasBeenChanged = false;
+        }
 
         protected abstract void delete(object sender, EventArgs e);
 
         private void cancel(object sender, EventArgs e)
         {
-
-            if (DialogResult.Yes ==
-                MessageBox.Show("Are you sure? Everything unsaved will be lost.",
-                    "About to close",
-                    MessageBoxButtons.YesNo))
-            {
-                Close();
-            }
-
+            Close();
         }
     }
 

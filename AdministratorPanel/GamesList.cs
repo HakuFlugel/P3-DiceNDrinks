@@ -21,7 +21,7 @@ namespace AdministratorPanel
             ColumnCount = 1;
             
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            AutoSize = true;
+            AutoSize = false;
             AutoScroll = true;
             //VScroll = true;
         }

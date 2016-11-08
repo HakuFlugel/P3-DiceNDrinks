@@ -18,9 +18,7 @@ namespace AdministratorPanel
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
 
-            Click += (s, e) => {
-                //GamePopupBox p = new GamePopupBox(, );
-            };
+           
 
             TableLayoutPanel x1 = new TableLayoutPanel();
             x1.ColumnCount = 1;
@@ -48,10 +46,17 @@ namespace AdministratorPanel
             Controls.Add(x3);
 
             Controls.Add(new PictureBox { BackColor = Color.Black, Dock = DockStyle.Right });
-
+            
             
 
         }
-        
+
+        protected override void OnDoubleClick(EventArgs e) {
+            base.OnDoubleClick(e);
+
+            GamePopupBox p = new GamePopupBox();
+
+        }
+
     }
 }
