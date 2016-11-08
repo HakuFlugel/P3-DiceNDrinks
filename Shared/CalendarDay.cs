@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Shared
 {
@@ -8,5 +9,6 @@ namespace Shared
         public int fullness;
         public bool isFullChecked;
         public List<bool> roomsReserved; // TODO: room fulness, reference? duplicate?
+        public DateTime theDay;
     }
 }

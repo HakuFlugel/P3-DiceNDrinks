@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Shared;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
         private Calendar calendar;
         private List<Room> rooms;
-        public List<CalendarDay> CalDay = new List<CalendarDay>();
-        
+        public List<CalendarDay> calDay = new List<CalendarDay>();
 
         public CalendarTab() {
-            CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>() };
-            for (int i = 0; i < 3; i++)
-            {
-                test.reservations.Add(new Reservation { time = DateTime.Now, name = "fish" + i, pending = true });
-            }
-            for (int j = 0; j < 10; j++) 
-            {    
-                CalDay.Add(test);
-            }
+            Load();
+            //Random rand = new Random(100);
+            //CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>(), theDay = DateTime.Now.Date };
+            
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    Reservation res = new Reservation { time = DateTime.Now.Date, name = "fish", numPeople = rand.Next(1, 100), pending = true };
+            //    test.reservations.Add(res);
+            //}
+            //calDay.Add(test);
 
             Text = "Calendar";
 
@@ -43,7 +45,7 @@ namespace AdministratorPanel {
             //calendar.Anchor = AnchorStyles.Top;
             leftTable.Controls.Add(calendar);
 
-            PendingReservationList b = new PendingReservationList(this);
+            PendingReservationList b = new PendingReservationList(calendar, this);
             leftTable.Controls.Add(b);
 
             //// Right side
@@ -51,20 +53,23 @@ namespace AdministratorPanel {
             //rightTable.makeItems(reservations, DateTime.Today);
             //outerTable.Controls.Add(rightTable); TODO: fix
 
-
-
-
-            /*
-
-*/
         }
 
         public override void Save() {
-            //throw new NotImplementedException();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<CalendarDay>));
+            using (StreamWriter textWriter = new StreamWriter(@"Reservations.xml")) {
+                serializer.Serialize(textWriter, calDay);
+            }
         }
 
         public override void Load() {
-            //throw new NotImplementedException();
+            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
+            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
+                try {
+                    calDay = deserializer.Deserialize(fileReader) as List<CalendarDay>;
+                }
+                catch (Exception) { }
+            }
         }
     }
 }
