@@ -23,10 +23,7 @@ namespace AdministratorPanel {
             Multiline = true,
             Margin = new Padding(5, 0, 20, 10)
         };
-        NiceTextBox basicInfo = new NiceTextBox() {
-            Width = 95,
-            Margin = new Padding(5, 0, 5, 10)
-        };
+        
         NiceTextBox imageText = new NiceTextBox() {
 
         };
@@ -59,6 +56,11 @@ namespace AdministratorPanel {
         };
 
         private List<ListViewItem> genreItems = new List<ListViewItem>();
+        private List<NiceTextBox> basicInformation = new List<NiceTextBox> {
+                                                        new NiceTextBox { Name = "Minimum palyers" },
+                                                        new NiceTextBox { Name = "Maximum players" },
+                                                        new NiceTextBox { Name = "Minimum time" },
+                                                        new NiceTextBox { Name = "Maximum time" } };
 
         public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
@@ -78,9 +80,13 @@ namespace AdministratorPanel {
             Console.WriteLine("starting adding item to listview");
             foreach (var item in genreItems)
                 Console.WriteLine("item: " + item );
+
             genreBox.Items.AddRange(genreItems.ToArray());
-            
-            
+
+            foreach (var item in basicInformation) {
+                item.Width = 20;
+
+            }
             if (this.game != null) {
                 
                 b4EditingGame = game;
