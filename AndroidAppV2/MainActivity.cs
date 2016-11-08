@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Views;
 using AndroidAppV2.Activities;
 using Mono.Security.Interface;
+using Xamarin.Forms;
 using Shared;
 
 namespace AndroidAppV2
