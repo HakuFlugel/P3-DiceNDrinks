@@ -110,12 +110,12 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            //    var json = JsonConvert.SerializeObject(categoryNames);
-            //    using (StreamWriter textWriter = new StreamWriter(@"Scourses/Category.json")) {
-            //        foreach (var item in json) {
-            //            textWriter.Write(item.ToString());
-            //        }
+            //var json = JsonConvert.SerializeObject(categoryNames);
+            //using (StreamWriter textWriter = new StreamWriter(@"Scourses/Category.json")) {
+            //    foreach (var item in json) {
+            //        textWriter.Write(item.ToString());
             //    }
+            //}
         }
 
         public override void Load() {
@@ -125,7 +125,7 @@ namespace AdministratorPanel {
             //}
             //if (input != null) {
             //    categoryNames = JsonConvert.DeserializeObject<List<string>>(input);
-        
+            //}
         }
     }
 }

@@ -10,15 +10,15 @@ namespace AdministratorPanel
     public class ReservationList : TableLayoutPanel
     {
         private Calendar calendar;
-        private List<Reservation> reservations;
+        private CalendarTab calTab;
 
-        public ReservationList(Calendar calendar, List<Reservation> reservations)
+        public ReservationList(Calendar calendar, CalendarTab calTab)
         {
             this.calendar = calendar;
-            this.reservations = reservations;
+            this.calTab = calTab;
 
             calendar.DateSelected += (sender, args) => { this.makeItems(args.Start);};
-            makeItems(DateTime.Today);
+            makeItems(calendar.SelectionStart);
 
             Dock = DockStyle.Fill;
             BorderStyle = BorderStyle.Fixed3D;
@@ -31,10 +31,15 @@ namespace AdministratorPanel
         public void makeItems(DateTime day)
         {
             Controls.Clear();
+            
+            CalendarDay cd = calTab.calDayList.Find(o => o.theDay.Date == day.Date);
+            if (cd == null) {
+                return;
+            }
+            calendar.SelectionStart = cd.theDay.Date;
 
-            foreach (var res in reservations.Where((Reservation res) => res.time.Date == day.Date))
-            {
-                ReservationItem reservationItem = new ReservationItem(res);
+            foreach (var res in cd.reservations) {
+                ReservationItem reservationItem = new ReservationItem(calTab, res);
 
                 Controls.Add(reservationItem);
             }
