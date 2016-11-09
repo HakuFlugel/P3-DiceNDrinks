@@ -1,12 +1,17 @@
 ﻿using System.Windows.Forms;
 using System.Collections.Generic;
 using Shared;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 
 namespace AdministratorPanel {
     public class ProductsTab : AdminTabPage {
-        List<ProductCategory> productCategories = new List<ProductCategory>();
-        TabControl tabControl = new TabControl();
+        List<ProductCategory> productCategories = new List<ProductCategory>();// opdel til at kun have producter i en liste
+
+        public List<Product> productList = new List<Product>();
+        private TabControl tabControl = new TabControl();
+        public List<string> categoryNames = new List<string>();
 
         public ProductsTab() {
             Text = "Products";
@@ -21,17 +26,17 @@ namespace AdministratorPanel {
             flp.RowCount = 2;
             flp.ColumnCount = 1;
 
-            Button button = new Button();
-            button.Height = 20;
-            button.Width = 100;
-            button.Dock = DockStyle.Right;
-            button.Text = "Add product";
-            button.Click += (s, e) => {
+            Button addItemButton = new Button();
+            addItemButton.Height = 20;
+            addItemButton.Width = 100;
+            addItemButton.Dock = DockStyle.Right;
+            addItemButton.Text = "Add product";
+            addItemButton.Click += (s, e) => {
                 ProductPopupBox p = new ProductPopupBox(this);
                 p.Show();
             };
 
-            flp.Controls.Add(button);
+            flp.Controls.Add(addItemButton);
             flp.Controls.Add(tabControl);
            
             Controls.Add(flp);
@@ -43,8 +48,10 @@ namespace AdministratorPanel {
                 ProductCategoryTab category = new ProductCategoryTab(item);
                 tabControl.Controls.Add(category);
             }
-
+            Load();
         }
+
+
 
         public void generateData() {
 
@@ -85,7 +92,7 @@ namespace AdministratorPanel {
 
             PriceElement priceElementLittle = new PriceElement();
             priceElementLittle.name = "Little drink";
-            priceElementLittle.price = 11;
+            priceElementLittle.price = 68;
 
             PriceElement priceElementBig = new PriceElement();
             priceElementBig.name = "Big drink";
@@ -103,11 +110,22 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            //throw new NotImplementedException();
+            var json = JsonConvert.SerializeObject(categoryNames);
+            using (StreamWriter textWriter = new StreamWriter(@"Scourses/Category.json")) {
+                foreach (var item in json) {
+                    textWriter.Write(item.ToString());
+                }
+            }
         }
 
         public override void Load() {
-            //throw new NotImplementedException();
+            string input;
+            using (StreamReader streamReader = new StreamReader(@"Scourses/Category.json")) {
+                input = streamReader.ReadToEnd();
+            }
+            if (input != null) {
+                categoryNames = JsonConvert.DeserializeObject<List<string>>(input);
+            }
         }
     }
 }

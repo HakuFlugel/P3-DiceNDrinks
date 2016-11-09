@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
+using System;
 
 namespace AdministratorPanel {
     public class Program : Form {
@@ -49,7 +50,7 @@ namespace AdministratorPanel {
                 tab.Save();
             }
         }
-
+        [STAThread]
         static void Main(string[] args) {
 
             Program p = new Program();
