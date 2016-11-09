@@ -4,6 +4,7 @@ namespace Shared
 {
     public class Product
     {
+        public int id;
         public string name;
         public string image;
         public List<PriceElement> PriceElements = new List<PriceElement>();

@@ -24,7 +24,7 @@ namespace Shared
             thumbnail = game.thumbnail;
             image = game.image;
         }
-        public string id;
+        public int id;
 
         public string name;
         public string description;
