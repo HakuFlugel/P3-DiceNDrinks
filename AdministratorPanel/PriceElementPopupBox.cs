@@ -71,6 +71,7 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
+            base.save(sender, e);
             throw new NotImplementedException();
         }
 

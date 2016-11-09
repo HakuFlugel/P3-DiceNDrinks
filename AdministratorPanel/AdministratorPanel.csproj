@@ -111,6 +111,9 @@
     <Compile Include="AdminTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ReservationPopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -134,7 +137,6 @@
     <Content Include="images\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\_default.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

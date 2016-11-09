@@ -7,14 +7,7 @@ using System;
 namespace AdministratorPanel {
     public class PendingReservationItem : NiceButton {
 
-        public string name;
-        public string email;
-        public string phone;
-        public int numPeople;
-        public DateTime time;
-        public bool pending;
-
-        public PendingReservationItem(List<Reservation> reslist) {
+        public PendingReservationItem(Calendar cal, DateTime calDay, List<Reservation> resList) {
             RowCount = 1;
             ColumnCount = 1;
             bgColor = Color.LightGray;
@@ -22,15 +15,14 @@ namespace AdministratorPanel {
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
-            /*Click += (s, e) => {
-                EventPopupBox p = new EventPopupBox(evntTab, evnt);
-                p.Show();
-            };*/
-            foreach (var res in reslist.FindAll((Reservation reserv) => reserv.pending == true)) {
-                Controls.Add(new Label { Text = res.name });
-            }
+            Click += (s, e) => {
+                cal.SelectionStart = calDay.Date;
+            };
 
-            Controls.Add(new Label{ Text = "Dinmor"});
+            Controls.Add(new Label { Text = calDay.Date.ToString("dd-MM-yyyy") });
+            foreach (var res in resList.FindAll((Reservation reserv) => reserv.pending == true)) {
+                Controls.Add(new Label { Text = res.name + " People: " + res.numPeople });
+            }
         }
     }
 }

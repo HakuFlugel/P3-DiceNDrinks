@@ -54,7 +54,7 @@ namespace AdministratorPanel
         protected override void OnDoubleClick(EventArgs e) {
             base.OnDoubleClick(e);
 
-            GamePopupBox p = new GamePopupBox();
+            GamePopupBox p = new GamePopupBox(null,null);
 
         }
 
