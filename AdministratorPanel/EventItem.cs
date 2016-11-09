@@ -15,7 +15,7 @@ namespace AdministratorPanel {
         public DateTime startDate;
         public DateTime endDate;
 
-        public EventItem(EventsTab evntTab,Event evnt) {
+        public EventItem(EventsTab evntTab, Event evnt) {
             this.name = evnt.name;
             this.description = evnt.description;
             this.startDate = evnt.startDate;
