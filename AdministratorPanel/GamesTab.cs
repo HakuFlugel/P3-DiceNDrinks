@@ -109,7 +109,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "AHO2xB",
@@ -121,7 +121,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "ABZ2xB",
@@ -133,7 +133,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "PHZ2xB",
@@ -145,7 +145,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "5ExgGS",
@@ -157,7 +157,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "AHZ2xB",
@@ -169,7 +169,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "TYE3sj",
@@ -181,7 +181,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "TYE3Kj",
@@ -193,7 +193,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 id = "TSE3sj",
@@ -205,7 +205,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
         }
     }

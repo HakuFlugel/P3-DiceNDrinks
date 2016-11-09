@@ -24,7 +24,7 @@ namespace Shared
             minPlayTime = game.minPlayTime;
             maxPlayers = game.maxPlayers;
             thumbnail = game.thumbnail;
-            image = game.image;
+            imageName = game.imageName;
         }
         public string id = "";
 
@@ -37,7 +37,7 @@ namespace Shared
         public int minPlayers = 0, maxPlayers = 0;
         public int minPlayTime = 0, maxPlayTime = 0;
 
-        public string thumbnail = "", image = "";
+        public string thumbnail = "", imageName = "";
 
         
     }
