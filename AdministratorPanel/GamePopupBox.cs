@@ -6,6 +6,9 @@ using System.Windows.Forms;
 using System.Drawing;
 using System;
 using Shared;
+using System.IO;
+using System.Data;
+using System.Drawing.Imaging;
 
 namespace AdministratorPanel {
 
@@ -23,17 +26,24 @@ namespace AdministratorPanel {
             Multiline = true,
             Margin = new Padding(5, 0, 20, 10)
         };
-        
+
         NiceTextBox imageText = new NiceTextBox() {
+            Width = 150,
+            waterMark = "path to picture",
 
         };
-        PictureBox image = new PictureBox() {
-            Width = 100,
-            Height = 100,
-            Margin = new Padding(5, 0, 20, 10)
-        };
-        
 
+        Button imageSeach = new Button() {
+            Width = 50,
+            Text = "🔍"
+        };
+        Panel productImage = new Panel() {
+            Width = 200,
+            Height = 200,
+            BackgroundImage = Image.FromFile("images/_default.png"),
+            Dock = DockStyle.Top,
+            BackgroundImageLayout = ImageLayout.Zoom,
+        };
 
         ListView genreBox = new ListView() {
             View = View.Details,
@@ -54,7 +64,6 @@ namespace AdministratorPanel {
             //sets bounds.
             Size = new Size(200, 200)
         };
-
         private List<ListViewItem> genreItems = new List<ListViewItem>();
         private List<NiceTextBox> basicInformation = new List<NiceTextBox> {
                                                         new NiceTextBox { Name = "Minimum palyers" },
@@ -67,10 +76,35 @@ namespace AdministratorPanel {
         private Game game;
         private Game b4EditingGame;
 
-        
+        private Image image;
         
         public GamePopupBox(GamesTab gametab, Game game) {
             Size = new Size(500,500);
+            imageSeach.Click += (s, e) => {
+
+                OpenFileDialog ofd = new OpenFileDialog();
+                var pnis = ImageCodecInfo.GetImageDecoders();
+                StringBuilder sb = new StringBuilder();
+
+                foreach (ImageCodecInfo item in pnis) {
+                    sb.Append(item.FilenameExtension);
+                    sb.Append(";");
+                }
+
+                ofd.Title = "Open Image";
+                ofd.Filter = "Image Files | " + sb.ToString();
+
+                if (ofd.ShowDialog() == DialogResult.OK) {
+                    try {
+                        game.imageName = ofd.SafeFileName; // name
+                        image = Image.FromFile(ofd.FileName); // path + name
+                        productImage.BackgroundImage = image;
+
+                    } catch (Exception ex) {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            };
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
             foreach(var item in differentGenres) {
