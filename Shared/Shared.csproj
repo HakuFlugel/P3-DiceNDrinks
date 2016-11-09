@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>6BFEC132-8DC8-488F-A302-09BE8758A671</ProjectGuid>
+    <ProjectGuid>{6BFEC132-8DC8-488F-A302-09BE8758A671}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Shared</RootNamespace>
@@ -32,10 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalendarDay.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="PriceElement.cs" />
     <Compile Include="Product.cs" />
@@ -43,6 +46,8 @@
     <Compile Include="ProductMenu.cs" />
     <Compile Include="ProductSection.cs" />
     <Compile Include="Reservation.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="SearchGames.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
