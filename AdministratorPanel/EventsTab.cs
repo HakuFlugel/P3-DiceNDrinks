@@ -57,10 +57,10 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
-            using (StreamWriter textWriter = new StreamWriter(@"Scourses/fix.xml")) {
-                serializer.Serialize(textWriter, Evnts);
-            }
+            //XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
+            //using (StreamWriter textWriter = new StreamWriter(@"Scourses/fix.xml")) {
+            //    serializer.Serialize(textWriter, Evnts);
+            //}
         }
 
         public override void Load() {

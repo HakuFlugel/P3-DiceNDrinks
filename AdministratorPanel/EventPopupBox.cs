@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
+using System.Media;
 
 namespace AdministratorPanel {
     class EventPopupBox : FancyPopupBox {
@@ -100,11 +101,12 @@ namespace AdministratorPanel {
             DateTime expectedDate;
             if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate) ||
                 !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
-
+                SystemSounds.Hand.Play();
                 MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
             if (eventName.Text == null || eventDescription.Text == null) {
+                SystemSounds.Hand.Play();
                 MessageBox.Show("You need to input a name AND a description");
                 return;
             }
