@@ -6,6 +6,10 @@ namespace Shared
     {
         public string name;
 
-        public List<ProductSection> sections = new List<ProductSection>();
+        public List<string> sections = new List<string>();
+
+        public ProductCategory(string name) {
+            this.name = name;
+        }
     }
 }
