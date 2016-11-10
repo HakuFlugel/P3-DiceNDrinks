@@ -45,13 +45,16 @@ namespace AndroidApp
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Front1 = 2130837504;
+			public const int cat = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Icon = 2130837505;
+			public const int Front1 = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int Top_Left_Games = 2130837506;
+			public const int Icon = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int Top_Left_Games = 2130837507;
 			
 			static Drawable()
 			{
@@ -69,6 +72,12 @@ namespace AndroidApp
 			// aapt resource value: 0x7f050009
 			public const int centerImageButton1 = 2131034121;
 			
+			// aapt resource value: 0x7f05000c
+			public const int content = 2131034124;
+			
+			// aapt resource value: 0x7f05000a
+			public const int drawer = 2131034122;
+			
 			// aapt resource value: 0x7f050008
 			public const int eventButton = 2131034120;
 			
@@ -80,6 +89,9 @@ namespace AndroidApp
 			
 			// aapt resource value: 0x7f050004
 			public const int gameButton = 2131034116;
+			
+			// aapt resource value: 0x7f05000b
+			public const int handle = 2131034123;
 			
 			// aapt resource value: 0x7f050001
 			public const int relativeLayout1 = 2131034113;
