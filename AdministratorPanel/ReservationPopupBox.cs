@@ -153,6 +153,7 @@ namespace AdministratorPanel {
             if (res == null) {
                 res = new Reservation();
                 res.pending = true;
+                res.created = DateTime.Now;
                 cd.reservations.Add(res);
             }
             else if (newDate.Date != res.time.Date) {

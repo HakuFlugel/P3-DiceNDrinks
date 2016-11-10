@@ -44,8 +44,8 @@ namespace AdministratorPanel {
             lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
 
             Controls.Add(lft);
-            Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, MMMM dd, yyyy HH:mm") + 
-                                    "\n\n End date: " + endDate.ToString("ddddd, MMMM dd, yyyy HH:mm"), Dock = DockStyle.Left, AutoSize = true });
+            Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, dd. MMMM, yyyy HH:mm") + 
+                                    "\n\n End date: " + endDate.ToString("ddddd, dd. MMMM, yyyy HH:mm"), Dock = DockStyle.Left, AutoSize = true });
 
 
         }

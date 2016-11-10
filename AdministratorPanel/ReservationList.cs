@@ -38,7 +38,7 @@ namespace AdministratorPanel
             }
             calendar.SelectionStart = cd.theDay.Date;
 
-            foreach (var res in cd.reservations) {
+            foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => !o.pending)) {
                 ReservationItem reservationItem = new ReservationItem(calTab, res);
 
                 Controls.Add(reservationItem);

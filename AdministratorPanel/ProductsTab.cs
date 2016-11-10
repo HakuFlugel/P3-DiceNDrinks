@@ -18,7 +18,7 @@ namespace AdministratorPanel {
             Text = "Products";
 
             tabControl.Dock = DockStyle.Fill;
-            Load();
+            //Load();
             Generate();
             MakeItems();
 

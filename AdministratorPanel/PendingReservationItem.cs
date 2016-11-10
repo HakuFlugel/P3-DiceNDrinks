@@ -20,9 +20,9 @@ namespace AdministratorPanel {
                 calTab.reserveationList.makeItems(calDay.Date);
             };
 
-            Controls.Add(new Label { Text = calDay.Date.ToString("dd-MM-yyyy") });
+            Controls.Add(new Label { Text = calDay.Date.ToString("dd. MMMMM yyyy"), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Top, Font = new Font("Arial", 12) });
             foreach (var res in resList.FindAll((Reservation reserv) => reserv.pending == true)) {
-                Controls.Add(new Label { Text = res.name + " People: " + res.numPeople });
+                Controls.Add(new Label { Text = res.name + " | " + res.numPeople, Dock = DockStyle.Fill });
             }
         }
     }
