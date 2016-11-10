@@ -5,20 +5,19 @@ using Shared;
 namespace AdministratorPanel {
     class ProductSectionItem : TableLayoutPanel{
         private FlowLayoutPanel flowPanel = new FlowLayoutPanel();
-        private ProductSection section;
 
-        public ProductSectionItem(ProductSection section) {
-            this.section = section;
+
+        public ProductSectionItem(string section) {
+            Name = section;
             Dock = DockStyle.Fill;
             AutoSize = true;
 
             ColumnCount = 1;
             RowCount = 2;
-            //Text = section.name;
 
             //Title for the section
             Label title = new Label();
-            title.Text = section.name;
+            title.Text = section;
             title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             title.Dock = DockStyle.Fill;
             title.Font = new System.Drawing.Font(title.Font.Name, title.Font.Size * 4);
@@ -29,18 +28,12 @@ namespace AdministratorPanel {
             // section content
             flowPanel.Dock = DockStyle.Fill;
             flowPanel.AutoSize = true;
+            flowPanel.FlowDirection = FlowDirection.LeftToRight;
             Controls.Add(flowPanel);
         }
 
-        public void makeItems(List<Product> products) {
-            
-            flowPanel.Controls.Clear();
-
-            foreach (var item in products) {
-
-                ProductItem product = new ProductItem(item);
-                flowPanel.Controls.Add(product);
-            }
+        public void AddItem(Control ctr) {
+            flowPanel.Controls.Add(ctr);
         }
     }
 }

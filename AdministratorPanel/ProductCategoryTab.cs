@@ -9,6 +9,7 @@ namespace AdministratorPanel {
 
         public ProductCategoryTab(ProductCategory productCategory) {
             this.category = productCategory;
+            Name = productCategory.name;
             Text = productCategory.name;
             AutoScroll = true;
             Dock = DockStyle.Fill;
@@ -23,14 +24,14 @@ namespace AdministratorPanel {
             Controls.Add(table);
         }
 
-        public void makeItems(List<ProductSection> productSections) {
+        public void makeItems(List<string> productSections) {
 
             table.Controls.Clear();
 
             foreach (var item in productSections) {
 
                 ProductSectionItem section = new ProductSectionItem(item);
-                section.makeItems(item.products); // makes all productItems in sections
+               
                 table.Controls.Add(section);
             }
         }
