@@ -3,6 +3,7 @@ using System.Text;
 using System.Windows.Forms;
 using Shared;
 using System.Drawing;
+using System;
 
 namespace AdministratorPanel {
     class ProductItem : NiceButton {
@@ -11,8 +12,10 @@ namespace AdministratorPanel {
         private int sizeY = 192;
         private Image image;
         private Product product;
+        private ProductsTab productTab;
 
-        public ProductItem(Product product) {
+        public ProductItem(Product product, ProductsTab productTab) {
+            this.productTab = productTab;
             this.product = product;
             Update(product);
 
@@ -78,10 +81,17 @@ namespace AdministratorPanel {
 
         private void Update(Product product){
             
-            image = Image.FromFile(product.image);
+            image = Image.FromFile("images/" + product.image);
            
             this.Height = sizeY;
             this.Width = sizeX;
+        }
+
+        protected override void OnClick(EventArgs e) {
+            ProductPopupBox p = new ProductPopupBox(productTab, product);
+            p.Show();
+            base.OnClick(e);
+
         }
     }
 }
