@@ -100,7 +100,7 @@ namespace AdministratorPanel {
             games = new List<Game>();
 
             games.Add(new Game {
-                id = "AHZ2xB",
+                bggid = "AHZ2xB",
                 name = "Secret Hitler",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -112,7 +112,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "AHO2xB",
+                bggid = "AHO2xB",
                 name = "Killer game",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -124,7 +124,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "ABZ2xB",
+                bggid = "ABZ2xB",
                 name = "Vertical",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -136,7 +136,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "PHZ2xB",
+                bggid = "PHZ2xB",
                 name = "Shit Storm",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -148,7 +148,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "5ExgGS",
+                bggid = "5ExgGS",
                 name = "Small Worlds",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -160,7 +160,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "AHZ2xB",
+                bggid = "AHZ2xB",
                 name = "Dominion",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -172,7 +172,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "TYE3sj",
+                bggid = "TYE3sj",
                 name = "Enter The Gundion",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -184,7 +184,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "TYE3Kj",
+                bggid = "TYE3Kj",
                 name = "Risk",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
@@ -196,7 +196,7 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
-                id = "TSE3sj",
+                bggid = "TSE3sj",
                 name = "Settelers",
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
