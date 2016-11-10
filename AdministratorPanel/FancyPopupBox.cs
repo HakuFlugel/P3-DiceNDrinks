@@ -7,6 +7,7 @@ using System.Drawing;
 using System;
 using Shared;
 using System.ComponentModel;
+using System.Media;
 
 namespace AdministratorPanel
 {
@@ -62,6 +63,7 @@ namespace AdministratorPanel
         protected override void OnFormClosing(FormClosingEventArgs e) {
             switch (e.CloseReason) {
                 case CloseReason.UserClosing:
+                    SystemSounds.Question.Play();
                     if (hasBeenChanged && DialogResult.No ==
                         MessageBox.Show("Are you sure? Everything unsaved will be lost.",
                             "About to close", MessageBoxButtons.YesNo)) {

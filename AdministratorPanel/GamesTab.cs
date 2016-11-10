@@ -43,10 +43,15 @@ namespace AdministratorPanel {
             tbtb.ColumnCount = 2;
             tbtb.AutoSize = true;
             tbtb.RowCount = 1;
+            tbtb.Dock = DockStyle.Top;
             tbtb.Controls.Add(gibSeachBar());
+            
+
             Button addGameButton = new Button();
-            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(this,null); gameBox.Show(); Console.WriteLine("shit about to go down udner"); };
-            addGameButton.Text = "Add new Game";
+            addGameButton.Size = new Size(100, 20);
+            addGameButton.Dock = DockStyle.Right;
+            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(this,null);  };
+            addGameButton.Text = "Add Game";
 
             tbtb.Controls.Add(addGameButton);
 

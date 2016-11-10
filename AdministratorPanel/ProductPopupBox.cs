@@ -9,6 +9,7 @@ using System.Globalization;
 using System.Drawing;
 using System.Data;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace AdministratorPanel {
     class ProductPopupBox : FancyPopupBox {
@@ -17,9 +18,15 @@ namespace AdministratorPanel {
             waterMark = "Product Name",
         };
 
-        NiceTextBox categoryName = new NiceTextBox() {
+        ComboBox categoryName = new ComboBox() {
             Width = 200,
-            waterMark = "category Name",
+            Text = "Category Name",
+            Name = "Category Name",
+        };
+
+        ComboBox sectionName = new ComboBox() {
+            Width = 200,
+            Text = "Section Name",
         };
 
         Button priceElementBox = new Button() {
@@ -27,35 +34,81 @@ namespace AdministratorPanel {
             Height = 20,
             AutoSize = true,
             Text = "Add Price",
-            };
+        };
 
         Panel productImage = new Panel() {
-            Width = 200,
-            Height = 200,
+            Width = 150,
+            Height = 150,
             BackgroundImage = Image.FromFile("images/_default.png"),
             Dock = DockStyle.Top,
             BackgroundImageLayout = ImageLayout.Zoom,
         };
 
+        DataGridView priceElements = new DataGridView() {
+            Dock = DockStyle.Fill,
+            Height = 280,
+            RowHeadersVisible = false,
+            ScrollBars = ScrollBars.Vertical,
+            AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
+        };
+        
+
         private ProductsTab productTab;
         private Product product;
         private DataTable dataTable = new DataTable();
         private Image image;
-        private string imageName;
+        private string imageName = "_default.png";
 
-        public ProductPopupBox() {
-        }
+        public ProductPopupBox() { }
 
         public ProductPopupBox(ProductsTab productTab, Product product = null) {
             this.productTab = productTab;
             this.product = product;
 
+
             if (this.product != null) {
                 productName.Text = this.product.name;
                 categoryName.Text = this.product.category;
-
+                sectionName.Text = this.product.section;
+                imageName = this.product.image;
+                Console.WriteLine(imageName + " p -> " + product.image);
             } else {
                 Controls.Find("delete", true).First().Enabled = false;
+            }
+            update();
+        }
+
+        //try {
+        //    image = Image.FromFile("images/" + imageName);
+        //} catch (Exception) {
+        //    image = Image.FromFile("images/_default.png");
+        //    MessageBox.Show("no image in product");
+        //}
+
+        private void update() {
+            categoryName.Items.Clear();
+            // update dropdown category
+            foreach (ProductCategory item in productTab.productCategories) {
+                categoryName.Items.Add(item.name);
+            }
+            // update dropdown section
+            if (categoryName.Text != "Category Name" || categoryName.Text != "") {
+                ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
+                sectionName.Items.AddRange(cat.sections.ToArray());
+            }
+
+            if (product.PriceElements != null) {
+                loadPriceElements(product.PriceElements);
+                priceElements.DataSource = dataTable;
+            }
+
+            try {
+                image = Image.FromFile("images/" + product.image);
+                productImage.BackgroundImage = image;
+
+            } catch (Exception e) {
+                MessageBox.Show(e.Message);
             }
         }
 
@@ -82,34 +135,14 @@ namespace AdministratorPanel {
             leftPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             leftPanel.AutoSize = true;
 
-            // priceElements list display
-            DataGridView priceElements = new DataGridView();
-            priceElements.Dock = DockStyle.Fill;
-            priceElements.Height = 280;
-            priceElements.RowHeadersVisible = false;
-            priceElements.ScrollBars = ScrollBars.Vertical;
-            priceElements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            priceElements.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            // priceElements list display                   // se om den kan komme i kroppen af priceElemets
             priceElements.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-
-          
-            if (product != null) {
-                // load priceElements 
-                loadPriceElements(product.PriceElements);
-                priceElements.DataSource = dataTable;
-                //image
-                try {
-                    image = Image.FromFile(product.image);
-                    productImage.BackgroundImage = image;
-
-                } catch (Exception e) {
-                    MessageBox.Show(e.Message);
-                }
-            } 
             
+            // Add button click event
             productImage.Click += (s, e) => {
                 //TODO: might be wr0ng
 
+                // open file dialog for image selection
                 OpenFileDialog ofd = new OpenFileDialog();
                 var pnis = ImageCodecInfo.GetImageDecoders();
                 StringBuilder sb = new StringBuilder();
@@ -135,7 +168,10 @@ namespace AdministratorPanel {
             };
 
             leftPanel.Controls.Add(productName);
+            leftPanel.Controls.Add(categoryName);
+            leftPanel.Controls.Add(sectionName);
             leftPanel.Controls.Add(productImage);
+
             rightPanel.Controls.Add(priceElements);
 
             header.Controls.Add(leftPanel);
@@ -143,6 +179,7 @@ namespace AdministratorPanel {
             
             return header;
         }
+
 
         private void loadPriceElements(List<PriceElement> priceElements) {
             DataTable dt = new DataTable();
@@ -173,7 +210,7 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            throw new NotImplementedException();
+            productTab.productList.Remove(product);
         }
 
         protected override void save(object sender, EventArgs e) {
@@ -181,33 +218,22 @@ namespace AdministratorPanel {
             if (product == null) {
                 product = new Product();
                 productTab.productList.Add(product);
-            }// TODO: has category or section changed (else)
+            }
             
             product.name = productName.Text;
             product.PriceElements = SavePriceElemets();
             product.category = categoryName.Text;
-            product.image = productImage.Name;
+            product.image = imageName;
+            Console.WriteLine("Save: imagename =" + imageName + " product image =" + product.image);
             if (image == null) {
                 MessageBox.Show("No image in product " + product.name);
             } else {
                 Console.WriteLine(imageName);
-                image.Save("images/"+imageName);
+                if (!File.Exists("images/" + imageName)) {
+                    image.Save("images/" + imageName);
+                }
             }
-
             Close();
         }
     }
 }
-
-
-
-// list of priceelements
-
-//List<PriceElement> pr = new List<PriceElement>();
-//pr.Add(new PriceElement() { name = "asger", price = 69 });
-//pr.Add(new PriceElement() { name = "asger", price = 11 });
-//pr.Add(new PriceElement() { name = "asger", price = 20 });
-//pr.Add(new PriceElement() { name = "asger", price = 30 });
-//pr.Add(new PriceElement() { name = "asger", price = 30 });
-//pr.Add(new PriceElement() { name = "asger", price = 40 });
-//pr.Add(new PriceElement() { name = "asger", price = 49 });
