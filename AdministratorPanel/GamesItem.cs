@@ -16,11 +16,7 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
 
-            Click += (s, e) => {
-                Console.WriteLine("Din mor en bøgse");
-
-                GamePopupBox p = new GamePopupBox(null, game);
-            };
+            
 
             TableLayoutPanel x1 = new TableLayoutPanel();
             x1.ColumnCount = 1;
@@ -52,7 +48,14 @@ namespace AdministratorPanel {
             
 
         }
-        
+        protected override void OnClick(EventArgs e) {
+            
+            Console.WriteLine("Din mor en bøgse");
+
+            GamePopupBox p = new GamePopupBox(null, game);
+            
+            base.OnClick(e);
+        }
 
     }
 }

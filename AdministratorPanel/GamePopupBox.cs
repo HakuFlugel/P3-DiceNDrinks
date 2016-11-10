@@ -136,16 +136,16 @@ namespace AdministratorPanel {
                 Console.WriteLine(this.game.ToString());
                 Controls.Find("delete", true).First().Enabled = false;
             }
-            
+
             /* 
              * Checks if there has been any changes in the game, if there is any changes,
              * and they are different from what the game looked before (if it is not a new game) then set hasBeenChanged to true,
              * hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed,
              * if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
              */
-            
-           
-            
+
+
+            Show();
             
         }
 
