@@ -16,7 +16,7 @@ namespace AdministratorPanel {
         public GamesTab() {
 
             Text = "Games";
-            CreateGamesForDebugShit();// For testing purpose only
+            CreateGamesForDebugShit(); // For testing purpose only
 
             update();
         }
