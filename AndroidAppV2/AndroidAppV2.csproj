@@ -129,9 +129,6 @@
     <AndroidResource Include="Resources\layout\foodmenuLayout.axml" />
     <AndroidResource Include="Resources\layout\GameLayout.axml" />
     <AndroidResource Include="Resources\layout\ReservationLayout.axml" />
-    <AndroidResource Include="Resources\layout\ItemlistView.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\CustomItemView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>

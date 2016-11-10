@@ -35,13 +35,13 @@ namespace AndroidAppV2
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             var item = items[position];
-            View view = convertView;
-            if (view == null) // no view to re-use, create new
-                view = context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
+            //sets the view as convertView unless that is null
+            View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = item.category; //todo: pris
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageResource(Int32.Parse(item.image)); //todo: skal sikres at det kan parses
+            //view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(); //todo: skal sikres at det kan parses
             return view;
+            //todo: make sure this is how we can get the resource from the server
         }
 
         public override int Count => items.Count;

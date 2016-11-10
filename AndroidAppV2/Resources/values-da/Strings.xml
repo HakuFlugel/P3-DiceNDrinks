@@ -12,4 +12,5 @@
   <string name="difficultyButton">Sværhedsgrad</string>
   <string name="gametimeButton">Spilletid</string>
   <string name="mapButton">Find os</string>
+  <string name="sort">Sorter efter...</string>
 </resources>
