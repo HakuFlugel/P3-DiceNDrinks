@@ -3,14 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using Shared;
 
-namespace AdministratorPanel
-{
-    public class GamesItem : NiceButton
-    {
-
-        public GamesItem(Game game)
-        {
+namespace AdministratorPanel {
+    public class GamesItem : NiceButton {
+        Game game;
+        public GamesItem(Game game) {
             RowCount = 1;
+            this.game = game;
             ColumnCount = 4;
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;
@@ -18,13 +16,13 @@ namespace AdministratorPanel
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
 
-           
+            
 
             TableLayoutPanel x1 = new TableLayoutPanel();
             x1.ColumnCount = 1;
             x1.RowCount = 2;
             x1.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-            x1.Controls.Add(new Label { Text = game.id, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
+            x1.Controls.Add(new Label { Text = game.bggid, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
             Controls.Add(x1);
 
@@ -50,12 +48,13 @@ namespace AdministratorPanel
             
 
         }
+        protected override void OnClick(EventArgs e) {
+            
+            Console.WriteLine("Din mor en bøgse");
 
-        protected override void OnDoubleClick(EventArgs e) {
-            base.OnDoubleClick(e);
-
-            GamePopupBox p = new GamePopupBox(null,null);
-
+            GamePopupBox p = new GamePopupBox(null, game);
+            
+            base.OnClick(e);
         }
 
     }

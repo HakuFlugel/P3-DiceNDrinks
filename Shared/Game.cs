@@ -8,11 +8,9 @@ namespace Shared
     [Serializable]
     public class Game
     {
-        public Game() {
-
-        }
+        public Game() { }
         public Game(Game game) { //Copy constructor
-            id = game.id;
+            bggid = game.bggid;
             name = game.name;
             description = game.description;
             foreach (var item in game.genre)
@@ -24,9 +22,11 @@ namespace Shared
             minPlayTime = game.minPlayTime;
             maxPlayers = game.maxPlayers;
             thumbnail = game.thumbnail;
-            image = game.image;
+            imageName = game.imageName;
         }
-        public string id = "";
+
+        public int id;
+        public string bggid = "";
 
         public string name = "";
         public string description = "";
@@ -37,7 +37,7 @@ namespace Shared
         public int minPlayers = 0, maxPlayers = 0;
         public int minPlayTime = 0, maxPlayTime = 0;
 
-        public string thumbnail = "", image = "";
+        public string thumbnail = "", imageName = "";
 
         
     }
