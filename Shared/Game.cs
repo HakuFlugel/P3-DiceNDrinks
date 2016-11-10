@@ -10,7 +10,7 @@ namespace Shared
     {
         public Game() { }
         public Game(Game game) { //Copy constructor
-            id = game.id;
+            bggid = game.bggid;
             name = game.name;
             description = game.description;
             foreach (var item in game.genre)
@@ -24,7 +24,9 @@ namespace Shared
             thumbnail = game.thumbnail;
             image = game.image;
         }
+
         public int id;
+        public string bggid;
 
         public string name;
         public string description;

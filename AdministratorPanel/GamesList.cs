@@ -30,7 +30,7 @@ namespace AdministratorPanel
         {
             Controls.Clear();
 
-            foreach (var res in games.Where((Game gam) => (gam.name.ToLower().Contains(seach)) /*|| (seach.StartsWith("id: ")? gam.id.ToLower().Contains(seach.Substring(4,seach.Length-1)) : false  )*/)) {
+            foreach (var res in games.Where((Game gam) => (gam.name.ToLower().Contains(seach)) /*|| (seach.StartsWith("bggid: ")? gam.bggid.ToLower().Contains(seach.Substring(4,seach.Length-1)) : false  )*/)) {
                 GamesItem gameitem = new GamesItem(res);
 
                 Controls.Add(gameitem);

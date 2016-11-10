@@ -24,7 +24,7 @@ namespace AdministratorPanel
             x1.ColumnCount = 1;
             x1.RowCount = 2;
             x1.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-            x1.Controls.Add(new Label { Text = game.id, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
+            x1.Controls.Add(new Label { Text = game.bggid, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
             Controls.Add(x1);
 
