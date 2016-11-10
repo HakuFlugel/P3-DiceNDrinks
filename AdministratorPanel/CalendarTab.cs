@@ -2,22 +2,29 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Shared;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
         private Calendar calendar;
         private List<Room> rooms;
-        public List<CalendarDay> reservations = new List<CalendarDay>();
+        public List<CalendarDay> calDayList = new List<CalendarDay>();
+
+        public ReservationList reserveationList;
+        public PendingReservationList pendingReservationList;
 
         public CalendarTab() {
-
-            for (int i = 0; i < 10; i++)
-            {
-                Reservation res = new Reservation();
-                res.time = DateTime.Now;
-
-                //reservations.Add(res); TODO: fix
-            }
+            Load();
+            //Random rand = new Random(100);
+            //CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>(), theDay = DateTime.Now.Date };
+            
+            //for (int i = 0; i < 3; i++)
+            //{
+            //    Reservation res = new Reservation { time = DateTime.Now.Date, name = "fish", numPeople = rand.Next(1, 100), pending = true };
+            //    test.reservations.Add(res);
+            //}
+            //calDay.Add(test);
 
             Text = "Calendar";
 
@@ -41,28 +48,51 @@ namespace AdministratorPanel {
             //calendar.Anchor = AnchorStyles.Top;
             leftTable.Controls.Add(calendar);
 
-            PendingReservationList b = new PendingReservationList(this);
-            leftTable.Controls.Add(b);
+            pendingReservationList = new PendingReservationList(calendar, this);
+            leftTable.Controls.Add(pendingReservationList);
+
 
             //// Right side
-            //ReservationList rightTable = new ReservationList(calendar, reservations); TODO: fix
+            TableLayoutPanel rightTable = new TableLayoutPanel();
+            rightTable.Dock = DockStyle.Fill;
+            rightTable.AutoSize = true;
+            rightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            outerTable.Controls.Add(rightTable);
+
+            Button addReservation = new Button();
+            addReservation.Height = 20;
+            addReservation.Width = 100;
+            addReservation.Dock = DockStyle.Right;
+            addReservation.Text = "Add Reservation";
+            addReservation.Click += (s, e) => {
+                ReservationPopupBox p = new ReservationPopupBox(this);
+                p.Show();
+            };
+            rightTable.Controls.Add(addReservation);
+
+            reserveationList = new ReservationList(calendar, this); /*TODO: fix*/
+            rightTable.Controls.Add(reserveationList);
             //rightTable.makeItems(reservations, DateTime.Today);
-            //outerTable.Controls.Add(rightTable); TODO: fix
+             /*TODO: fix*/
+            
 
-
-
-
-            /*
-
-*/
         }
 
         public override void Save() {
-            //throw new NotImplementedException();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<CalendarDay>));
+            using (StreamWriter textWriter = new StreamWriter(@"Reservations.xml")) {
+                serializer.Serialize(textWriter, calDayList);
+            }
         }
 
         public override void Load() {
-            //throw new NotImplementedException();
+            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
+            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
+                try {
+                    calDayList = deserializer.Deserialize(fileReader) as List<CalendarDay>;
+                }
+                catch (Exception) { }
+            }
         }
     }
 }

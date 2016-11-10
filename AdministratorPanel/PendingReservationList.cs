@@ -1,36 +1,31 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace AdministratorPanel
-{
-    public class PendingReservationList : TableLayoutPanel
-    {
+namespace AdministratorPanel {
+    public class PendingReservationList : TableLayoutPanel {
+        private CalendarTab calTab;
+        private Calendar cal;
+        public PendingReservationList(Calendar cal, CalendarTab calTab) {
+            this.calTab = calTab;
+            this.cal = cal;
 
-        public PendingReservationList(CalendarTab CalTab)
-        {
             Dock = DockStyle.Fill;
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //AutoScroll = true;
-            //VerticalScroll = true;
+            AutoScroll = true;
             VScroll = true;
-            foreach (var item in CalTab.reservations) {
-                PendingReservationItem pendingReservationItem = new PendingReservationItem(item.reservations);
-            }
-            
-            for (int i = 0; i < 12; i++)
-            {
-                //                pendingReservation.bgColor = Color.LightGray;
-                //                //pendingReservation.AutoSize = true;
-                //                //pendingReservation.AutoSizeMode = AutoSizeMode.GrowOnly;
-                //
-                //
-                //                //pendingReservation.MakeSuperClickable((s,e) => { pendingReservation.BackColor = Color.Red; });
-                //
-                //                Controls.Add(pendingReservation);
+
+            makeItems();
+        }
+        public void makeItems() {
+            Controls.Clear();
+            foreach (var item in calTab.calDayList) {
+                if (item.reservations.Exists(o => o.pending)) {
+                    PendingReservationItem pendingReservationItem = new PendingReservationItem(cal, calTab, item.theDay, item.reservations);
+                    Controls.Add(pendingReservationItem);
+                }
             }
         }
-
     }
 }

@@ -45,7 +45,7 @@ namespace AdministratorPanel {
             tbtb.RowCount = 1;
             tbtb.Controls.Add(gibSeachBar());
             Button addGameButton = new Button();
-            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(); gameBox.Show(); Console.WriteLine("shit about to go down udner"); };
+            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(this,null); gameBox.Show(); Console.WriteLine("shit about to go down udner"); };
             addGameButton.Text = "Add new Game";
 
             tbtb.Controls.Add(addGameButton);
@@ -109,7 +109,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "AHO2xB",
@@ -121,7 +121,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "ABZ2xB",
@@ -133,7 +133,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "PHZ2xB",
@@ -145,7 +145,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "5ExgGS",
@@ -157,7 +157,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "AHZ2xB",
@@ -169,7 +169,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "TYE3sj",
@@ -181,7 +181,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "TYE3Kj",
@@ -193,7 +193,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
                 bggid = "TSE3sj",
@@ -205,7 +205,7 @@ namespace AdministratorPanel {
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
-                image = "TosetPictureInFuture"
+                imageName = "TosetPictureInFuture"
             });
         }
     }

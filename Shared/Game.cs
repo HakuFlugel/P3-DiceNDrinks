@@ -22,22 +22,22 @@ namespace Shared
             minPlayTime = game.minPlayTime;
             maxPlayers = game.maxPlayers;
             thumbnail = game.thumbnail;
-            image = game.image;
+            imageName = game.imageName;
         }
 
         public int id;
-        public string bggid;
+        public string bggid = "";
 
-        public string name;
-        public string description;
-        public List<string> genre;
-        public int difficulity;
-        public int publishedYear;
+        public string name = "";
+        public string description = "";
+        public List<string> genre = new List<string>();
+        public int difficulity = 0;
+        public int publishedYear = 0;
 
-        public int minPlayers, maxPlayers;
-        public int minPlayTime, maxPlayTime;
+        public int minPlayers = 0, maxPlayers = 0;
+        public int minPlayTime = 0, maxPlayTime = 0;
 
-        public string thumbnail, image;
+        public string thumbnail = "", imageName = "";
 
         
     }
