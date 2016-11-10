@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Shared;
 
 
 namespace AndroidAppV2.Activities
@@ -24,9 +25,10 @@ namespace AndroidAppV2.Activities
 
             SetContentView(Resource.Layout.foodmenuLayout);
             // Create your application here
-            //ItemAdapter itemAdapter = new ItemAdapter(this);
+            List<Product> list = getProducts();
+            ItemAdapter itemAdapter = new ItemAdapter(this, list);
             ListView listView = (ListView)FindViewById(Resource.Id.listView1);
-            //listView.Adapter = itemAdapter;
+            listView.Adapter = itemAdapter;
 
             
             //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter så de kan vises i appen
@@ -46,6 +48,15 @@ namespace AndroidAppV2.Activities
             {
                 //todo: Fetch misc list and set it as adapter
             };
+        }
+
+        List<Product> getProducts(/*Uri uri*/)
+        {
+            List<Product> list = new List<Product>();
+
+            //todo: get the products here
+
+            return list;
         }
     }
 }
