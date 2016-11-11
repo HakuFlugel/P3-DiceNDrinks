@@ -54,18 +54,24 @@ namespace AdministratorPanel {
             this.calTab = calTab;
             this.res = res;
             if (res != null) {
-                reservationName.Text = res.name;
-                numPeople.Text = res.numPeople.ToString();
-                /*TODO: better way than this?:*/
-                if (res.phone != null) {
-                    phoneNumber.Text = res.phone;
+                try {
+                    reservationName.Text = res.name;
+                    numPeople.Text = res.numPeople.ToString();
+                    /*TODO: better way than this?:*/
+                    if (res.phone != null) {
+                        phoneNumber.Text = res.phone;
+                    }
+                    if (res.email != null) {
+                        email.Text = res.email;
+                    }
+                    datePicker.Value = res.time.Date;
+                    timePicker.Text = res.time.ToString("HH:mm");
+                    pendingSet.Checked = res.pending;
                 }
-                if(res.email != null) {
-                    email.Text = res.email;
+                catch (ArgumentOutOfRangeException) {
+
                 }
-                datePicker.Value = res.time.Date;
-                timePicker.Text = res.time.ToString("HH:mm");
-                pendingSet.Checked = res.pending;
+                
 
             }
             else {

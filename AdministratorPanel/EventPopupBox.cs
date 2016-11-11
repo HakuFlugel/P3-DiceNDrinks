@@ -43,12 +43,19 @@ namespace AdministratorPanel {
             this.eventsTab = eventsTab;
             this.evnt = evnt;
             if (evnt != null) {
-                eventName.Text = evnt.name;
-                eventDescription.Text = evnt.description;
-                startDatePicker.Value = evnt.startDate;
-                endDatePicker.Value = evnt.endDate;
-                startTimePicker.Text = evnt.startDate.ToString("HH:mm");
-                endTimePicker.Text = evnt.endDate.ToString("HH:mm");
+                try {
+                    eventName.Text = evnt.name;
+                    eventDescription.Text = evnt.description;
+                    startDatePicker.Value = evnt.startDate;
+                    endDatePicker.Value = evnt.endDate;
+                    startTimePicker.Text = evnt.startDate.ToString("HH:mm");
+                    endTimePicker.Text = evnt.endDate.ToString("HH:mm");
+                }
+                catch (ArgumentOutOfRangeException) {
+
+                    
+                }
+
             }
             else {
                 Controls.Find("delete", true).First().Enabled = false;
