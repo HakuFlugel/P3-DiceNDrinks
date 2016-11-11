@@ -24,8 +24,11 @@ namespace AdministratorPanel
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //AutoScroll = true;
-            VScroll = true;
+            //AutoSize = true;
+            HorizontalScroll.Maximum = 0;
+            AutoScroll = true;
+            
+            
         }
 
         public void makeItems(DateTime day)
@@ -43,6 +46,7 @@ namespace AdministratorPanel
 
                 Controls.Add(reservationItem);
             }
+           
         }
     }
 }

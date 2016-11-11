@@ -30,13 +30,18 @@ namespace AdministratorPanel {
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        DateTimePicker DatePicker = new DateTimePicker() {
+        DateTimePicker datePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
             Margin = new Padding(0, 10, 20, 10)
         };
-        NiceTextBox TimePicker = new NiceTextBox() {
+        NiceTextBox timePicker = new NiceTextBox() {
             waterMark = "hh:mm"
         };
+        CheckBox pendingSet = new CheckBox() {
+            Checked = false,
+            Text = "Pending"
+        };
+
 
         private CalendarTab calTab;
         private Reservation res;
@@ -58,9 +63,10 @@ namespace AdministratorPanel {
                 if(res.email != null) {
                     email.Text = res.email;
                 }
-                DatePicker.Value = res.time.Date;
-                TimePicker.Text = res.time.ToString("HH:mm");
-                
+                datePicker.Value = res.time.Date;
+                timePicker.Text = res.time.ToString("HH:mm");
+                pendingSet.Checked = res.pending;
+
             }
             else {
                 Controls.Find("delete", true).First().Enabled = false;
@@ -95,8 +101,9 @@ namespace AdministratorPanel {
             lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             lft.Dock = DockStyle.Fill;
 
-            lft.Controls.Add(DatePicker);
-            lft.Controls.Add(TimePicker);
+            lft.Controls.Add(datePicker);
+            lft.Controls.Add(timePicker);
+            lft.Controls.Add(pendingSet);
 
 
             header.Controls.Add(rght);
@@ -119,7 +126,7 @@ namespace AdministratorPanel {
         protected override void save(object sender, EventArgs e) {
 
             DateTime expectedDate;
-            if (!DateTime.TryParseExact(TimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
+            if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
 
                 MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
@@ -132,9 +139,17 @@ namespace AdministratorPanel {
                 MessageBox.Show("You need to input a phone number or a email");
                 return;
             }
+            try {
+                emailCheck(email.Text);
+            }
+            catch (Exception en) {
+                MessageBox.Show(en.Message);
+                return;
+            }
+            
 
-            string tempDate = DatePicker.Value.ToString("dd-MM-yyyy");
-            string tempTime = TimePicker.Text;
+            string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
+            string tempTime = timePicker.Text;
 
             /*COPY PASTE(SOME OF IT!!)*/
             DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
@@ -152,7 +167,6 @@ namespace AdministratorPanel {
 
             if (res == null) {
                 res = new Reservation();
-                res.pending = true;
                 res.created = DateTime.Now;
                 cd.reservations.Add(res);
             }
@@ -162,7 +176,13 @@ namespace AdministratorPanel {
                 }
                 cd.reservations.Add(res);
             }
-            
+
+            if (pendingSet.Checked == true) {
+                res.pending = true;
+            }
+            else {
+                res.pending = false;
+            }
             res.name = reservationName.Text;
             int.TryParse(numPeople.Text, out res.numPeople);
             res.phone = phoneNumber.Text;
@@ -181,5 +201,83 @@ namespace AdministratorPanel {
             calTab.pendingReservationList.makeItems();
             
         }
+
+        public void emailCheck(string email) {
+
+            const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
+            const string validDomainSymbols = ".-";
+
+
+
+            string[] emailParts = email.Split('@');
+
+            if (emailParts.Length != 2)
+                throw new FormatException("Email address must contain exactly one '@'");
+
+            if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
+                throw new FormatException("Email address local- or domain-part can't start or end with a '.'");
+
+            if (!emailParts[1].Contains('.'))
+                throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.tld");
+
+            if (email.Contains(".."))
+                throw new FormatException("Email address may not contain consecutive '.'s, ie. '..'.");
+
+            foreach (char ch in emailParts[0]) {
+                if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch))
+                    throw new FormatException($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validLocalSymbols }\"");
+            }
+
+            foreach (var ch in emailParts[1]) {
+                if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
+                    throw new FormatException($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validDomainSymbols }\"");
+            }
+        }
     }
 }
+
+
+
+
+/*
+ public string email {
+            get {
+                return email;
+            }
+            set {
+                const string validLocalSymbols = ".-"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
+                const string validDomainSymbols = ".-";
+
+
+
+                string[] emailParts = value.Split('@');
+
+                if (emailParts.Length != 2)
+                    throw new FormatException("Email address must contain exactly one '@'");
+
+                if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
+                    throw new FormatException("Email address local- or domain-part can't start or end with a '.'");
+
+                if (!emailParts[1].Contains('.'))
+                    throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.tld");
+
+                if (value.Contains(".."))
+                    throw new FormatException("Email address may not contain consecutive '.'s, ie. '..'.");
+
+                foreach (char ch in emailParts[0]) {
+                    if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch)) 
+                        throw new FormatException($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols "{validLocalSymbols}"");
+                }
+
+                foreach (var ch in emailParts[1]) {
+                    if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
+                        throw new FormatException($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols "{validDomainSymbols}"");
+                }
+
+
+
+                _email = value;
+
+            }
+        }
+*/

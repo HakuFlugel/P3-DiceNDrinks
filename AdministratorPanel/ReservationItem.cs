@@ -12,6 +12,7 @@ namespace AdministratorPanel
         public string phone;
         public int numPeople;
         public DateTime time;
+        public DateTime created;
         public bool pending;
 
         public ReservationItem(CalendarTab calTab, Reservation res)
@@ -21,7 +22,9 @@ namespace AdministratorPanel
             phone = res.phone;
             numPeople = res.numPeople;
             time = res.time;
+            created = res.created;
             pending = res.pending;
+
 
             RowCount = 1;
             ColumnCount = 3;
@@ -34,19 +37,21 @@ namespace AdministratorPanel
                 ReservationPopupBox p = new ReservationPopupBox(calTab, res);
                 p.Show();
             };
-            TableLayoutPanel theRightItems = new TableLayoutPanel();
-            theRightItems.AutoSize = true;
-
-            TableLayoutPanel theMiddleItems = new TableLayoutPanel();
-            theMiddleItems.AutoSize = true;
-            theMiddleItems.Dock = DockStyle.Top;
 
             TableLayoutPanel theLeftItems = new TableLayoutPanel();
             theLeftItems.AutoSize = true;
-            theLeftItems.Dock = DockStyle.Right;
+
+            TableLayoutPanel theMiddleItems = new TableLayoutPanel();
+            theMiddleItems.AutoSize = true;
+
+            TableLayoutPanel theRightItems = new TableLayoutPanel();
+            theRightItems.AutoSize = true;
+            theRightItems.Dock = DockStyle.Right;
 
             FlowLayoutPanel twoButtons = new FlowLayoutPanel();
             twoButtons.AutoSize = true;
+            twoButtons.Dock = DockStyle.Right;
+
             Button acceptButton = new Button();
             twoButtons.Controls.Add(acceptButton);
             acceptButton.Text = "Accept";
@@ -56,7 +61,6 @@ namespace AdministratorPanel
                 calTab.reserveationList.makeItems(time.Date);
                 calTab.pendingReservationList.makeItems();
             };
-
 
             Button declineButton = new Button();
             twoButtons.Controls.Add(declineButton);
@@ -69,18 +73,19 @@ namespace AdministratorPanel
                 calTab.pendingReservationList.makeItems();
             };
 
-            Controls.Add(theRightItems);
-            Controls.Add(theMiddleItems);
             Controls.Add(theLeftItems);
+            Controls.Add(theMiddleItems);
+            Controls.Add(theRightItems);
 
 
-            theRightItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
+            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
             theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
-            theLeftItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
-            theRightItems.Controls.Add(new Label { Text = email, AutoSize = true });
+            theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
+            theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
+            theLeftItems.Controls.Add(new Label { Text = email, AutoSize = true });
             theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
             if (res.pending == true) {
-                theLeftItems.Controls.Add(twoButtons);
+                theRightItems.Controls.Add(twoButtons);
             }
 
         }
