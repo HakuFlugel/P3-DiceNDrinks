@@ -18,6 +18,8 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation")]
     public class ReservationActivity : Activity
     {
+        public bool State = true; //checks if the user has made any changes
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
@@ -38,8 +40,8 @@ namespace AndroidAppV2.Activities
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
-
                     chosenDate = InsertDateTime(date, chosenDate);
+                    State = false;
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
@@ -49,6 +51,7 @@ namespace AndroidAppV2.Activities
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
                     chosenDate = InsertDateTime(chosenDate,time);
+                    State = false;
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
@@ -57,7 +60,6 @@ namespace AndroidAppV2.Activities
             {
                 dateDisplay.Text = chosenDate.ToLongDateString() + " " + chosenDate.ToLongTimeString();
             };
-
 
         }
 
@@ -70,8 +72,25 @@ namespace AndroidAppV2.Activities
         {
             return new DateTime(date.Year, date.Month, date.Day,time.Hour,time.Minute,time.Second);
         }
-    }
 
+        public override void OnBackPressed()
+        {
+            if (!State)
+            {
+                AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
+                exitApp.SetMessage(Resource.String.exitReservation);
+                exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
+                exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Scratch Ass*/ });
+
+                Dialog exit = exitApp.Create();
+
+                exit.Show();
+            }
+            else
+            base.OnBackPressed();
+        }
+    }
+    
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener
     {

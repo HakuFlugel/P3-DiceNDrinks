@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Reflection.Emit;
+
 using Android.App;
 using Android.Graphics.Pdf;
 using Android.Widget;
 using Android.OS;
 using Android.Views;
-using AndroidAppV2.Activities;
+
 using Mono.Security.Interface;
+
+using AndroidAppV2.Activities;
 using Shared;
 
 namespace AndroidAppV2

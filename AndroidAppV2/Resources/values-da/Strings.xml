@@ -13,4 +13,5 @@
   <string name="gametimeButton">Spilletid</string>
   <string name="mapButton">Find os</string>
   <string name="sort">Sorter efter...</string>
+  <string name="exitReservation">Vil du virkelig gerne afslutte? \nAlt du har skrevet vil blive tabt.</string>
 </resources>

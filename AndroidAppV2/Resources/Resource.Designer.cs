@@ -3120,6 +3120,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f080027
 			public const int exit = 2131230759;
 			
+			// aapt resource value: 0x7f080032
+			public const int exitReservation = 2131230770;
+			
 			// aapt resource value: 0x7f08002a
 			public const int foodButton = 2131230762;
 			
