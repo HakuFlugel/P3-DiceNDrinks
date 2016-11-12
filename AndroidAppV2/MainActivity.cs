@@ -48,7 +48,7 @@ namespace AndroidAppV2
             };
         }
 
-
+        //todo: programmer onResume, onPause & onRestoreInstanceState
 
 
         public override void OnBackPressed()

@@ -24,20 +24,19 @@
             p1:layout_height="wrap_content"
             p1:id="@+id/button1"
             p1:layout_centerInParent="true" />
-        <TextView
-            p1:text="Pick a Time"
-            p1:textAppearance="?android:attr/textAppearanceLarge"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView1"
-            p1:id="@+id/textView2"
-            p1:layout_centerHorizontal="true" />
         <Button
             p1:text="Time"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:layout_below="@id/button1"
             p1:id="@+id/button2"
+            p1:layout_centerHorizontal="true" />
+        <Button
+            p1:text="Update"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/textView1"
+            p1:id="@+id/button3"
             p1:layout_centerHorizontal="true" />
     </RelativeLayout>
 </FrameLayout>

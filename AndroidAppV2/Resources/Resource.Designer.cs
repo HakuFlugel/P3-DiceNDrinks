@@ -2306,6 +2306,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f0700b2
 			public const int button2 = 2131165362;
 			
+			// aapt resource value: 0x7f0700b3
+			public const int button3 = 2131165363;
+			
 			// aapt resource value: 0x7f070044
 			public const int buttonPanel = 2131165252;
 			

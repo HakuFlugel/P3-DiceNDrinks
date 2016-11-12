@@ -28,29 +28,47 @@ namespace AndroidAppV2.Activities
             // Create your application here
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
 
-
+            DateTime chosenDate = DateTime.Now;
             TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.button1);
+            Button timeSelectButton = FindViewById<Button>(Resource.Id.button2);
+            Button updateButton = FindViewById<Button>(Resource.Id.button3);
+
             dateSelectButton.Click += delegate
             {
-                DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime time)
+                DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
-                    dateDisplay.Text = time.ToLongDateString();
+
+                    chosenDate = InsertDateTime(date, chosenDate);
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
-            TextView timeDisplay = FindViewById<TextView>(Resource.Id.textView2);
-            Button timeSelectButton = FindViewById<Button>(Resource.Id.button2);
 
             timeSelectButton.Click += delegate
             {
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
-                    timeDisplay.Text = time.ToLongTimeString();
+                    chosenDate = InsertDateTime(chosenDate,time);
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
 
+            updateButton.Click += delegate
+            {
+                dateDisplay.Text = chosenDate.ToLongDateString() + " " + chosenDate.ToLongTimeString();
+            };
+
+
+        }
+
+        private void SendData(DateTime datetime)
+        {
+            //todo: send reservation here
+        }
+
+        private DateTime InsertDateTime(DateTime date, DateTime time)
+        {
+            return new DateTime(date.Year, date.Month, date.Day,time.Hour,time.Minute,time.Second);
         }
     }
 
