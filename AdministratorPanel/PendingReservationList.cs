@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
@@ -20,8 +21,8 @@ namespace AdministratorPanel {
         }
         public void makeItems() {
             Controls.Clear();
-            foreach (var item in calTab.calDayList) {
-                if (item.reservations.Exists(o => o.pending)) {
+            foreach (var item in calTab.calDayList.OrderBy(o => o.theDay.Date)) {
+                if (item.reservations.Exists(o => o.pending == true)) {
                     PendingReservationItem pendingReservationItem = new PendingReservationItem(cal, calTab, item.theDay, item.reservations);
                     Controls.Add(pendingReservationItem);
                 }
