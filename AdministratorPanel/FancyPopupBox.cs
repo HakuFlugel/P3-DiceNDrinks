@@ -21,7 +21,7 @@ namespace AdministratorPanel
 
         public FancyPopupBox()
         {
-            
+            MaximizeBox = false;
             //MinimumSize = new Size(800, 600);
             //MaximumSize = MinimumSize;
             AutoSize = true;

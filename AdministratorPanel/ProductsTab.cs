@@ -18,7 +18,7 @@ namespace AdministratorPanel {
             Text = "Products";
 
             tabControl.Dock = DockStyle.Fill;
-            Load();
+            //Load();
             Generate();
             MakeItems();
 
@@ -142,24 +142,31 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            var json = JsonConvert.SerializeObject(productCategories);
-            using (StreamWriter textWriter = new StreamWriter(@"Scourses/Category.json")) {
-                foreach (var item in json) {
-                    textWriter.Write(item.ToString());
-                }
-            }
+            //var json = JsonConvert.SerializeObject(productCategories);
+            //if (File.Exists(@"Sources/Category.json"))
+            //    File.Create(@"Sources/Category.json");
+            //using (StreamWriter textWriter = new StreamWriter(@"Sources/Category.json")) {
+            //    foreach (var item in json) {
+            //        textWriter.Write(item.ToString());
+            //    }
+            //}
         }
 
         public override void Load() {
-            string input;
-            if (!File.Exists(@"Scourses/Category.json")) {
-                using (StreamReader streamReader = new StreamReader(@"Scourses/Category.json")) {
-                    input = streamReader.ReadToEnd();
-                }
-                if (input != null) {
-                    productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(input);
-                }
-            }
+            //string input;
+            //if (File.Exists(@"Sources/Category.json")) {
+            //    using (StreamReader streamReader = new StreamReader(@"Sources/Category.json")) {
+            //        input = streamReader.ReadToEnd();
+            //        streamReader.Close();
+            //    }
+                
+            //    if (input != null) {
+            //        productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(input);
+            //    }
+
+
+            //}
+
         }
     }
 }

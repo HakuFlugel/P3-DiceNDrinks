@@ -52,7 +52,7 @@ namespace AdministratorPanel {
             
             Console.WriteLine("Din mor en bøgse");
 
-            GamePopupBox p = new GamePopupBox(null, game);
+            BaseGamePopupBox p = new BaseGamePopupBox(null, game);
             
             base.OnClick(e);
         }
