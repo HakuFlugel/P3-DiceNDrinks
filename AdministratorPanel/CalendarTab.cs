@@ -8,11 +8,11 @@ using System.IO;
 namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
         private Calendar calendar;
-        private List<Room> rooms;
-        public List<CalendarDay> calDayList = new List<CalendarDay>();
 
         public ReservationList reserveationList;
         public PendingReservationList pendingReservationList;
+
+        Event
 
         public CalendarTab() {
             Load();
@@ -78,6 +78,8 @@ namespace AdministratorPanel {
 
         }
 
+
+        // TODO: functions...
         public override void Save() {
             XmlSerializer serializer = new XmlSerializer(typeof(List<CalendarDay>));
             using (StreamWriter textWriter = new StreamWriter(@"Reservations.xml")) {
