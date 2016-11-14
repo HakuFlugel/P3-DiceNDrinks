@@ -16,7 +16,7 @@ using Xamarin.Android;
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation")]
-    public class ReservationActivity : Activity
+    public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
         public bool State = true; //checks if the user has made any changes
 
@@ -24,12 +24,12 @@ namespace AndroidAppV2.Activities
         {
 
             base.OnCreate(savedInstanceState);
-
-
             SetContentView(Resource.Layout.ReservationLayout);
             // Create your application here
-            //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
 
+
+            //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
+            SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             DateTime chosenDate = DateTime.Now;
             TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.button1);
@@ -61,6 +61,9 @@ namespace AndroidAppV2.Activities
                 dateDisplay.Text = chosenDate.ToLongDateString() + " " + chosenDate.ToLongTimeString();
             };
 
+            sb.Max = 20;
+            sb.SetOnSeekBarChangeListener(this);
+
         }
 
         private void SendData(DateTime datetime)
@@ -88,6 +91,25 @@ namespace AndroidAppV2.Activities
             }
             else
             base.OnBackPressed();
+        }
+
+        public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
+        {
+            if (fromUser)
+            {
+                FindViewById<TextView>(Resource.Id.textView2).Text = $"{seekBar.Progress}";
+                System.Diagnostics.Debug.WriteLine($"seekbar progress: {seekBar.Progress}");
+            }
+        }
+
+        public void OnStartTrackingTouch(SeekBar seekBar)
+        {
+            System.Diagnostics.Debug.WriteLine("Tracking changes.");
+        }
+
+        public void OnStopTrackingTouch(SeekBar seekBar)
+        {
+            System.Diagnostics.Debug.WriteLine("Stopped tracking changes.");
         }
     }
     

@@ -2657,6 +2657,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070067
 			public const int search_voice_btn = 2131165287;
 			
+			// aapt resource value: 0x7f0700b4
+			public const int seekBar1 = 2131165364;
+			
 			// aapt resource value: 0x7f070068
 			public const int select_dialog_listview = 2131165288;
 			

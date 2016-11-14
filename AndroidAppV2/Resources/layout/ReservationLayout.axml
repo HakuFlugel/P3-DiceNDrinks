@@ -38,5 +38,19 @@
             p1:layout_below="@id/textView1"
             p1:id="@+id/button3"
             p1:layout_centerHorizontal="true" />
+        <SeekBar
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/button3"
+            p1:id="@+id/seekBar1"
+            p1:layout_centerHorizontal="true" />
+        <TextView
+            p1:text="Medium Text"
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/seekBar1"
+            p1:id="@+id/textView2"
+            p1:layout_centerHorizontal="true" />
     </RelativeLayout>
 </FrameLayout>
