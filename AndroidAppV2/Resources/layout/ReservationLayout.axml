@@ -22,15 +22,15 @@
             p1:text="Date"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:id="@+id/button1"
-            p1:layout_centerInParent="true" />
+            p1:id="@+id/dateButton"
+            p1:layout_centerInParent="true"
+            p1:layout_alignParentLeft="true" />
         <Button
             p1:text="Time"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:layout_below="@id/button1"
-            p1:id="@+id/button2"
-            p1:layout_centerHorizontal="true" />
+            p1:layout_below="@id/dateButton"
+            p1:id="@+id/timeButton" />
         <Button
             p1:text="Update"
             p1:layout_width="wrap_content"
@@ -52,5 +52,21 @@
             p1:layout_below="@id/seekBar1"
             p1:id="@+id/textView2"
             p1:layout_centerHorizontal="true" />
+        <TextView
+            p1:text="Something about the date"
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/dateText"
+            p1:layout_toRightOf="@id/dateButton"
+            p1:layout_alignBaseline="@id/dateButton" />
+        <TextView
+            p1:text="Something about the time"
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_toRightOf="@id/timeButton"
+            p1:id="@+id/timeText"
+            p1:layout_alignBaseline="@id/timeButton" />
     </RelativeLayout>
 </FrameLayout>

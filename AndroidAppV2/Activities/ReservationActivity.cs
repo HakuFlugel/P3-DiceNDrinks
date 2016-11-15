@@ -32,8 +32,8 @@ namespace AndroidAppV2.Activities
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             DateTime chosenDateTime = DateTime.Now;
             TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
-            Button dateSelectButton = FindViewById<Button>(Resource.Id.button1);
-            Button timeSelectButton = FindViewById<Button>(Resource.Id.button2);
+            Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
+            Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button updateButton = FindViewById<Button>(Resource.Id.button3);
 
             dateSelectButton.Click += delegate
