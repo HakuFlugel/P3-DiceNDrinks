@@ -36,77 +36,29 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="BaseGamePopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Calendar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CalendarTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EventItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EventList.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EventPopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EventsTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GamePopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="EventsTab\EventItem.cs" />
+    <Compile Include="EventsTab\EventList.cs" />
+    <Compile Include="EventsTab\EventPopupBox.cs" />
+    <Compile Include="EventsTab\EventsTab.cs" />
     <Compile Include="FancyPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GamesTab\BaseGamePopupBox.cs" />
+    <Compile Include="GamesTab\GamePopupBox.cs" />
+    <Compile Include="GamesTab\GamesItem.cs" />
+    <Compile Include="GamesTab\GamesList.cs" />
+    <Compile Include="GamesTab\GamesTab.cs" />
     <Compile Include="NiceTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PendingReservationItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GamesTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PendingReservationList.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PriceElementPopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProductCategoryTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProductItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProductPopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ProductSectionItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProductsTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="ProductsTab\PriceElementPopupBox.cs" />
+    <Compile Include="ProductsTab\ProductCategoryTab.cs" />
+    <Compile Include="ProductsTab\ProductItem.cs" />
+    <Compile Include="ProductsTab\ProductPopupBox.cs" />
+    <Compile Include="ProductsTab\ProductSectionItem.cs" />
+    <Compile Include="ProductsTab\ProductsTab.cs" />
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GamesItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ReservationItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GamesList.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ReservationList.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="NiceButton.cs">
       <SubType>Component</SubType>
@@ -114,9 +66,13 @@
     <Compile Include="AdminTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReservationPopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ReservationsTab\Calendar.cs" />
+    <Compile Include="ReservationsTab\CalendarTab.cs" />
+    <Compile Include="ReservationsTab\PendingReservationItem.cs" />
+    <Compile Include="ReservationsTab\PendingReservationList.cs" />
+    <Compile Include="ReservationsTab\ReservationItem.cs" />
+    <Compile Include="ReservationsTab\ReservationList.cs" />
+    <Compile Include="ReservationsTab\ReservationPopupBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -144,9 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
