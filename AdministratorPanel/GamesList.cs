@@ -15,12 +15,13 @@ namespace AdministratorPanel
             this.games = games;
 
             makeItems(seach);
-            
             Dock = DockStyle.Fill;
+
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
-            
+
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+
             AutoSize = false;
             AutoScroll = true;
             //VScroll = true;

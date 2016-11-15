@@ -11,7 +11,7 @@ namespace AdministratorPanel {
 
         
         public List<Game> games;
-        GamesList game;
+        GamesList game;.
         public Action<string> UserSearchText { get; set; }
         string seach ="";
 
@@ -51,9 +51,12 @@ namespace AdministratorPanel {
 
         public GamesTab() {
 
-            Text = "Games";
-            
             Load();
+            game = new GamesList(seach, games);
+            Text = "Games";
+            //foreach (var item in games)
+            //    Console.WriteLine(item.name);
+
             //CreateGamesForDebugShit(); // For testing purpose only
 
             AutoSize = true;
@@ -70,10 +73,12 @@ namespace AdministratorPanel {
                 
                 update();
             };
+
+
             addGameButton.Click += (e, s) => {
                 BaseGamePopupBox gameBox = new BaseGamePopupBox(this, null);
             };
-            update();
+            
             tb.Controls.Add(game);
             Controls.Add(tb);
             Controls.Add(tbtb);
@@ -84,7 +89,8 @@ namespace AdministratorPanel {
         private void update() {
 
             seachBar.Text = seach;
-            game = new GamesList(seach, games);
+            game.Controls.Clear();
+            game.makeItems(seach);
             
             
         }
