@@ -63,9 +63,10 @@ namespace Shared
             sb.AppendLine();
 
             sb.AppendLine("genre");
-            foreach (var item in genre) {
-                sb.AppendLine(item);
-            }
+            if(genre != null)
+                foreach (var item in genre) {
+                    sb.AppendLine(item);
+                }
             sb.AppendLine();
             sb.AppendLine("decription = " + description);
             sb.AppendLine();

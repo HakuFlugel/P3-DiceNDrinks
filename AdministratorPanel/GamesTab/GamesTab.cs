@@ -44,11 +44,7 @@ namespace AdministratorPanel {
             Margin = new Padding(20, 5, 20, 5),
         };
         
-
-
-
-
-
+        
         public GamesTab() {
 
             Load();
@@ -76,7 +72,7 @@ namespace AdministratorPanel {
 
 
             addGameButton.Click += (e, s) => {
-                BaseGamePopupBox gameBox = new BaseGamePopupBox(this, null);
+                GamePopupBox gameBox = new GamePopupBox(this, null);
             };
             
             tb.Controls.Add(game);
@@ -91,8 +87,6 @@ namespace AdministratorPanel {
             seachBar.Text = seach;
             game.Controls.Clear();
             game.makeItems(seach);
-            
-            
         }
 
 

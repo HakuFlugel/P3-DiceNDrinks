@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using Shared;
 
-namespace xmlFormater {
+namespace AdministratorPanel {
     class Xml {
         string search = "http://geekdo.com/xmlapi/search?search=";
         string searchend = "&exact=1";
@@ -16,7 +16,6 @@ namespace xmlFormater {
         
         public Xml() {
             
-
         }
         
         List<Game> getGames(string ind) {

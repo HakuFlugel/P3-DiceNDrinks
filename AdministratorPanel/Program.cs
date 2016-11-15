@@ -10,9 +10,6 @@ namespace AdministratorPanel {
 
         public Program() {
             
-  
-            //AutoSize = true;
-            //AutoSizeMode = AutoSizeMode.GrowOnly;
             AutoScaleMode = AutoScaleMode.Dpi;
 
             MinimumSize = new Size(960, 540);

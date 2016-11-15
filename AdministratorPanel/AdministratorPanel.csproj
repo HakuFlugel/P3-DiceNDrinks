@@ -51,9 +51,6 @@
     <Compile Include="FancyPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GamesTab\BaseGamePopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="GamesTab\GamePopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
