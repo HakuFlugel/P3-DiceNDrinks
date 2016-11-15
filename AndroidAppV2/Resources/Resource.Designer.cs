@@ -26,7 +26,6 @@ namespace AndroidAppV2
 		
 		public static void UpdateIdValues()
 		{
-			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::AndroidAppV2.Resource.Attribute.actionBarSize;
 		}
 		
 		public partial class Animation

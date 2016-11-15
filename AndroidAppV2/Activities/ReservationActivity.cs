@@ -30,7 +30,7 @@ namespace AndroidAppV2.Activities
 
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
-            DateTime chosenDate = DateTime.Now;
+            DateTime chosenDateTime = DateTime.Now;
             TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.button1);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.button2);
@@ -40,7 +40,7 @@ namespace AndroidAppV2.Activities
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
-                    chosenDate = InsertDateTime(date, chosenDate);
+                    chosenDateTime = InsertDateTime(date, chosenDateTime);
                     State = false;
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
@@ -50,7 +50,7 @@ namespace AndroidAppV2.Activities
             {
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
-                    chosenDate = InsertDateTime(chosenDate,time);
+                    chosenDateTime = InsertDateTime(chosenDateTime,time);
                     State = false;
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
@@ -58,7 +58,7 @@ namespace AndroidAppV2.Activities
 
             updateButton.Click += delegate
             {
-                dateDisplay.Text = chosenDate.ToLongDateString() + " " + chosenDate.ToLongTimeString();
+                dateDisplay.Text = chosenDateTime.ToLongDateString() + " " + chosenDateTime.ToLongTimeString();
             };
 
             sb.Max = 20;
@@ -66,7 +66,7 @@ namespace AndroidAppV2.Activities
 
         }
 
-        private void SendData(DateTime datetime)
+        private void SendData(DateTime datetime, int paritcipants)
         {
             //todo: send reservation here
         }

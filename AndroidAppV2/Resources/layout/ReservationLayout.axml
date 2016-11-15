@@ -19,7 +19,7 @@
             p1:id="@+id/textView1"
             p1:layout_centerHorizontal="true" />
         <Button
-            p1:text="DATE"
+            p1:text="Date"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/button1"
@@ -45,7 +45,7 @@
             p1:id="@+id/seekBar1"
             p1:layout_centerHorizontal="true" />
         <TextView
-            p1:text="Medium Text"
+            p1:text="Invitees"
             p1:textAppearance="?android:attr/textAppearanceMedium"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
