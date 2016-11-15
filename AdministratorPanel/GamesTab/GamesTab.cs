@@ -11,7 +11,7 @@ namespace AdministratorPanel {
 
         
         public List<Game> games;
-        GamesList game;.
+        GamesList game;
         public Action<string> UserSearchText { get; set; }
         string seach ="";
 
