@@ -2734,6 +2734,12 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070020
 			public const int collapseActionView = 2131165216;
 			
+			// aapt resource value: 0x7f0700be
+			public const int commentEditText = 2131165374;
+			
+			// aapt resource value: 0x7f0700bd
+			public const int commentText = 2131165373;
+			
 			// aapt resource value: 0x7f07004d
 			public const int contentPanel = 2131165261;
 			
@@ -3553,6 +3559,12 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f080026
 			public const int abc_toolbar_collapse_description = 2131230758;
+			
+			// aapt resource value: 0x7f080046
+			public const int addCommentHint = 2131230790;
+			
+			// aapt resource value: 0x7f080045
+			public const int addComments = 2131230789;
 			
 			// aapt resource value: 0x7f080035
 			public const int appbar_scrolling_view_behavior = 2131230773;

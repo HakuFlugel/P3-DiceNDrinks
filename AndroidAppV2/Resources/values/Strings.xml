@@ -14,5 +14,7 @@
   <string name="mapButton">Find us</string>
   <string name="sort">Sort by...</string>
   <string name="exitReservation">Do you really want to exit? \nAll your progress will be lost.</string>
+  <string name="addComments">Additional Comments</string>
+  <string name="addCommentHint">Write here...</string>
 
 </resources>
