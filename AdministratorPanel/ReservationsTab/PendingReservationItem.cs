@@ -7,7 +7,7 @@ using System;
 namespace AdministratorPanel {
     public class PendingReservationItem : NiceButton {
 
-        public PendingReservationItem(Calendar cal, CalendarTab calTab, DateTime calDay, List<Reservation> resList) {
+        public PendingReservationItem(Calendar cal, ReservationTab calTab, DateTime calDay, List<Reservation> resList) {
             RowCount = 1;
             ColumnCount = 1;
             bgColor = Color.LightGray;
