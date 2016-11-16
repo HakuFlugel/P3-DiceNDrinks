@@ -26,6 +26,7 @@ namespace AdministratorPanel {
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
             Dock = DockStyle.Fill,
         };
+
         protected TableLayoutPanel header = new TableLayoutPanel() {
             RowCount = 1,
             ColumnCount = 2,
@@ -33,7 +34,6 @@ namespace AdministratorPanel {
             AutoSize = true,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         };
-
         
         NiceTextBox gameName = new NiceTextBox() {
             Width = 200,
@@ -95,25 +95,27 @@ namespace AdministratorPanel {
 
         ListView genreBox = new ListView() {
             View = View.Details,
-            // Allow the user to edit item text.
             LabelEdit = true,
-            // Allow the user to rearrange columns.
             AllowColumnReorder = true,
-            // Display check boxes.
             CheckBoxes = true,
-            // Select the item and subitems when selection is made.
             FullRowSelect = true,
-            // Display grid lines.  
             GridLines = true,
-            // Sort the items in the list in ascending order.
             Sorting = SortOrder.Ascending,
-            //sets bounds.
             Size = new Size(200, 200)
+        };
+
+        TrackBar gameDifficulty = new TrackBar() {
+            Size = new Size(195, 45),
+            Maximum = 100,
+            TickFrequency = 1,
+            LargeChange = 10,
+            SmallChange = 1,
         };
 
         private List<ListViewItem> genreItems = new List<ListViewItem>();
         public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
+        private Xml api = new Xml();
         private Game game;
         private Game b4EditingGame;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
@@ -126,17 +128,18 @@ namespace AdministratorPanel {
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
 
 
-            foreach(var item in differentGenres) {
+            foreach(var item in differentGenres) 
                 genreItems.Add(new ListViewItem { Name = item, Text = item});
-            }
+            
 
 
             genreBox.Items.AddRange(genreItems.ToArray());
 
             
             if (game != null) {
-                Console.WriteLine("not new game");
                 
+
+
                 b4EditingGame = game;
                 this.game = new Game(game);
 
@@ -146,7 +149,7 @@ namespace AdministratorPanel {
                 time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
                 //gameImage.BackgroundImage = Image.FromFile(this.game.thumbnail);
-
+                gameDifficulty.Value = game.difficulity;
 
                 foreach(ListViewItem item in genreItems )
                     item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
@@ -219,11 +222,16 @@ namespace AdministratorPanel {
 
             imageText.Click += OpenFileOpener;
 
+            gameDifficulty.Scroll +=(s,e) => { toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100"); };
             
+        }
 
-
-
-
+        private void toolTipControl() {
+            toolTip.SetToolTip(time, "minimum / maximum time. Should be written as" + Environment.NewLine + "min/max eg. 20/40");
+            toolTip.SetToolTip(players, "Minimum / maximum players. Should be written as" + Environment.NewLine + "min/max eg. 5/10");
+            toolTip.SetToolTip(gameName, "Game name");
+            toolTip.SetToolTip(gameDescription, "Game description");
+            
         }
 
         protected override Control CreateControls() {
@@ -247,7 +255,7 @@ namespace AdministratorPanel {
             generalInformaiton.Controls.Add(time);
             generalInformaiton.Controls.Add(players);
 
-            
+            rght.Controls.Add(gameDifficulty);
 
             rght.Controls.Add(generalInformaiton);
             rght.Controls.Add(genreBox);
@@ -334,6 +342,7 @@ namespace AdministratorPanel {
                 }
             }
         }
+
 
     }
 }

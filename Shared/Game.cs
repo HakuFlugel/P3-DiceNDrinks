@@ -14,19 +14,23 @@ namespace Shared
     {
         public Game() { }
         public Game(Game game) { //Copy constructor
-            bggid = game.bggid;
-            name = game.name;
-            description = game.description;
-            foreach (var item in game.genre)
-                genre.Add(item);
-            difficulity = game.difficulity;
-            publishedYear = game.publishedYear;
-            minPlayers = game.minPlayers;
-            maxPlayers = game.maxPlayers;
-            minPlayTime = game.minPlayTime;
-            maxPlayTime = game.maxPlayTime;
-            thumbnail = game.thumbnail;
-            imageName = game.imageName;
+            if (game != null) {
+                bggid = game.bggid;
+                name = game.name;
+                description = game.description;
+                if(game.genre != null)
+                foreach (var item in game.genre)
+                    genre.Add(item);
+                difficulity = game.difficulity;
+                publishedYear = game.publishedYear;
+                minPlayers = game.minPlayers;
+                maxPlayers = game.maxPlayers;
+                minPlayTime = game.minPlayTime;
+                maxPlayTime = game.maxPlayTime;
+                thumbnail = game.thumbnail;
+                imageName = game.imageName;
+            }
+                
         }
 
         public int id;
@@ -34,8 +38,8 @@ namespace Shared
 
         public string name;
         public string description;
-        public List<string> genre;
-        public int difficulity;
+        public List<string> genre = new List<string>();  
+        public int difficulity;             // 0 - 100 hvor 100 er svært og 0 er nemt.
         public int publishedYear;
 
         public int minPlayers, maxPlayers;
