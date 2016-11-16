@@ -34,8 +34,5 @@ namespace AdministratorPanel {
         protected override void delete(object sender, EventArgs e) {
             //delete game
         }
-
-       
-
     }
 }
