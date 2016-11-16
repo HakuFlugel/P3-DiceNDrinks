@@ -10,9 +10,9 @@ namespace AdministratorPanel
     public class ReservationList : TableLayoutPanel
     {
         private Calendar calendar;
-        private CalendarTab calTab;
+        private ReservationTab calTab;
 
-        public ReservationList(Calendar calendar, CalendarTab calTab)
+        public ReservationList(Calendar calendar, ReservationTab calTab)
         {
             this.calendar = calendar;
             this.calTab = calTab;

@@ -15,7 +15,7 @@ namespace AdministratorPanel
         public DateTime created;
         public bool pending;
 
-        public ReservationItem(CalendarTab calTab, Reservation res)
+        public ReservationItem(ReservationTab calTab, Reservation res)
         {
             name = res.name;
             email = res.email;

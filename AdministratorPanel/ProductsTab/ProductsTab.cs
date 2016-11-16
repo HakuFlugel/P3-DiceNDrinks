@@ -39,22 +39,26 @@ namespace AdministratorPanel {
                 p.Show();
             };
 
-            foreach (var item in productCategories) {
-                Console.WriteLine(item.name);
-            }
-
             flp.Controls.Add(addItemButton);
             flp.Controls.Add(tabControl);
            
             Controls.Add(flp);
         }
 
+        public Product prmake(string name, string image, string cat, string section, List<PriceElement> pl) {
+            Product pr = new Product();
+            pr.name = name;
+            pr.image = image;
+            pr.category = cat;
+            pr.section = section;
+            pr.PriceElements = pl;
+
+            return pr;
+        }
 
         public void Generate() {
-            Product product = new Product("Name of product", "Red.png");
             PriceElement priceElementLittle = new PriceElement();
-            product.category = "Food";
-            product.section = "Meat";
+
             priceElementLittle.name = "Little drink";
             priceElementLittle.price = 11;
 
@@ -62,20 +66,30 @@ namespace AdministratorPanel {
             priceElementBig.name = "Big drink";
             priceElementBig.price = 69;
 
-            product.PriceElements.Add(priceElementLittle);
-            product.PriceElements.Add(priceElementBig);
+            List<PriceElement> pricelist = new List<PriceElement>();
+            pricelist.Add(priceElementLittle);
+            pricelist.Add(priceElementBig);
 
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
-            productList.Add(product);
+
+            // food
+            productList.Add(prmake("Asger","Red.png","Food","Meat", pricelist));
+            productList.Add(prmake("shano", "_default.png", "Food", "Meat", pricelist));
+            productList.Add(prmake("matias", "Red.png", "Food", "derp", pricelist));
+
+
+            //drinks
+            productList.Add(prmake("1", "Red.png", "drinks", "cola 1", pricelist));
+            productList.Add(prmake("2", "Red.png", "drinks", "coffe 2", pricelist));
+            productList.Add(prmake("3", "Red.png", "drinks", "stuff", pricelist));
+            productList.Add(prmake("4", "Red.png", "drinks", "other", pricelist));
+
+            // mics
+
+            productList.Add(prmake("1", "Red.png", "mics", "1", pricelist));
+            productList.Add(prmake("2", "Red.png", "mics", "2", pricelist));
+            productList.Add(prmake("3", "Red.png", "mics", "3", pricelist));
+            productList.Add(prmake("4", "Red.png", "mics", "4", pricelist));
+
         }
         
         public void Update() {
@@ -83,62 +97,47 @@ namespace AdministratorPanel {
         }
 
         private void MakeItems() {
-            Controls.Clear();
+            tabControl.Controls.Clear();
             foreach (var item in productCategories) {
                 ProductCategoryTab category = new ProductCategoryTab(item);
                 tabControl.Controls.Add(category);
             }
 
             foreach (var item in productList) {
-                var categoryResult = tabControl.Controls.Find(item.category, false);
-                ProductCategoryTab categoryTab;
-                if (categoryResult.Count() == 0) {
-                    ProductCategory category = new ProductCategory(item.category);
-                    categoryTab = new ProductCategoryTab(new ProductCategory(item.category));
-                    tabControl.Controls.Add(categoryTab);
-                    productCategories.Add(category);
-                } else {
-                    categoryTab = categoryResult.First() as ProductCategoryTab;
+                //category
+                //TODO: put this stuff in a function
+                AddProductItem(new ProductItem(item, this));
 
-                }
-
-                var sectionResult = categoryTab.Controls.Find(item.section, false);
-                ProductSectionItem section;
-                if (sectionResult.Count() == 0) {
-                    section = new ProductSectionItem(item.section);
-                    categoryTab.Controls.Add(section);
-                } else {
-                    section = sectionResult.First() as ProductSectionItem;
-                }
-                section.AddItem(new ProductItem(item, this));
-            }
-
-            foreach (var item in productCategories) {
-                Console.WriteLine(item.name);
             }
         }
 
-        private List<Product> productlist() {
-            List<Product> productList = new List<Product>();
-            Product tempProduct = new Product("Name of product", "Red.png");
+        public void AddProductItem(ProductItem item) {
+            var categoryResult = tabControl.Controls.Find(item.product.category, false);
+            ProductCategoryTab categoryTab;
 
-            PriceElement priceElementLittle = new PriceElement();
-            priceElementLittle.name = "Little drink";
-            priceElementLittle.price = 68;
-
-            PriceElement priceElementBig = new PriceElement();
-            priceElementBig.name = "Big drink";
-            priceElementBig.price = 69;
-
-
-            tempProduct.PriceElements.Add(priceElementLittle);
-            tempProduct.PriceElements.Add(priceElementBig);
-
-            for (int i = 0; i < 10; i++) {
-                productList.Add(tempProduct);
+            if (categoryResult.Count() == 0) {
+                ProductCategory category = new ProductCategory(item.product.category);
+                categoryTab = new ProductCategoryTab(category);
+                tabControl.Controls.Add(categoryTab);
+                productCategories.Add(category);
+            } else {
+                categoryTab = categoryResult.First() as ProductCategoryTab;
             }
 
-            return productList;
+            //section
+            var sectionResult = categoryTab.table.Controls.Find(item.product.section, false);
+            ProductSectionItem section;
+
+            if (sectionResult.Count() == 0) {
+                section = new ProductSectionItem(item.product.section);
+                categoryTab.category.sections.Add(section.Name);
+                categoryTab.table.Controls.Add(section);
+
+            } else {
+                section = sectionResult.First() as ProductSectionItem;
+            }
+
+            section.AddItem(item);
         }
 
         public override void Save() {
