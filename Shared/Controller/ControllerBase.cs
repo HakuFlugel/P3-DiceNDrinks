@@ -1,9 +1,12 @@
-﻿namespace Shared
+﻿
+namespace Shared
 {
     public abstract class ControllerBase
     {
-        public abstract void Save();
 
-        public abstract void Load();
+        public abstract void save();
+        public abstract void load();
+
+
     }
 }

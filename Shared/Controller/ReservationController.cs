@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Shared
 {
-    public class ReservationController
+    public class ReservationController : ControllerBase
     {
+        JsonSerializer jsonSerializer = JsonSerializer.Create();
+
         private List<Room> rooms;
-        public List<CalendarDay> calDayList = new List<CalendarDay>();
-
-
+        public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
         public event EventHandler<AddReservationEventArgs> ReservationAdded;
         public class AddReservationEventArgs
@@ -33,7 +35,7 @@ namespace Shared
             {
             }
 
-            public UpdateReservationEventArgs(Reservation oldReservation, Reservation reservation1, bool hasMoved)
+            public UpdateReservationEventArgs(Reservation oldReservation, Reservation reservation, bool hasMoved)
             {
                 this.oldReservation = oldReservation;
                 this.reservation = reservation;
@@ -41,31 +43,13 @@ namespace Shared
             }
         }
 
-        public string asJSon()
-        {
-            return null;
-        }
 
-        private Random rand = new Random();
-        public int getRandomID()
-        {
-            int id;
-
-            do id = rand.Next(); while (calDayList.Any(cdl => cdl.reservations.Exists(res => res.id == id)));
-
-            return id;
-
-        }
 
         public void addReservation(Reservation reservation)
         {
             reservation.id = getRandomID();
 
-            //CalendarDay resDay = calDayList.First(o => o.theDay == reservation.time);
-
-            //resDay.reservations.Add(reservation);
             addToDay(reservation);
-
 
             ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
 
@@ -82,7 +66,7 @@ namespace Shared
             }
             else
             {
-                CalendarDay resDay = calDayList.First(o => o.theDay == reservation.time.Date);
+                CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
 
                 resDay.reservations[resDay.reservations.IndexOf(oldReservation)] = reservation;
             }
@@ -92,13 +76,24 @@ namespace Shared
 
         }
 
+        private Random rand = new Random();
+        public int getRandomID()
+        {
+            int id;
+
+            do id = rand.Next(); while (reservationsCalendar.Any(cdl => cdl.reservations.Exists(res => res.id == id)));
+
+            return id;
+
+        }
+
         public void addToDay(Reservation reservation)
         {
-            CalendarDay resDay = calDayList.FirstOrDefault(o => o.theDay == reservation.time.Date);
+            CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay == reservation.time.Date);
             if (resDay == null)
             {
                 resDay = new CalendarDay() {theDay = reservation.time.Date};
-                calDayList.Add(resDay);
+                reservationsCalendar.Add(resDay);
             }
 
             resDay.reservations.Add(reservation);
@@ -107,8 +102,23 @@ namespace Shared
 
         public void removeFromDay(Reservation reservation)
         {
-            CalendarDay resDay = calDayList.First(o => o.theDay == reservation.time.Date);
+            CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);
+        }
+
+        public override void save()
+        {
+            Directory.CreateDirectory("data");
+            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("data/reservationsCalendar.json")), reservationsCalendar);
+            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("data/rooms.json")), rooms);
+        }
+
+        public override void load()
+        {
+            Directory.CreateDirectory("data");
+            reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(new JsonTextReader(new StreamReader("data/reservationsCalendar.json")));
+            rooms = jsonSerializer.Deserialize<List<Room>>(new JsonTextReader(new StreamReader("data/rooms.json")));
+
         }
 
     }

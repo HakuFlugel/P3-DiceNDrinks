@@ -6,6 +6,9 @@ using System.Linq;
 using Newtonsoft.Json;
 using Shared;
 
+// In case we use Application['string'] to store loaded data, remember to lock and unlock before modifying it...
+
+
 namespace Server
 {
     public class Server : System.Web.UI.Page
