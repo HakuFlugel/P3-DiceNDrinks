@@ -24,6 +24,7 @@ namespace AndroidAppV2
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Main);
+            //DO NOT WRITE CODE ABOVE THIS LINE
 
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {

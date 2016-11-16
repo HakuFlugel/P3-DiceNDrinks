@@ -54,7 +54,7 @@ namespace AndroidAppV2.Activities
             };
         }
 
-        List<Product> getProducts(string section)
+        List<Product> getProducts(string category)
         {
             List<Product> list = new List<Product>();
 
