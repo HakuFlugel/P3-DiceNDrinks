@@ -15,7 +15,26 @@ using System.Media;
 namespace AdministratorPanel {
 
     class GamePopupBox : FancyPopupBox {
+        protected TableLayoutPanel lft = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            Dock = DockStyle.Fill
+        };
 
+        protected TableLayoutPanel rgt = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            Dock = DockStyle.Fill,
+        };
+        protected TableLayoutPanel header = new TableLayoutPanel() {
+            RowCount = 1,
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+
+        
         NiceTextBox gameName = new NiceTextBox() {
             Width = 200,
             waterMark = "Game name",
@@ -29,6 +48,7 @@ namespace AdministratorPanel {
             ShowAlways = true
 
         };
+
         NiceTextBox gameDescription = new NiceTextBox() {
             Width = 200,
             Height = 100,
@@ -50,6 +70,7 @@ namespace AdministratorPanel {
             Width = 50,
             Margin = new Padding(5, 0, 0, 20),
         };
+
         Panel gameImage = new Panel() {
             Width = 200,
             Height = 200,
@@ -64,6 +85,7 @@ namespace AdministratorPanel {
             Width = 95,
             Margin = new Padding(0, 0, 0, 20)
         };
+
         NiceTextBox players = new NiceTextBox() {
             Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
             waterMark = "min / max time",
@@ -81,17 +103,15 @@ namespace AdministratorPanel {
             CheckBoxes = true,
             // Select the item and subitems when selection is made.
             FullRowSelect = true,
-            // Display grid lines.
-            
-            
+            // Display grid lines.  
             GridLines = true,
             // Sort the items in the list in ascending order.
             Sorting = SortOrder.Ascending,
             //sets bounds.
             Size = new Size(200, 200)
         };
+
         private List<ListViewItem> genreItems = new List<ListViewItem>();
-        
         public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
         private Game game;
@@ -100,10 +120,7 @@ namespace AdministratorPanel {
         private Image image;
         
         public GamePopupBox(GamesTab gametab, Game game) {
-            Size = new Size(1000,700);
-            SubscriptionList();
-
-
+            Size = new Size(500,700);
 
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
@@ -117,7 +134,8 @@ namespace AdministratorPanel {
             genreBox.Items.AddRange(genreItems.ToArray());
 
             
-            if (this.game != null) {
+            if (game != null) {
+                Console.WriteLine("not new game");
                 
                 b4EditingGame = game;
                 this.game = new Game(game);
@@ -125,8 +143,10 @@ namespace AdministratorPanel {
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
 
-                time.Text = this.game.minPlayers.ToString() + "/" + this.game.maxPlayers.ToString();
-                players.Text = this.game.minPlayTime.ToString() + "/" + this.game.maxPlayTime.ToString(); 
+                time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
+                players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
+                //gameImage.BackgroundImage = Image.FromFile(this.game.thumbnail);
+
 
                 foreach(ListViewItem item in genreItems )
                     item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
@@ -136,6 +156,7 @@ namespace AdministratorPanel {
                 Console.WriteLine(this.game.ToString());
                 Controls.Find("delete", true).First().Enabled = false;
             }
+            
 
             /* 
              * Checks if there has been any changes in the game, if there is any changes,
@@ -146,7 +167,7 @@ namespace AdministratorPanel {
 
 
             Show();
-            
+            SubscriptionList();
         }
 
         
@@ -206,12 +227,7 @@ namespace AdministratorPanel {
         }
 
         protected override Control CreateControls() {
-            TableLayoutPanel header = new TableLayoutPanel();
-            header.RowCount = 1;
-            header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
-            header.AutoSize = true;
-            header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            
 
             Controls.Add(header);
 
@@ -248,15 +264,12 @@ namespace AdministratorPanel {
 
             rght.Controls.Add(gameImage);
 
-            TableLayoutPanel lft = new TableLayoutPanel();
-            lft.ColumnCount = 1;
-            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
+            
 
             
 
             header.Controls.Add(rght);
-            header.Controls.Add(lft);
+            
             return header;
         }
 
@@ -268,9 +281,12 @@ namespace AdministratorPanel {
                 b4EditingGame = game;
             }
                 
-            else
-                //create game.
-
+            else {
+                gametab.games.Add(game);
+            }
+            //create game.
+            hasBeenChanged = false;
+            
             base.save(sender, e);
         }
 

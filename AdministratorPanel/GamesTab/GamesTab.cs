@@ -3,98 +3,118 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Shared;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace AdministratorPanel {
     public class GamesTab : AdminTabPage {
 
         
-        List<Game> games;
+        public List<Game> games;
+        GamesList game;
         public Action<string> UserSearchText { get; set; }
         string seach ="";
-        
 
+        TableLayoutPanel tb = new TableLayoutPanel() {
+            ColumnCount = 1,
+            RowCount = 2,
+            Dock = DockStyle.Fill,
+            
+        };
+        TableLayoutPanel tbtb = new TableLayoutPanel() {
+            ColumnCount = 2,
+            AutoSize = true,
+            RowCount = 1,
+            Dock = DockStyle.Top,
+            
+        };
+
+        Button addGameButton = new Button() {
+            Size = new Size(100, 20),
+            Dock = DockStyle.Right,
+            Text = "Add Game",
+        };
+
+        NiceTextBox seachBar = new NiceTextBox() {
+            
+            waterMark = "Type something to seach..",
+            clearable = true,
+            MinimumSize = new Size(200, 0),
+
+            Margin = new Padding(20, 5, 20, 5),
+        };
+        
+        
         public GamesTab() {
 
+            Load();
+            game = new GamesList(seach, games);
             Text = "Games";
-            CreateGamesForDebugShit();// For testing purpose only
+            //foreach (var item in games)
+            //    Console.WriteLine(item.name);
 
-            update();
-        }
+            //CreateGamesForDebugShit(); // For testing purpose only
 
-        private void update() {
-            Controls.Clear();
-            
             AutoSize = true;
             Dock = DockStyle.Fill;
             BackColor = Color.AliceBlue;
-            Panel top = new Panel();
-            top.Dock = DockStyle.Top;
 
-            Controls.Add(allControls());
-        }
-
-        private TableLayoutPanel allControls() {
-            TableLayoutPanel tb = new TableLayoutPanel();
-            tb.ColumnCount = 1;
-            tb.RowCount = 3;
-            
-            tb.Dock = DockStyle.Fill;
-            TableLayoutPanel tbtb = new TableLayoutPanel();
-            tbtb.ColumnCount = 2;
-            tbtb.AutoSize = true;
-            tbtb.RowCount = 1;
-            tbtb.Dock = DockStyle.Top;
-            tbtb.Controls.Add(gibSeachBar());
-            
-
-            Button addGameButton = new Button();
-            addGameButton.Size = new Size(100, 20);
-            addGameButton.Dock = DockStyle.Right;
-            addGameButton.Click += (e, s) => { GamePopupBox gameBox = new GamePopupBox(this,null);  };
-            addGameButton.Text = "Add Game";
-
-            tbtb.Controls.Add(addGameButton);
-
-            tb.Controls.Add(tbtb);
-            GamesList game = new GamesList(seach, games);
-            tb.Controls.Add(game);
-
-
-
-
-            return tb;
-        }
-
-
-
-        private Control gibSeachBar() {
-            NiceTextBox seachBar = new NiceTextBox();
-            seachBar.Text = seach;
-            seachBar.waterMark = "Type something to seach..";
-            seachBar.clearable = true;
-            seachBar.MinimumSize = new Size(200,0);
-
-            seachBar.Margin = new Padding(20, 5, 20, 5);
             seachBar.KeyPress += (sender, e) => {
-                
+
                 if (e.KeyChar != (char)13) {
                     return;
                 }
+                
                 seach = seachBar.Text.ToLower();
+                
                 update();
             };
-            return seachBar;
+
+
+            addGameButton.Click += (e, s) => {
+                GamePopupBox gameBox = new GamePopupBox(this, null);
+            };
+            
+            tb.Controls.Add(game);
+            Controls.Add(tb);
+            Controls.Add(tbtb);
+            tbtb.Controls.Add(seachBar);
+            tbtb.Controls.Add(addGameButton);
+        }
+
+        private void update() {
+
+            seachBar.Text = seach;
+            game.Controls.Clear();
+            game.makeItems(seach);
         }
 
 
              
         public override void Save() {
-            
-            //throw new NotImplementedException();
+            var json = JsonConvert.SerializeObject(games);
+            if (!File.Exists(@"Sources/Games.json"))
+                File.Create(@"Sources/Games.json");
+
+            using (StreamWriter textWriter = new StreamWriter(@"Sources/Games.json")) {
+                foreach (var item in json) {
+                    textWriter.Write(item.ToString());
+                }
+            }
         }
 
         public override void Load() {
-            //throw new NotImplementedException();
+            string input;
+            if (File.Exists(@"Sources/Games.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Games.json")) {
+                    input = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
+                if (input != null) {
+                    games = JsonConvert.DeserializeObject<List<Game>>(input);
+                    
+                }
+            }
         }
 
 

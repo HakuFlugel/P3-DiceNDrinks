@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using System.IO;
 
 namespace AdministratorPanel {
-    public class CalendarTab : AdminTabPage {
+    public class ReservationTab : AdminTabPage {
         private Calendar calendar;
         private List<Room> rooms;
         public List<CalendarDay> calDayList = new List<CalendarDay>();
@@ -14,7 +14,7 @@ namespace AdministratorPanel {
         public ReservationList reserveationList;
         public PendingReservationList pendingReservationList;
 
-        public CalendarTab() {
+        public ReservationTab() {
             Load();
             //Random rand = new Random(100);
             //CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>(), theDay = DateTime.Now.Date };
@@ -26,7 +26,7 @@ namespace AdministratorPanel {
             //}
             //calDay.Add(test);
 
-            Text = "Calendar";
+            Text = "Reservations";
 
             TableLayoutPanel outerTable = new TableLayoutPanel();
             outerTable.Dock = DockStyle.Fill;

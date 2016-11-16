@@ -36,74 +36,56 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Calendar.cs">
+    <Compile Include="EventsTab\EventItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CalendarTab.cs">
+    <Compile Include="EventsTab\EventList.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="EventItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EventList.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="EventPopupBox.cs">
+    <Compile Include="EventsTab\EventPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EventsTab.cs">
+    <Compile Include="EventsTab\EventsTab.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GamePopupBox.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="FancyPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GamesTab\GamePopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GamesTab\GamesItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GamesTab\GamesList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GamesTab\GamesTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="NiceTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PendingReservationItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GamesTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PendingReservationList.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PriceElementPopupBox.cs">
+    <Compile Include="ProductsTab\PriceElementPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductCategoryTab.cs">
+    <Compile Include="ProductsTab\ProductCategoryTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProductItem.cs">
+    <Compile Include="ProductsTab\ProductItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProductPopupBox.cs">
+    <Compile Include="ProductsTab\ProductPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProductSectionItem.cs">
+    <Compile Include="ProductsTab\ProductSectionItem.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProductsTab.cs">
+    <Compile Include="ProductsTab\ProductsTab.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GamesItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ReservationItem.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="GamesList.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ReservationList.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="NiceButton.cs">
       <SubType>Component</SubType>
@@ -111,9 +93,28 @@
     <Compile Include="AdminTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReservationPopupBox.cs">
+    <Compile Include="ReservationsTab\Calendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationsTab\ReservationTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationsTab\PendingReservationItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationsTab\PendingReservationList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationsTab\ReservationItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationsTab\ReservationList.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ReservationsTab\ReservationPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GamesTab\Xml.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
