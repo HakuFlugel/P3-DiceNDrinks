@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<resources>
+  <string name="button1">Hello World!</string>
+  <string name="exit">Do you really want to exit?</string>
+  <string name="yes">Yes</string>
+  <string name="no">No</string>
+  <string name="foodButton">Food</string>
+  <string name="drinkButton">Drinks</string>
+  <string name="miscButton">Misc.</string>
+  <string name="playerButton">Players</string>
+  <string name="difficultyButton">Difficulty</string>
+  <string name="gametimeButton">Time</string>
+  <string name="mapButton">Find us</string>
+
+</resources>

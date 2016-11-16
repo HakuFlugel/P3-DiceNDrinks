@@ -17,7 +17,7 @@ namespace Server
         private List<Game> games;
         private List<Event> events;
 
-        private List<Reservation> reservations;
+        private List<Reservation> reservations; // TODO: change to calendarday
 
         JsonSerializer jsonSerializer = JsonSerializer.Create();
 
@@ -94,6 +94,14 @@ namespace Server
 
         }
 
+        private void deleteGame(int id)
+        {
+            games.RemoveAll(o => o.id == id);
+            // TODO: remove empty genres? maybe?
+            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("games.json")), games);
+
+        }
+
 
 //TODO: expired events?
         private string getEvents()
@@ -120,6 +128,13 @@ namespace Server
 
         }
 
+        private void deleteEvent(int id)
+        {
+            events.RemoveAll(o => o.id == id);
+            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("events.json")), games);
+
+        }
+
         private string getReservations()
         {
             return JsonConvert.SerializeObject(reservations);
@@ -135,6 +150,7 @@ namespace Server
         private void submitReservation(string json)
         {
             //TODO: has to validate somewhere serverside in case it's from a user
+            //TODO: maybe a seperate one for customer side
             Reservation submittedReservation = JsonConvert.DeserializeObject<Reservation>(json);
             int targetindex = reservations.FindIndex(o => o.id == submittedReservation.id);
 
@@ -149,6 +165,15 @@ namespace Server
 
             jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("reservations.json")), reservations);
 
+
+        }
+
+        private void deleteReservation(int id)
+        {
+            reservations.RemoveAll(o => o.id == id);
+            // TODO: effect on calendarday
+            // TODO: any other effects
+            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("events.json")), games);
 
         }
 
