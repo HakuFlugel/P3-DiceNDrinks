@@ -15,12 +15,13 @@ namespace AdministratorPanel
             this.games = games;
 
             makeItems(seach);
-            
             Dock = DockStyle.Fill;
+
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
-            
+
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+
             AutoSize = false;
             AutoScroll = true;
             //VScroll = true;
@@ -29,12 +30,12 @@ namespace AdministratorPanel
         public void makeItems(string seach)
         {
             Controls.Clear();
+            if (games != null)
+                foreach (var res in games.Where((Game gam) => (gam.name.ToLower().Contains(seach)))) {
+                    GamesItem gameitem = new GamesItem(res);
 
-            foreach (var res in games.Where((Game gam) => (gam.name.ToLower().Contains(seach)) /*|| (seach.StartsWith("bggid: ")? gam.bggid.ToLower().Contains(seach.Substring(4,seach.Length-1)) : false  )*/)) {
-                GamesItem gameitem = new GamesItem(res);
-
-                Controls.Add(gameitem);
-            }
+                    Controls.Add(gameitem);
+                }
         }
     }
 }

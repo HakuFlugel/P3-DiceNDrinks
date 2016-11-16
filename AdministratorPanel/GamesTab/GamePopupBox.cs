@@ -15,7 +15,26 @@ using System.Media;
 namespace AdministratorPanel {
 
     class GamePopupBox : FancyPopupBox {
+        protected TableLayoutPanel lft = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            Dock = DockStyle.Fill
+        };
 
+        protected TableLayoutPanel rgt = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            Dock = DockStyle.Fill,
+        };
+
+        protected TableLayoutPanel header = new TableLayoutPanel() {
+            RowCount = 1,
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+        
         NiceTextBox gameName = new NiceTextBox() {
             Width = 200,
             waterMark = "Game name",
@@ -29,6 +48,7 @@ namespace AdministratorPanel {
             ShowAlways = true
 
         };
+
         NiceTextBox gameDescription = new NiceTextBox() {
             Width = 200,
             Height = 100,
@@ -50,6 +70,7 @@ namespace AdministratorPanel {
             Width = 50,
             Margin = new Padding(5, 0, 0, 20),
         };
+
         Panel gameImage = new Panel() {
             Width = 200,
             Height = 200,
@@ -64,6 +85,7 @@ namespace AdministratorPanel {
             Width = 95,
             Margin = new Padding(0, 0, 0, 20)
         };
+
         NiceTextBox players = new NiceTextBox() {
             Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
             waterMark = "min / max time",
@@ -73,60 +95,61 @@ namespace AdministratorPanel {
 
         ListView genreBox = new ListView() {
             View = View.Details,
-            // Allow the user to edit item text.
             LabelEdit = true,
-            // Allow the user to rearrange columns.
             AllowColumnReorder = true,
-            // Display check boxes.
             CheckBoxes = true,
-            // Select the item and subitems when selection is made.
             FullRowSelect = true,
-            // Display grid lines.
-            
-            
             GridLines = true,
-            // Sort the items in the list in ascending order.
             Sorting = SortOrder.Ascending,
-            //sets bounds.
             Size = new Size(200, 200)
         };
+
+        TrackBar gameDifficulty = new TrackBar() {
+            Size = new Size(195, 45),
+            Maximum = 100,
+            TickFrequency = 1,
+            LargeChange = 10,
+            SmallChange = 1,
+        };
+
         private List<ListViewItem> genreItems = new List<ListViewItem>();
-        
         public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
+        private Xml api = new Xml();
         private Game game;
         private Game b4EditingGame;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
         private Image image;
         
         public GamePopupBox(GamesTab gametab, Game game) {
-            Size = new Size(1000,700);
-            SubscriptionList();
-
-
+            Size = new Size(500,700);
 
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
 
 
-            foreach(var item in differentGenres) {
+            foreach(var item in differentGenres) 
                 genreItems.Add(new ListViewItem { Name = item, Text = item});
-            }
+            
 
 
             genreBox.Items.AddRange(genreItems.ToArray());
 
             
-            if (this.game != null) {
+            if (game != null) {
                 
+
+
                 b4EditingGame = game;
                 this.game = new Game(game);
 
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
 
-                time.Text = this.game.minPlayers.ToString() + "/" + this.game.maxPlayers.ToString();
-                players.Text = this.game.minPlayTime.ToString() + "/" + this.game.maxPlayTime.ToString(); 
+                time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
+                players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
+                //gameImage.BackgroundImage = Image.FromFile(this.game.thumbnail);
+                gameDifficulty.Value = game.difficulity;
 
                 foreach(ListViewItem item in genreItems )
                     item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
@@ -136,6 +159,7 @@ namespace AdministratorPanel {
                 Console.WriteLine(this.game.ToString());
                 Controls.Find("delete", true).First().Enabled = false;
             }
+            
 
             /* 
              * Checks if there has been any changes in the game, if there is any changes,
@@ -146,7 +170,7 @@ namespace AdministratorPanel {
 
 
             Show();
-            
+            SubscriptionList();
         }
 
         
@@ -198,20 +222,20 @@ namespace AdministratorPanel {
 
             imageText.Click += OpenFileOpener;
 
+            gameDifficulty.Scroll +=(s,e) => { toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100"); };
             
+        }
 
-
-
-
+        private void toolTipControl() {
+            toolTip.SetToolTip(time, "minimum / maximum time. Should be written as" + Environment.NewLine + "min/max eg. 20/40");
+            toolTip.SetToolTip(players, "Minimum / maximum players. Should be written as" + Environment.NewLine + "min/max eg. 5/10");
+            toolTip.SetToolTip(gameName, "Game name");
+            toolTip.SetToolTip(gameDescription, "Game description");
+            
         }
 
         protected override Control CreateControls() {
-            TableLayoutPanel header = new TableLayoutPanel();
-            header.RowCount = 1;
-            header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
-            header.AutoSize = true;
-            header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            
 
             Controls.Add(header);
 
@@ -231,7 +255,7 @@ namespace AdministratorPanel {
             generalInformaiton.Controls.Add(time);
             generalInformaiton.Controls.Add(players);
 
-            
+            rght.Controls.Add(gameDifficulty);
 
             rght.Controls.Add(generalInformaiton);
             rght.Controls.Add(genreBox);
@@ -248,15 +272,12 @@ namespace AdministratorPanel {
 
             rght.Controls.Add(gameImage);
 
-            TableLayoutPanel lft = new TableLayoutPanel();
-            lft.ColumnCount = 1;
-            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
+            
 
             
 
             header.Controls.Add(rght);
-            header.Controls.Add(lft);
+            
             return header;
         }
 
@@ -268,9 +289,12 @@ namespace AdministratorPanel {
                 b4EditingGame = game;
             }
                 
-            else
-                //create game.
-
+            else {
+                gametab.games.Add(game);
+            }
+            //create game.
+            hasBeenChanged = false;
+            
             base.save(sender, e);
         }
 
@@ -318,6 +342,7 @@ namespace AdministratorPanel {
                 }
             }
         }
+
 
     }
 }
