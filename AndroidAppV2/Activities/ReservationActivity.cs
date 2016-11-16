@@ -31,10 +31,13 @@ namespace AndroidAppV2.Activities
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             DateTime chosenDateTime = DateTime.Now;
-            TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
+            TextView updatedDisplay = FindViewById<TextView>(Resource.Id.textView1);
+            TextView dateText = FindViewById<TextView>(Resource.Id.dateText);
+            TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button updateButton = FindViewById<Button>(Resource.Id.button3);
+
 
             dateSelectButton.Click += delegate
             {
@@ -42,6 +45,7 @@ namespace AndroidAppV2.Activities
                 {
                     chosenDateTime = InsertDateTime(date, chosenDateTime);
                     State = false;
+                    dateText.Text = chosenDateTime.ToString("dd. MMMMM, yyyy");
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
@@ -58,7 +62,7 @@ namespace AndroidAppV2.Activities
 
             updateButton.Click += delegate
             {
-                dateDisplay.Text = chosenDateTime.ToLongDateString() + " " + chosenDateTime.ToLongTimeString();
+                updatedDisplay.Text = chosenDateTime.ToLongDateString() + " " + chosenDateTime.ToLongTimeString();
             };
 
             sb.Max = 20;
