@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Shared;
+using AndroidAppV2.LabeledSections;
 
 
 namespace AndroidAppV2.Activities
