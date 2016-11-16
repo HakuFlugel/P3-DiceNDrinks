@@ -29,13 +29,6 @@ namespace AdministratorPanel {
             Text = "Section Name",
         };
 
-        Button priceElementBox = new Button() {
-            Width = 80,
-            Height = 20,
-            AutoSize = true,
-            Text = "Add Price",
-        };
-
         Panel productImage = new Panel() {
             Width = 150,
             Height = 150,
@@ -55,36 +48,45 @@ namespace AdministratorPanel {
         
 
         private ProductsTab productTab;
-        private Product product;
+        private ProductItem productItem;
         private DataTable dataTable = new DataTable();
         private Image image;
         private string imageName = "_default.png";
 
         public ProductPopupBox() { }
 
-        public ProductPopupBox(ProductsTab productTab, Product product = null) {
+        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
             this.productTab = productTab;
-            this.product = product;
+            this.productItem = productItem;
 
+            Focus();
 
-            if (this.product != null) {
-                productName.Text = this.product.name;
-                categoryName.Text = this.product.category;
-                sectionName.Text = this.product.section;
-                imageName = this.product.image;
-                Console.WriteLine(imageName + " p -> " + product.image);
+            dataTable.Columns.Add("Name", typeof(string));
+            dataTable.Columns.Add("Price", typeof(decimal));
+
+            if (this.productItem != null) {
+                productName.Text = this.productItem.product.name;
+                categoryName.Text = this.productItem.product.category;
+                sectionName.Text = this.productItem.product.section;
+                imageName = this.productItem.product.image;
+
+                loadPriceElements(productItem.product.PriceElements);
+
+                try {
+                    image = Image.FromFile("images/" + productItem.product.image);
+                    productImage.BackgroundImage = image;
+
+                } catch (Exception e) {
+                    MessageBox.Show(e.Message);
+                }
+
             } else {
                 Controls.Find("delete", true).First().Enabled = false;
             }
+            priceElements.DataSource = dataTable;
             update();
         }
 
-        //try {
-        //    image = Image.FromFile("images/" + imageName);
-        //} catch (Exception) {
-        //    image = Image.FromFile("images/_default.png");
-        //    MessageBox.Show("no image in product");
-        //}
 
         private void update() {
             categoryName.Items.Clear();
@@ -92,24 +94,25 @@ namespace AdministratorPanel {
             foreach (ProductCategory item in productTab.productCategories) {
                 categoryName.Items.Add(item.name);
             }
+
+            categoryName.SelectedValueChanged += (s, e) => {
+                sectionName.Items.Clear();
+                if (categoryName.Text != "Category Name" && categoryName.Text != "") {
+                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
+                    sectionName.Items.AddRange(cat.sections.ToArray());
+                    sectionName.Text = "Section Name";
+                    //test
+                    Console.WriteLine("sections");
+                    foreach (var item in cat.sections) {
+                        Console.WriteLine(item);
+                    }
+                }
+                Console.WriteLine("catname = " + categoryName.Text);
+            };
             // update dropdown section
-            if (categoryName.Text != "Category Name" || categoryName.Text != "") {
-                ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
-                sectionName.Items.AddRange(cat.sections.ToArray());
-            }
 
-            if (product.PriceElements != null) {
-                loadPriceElements(product.PriceElements);
-                priceElements.DataSource = dataTable;
-            }
+            
 
-            try {
-                image = Image.FromFile("images/" + product.image);
-                productImage.BackgroundImage = image;
-
-            } catch (Exception e) {
-                MessageBox.Show(e.Message);
-            }
         }
 
         protected override Control CreateControls() {
@@ -135,7 +138,7 @@ namespace AdministratorPanel {
             leftPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             leftPanel.AutoSize = true;
 
-            // priceElements list display                   // se om den kan komme i kroppen af priceElemets
+            // priceElements list display                 
             priceElements.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             
             // Add button click event
@@ -144,10 +147,10 @@ namespace AdministratorPanel {
 
                 // open file dialog for image selection
                 OpenFileDialog ofd = new OpenFileDialog();
-                var pnis = ImageCodecInfo.GetImageDecoders();
+                var imageCodeInfo = ImageCodecInfo.GetImageDecoders();
                 StringBuilder sb = new StringBuilder();
 
-                foreach (ImageCodecInfo item in pnis) {
+                foreach (ImageCodecInfo item in imageCodeInfo) {
                     sb.Append(item.FilenameExtension);
                     sb.Append(";");
                 }
@@ -156,6 +159,11 @@ namespace AdministratorPanel {
                 ofd.Filter = "Image Files | " + sb.ToString() ;
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
+
+                    if (File.Exists("images/" + ofd.SafeFileName)) {
+                        MessageBox.Show("imagename already exist");
+                    }
+
                     try {
                         imageName =  ofd.SafeFileName; // name
                         image = Image.FromFile( ofd.FileName); // path + name
@@ -182,25 +190,23 @@ namespace AdministratorPanel {
 
 
         private void loadPriceElements(List<PriceElement> priceElements) {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Name",typeof(string));
-            dt.Columns.Add("Price", typeof(decimal));
+            
+            if (priceElements.Count > 0) {
 
-            foreach (var item in priceElements) {
+                foreach (var item in priceElements) {
 
-                dt.Rows.Add(item.name, item.price);
+                    dataTable.Rows.Add(item.name, item.price);
+                }
             }
-            dataTable = dt;
         }
         
         private List<PriceElement> SavePriceElemets() {
             List<PriceElement> pr = new List<PriceElement>();
 
             int index = dataTable.Rows.Count;
-            PriceElement priceElement = new PriceElement();
-            
 
-            for (int first = 0; first < index; first++) { 
+            for (int first = 0; first < index; first++) {
+                PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[first][0].ToString(); // string(name)
                 priceElement.price = decimal.Parse(dataTable.Rows[first][1].ToString()); // decimal(price)
                 pr.Add(priceElement);
@@ -210,29 +216,49 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            productTab.productList.Remove(product);
+            productTab.productList.Remove(productItem.product);
         }
 
         protected override void save(object sender, EventArgs e) {
 
-            if (product == null) {
-                product = new Product();
-                productTab.productList.Add(product);
-            }
-            
-            product.name = productName.Text;
-            product.PriceElements = SavePriceElemets();
-            product.category = categoryName.Text;
-            product.image = imageName;
-            Console.WriteLine("Save: imagename =" + imageName + " product image =" + product.image);
+            Directory.CreateDirectory("images");
+
             if (image == null) {
-                MessageBox.Show("No image in product " + product.name);
+                MessageBox.Show("No image in product ");
+                image = productImage.BackgroundImage;
             } else {
                 Console.WriteLine(imageName);
                 if (!File.Exists("images/" + imageName)) {
                     image.Save("images/" + imageName);
                 }
             }
+
+
+            if (productItem == null) {
+                Product tempProduct = new Product();
+
+                tempProduct.name = productName.Text;
+                tempProduct.PriceElements = SavePriceElemets();
+                tempProduct.category = categoryName.Text;
+                tempProduct.section = sectionName.Text;
+                tempProduct.image = imageName;
+
+                productItem = new ProductItem(tempProduct,productTab);
+
+                productTab.productList.Add(productItem.product);
+                productTab.AddProductItem(productItem);
+
+            } else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
+                productItem.Parent.Controls.Remove(productItem);
+                productTab.AddProductItem(productItem);
+
+                productItem.product.name = productName.Text;
+                productItem.product.PriceElements = SavePriceElemets();
+                productItem.product.category = categoryName.Text;
+                productItem.product.section = sectionName.Text;
+                productItem.product.image = imageName;
+            }
+
             Close();
         }
     }
