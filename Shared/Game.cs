@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 using System.Text.RegularExpressions;
 using System.Media;
+using System.Text;
 
 namespace Shared
 {
@@ -43,7 +44,38 @@ namespace Shared
         public string thumbnail;
         public string imageName;
 
+        public override string ToString() {
+            StringBuilder sb = new StringBuilder();
 
+            sb.AppendLine("---------------------------");
+            sb.AppendLine("id = " + id.ToString());
+            sb.AppendLine("bggid = " + bggid);
+            sb.AppendLine("name = " + name);
+            sb.AppendLine("publishedYear = " + publishedYear.ToString());
+            sb.AppendLine();
+            sb.AppendLine("minplayers = " + minPlayers.ToString());
+            sb.AppendLine("maxplayers = " + maxPlayers.ToString());
+            sb.AppendLine();
+            sb.AppendLine("minplaytime = " + minPlayTime.ToString());
+            sb.AppendLine("maxplaytime = " + maxPlayTime.ToString());
+            sb.AppendLine();
+            sb.AppendLine("difficulity = " + difficulity.ToString());
+            sb.AppendLine();
+
+            sb.AppendLine("genre");
+            if(genre != null)
+                foreach (var item in genre) {
+                    sb.AppendLine(item);
+                }
+            sb.AppendLine();
+            sb.AppendLine("decription = " + description);
+            sb.AppendLine();
+            sb.AppendLine("thumbnail = " + thumbnail);
+            sb.AppendLine("imagename = " + imageName);
+            sb.AppendLine("---------------------------");
+
+            return sb.ToString();
+        }
 
     }
 }

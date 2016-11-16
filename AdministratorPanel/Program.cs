@@ -10,9 +10,6 @@ namespace AdministratorPanel {
 
         public Program() {
             
-  
-            //AutoSize = true;
-            //AutoSizeMode = AutoSizeMode.GrowOnly;
             AutoScaleMode = AutoScaleMode.Dpi;
 
             MinimumSize = new Size(960, 540);
@@ -25,7 +22,7 @@ namespace AdministratorPanel {
             //cp.AutoSize = true;
 
             tabs.AddRange(new AdminTabPage[]{
-                new CalendarTab(),
+                new ReservationTab(),
                 new ProductsTab(),
                 new GamesTab(),
                 new EventsTab()
