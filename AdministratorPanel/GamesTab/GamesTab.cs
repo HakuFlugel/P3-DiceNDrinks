@@ -12,7 +12,6 @@ namespace AdministratorPanel {
         
         public List<Game> games;
         GamesList game;
-        public Action<string> UserSearchText { get; set; }
         string seach ="";
         
 
@@ -41,7 +40,6 @@ namespace AdministratorPanel {
             waterMark = "Type something to seach..",
             clearable = true,
             MinimumSize = new Size(200, 0),
-
             Margin = new Padding(20, 5, 20, 5),
         };
         
@@ -49,7 +47,8 @@ namespace AdministratorPanel {
         public GamesTab() {
 
             Load();
-            game = new GamesList(seach, games);
+            game = new GamesList(games,this);
+            game.makeItems(seach);
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
@@ -85,8 +84,8 @@ namespace AdministratorPanel {
 
         private void update() {
 
-            seachBar.Text = seach;
-            game.Controls.Clear();
+            seachBar.Text = (seachBar.Text == "") ? seachBar.waterMark : seach;
+
             game.makeItems(seach);
         }
 

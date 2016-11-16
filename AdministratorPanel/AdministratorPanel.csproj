@@ -60,6 +60,9 @@
     <Compile Include="GamesTab\GamesList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GamesTab\GamePopupBoxRght.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GamesTab\GamesTab.cs">
       <SubType>Component</SubType>
     </Compile>

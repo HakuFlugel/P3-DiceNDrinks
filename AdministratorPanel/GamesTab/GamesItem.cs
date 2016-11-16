@@ -48,13 +48,5 @@ namespace AdministratorPanel {
             
 
         }
-        protected override void OnClick(EventArgs e) {
-            
-
-            GamePopupBox p = new GamePopupBox(null, game);
-            
-            base.OnClick(e);
-        }
-
     }
 }

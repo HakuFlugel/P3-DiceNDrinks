@@ -79,7 +79,9 @@ namespace AdministratorPanel
         protected abstract Control CreateControls();
 
         protected virtual void save(object sender, EventArgs e) {
+            
             hasBeenChanged = false;
+            Close();
         }
 
         protected abstract void delete(object sender, EventArgs e);

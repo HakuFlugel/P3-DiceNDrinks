@@ -21,12 +21,6 @@ namespace AdministratorPanel {
             Dock = DockStyle.Fill
         };
 
-        protected TableLayoutPanel rgt = new TableLayoutPanel() {
-            ColumnCount = 1,
-            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            Dock = DockStyle.Fill,
-        };
-
         protected TableLayoutPanel header = new TableLayoutPanel() {
             RowCount = 1,
             ColumnCount = 2,
@@ -112,15 +106,18 @@ namespace AdministratorPanel {
             SmallChange = 1,
         };
 
+        
+
         private List<ListViewItem> genreItems = new List<ListViewItem>();
         public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
-        private Xml api = new Xml();
         private Game game;
         private Game b4EditingGame;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
         private Image image;
+        public List<Game> games;
         
+
         public GamePopupBox(GamesTab gametab, Game game) {
             Size = new Size(500,700);
 
@@ -161,12 +158,7 @@ namespace AdministratorPanel {
             }
             
 
-            /* 
-             * Checks if there has been any changes in the game, if there is any changes,
-             * and they are different from what the game looked before (if it is not a new game) then set hasBeenChanged to true,
-             * hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed,
-             * if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
-             */
+            
 
 
             Show();
@@ -177,6 +169,13 @@ namespace AdministratorPanel {
         private void SubscriptionList() {
             bool isNewGame = (b4EditingGame != null) ? true : false;
             string messageboxText = "Please only use whole integers" + Environment.NewLine + "In this format INTEGER/INTEGER";
+
+            /* 
+             * Checks if there has been any changes in the game, if there is any changes,
+             * and they are different from what the game looked before (if it is not a new game) then set hasBeenChanged to true,
+             * hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed,
+             * if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
+             */
 
             gameName.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.name != gameName.Text) ? true : false) : true; };
 
@@ -197,7 +196,7 @@ namespace AdministratorPanel {
                     
                 } catch (Exception) {
                     SystemSounds.Hand.Play();
-                    time.Text = "";
+                    time.Text = time.waterMark;
                     MessageBox.Show(messageboxText, "FATAL ERROR IN TIME");
                 }
             };
@@ -210,7 +209,7 @@ namespace AdministratorPanel {
                     Int32.TryParse(withOutSlash[1], out game.maxPlayers);
                 } catch (Exception) {
                     SystemSounds.Hand.Play();
-                    players.Text = "";
+                    players.Text = players.waterMark;
                     MessageBox.Show(messageboxText, "FATAL ERROR IN PLAYERS");
                 }
                 
@@ -218,11 +217,14 @@ namespace AdministratorPanel {
 
             genreBox.ItemCheck += new ItemCheckEventHandler(memeberChecked);
 
-            imageSeach.Click += OpenFileOpener;
-
             imageText.Click += OpenFileOpener;
 
-            gameDifficulty.Scroll +=(s,e) => { toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100"); };
+            gameDifficulty.Scroll +=(s,e) => {
+
+                toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100");
+                hasBeenChanged = (isNewGame) ? ((b4EditingGame.difficulity != gameDifficulty.Value) ? true : false) : true;
+                
+            };
             
         }
 
@@ -285,16 +287,14 @@ namespace AdministratorPanel {
             if (b4EditingGame != null) {
                 game.description = gameDescription.Text;
                 game.name = gameName.Text;
+                game.difficulity = gameDifficulty.Value;
+                gametab.games.Remove(game);
                 
                 b4EditingGame = game;
             }
-                
-            else {
-                gametab.games.Add(game);
-            }
+
             //create game.
-            hasBeenChanged = false;
-            
+            gametab.games.Add(game);
             base.save(sender, e);
         }
 
@@ -336,13 +336,11 @@ namespace AdministratorPanel {
                     game.imageName = ofd.SafeFileName; // name
                     image = Image.FromFile(ofd.FileName); // path + name
                     gameImage.BackgroundImage = image;
-
+                    imageSeach.Text = ofd.FileName;
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
             }
         }
-
-
     }
 }
