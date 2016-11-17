@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Shared;
 using System.Xml.Serialization;
 using System.IO;
+using System.Drawing;
 
 namespace AdministratorPanel {
     public class CalendarTab : AdminTabPage {
@@ -11,8 +12,13 @@ namespace AdministratorPanel {
         private List<Room> rooms;
         public List<CalendarDay> calDayList = new List<CalendarDay>();
 
-        public ReservationList reserveationList;
+        public ReservationList reservationList;
         public PendingReservationList pendingReservationList;
+
+        public ProgressBar reserveSpace = new ProgressBar();
+        public int reserveSpaceValue;
+        public Label reserveSpaceText = new Label();
+        public CheckBox reservationFull = new CheckBox();
 
         public CalendarTab() {
             Load();
@@ -59,6 +65,25 @@ namespace AdministratorPanel {
             rightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             outerTable.Controls.Add(rightTable);
 
+            //// Right side
+            TableLayoutPanel topRightTable = new TableLayoutPanel();
+            topRightTable.Dock = DockStyle.Fill;
+            topRightTable.AutoSize = true;
+            topRightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            topRightTable.ColumnCount = 4;
+            rightTable.Controls.Add(topRightTable);
+
+            reserveSpace.Style = ProgressBarStyle.Continuous;
+            reserveSpace.Dock = DockStyle.Left;
+            reserveSpace.Minimum = 0;
+            reserveSpaceText.Dock = DockStyle.Left;
+            reserveSpaceText.Font = new Font("Arial", 16);
+            reservationFull.Text = "Lock Reservations";
+
+            topRightTable.Controls.Add(reserveSpaceText);
+            topRightTable.Controls.Add(reserveSpace);
+            topRightTable.Controls.Add(reservationFull);
+            
             Button addReservation = new Button();
             addReservation.Height = 20;
             addReservation.Width = 100;
@@ -68,13 +93,14 @@ namespace AdministratorPanel {
                 ReservationPopupBox p = new ReservationPopupBox(this);
                 p.Show();
             };
-            rightTable.Controls.Add(addReservation);
+            topRightTable.Controls.Add(addReservation);
 
-            reserveationList = new ReservationList(calendar, this); /*TODO: fix*/
-            rightTable.Controls.Add(reserveationList);
+            reservationList = new ReservationList(calendar, this); /*TODO: fix*/
+            rightTable.Controls.Add(reservationList);
+            reservationFull.Click += reservationList.lockReservations;
             //rightTable.makeItems(reservations, DateTime.Today);
-             /*TODO: fix*/
-            
+            /*TODO: fix*/
+
 
         }
 

@@ -11,6 +11,7 @@ namespace AdministratorPanel
     {
         private Calendar calendar;
         private CalendarTab calTab;
+        public CalendarDay cd;
 
         public ReservationList(Calendar calendar, CalendarTab calTab)
         {
@@ -35,18 +36,43 @@ namespace AdministratorPanel
         {
             Controls.Clear();
             
-            CalendarDay cd = calTab.calDayList.Find(o => o.theDay.Date == day.Date);
+            cd = calTab.calDayList.Find(o => o.theDay.Date == day.Date);
             if (cd == null) {
                 return;
             }
             calendar.SelectionStart = cd.theDay.Date;
 
+            calTab.reserveSpaceValue = 0;
+            foreach (var item in cd.reservations.FindAll(o => o.pending == false)) {
+                calTab.reserveSpaceValue += item.numPeople;
+            }
+            if (calTab.reserveSpaceValue < 100) {
+                calTab.reserveSpace.Value = calTab.reserveSpaceValue;
+            }
+            else {
+                calTab.reserveSpace.Value = 100;
+                MessageBox.Show("The reservation max count is exceeded!");
+            }
+            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
+
+            calTab.reservationFull.Checked = cd.isFullChecked;
+
+            SuspendLayout();
             foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => !o.pending)) {
                 ReservationItem reservationItem = new ReservationItem(calTab, res);
 
                 Controls.Add(reservationItem);
             }
+            ResumeLayout();
            
+        }
+
+        public void lockReservations(object sender, EventArgs e) {
+            if (cd == null) {
+                cd = new CalendarDay { theDay = calendar.SelectionStart, isFullChecked = false };
+                calTab.calDayList.Add(cd);
+            }
+            cd.isFullChecked = calTab.reservationFull.Checked;
         }
     }
 }

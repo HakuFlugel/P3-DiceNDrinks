@@ -124,8 +124,9 @@ namespace AdministratorPanel {
                 }
                 //calTab.calDay.Find(o => o.theDay.Date == res.time.Date);
 
-                calTab.reserveationList.makeItems(DateTime.Today.Date);
+                calTab.reservationList.makeItems(DateTime.Today.Date);
                 calTab.pendingReservationList.makeItems();
+                
             }
         }
 
@@ -167,8 +168,9 @@ namespace AdministratorPanel {
             CalendarDay cd = calTab.calDayList.Find(o => o.theDay.Date == newDate.Date);
 
             if (cd == null) {
-                cd = new CalendarDay { theDay = newDate.Date };
+                cd = new CalendarDay { theDay = newDate.Date, isFullChecked = false };
                 calTab.calDayList.Add(cd);
+                
             }
 
             if (res == null) {
@@ -194,6 +196,7 @@ namespace AdministratorPanel {
             res.phone = phoneNumber.Text;
             res.email = email.Text;
             res.time = newDate;
+            cd.fullness += res.numPeople;
 
             //foreach (var item in calTab.calDay) {
             //    if (item.theDay.Date == newStartDate.Date) {
@@ -203,7 +206,7 @@ namespace AdministratorPanel {
             //}
 
             this.Close();
-            calTab.reserveationList.makeItems(newDate.Date);
+            calTab.reservationList.makeItems(newDate.Date);
             calTab.pendingReservationList.makeItems();
             
         }

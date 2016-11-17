@@ -57,8 +57,7 @@ namespace AdministratorPanel
             acceptButton.Text = "Accept";
             acceptButton.Click += (s, e) => {
                 res.pending = false;
-                Console.WriteLine("fish");
-                calTab.reserveationList.makeItems(time.Date);
+                calTab.reservationList.makeItems(time.Date);
                 calTab.pendingReservationList.makeItems();
             };
 
@@ -69,7 +68,7 @@ namespace AdministratorPanel
                 foreach (var item in calTab.calDayList) {
                     item.reservations.Remove(res);
                 }
-                calTab.reserveationList.makeItems(time.Date);
+                calTab.reservationList.makeItems(time.Date);
                 calTab.pendingReservationList.makeItems();
             };
 
@@ -82,7 +81,7 @@ namespace AdministratorPanel
             theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
             theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
-            theLeftItems.Controls.Add(new Label { Text = email, AutoSize = true });
+            theLeftItems.Controls.Add(new Label { Text = email, Width = 150 });
             theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
             if (res.pending == true) {
                 theRightItems.Controls.Add(twoButtons);
