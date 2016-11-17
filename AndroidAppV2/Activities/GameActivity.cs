@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
+using Shared;
 
 namespace AndroidAppV2.Activities
 {
@@ -23,28 +25,61 @@ namespace AndroidAppV2.Activities
 
             SetContentView(Resource.Layout.GameLayout);
             // Create your application here
-            ListView listView = (ListView)FindViewById(Resource.Id.gameListView);
 
-            //base adaptor should be random? list
-            //listView.Adapter = new ArrayAdapter<>();
-            //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter s� de kan vises i appen
-            //TODO: derudover skal der ogs� laves funktionalitet til at sortere listen...
-            //https://developer.xamarin.com/recipes/android/data/adapters/use_an_arrayadapter/
-            //https://developer.xamarin.com/api/type/Xamarin.Forms.ListView/
 
-            FindViewById<Button>(Resource.Id.playerButton).Click += delegate
+
+            ListView listView = FindViewById<ListView>(Resource.Id.gameListView);
+            Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
+            Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
+            Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
+
+            gameSpinner.ItemSelected += spinner_ItemSelected;
+            var adapter = ArrayAdapter.CreateFromResource(
+                    this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
+
+            gameButton.Text = "↓";
+            gameButton.Click += delegate
             {
-                //todo: Fetch food list and set it as adapter
-            };
-            FindViewById<Button>(Resource.Id.difficultyButton).Click += delegate
-            {
-                //todo: Fetch drink list and set it as adapter
-            };
-            FindViewById<Button>(Resource.Id.gametimeButton).Click += delegate
-            {
-                //todo: Fetch misc list and set it as adapter
+                gameButton.Text = gameButton.Text == "↓" ? "↑" : "↓";
+
+                //TODO: change orientation of search (ascending/descending)
             };
 
+            aSearchButton.Click += delegate
+            {
+                //TODO: Make Search Limit Fragment
+            };
+
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            gameSpinner.Adapter = adapter;
+
+            List<Game> list = getGames();
+            ItemAdapter itemAdapter = new ItemAdapter(this, list);
+            listView.Adapter = itemAdapter;
+
+            listView.ItemClick += OnListItemClick;
+
+        }
+
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
+
+            //TODO: skift sorting til valgte element
+        }
+
+        List<Game> getGames()
+        {
+            List<Game> list = new List<Game>();
+
+            //todo: get the games here
+
+            return list;
+        }
+        void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var listView = sender as ListView;
+            //todo: dialog fragment med yderligere info om et item
         }
     }
 }
