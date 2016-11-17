@@ -2843,6 +2843,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07008c
 			public const int foodmenuButton = 2131165324;
 			
+			// aapt resource value: 0x7f070082
+			public const int foodmenuList = 2131165314;
+			
 			// aapt resource value: 0x7f07007c
 			public const int frameLayout1 = 2131165308;
 			
@@ -2854,6 +2857,9 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070086
 			public const int gameSortOrderButton = 2131165318;
+			
+			// aapt resource value: 0x7f070084
+			public const int gameSortText = 2131165316;
 			
 			// aapt resource value: 0x7f070085
 			public const int gameSpinner = 2131165317;
@@ -2899,9 +2905,6 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f07000b
 			public const int listMode = 2131165195;
-			
-			// aapt resource value: 0x7f070082
-			public const int listView1 = 2131165314;
 			
 			// aapt resource value: 0x7f070044
 			public const int list_item = 2131165252;
@@ -3160,9 +3163,6 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070050
 			public const int textSpacerNoButtons = 2131165264;
-			
-			// aapt resource value: 0x7f070084
-			public const int textView1 = 2131165316;
 			
 			// aapt resource value: 0x7f07007b
 			public const int text_input_password_toggle = 2131165307;

@@ -31,7 +31,6 @@ namespace AndroidAppV2.Activities
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             DateTime chosenDateTime = DateTime.Now;
-            TextView updatedDisplay = FindViewById<TextView>(Resource.Id.textView1);
             TextView dateText = FindViewById<TextView>(Resource.Id.dateText);
             TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);

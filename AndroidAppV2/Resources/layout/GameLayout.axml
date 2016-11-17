@@ -23,7 +23,7 @@
             <TextView
                 p1:text="@string/sort"
                 p1:textAppearance="?android:attr/textAppearanceMedium"
-                p1:id="@+id/textView1"
+                p1:id="@+id/gameSortText"
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
                 p1:layout_weight="1" />
