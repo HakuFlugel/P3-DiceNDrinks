@@ -16,4 +16,5 @@
   <string name="exitReservation">Vil du virkelig gerne afslutte? \nAlt du har skrevet vil blive tabt.</string>
   <string name="addComments">Ekstra Kommentar</string>
   <string name="addCommentHint">Skriv her...</string>
+  <string name="numPeople">Antal personer</string>
 </resources>

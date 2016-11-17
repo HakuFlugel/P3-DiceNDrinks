@@ -36,7 +36,6 @@ namespace AndroidAppV2.Activities
             TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
-            Button updateButton = FindViewById<Button>(Resource.Id.button3);
 
 
             dateSelectButton.Click += delegate
@@ -58,11 +57,6 @@ namespace AndroidAppV2.Activities
                     State = false;
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
-            };
-
-            updateButton.Click += delegate
-            {
-                updatedDisplay.Text = chosenDateTime.ToLongDateString() + " " + chosenDateTime.ToLongTimeString();
             };
 
             sb.Max = 20;
