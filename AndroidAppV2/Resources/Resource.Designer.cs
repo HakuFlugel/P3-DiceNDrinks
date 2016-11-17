@@ -2750,11 +2750,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070020
 			public const int collapseActionView = 2131165216;
 			
-			// aapt resource value: 0x7f0700bd
-			public const int commentEditText = 2131165373;
+			// aapt resource value: 0x7f0700c0
+			public const int commentEditText = 2131165376;
 			
-			// aapt resource value: 0x7f0700bc
-			public const int commentText = 2131165372;
+			// aapt resource value: 0x7f0700bf
+			public const int commentText = 2131165375;
 			
 			// aapt resource value: 0x7f07004d
 			public const int contentPanel = 2131165261;
@@ -2765,11 +2765,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070052
 			public const int customPanel = 2131165266;
 			
-			// aapt resource value: 0x7f0700b7
-			public const int dateButton = 2131165367;
+			// aapt resource value: 0x7f0700bb
+			public const int dateButton = 2131165371;
 			
-			// aapt resource value: 0x7f0700ba
-			public const int dateText = 2131165370;
+			// aapt resource value: 0x7f0700bd
+			public const int dateText = 2131165373;
 			
 			// aapt resource value: 0x7f07005c
 			public const int decor_content_parent = 2131165276;
@@ -2876,8 +2876,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f0700b5
 			public const int info = 2131165365;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int inviteesNum = 2131165376;
+			// aapt resource value: 0x7f0700ba
+			public const int inviteesNum = 2131165370;
 			
 			// aapt resource value: 0x7f070000
 			public const int item_touch_helper_previous_elevation = 2131165184;
@@ -3005,8 +3005,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07000c
 			public const int normal = 2131165196;
 			
-			// aapt resource value: 0x7f0700bf
-			public const int numPplText = 2131165375;
+			// aapt resource value: 0x7f0700b8
+			public const int numPplText = 2131165368;
 			
 			// aapt resource value: 0x7f070033
 			public const int parallax = 2131165235;
@@ -3032,8 +3032,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07008e
 			public const int reservationButton = 2131165326;
 			
-			// aapt resource value: 0x7f0700be
-			public const int reservationText = 2131165374;
+			// aapt resource value: 0x7f0700b7
+			public const int reservationText = 2131165367;
 			
 			// aapt resource value: 0x7f070031
 			public const int right = 2131165233;
@@ -3164,20 +3164,17 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070084
 			public const int textView1 = 2131165316;
 			
-			// aapt resource value: 0x7f0700bb
-			public const int textView2 = 2131165371;
-			
 			// aapt resource value: 0x7f07007b
 			public const int text_input_password_toggle = 2131165307;
 			
 			// aapt resource value: 0x7f0700b0
 			public const int time = 2131165360;
 			
-			// aapt resource value: 0x7f0700b8
-			public const int timeButton = 2131165368;
+			// aapt resource value: 0x7f0700bc
+			public const int timeButton = 2131165372;
 			
-			// aapt resource value: 0x7f0700bb
-			public const int timeText = 2131165371;
+			// aapt resource value: 0x7f0700be
+			public const int timeText = 2131165374;
 			
 			// aapt resource value: 0x7f070046
 			public const int title = 2131165254;
@@ -3591,8 +3588,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f080045
 			public const int addComments = 2131230789;
 			
-			// aapt resource value: 0x7f080048
-			public const int advancedSearch = 2131230792;
+			// aapt resource value: 0x7f08004a
+			public const int advancedSearch = 2131230794;
 			
 			// aapt resource value: 0x7f080035
 			public const int appbar_scrolling_view_behavior = 2131230773;
@@ -3621,8 +3618,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f08003c
 			public const int foodButton = 2131230780;
 			
-			// aapt resource value: 0x7f080047
-			public const int gameSpinnerPromt = 2131230791;
+			// aapt resource value: 0x7f080049
+			public const int gameSpinnerPromt = 2131230793;
 			
 			// aapt resource value: 0x7f080041
 			public const int gametimeButton = 2131230785;

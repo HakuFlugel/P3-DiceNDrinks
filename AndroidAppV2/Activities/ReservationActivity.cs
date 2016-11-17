@@ -55,6 +55,7 @@ namespace AndroidAppV2.Activities
                 {
                     chosenDateTime = InsertDateTime(chosenDateTime,time);
                     State = false;
+                    timeText.Text = chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
@@ -95,7 +96,7 @@ namespace AndroidAppV2.Activities
         {
             if (fromUser)
             {
-                FindViewById<TextView>(Resource.Id.textView2).Text = $"{seekBar.Progress}";
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress}";
                 System.Diagnostics.Debug.WriteLine($"seekbar progress: {seekBar.Progress}");
             }
         }
