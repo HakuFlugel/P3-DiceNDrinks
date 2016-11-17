@@ -99,9 +99,6 @@
     <Compile Include="ReservationsTab\Calendar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReservationsTab\CalendarTab.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ReservationsTab\PendingReservationItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -118,6 +115,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GamesTab\Xml.cs" />
+    <Compile Include="ReservationsTab\ReservationsTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
