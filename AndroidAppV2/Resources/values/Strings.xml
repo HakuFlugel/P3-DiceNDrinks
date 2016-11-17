@@ -18,4 +18,14 @@
   <string name="addCommentHint">Write here...</string>
   <string name="numPeople">Num. of people</string>
   <string name="reservation">Reservation</string>
+  <string name="gameSpinnerPromt">Sort by...</string>
+  <string name="advancedSearch">Advanced Search.</string>
+  <string-array name="gameSortArray">
+    <item>Alphabetical</item>
+    <item>Players</item>
+    <item>Game Time</item>
+    <item>Difficulty</item>
+    <item>Year of publication</item>
+    <item>Game Time</item>
+  </string-array>
 </resources>
