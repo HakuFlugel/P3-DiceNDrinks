@@ -12,12 +12,38 @@
         p1:layout_height="match_parent"
         p1:id="@+id/relativeLayout1">
         <TextView
-            p1:text="Pick a Date"
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:id="@+id/textView1"
-            p1:layout_centerHorizontal="true" />
+            p1:id="@+id/reservationText"
+            p1:text="@string/reservation"
+            p1:layout_centerHorizontal="true"
+            p1:layout_marginTop="10dp" />
+        <TextView
+            p1:text="Medium Text"
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/reservationText"
+            p1:id="@+id/numPplText"
+            p1:layout_marginTop="5dp"
+            p1:layout_marginLeft="5dp" />
+        <SeekBar
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/seekBar1"
+            p1:layout_below="@id/numPplText"
+            p1:layout_marginLeft="5dp"
+            p1:layout_marginRight="5dp"
+            p1:layout_marginTop="10dp" />
+        <TextView
+            p1:text="Invitees"
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/seekBar1"
+            p1:id="@+id/inviteesNum"
+            p1:layout_centerInParent="true" />
         <Button
             p1:text="Date"
             p1:layout_width="wrap_content"
@@ -25,7 +51,9 @@
             p1:id="@+id/dateButton"
             p1:layout_centerInParent="true"
             p1:layout_alignParentLeft="true"
-            p1:layout_marginLeft="5dp" />
+            p1:layout_marginLeft="5dp"
+            p1:layout_marginTop="25dp"
+            p1:layout_below="@id/inviteesNum" />
         <Button
             p1:text="Time"
             p1:layout_width="wrap_content"
@@ -33,30 +61,9 @@
             p1:layout_below="@id/dateButton"
             p1:id="@+id/timeButton"
             p1:layout_marginLeft="5dp"
-            p1:layout_marginTop="20dp" />
-        <Button
-            p1:text="Update"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/textView1"
-            p1:id="@+id/button3"
-            p1:layout_centerHorizontal="true" />
-        <SeekBar
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/button3"
-            p1:id="@+id/seekBar1"
-            p1:layout_centerHorizontal="true" />
+            p1:layout_marginTop="15dp" />
         <TextView
-            p1:text="Invitees"
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/seekBar1"
-            p1:id="@+id/textView2"
-            p1:layout_centerHorizontal="true" />
-        <TextView
-            p1:text="Something about the date"
+            p1:text="Pick date"
             p1:textAppearance="?android:attr/textAppearanceMedium"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
@@ -64,7 +71,7 @@
             p1:layout_toRightOf="@id/dateButton"
             p1:layout_alignBaseline="@id/dateButton" />
         <TextView
-            p1:text="Something about the time"
+            p1:text="Pick Time of day"
             p1:textAppearance="?android:attr/textAppearanceMedium"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
@@ -79,7 +86,7 @@
             p1:id="@+id/commentText"
             p1:layout_marginLeft="5dp"
             p1:text="@string/addComments"
-            p1:layout_marginTop="10dp" />
+            p1:layout_marginTop="30dp" />
         <EditText
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"

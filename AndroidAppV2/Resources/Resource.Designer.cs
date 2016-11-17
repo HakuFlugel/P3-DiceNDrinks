@@ -92,6 +92,22 @@ namespace AndroidAppV2
 			}
 		}
 		
+		public partial class Array
+		{
+			
+			// aapt resource value: 0x7f0d0000
+			public const int gameSortArray = 2131558400;
+			
+			static Array()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Array()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -2677,6 +2693,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070015
 			public const int add = 2131165205;
 			
+			// aapt resource value: 0x7f070087
+			public const int advancedSearchButton = 2131165319;
+			
 			// aapt resource value: 0x7f07004c
 			public const int alertTitle = 2131165260;
 			
@@ -2749,8 +2768,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070052
 			public const int customPanel = 2131165266;
 			
-			// aapt resource value: 0x7f0700b9
-			public const int dateButton = 2131165369;
+			// aapt resource value: 0x7f0700bb
+			public const int dateButton = 2131165371;
 			
 			// aapt resource value: 0x7f0700bd
 			public const int dateText = 2131165373;
@@ -2775,9 +2794,6 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070077
 			public const int design_navigation_view = 2131165303;
-			
-			// aapt resource value: 0x7f070085
-			public const int difficultyButton = 2131165317;
 			
 			// aapt resource value: 0x7f07000e
 			public const int disableHome = 2131165198;
@@ -2830,17 +2846,26 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07008e
 			public const int foodmenuButton = 2131165326;
 			
+			// aapt resource value: 0x7f070082
+			public const int foodmenuList = 2131165314;
+			
 			// aapt resource value: 0x7f07007c
 			public const int frameLayout1 = 2131165308;
 			
 			// aapt resource value: 0x7f07008d
 			public const int gameButton = 2131165325;
 			
-			// aapt resource value: 0x7f070087
-			public const int gameListView = 2131165319;
+			// aapt resource value: 0x7f070088
+			public const int gameListView = 2131165320;
 			
 			// aapt resource value: 0x7f070086
-			public const int gametimeButton = 2131165318;
+			public const int gameSortOrderButton = 2131165318;
+			
+			// aapt resource value: 0x7f070084
+			public const int gameSortText = 2131165316;
+			
+			// aapt resource value: 0x7f070085
+			public const int gameSpinner = 2131165317;
 			
 			// aapt resource value: 0x7f070005
 			public const int home = 2131165189;
@@ -2860,6 +2885,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f0700b7
 			public const int info = 2131165367;
 			
+			// aapt resource value: 0x7f0700ba
+			public const int inviteesNum = 2131165370;
+			
 			// aapt resource value: 0x7f070000
 			public const int item_touch_helper_previous_elevation = 2131165184;
 			
@@ -2874,6 +2902,9 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f07007d
 			public const int linearLayout1 = 2131165309;
+			
+			// aapt resource value: 0x7f070083
+			public const int linearLayout2 = 2131165315;
 			
 			// aapt resource value: 0x7f07000b
 			public const int listMode = 2131165195;
@@ -2989,6 +3020,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07000c
 			public const int normal = 2131165196;
 			
+			// aapt resource value: 0x7f0700b8
+			public const int numPplText = 2131165368;
+			
 			// aapt resource value: 0x7f070033
 			public const int parallax = 2131165235;
 			
@@ -2997,9 +3031,6 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070034
 			public const int pin = 2131165236;
-			
-			// aapt resource value: 0x7f070084
-			public const int playerButton = 2131165316;
 			
 			// aapt resource value: 0x7f070006
 			public const int progress_circular = 2131165190;
@@ -3015,6 +3046,9 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070090
 			public const int reservationButton = 2131165328;
+			
+			// aapt resource value: 0x7f0700b7
+			public const int reservationText = 2131165367;
 			
 			// aapt resource value: 0x7f070031
 			public const int right = 2131165233;
@@ -3067,8 +3101,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07006b
 			public const int search_voice_btn = 2131165291;
 			
-			// aapt resource value: 0x7f0700bc
-			public const int seekBar1 = 2131165372;
+			// aapt resource value: 0x7f0700b9
+			public const int seekBar1 = 2131165369;
 			
 			// aapt resource value: 0x7f07006c
 			public const int select_dialog_listview = 2131165292;
@@ -3142,20 +3176,14 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070050
 			public const int textSpacerNoButtons = 2131165264;
 			
-			// aapt resource value: 0x7f070083
-			public const int textView1 = 2131165315;
-			
-			// aapt resource value: 0x7f070088
-			public const int textView2 = 2131165320;
-			
 			// aapt resource value: 0x7f07007b
 			public const int text_input_password_toggle = 2131165307;
 			
 			// aapt resource value: 0x7f0700b2
 			public const int time = 2131165362;
 			
-			// aapt resource value: 0x7f0700ba
-			public const int timeButton = 2131165370;
+			// aapt resource value: 0x7f0700bc
+			public const int timeButton = 2131165372;
 			
 			// aapt resource value: 0x7f0700be
 			public const int timeText = 2131165374;
@@ -3578,6 +3606,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f080045
 			public const int addComments = 2131230789;
 			
+			// aapt resource value: 0x7f08004a
+			public const int advancedSearch = 2131230794;
+			
 			// aapt resource value: 0x7f080035
 			public const int appbar_scrolling_view_behavior = 2131230773;
 			
@@ -3604,6 +3635,9 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f08003c
 			public const int foodButton = 2131230780;
+			
+			// aapt resource value: 0x7f080049
+			public const int gameSpinnerPromt = 2131230793;
 			
 			// aapt resource value: 0x7f080041
 			public const int gametimeButton = 2131230785;
@@ -3677,8 +3711,14 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f08003b
 			public const int no = 2131230779;
 			
+			// aapt resource value: 0x7f080047
+			public const int numPeople = 2131230791;
+			
 			// aapt resource value: 0x7f08003f
 			public const int playerButton = 2131230783;
+			
+			// aapt resource value: 0x7f080048
+			public const int reservation = 2131230792;
 			
 			// aapt resource value: 0x7f080027
 			public const int search_menu_title = 2131230759;
