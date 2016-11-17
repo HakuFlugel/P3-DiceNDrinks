@@ -96,7 +96,7 @@
     <Compile Include="ReservationsTab\Calendar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ReservationsTab\CalendarTab.cs">
+    <Compile Include="ReservationsTab\ReservationsTab.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ReservationsTab\PendingReservationItem.cs">

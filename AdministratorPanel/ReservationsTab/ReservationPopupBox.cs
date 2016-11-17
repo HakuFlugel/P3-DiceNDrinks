@@ -43,14 +43,14 @@ namespace AdministratorPanel {
         };
 
 
-        private CalendarTab calTab;
+        private ReservationsTab calTab;
         private Reservation res;
 
         public ReservationPopupBox() {
 
         }
 
-        public ReservationPopupBox(CalendarTab calTab, Reservation res = null) {
+        public ReservationPopupBox(ReservationsTab calTab, Reservation res = null) {
             this.calTab = calTab;
             this.res = res;
             if (res != null) {

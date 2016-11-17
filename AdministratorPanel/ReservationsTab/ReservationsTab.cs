@@ -7,7 +7,7 @@ using System.IO;
 using System.Drawing;
 
 namespace AdministratorPanel {
-    public class CalendarTab : AdminTabPage {
+    public class ReservationsTab : AdminTabPage {
         private Calendar calendar;
         private List<Room> rooms;
         public List<CalendarDay> calDayList = new List<CalendarDay>();
@@ -20,7 +20,7 @@ namespace AdministratorPanel {
         public Label reserveSpaceText = new Label();
         public CheckBox reservationFull = new CheckBox();
 
-        public CalendarTab() {
+        public ReservationsTab() {
             Load();
             //Random rand = new Random(100);
             //CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>(), theDay = DateTime.Now.Date };
