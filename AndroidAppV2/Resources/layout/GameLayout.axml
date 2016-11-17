@@ -13,29 +13,39 @@
         p1:layout_height="match_parent"
         p1:id="@+id/linearLayout1"
         p1:padding="8dp">
-        <TextView
-            p1:text="@string/sort"
-            p1:textAppearance="?android:attr/textAppearanceMedium"
+        <LinearLayout
+            p1:orientation="horizontal"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/textView1" />
-        <TableRow
+            p1:id="@+id/linearLayout2">
+            <TextView
+                p1:text="@string/sort"
+                p1:textAppearance="?android:attr/textAppearanceMedium"
+                p1:id="@+id/textView1"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:layout_weight="1" />
+            <Spinner
+                p1:id="@+id/gameSpinner"
+                p1:prompt="@string/gameSpinnerPromt"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:layout_weight="1"
+                p1:minWidth="200dp" />
+            <Button
+                p1:text=""
+                p1:id="@+id/gameSortOrderButton"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:layout_weight="1" />
+        </LinearLayout>
+        <Button
+            p1:text="@string/advancedSearch"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/tableRow1">
-            <Button
-                p1:text="@string/playerButton"
-                p1:id="@+id/playerButton"
-                p1:layout_weight="1" />
-            <Button
-                p1:text="@string/difficultyButton"
-                p1:id="@+id/difficultyButton"
-                p1:layout_weight="1" />
-            <Button
-                p1:text="@string/gametimeButton"
-                p1:id="@+id/gametimeButton"
-                p1:layout_weight="1" />
-        </TableRow>
+            p1:id="@+id/advancedSearchButton" />
         <ListView
             p1:minWidth="25px"
             p1:minHeight="25px"
@@ -43,11 +53,5 @@
             p1:layout_height="match_parent"
             p1:id="@+id/gameListView"
             p1:padding="8dp" />
-        <TextView
-            p1:text="Medium Text"
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/textView2" />
     </LinearLayout>
 </FrameLayout>
