@@ -26,6 +26,8 @@ namespace AndroidAppV2.Activities
 
             //TODO: Her skal der laves link til Facebook med FB SDK...
             //https://components.xamarin.com/gettingstarted/facebook-sdk
+            //TODO: Eller hvis det bliver et no-go, så have et link til DnD's fb side
+
 
         }
     }

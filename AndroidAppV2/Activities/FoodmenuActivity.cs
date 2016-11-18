@@ -9,12 +9,15 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Shared;
+using AndroidAppV2.LabeledSections;
+using Product = AndroidAppV2.LabeledSections.Product;
 
 
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu")]
-    public class FoodmenuActivity : Activity
+    public class FoodmenuActivity : ListActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -23,29 +26,46 @@ namespace AndroidAppV2.Activities
 
 
             SetContentView(Resource.Layout.foodmenuLayout);
-            // Create your application here
-            //ItemAdapter itemAdapter = new ItemAdapter(this);
-            ListView listView = (ListView)FindViewById(Resource.Id.listView1);
-            //listView.Adapter = itemAdapter;
 
-            
-            //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter så de kan vises i appen
-            //TODO: Dette er igangsat i funktionen ItemAdapter
-            //https://developer.xamarin.com/recipes/android/data/adapters/use_an_arrayadapter/
-            //https://developer.xamarin.com/api/type/Xamarin.Forms.ListView/
+            // Create your application here
+            var data = new ListItemCollection<Product>() {
+                new Product("derp","faggot")
+            };
+
+            var sortedContacts = data.GetSortedData();
+            var adapter = CreateAdapter(sortedContacts);
+            ListAdapter = adapter;
+
 
             FindViewById<Button>(Resource.Id.foodButton).Click += delegate
             {
-                //todo: Fetch food list and set it as adapter
+
+                //todo: update list
             };
             FindViewById<Button>(Resource.Id.drinkButton).Click += delegate
             {
-                //todo: Fetch drink list and set it as adapter
+
+                //todo: update list
             };
             FindViewById<Button>(Resource.Id.miscButton).Click += delegate
             {
-                //todo: Fetch misc list and set it as adapter
+
+                //todo: update list
             };
         }
+        SeparatedListAdapter CreateAdapter<T>(Dictionary<string, List<T>> sortedObjects)
+    where T : IHasLabel, IComparable<T>
+        {
+            var adapter = new SeparatedListAdapter(this);
+            foreach (var e in sortedObjects.OrderBy(de => de.Key))
+            {
+                var label = e.Key;
+                var section = e.Value;
+                adapter.AddSection(label, new ArrayAdapter<T>(this, Resource.Layout.ListItem, section));
+            }
+            return adapter;
+        }
+
+
     }
 }

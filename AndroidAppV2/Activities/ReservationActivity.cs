@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Shared;
 
 using Android.App;
 using Android.Content;
@@ -12,47 +13,119 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using Xamarin.Android;
+using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation")]
-    public class ReservationActivity : Activity
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
+        public bool State = true; //checks if the user has made any changes
+        private DateTime _chosenDateTime = DateTime.Now;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
             base.OnCreate(savedInstanceState);
-
-
             SetContentView(Resource.Layout.ReservationLayout);
             // Create your application here
+
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
-
-
-            TextView dateDisplay = FindViewById<TextView>(Resource.Id.textView1);
-            Button dateSelectButton = FindViewById<Button>(Resource.Id.button1);
+            SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
+            TextView dateText = FindViewById<TextView>(Resource.Id.dateText);
+            TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
+            Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
+            Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
+            Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
+            
             dateSelectButton.Click += delegate
             {
-                DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime time)
+                DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
-                    dateDisplay.Text = time.ToLongDateString();
+                    _chosenDateTime = InsertDateTime(date, _chosenDateTime);
+                    State = false;
+                    dateText.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
+
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
-            TextView timeDisplay = FindViewById<TextView>(Resource.Id.textView2);
-            Button timeSelectButton = FindViewById<Button>(Resource.Id.button2);
 
             timeSelectButton.Click += delegate
             {
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
-                    timeDisplay.Text = time.ToLongTimeString();
+                    _chosenDateTime = InsertDateTime(_chosenDateTime,time);
+                    State = false;
+                    timeText.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
 
+            acceptingButton.Click += delegate 
+            {
+                Reservation res = new Reservation();
+                res.numPeople = sb.Progress;
+                res.time = _chosenDateTime;
+                res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
+                res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
+                res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
+                SendData(res);
+            };
+
+            sb.Max = 20;
+            sb.SetOnSeekBarChangeListener(this);
+
         }
+
+        private void SendData(Reservation res)
+        {
+            //todo: send reservation here
+        }
+
+        private DateTime InsertDateTime(DateTime date, DateTime time)
+        {
+            return new DateTime(date.Year, date.Month, date.Day,time.Hour,time.Minute,time.Second);
+        }
+
+        public override void OnBackPressed()
+        {
+            if (!State)
+            {
+                AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
+                exitApp.SetMessage(Resource.String.exitReservation);
+                exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
+                exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Scratch Ass*/ });
+
+                Dialog exit = exitApp.Create();
+
+                exit.Show();
+            }
+            else
+            base.OnBackPressed();
+        }
+
+        public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
+        {
+            if (fromUser)
+            {
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress}";
+                System.Diagnostics.Debug.WriteLine($"seekbar progress: {seekBar.Progress}");
+            }
+        }
+
+        public void OnStartTrackingTouch(SeekBar seekBar)
+        {
+            System.Diagnostics.Debug.WriteLine("Tracking changes.");
+        }
+
+        public void OnStopTrackingTouch(SeekBar seekBar)
+        {
+            System.Diagnostics.Debug.WriteLine("Stopped tracking changes.");
+        }
+
+        //TODO: OVERRIDE OnBackPressed to Pause instead of destroy activity
     }
+    
 
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener

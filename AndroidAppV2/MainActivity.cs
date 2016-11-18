@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Reflection.Emit;
+
 using Android.App;
 using Android.Graphics.Pdf;
 using Android.Widget;
 using Android.OS;
 using Android.Views;
-using AndroidAppV2.Activities;
+
 using Mono.Security.Interface;
+
+using AndroidAppV2.Activities;
 using Shared;
 
 namespace AndroidAppV2
@@ -21,6 +24,7 @@ namespace AndroidAppV2
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Main);
+            //DO NOT WRITE CODE ABOVE THIS LINE
 
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
@@ -48,7 +52,7 @@ namespace AndroidAppV2
             };
         }
 
-
+        //todo: programmer onResume, onPause & onRestoreInstanceState
 
 
         public override void OnBackPressed()
