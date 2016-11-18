@@ -13,13 +13,15 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using Xamarin.Android;
+using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
         public bool State = true; //checks if the user has made any changes
+        private DateTime _chosenDateTime = DateTime.Now;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -28,24 +30,22 @@ namespace AndroidAppV2.Activities
             SetContentView(Resource.Layout.ReservationLayout);
             // Create your application here
 
-
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
-            DateTime chosenDateTime = DateTime.Now;
             TextView dateText = FindViewById<TextView>(Resource.Id.dateText);
             TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
-
-
+            
             dateSelectButton.Click += delegate
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
-                    chosenDateTime = InsertDateTime(date, chosenDateTime);
+                    _chosenDateTime = InsertDateTime(date, _chosenDateTime);
                     State = false;
-                    dateText.Text = chosenDateTime.ToString("dd. MMMMM, yyyy");
+                    dateText.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
+
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
@@ -54,9 +54,9 @@ namespace AndroidAppV2.Activities
             {
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
-                    chosenDateTime = InsertDateTime(chosenDateTime,time);
+                    _chosenDateTime = InsertDateTime(_chosenDateTime,time);
                     State = false;
-                    timeText.Text = chosenDateTime.ToString("HH:mm");
+                    timeText.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
@@ -65,7 +65,7 @@ namespace AndroidAppV2.Activities
             {
                 Reservation res = new Reservation();
                 res.numPeople = sb.Progress;
-                res.time = chosenDateTime;
+                res.time = _chosenDateTime;
                 res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
                 res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
                 res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
@@ -122,8 +122,11 @@ namespace AndroidAppV2.Activities
         {
             System.Diagnostics.Debug.WriteLine("Stopped tracking changes.");
         }
+
+        //TODO: OVERRIDE OnBackPressed to Pause instead of destroy activity
     }
     
+
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener
     {

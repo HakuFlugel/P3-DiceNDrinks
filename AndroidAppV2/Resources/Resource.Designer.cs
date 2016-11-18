@@ -2642,11 +2642,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070070
 			public const int Text2 = 2131165296;
 			
-			// aapt resource value: 0x7f0700c5
-			public const int acceptButton = 2131165381;
+			// aapt resource value: 0x7f0700c7
+			public const int acceptButton = 2131165383;
 			
-			// aapt resource value: 0x7f0700aa
-			public const int action0 = 2131165354;
+			// aapt resource value: 0x7f0700ac
+			public const int action0 = 2131165356;
 			
 			// aapt resource value: 0x7f07005e
 			public const int action_bar = 2131165278;
@@ -2720,9 +2720,6 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07006d
 			public const int button1 = 2131165293;
 			
-			// aapt resource value: 0x7f0700bb
-			public const int button3 = 2131165371;
-			
 			// aapt resource value: 0x7f070047
 			public const int buttonPanel = 2131165255;
 			
@@ -2765,11 +2762,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070052
 			public const int customPanel = 2131165266;
 			
-			// aapt resource value: 0x7f0700bb
-			public const int dateButton = 2131165371;
-			
 			// aapt resource value: 0x7f0700bd
-			public const int dateText = 2131165373;
+			public const int dateButton = 2131165373;
+			
+			// aapt resource value: 0x7f0700bf
+			public const int dateText = 2131165375;
 			
 			// aapt resource value: 0x7f07005c
 			public const int decor_content_parent = 2131165276;
@@ -2801,11 +2798,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070060
 			public const int edit_query = 2131165280;
 			
-			// aapt resource value: 0x7f0700c4
-			public const int emailEdit = 2131165380;
+			// aapt resource value: 0x7f0700c6
+			public const int emailEdit = 2131165382;
 			
-			// aapt resource value: 0x7f0700c3
-			public const int emailText = 2131165379;
+			// aapt resource value: 0x7f0700c5
+			public const int emailText = 2131165381;
 			
 			// aapt resource value: 0x7f07001d
 			public const int end = 2131165213;
@@ -2888,8 +2885,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f0700b7
 			public const int info = 2131165367;
 			
-			// aapt resource value: 0x7f0700ba
-			public const int inviteesNum = 2131165370;
+			// aapt resource value: 0x7f0700bc
+			public const int inviteesNum = 2131165372;
 			
 			// aapt resource value: 0x7f070000
 			public const int item_touch_helper_previous_elevation = 2131165184;
@@ -2911,9 +2908,6 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f07000b
 			public const int listMode = 2131165195;
-			
-			// aapt resource value: 0x7f070082
-			public const int listView1 = 2131165314;
 			
 			// aapt resource value: 0x7f070089
 			public const int list_header_title = 2131165321;
@@ -3011,11 +3005,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070016
 			public const int multiply = 2131165206;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int nameEdit = 2131165376;
+			// aapt resource value: 0x7f0700c2
+			public const int nameEdit = 2131165378;
 			
-			// aapt resource value: 0x7f0700bf
-			public const int nameText = 2131165375;
+			// aapt resource value: 0x7f0700c1
+			public const int nameText = 2131165377;
 			
 			// aapt resource value: 0x7f070076
 			public const int navigation_header_container = 2131165302;
@@ -3029,8 +3023,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07000c
 			public const int normal = 2131165196;
 			
-			// aapt resource value: 0x7f0700b8
-			public const int numPplText = 2131165368;
+			// aapt resource value: 0x7f0700ba
+			public const int numPplText = 2131165370;
 			
 			// aapt resource value: 0x7f070033
 			public const int parallax = 2131165235;
@@ -3038,11 +3032,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070049
 			public const int parentPanel = 2131165257;
 			
-			// aapt resource value: 0x7f0700c2
-			public const int phoneNumEdit = 2131165378;
+			// aapt resource value: 0x7f0700c4
+			public const int phoneNumEdit = 2131165380;
 			
-			// aapt resource value: 0x7f0700c1
-			public const int phoneNumText = 2131165377;
+			// aapt resource value: 0x7f0700c3
+			public const int phoneNumText = 2131165379;
 			
 			// aapt resource value: 0x7f070034
 			public const int pin = 2131165236;
@@ -3062,8 +3056,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070090
 			public const int reservationButton = 2131165328;
 			
-			// aapt resource value: 0x7f0700b7
-			public const int reservationText = 2131165367;
+			// aapt resource value: 0x7f0700b9
+			public const int reservationText = 2131165369;
 			
 			// aapt resource value: 0x7f070031
 			public const int right = 2131165233;
@@ -3116,8 +3110,8 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07006b
 			public const int search_voice_btn = 2131165291;
 			
-			// aapt resource value: 0x7f0700b9
-			public const int seekBar1 = 2131165369;
+			// aapt resource value: 0x7f0700bb
+			public const int seekBar1 = 2131165371;
 			
 			// aapt resource value: 0x7f07006c
 			public const int select_dialog_listview = 2131165292;
@@ -3197,11 +3191,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f0700b2
 			public const int time = 2131165362;
 			
-			// aapt resource value: 0x7f0700bc
-			public const int timeButton = 2131165372;
-			
 			// aapt resource value: 0x7f0700be
-			public const int timeText = 2131165374;
+			public const int timeButton = 2131165374;
+			
+			// aapt resource value: 0x7f0700c0
+			public const int timeText = 2131165376;
 			
 			// aapt resource value: 0x7f070046
 			public const int title = 2131165254;
