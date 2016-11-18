@@ -2642,6 +2642,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070070
 			public const int Text2 = 2131165296;
 			
+			// aapt resource value: 0x7f0700c5
+			public const int acceptButton = 2131165381;
+			
 			// aapt resource value: 0x7f0700aa
 			public const int action0 = 2131165354;
 			
@@ -2750,12 +2753,6 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070020
 			public const int collapseActionView = 2131165216;
 			
-			// aapt resource value: 0x7f0700c0
-			public const int commentEditText = 2131165376;
-			
-			// aapt resource value: 0x7f0700bf
-			public const int commentText = 2131165375;
-			
 			// aapt resource value: 0x7f07004d
 			public const int contentPanel = 2131165261;
 			
@@ -2800,6 +2797,12 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070060
 			public const int edit_query = 2131165280;
+			
+			// aapt resource value: 0x7f0700c4
+			public const int emailEdit = 2131165380;
+			
+			// aapt resource value: 0x7f0700c3
+			public const int emailText = 2131165379;
 			
 			// aapt resource value: 0x7f07001d
 			public const int end = 2131165213;
@@ -2993,6 +2996,12 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070016
 			public const int multiply = 2131165206;
 			
+			// aapt resource value: 0x7f0700c0
+			public const int nameEdit = 2131165376;
+			
+			// aapt resource value: 0x7f0700bf
+			public const int nameText = 2131165375;
+			
 			// aapt resource value: 0x7f070076
 			public const int navigation_header_container = 2131165302;
 			
@@ -3013,6 +3022,12 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070049
 			public const int parentPanel = 2131165257;
+			
+			// aapt resource value: 0x7f0700c2
+			public const int phoneNumEdit = 2131165378;
+			
+			// aapt resource value: 0x7f0700c1
+			public const int phoneNumText = 2131165377;
 			
 			// aapt resource value: 0x7f070034
 			public const int pin = 2131165236;
@@ -3582,12 +3597,6 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f080026
 			public const int abc_toolbar_collapse_description = 2131230758;
 			
-			// aapt resource value: 0x7f080046
-			public const int addCommentHint = 2131230790;
-			
-			// aapt resource value: 0x7f080045
-			public const int addComments = 2131230789;
-			
 			// aapt resource value: 0x7f08004a
 			public const int advancedSearch = 2131230794;
 			
@@ -3696,6 +3705,9 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f080047
 			public const int numPeople = 2131230791;
 			
+			// aapt resource value: 0x7f080045
+			public const int phoneNumber = 2131230789;
+			
 			// aapt resource value: 0x7f08003f
 			public const int playerButton = 2131230783;
 			
@@ -3710,6 +3722,9 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f080028
 			public const int status_bar_notification_info_overflow = 2131230760;
+			
+			// aapt resource value: 0x7f080046
+			public const int writeHere = 2131230790;
 			
 			// aapt resource value: 0x7f08003a
 			public const int yes = 2131230778;
