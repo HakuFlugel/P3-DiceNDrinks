@@ -2753,6 +2753,12 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070020
 			public const int collapseActionView = 2131165216;
 			
+			// aapt resource value: 0x7f0700c2
+			public const int commentEditText = 2131165378;
+			
+			// aapt resource value: 0x7f0700c1
+			public const int commentText = 2131165377;
+			
 			// aapt resource value: 0x7f07004d
 			public const int contentPanel = 2131165261;
 			
@@ -2846,9 +2852,6 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f07008e
 			public const int foodmenuButton = 2131165326;
 			
-			// aapt resource value: 0x7f070082
-			public const int foodmenuList = 2131165314;
-			
 			// aapt resource value: 0x7f07007c
 			public const int frameLayout1 = 2131165308;
 			
@@ -2905,6 +2908,9 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f070083
 			public const int linearLayout2 = 2131165315;
+			
+			// aapt resource value: 0x7f070082
+			public const int list = 2131165314;
 			
 			// aapt resource value: 0x7f07000b
 			public const int listMode = 2131165195;

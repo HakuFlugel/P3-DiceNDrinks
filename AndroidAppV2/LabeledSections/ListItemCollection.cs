@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Shared;
 
 namespace AndroidAppV2.LabeledSections
 {
@@ -34,16 +35,17 @@ namespace AndroidAppV2.LabeledSections
 			List<T> contacts = null;
 			string cur = null;
 			
-			foreach (var e in values) {
-				if (e.Label != cur) {
+			foreach (var e in values)
+			{
+			    if (e.Label != cur) {
 					contacts = new List<T> ();
 					cur = e.Label;
 					results.Add (cur, contacts);
 				}
-				contacts.Add (e);
+			    contacts?.Add (e);
 			}
 
-			foreach (var v in results.Values)
+		    foreach (var v in results.Values)
 				v.Sort ();
 			
 			return results;
