@@ -14,7 +14,7 @@ using System.Media;
 
 namespace AdministratorPanel {
 
-    class GamePopupBox : FancyPopupBox {
+    public class GamePopupBox : FancyPopupBox {
         protected TableLayoutPanel lft = new TableLayoutPanel() {
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
@@ -29,13 +29,13 @@ namespace AdministratorPanel {
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         };
         
-        NiceTextBox gameName = new NiceTextBox() {
+        public NiceTextBox gameName = new NiceTextBox() {
             Width = 200,
             waterMark = "Game name",
             Margin = new Padding(5, 10, 20, 10)
         };
 
-        ToolTip toolTip = new ToolTip() {
+        public ToolTip toolTip = new ToolTip() {
             AutoPopDelay = 5000,
             InitialDelay = 100,
             ReshowDelay = 500,
@@ -43,7 +43,7 @@ namespace AdministratorPanel {
 
         };
 
-        NiceTextBox gameDescription = new NiceTextBox() {
+        public NiceTextBox gameDescription = new NiceTextBox() {
             Width = 200,
             Height = 100,
             waterMark = "Game Description",
@@ -51,21 +51,26 @@ namespace AdministratorPanel {
             Margin = new Padding(5, 0, 20, 10)
         };
 
-        NiceTextBox imageText = new NiceTextBox() {
+        public NiceTextBox imageText = new NiceTextBox() {
             Width = 130,
             waterMark = "Path to picture",
             Margin = new Padding(5, 0, 0, 20),
             Dock = DockStyle.Left
         };
 
-        Button imageSeach = new Button() {
+        public Button imageSeach = new Button() {
             BackgroundImage = Image.FromFile("images/seachIcon.png"),
             BackgroundImageLayout = ImageLayout.Zoom,
             Width = 50,
             Margin = new Padding(5, 0, 0, 20),
         };
+        public NiceTextBox yearPublished = new NiceTextBox() {
+            Width = 200,
+            waterMark = "Year published",
+            Margin = new Padding(5, 10, 20, 10)
+        };
 
-        Panel gameImage = new Panel() {
+        public Panel gameImage = new Panel() {
             Width = 200,
             Height = 200,
             Margin = new Padding(5, 0, 0, 0),
@@ -73,21 +78,21 @@ namespace AdministratorPanel {
             BackgroundImageLayout = ImageLayout.Zoom,
         };
 
-        NiceTextBox time = new NiceTextBox() {
+        public NiceTextBox time = new NiceTextBox() {
             Name = "minimum / maximum players" + Environment.NewLine + "it takes to play the game." + Environment.NewLine + "eg: 3/10",
             waterMark = "min / max players",
             Width = 95,
             Margin = new Padding(0, 0, 0, 20)
         };
 
-        NiceTextBox players = new NiceTextBox() {
+        public NiceTextBox players = new NiceTextBox() {
             Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
             waterMark = "min / max time",
             Width = 95,
             Margin = new Padding(5, 0, 0, 20)
         };
 
-        ListView genreBox = new ListView() {
+        public ListView genreBox = new ListView() {
             View = View.Details,
             LabelEdit = true,
             AllowColumnReorder = true,
@@ -98,7 +103,7 @@ namespace AdministratorPanel {
             Size = new Size(200, 200)
         };
 
-        TrackBar gameDifficulty = new TrackBar() {
+        public TrackBar gameDifficulty = new TrackBar() {
             Size = new Size(195, 45),
             Maximum = 100,
             TickFrequency = 1,
@@ -106,12 +111,12 @@ namespace AdministratorPanel {
             SmallChange = 1,
         };
 
-        
 
+        GamePopupBoxRght rght;
         private List<ListViewItem> genreItems = new List<ListViewItem>();
         public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
         private GamesTab gametab;
-        private Game game;
+        public Game game;
         private Game b4EditingGame;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
         private Image image;
@@ -142,7 +147,7 @@ namespace AdministratorPanel {
 
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
-
+                yearPublished.Text = this.game.publishedYear.ToString();
                 time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
                 //gameImage.BackgroundImage = Image.FromFile(this.game.thumbnail);
@@ -168,15 +173,14 @@ namespace AdministratorPanel {
         
         private void SubscriptionList() {
             bool isNewGame = (b4EditingGame != null) ? true : false;
-            string messageboxText = "Please only use whole integers" + Environment.NewLine + "In this format INTEGER/INTEGER";
-
+           
             /* 
              * Checks if there has been any changes in the game, if there is any changes,
              * and they are different from what the game looked before (if it is not a new game) then set hasBeenChanged to true,
              * hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed,
              * if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
              */
-
+            yearPublished.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.publishedYear.ToString() != yearPublished.Text) ? true : false) : true; };
             gameName.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.name != gameName.Text) ? true : false) : true; };
 
             gameDescription.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.description != gameDescription.Text) ? true : false) : true; };
@@ -188,30 +192,12 @@ namespace AdministratorPanel {
             };
 
             time.LostFocus += (s, e) => {
+
                 
-                string[] withOutSlash = time.Text.Split('/');
-                try {
-                    Int32.TryParse(withOutSlash[0], out game.minPlayTime);
-                    Int32.TryParse(withOutSlash[1], out game.maxPlayTime);
-                    
-                } catch (Exception) {
-                    SystemSounds.Hand.Play();
-                    time.Text = time.waterMark;
-                    MessageBox.Show(messageboxText, "FATAL ERROR IN TIME");
-                }
             };
 
             players.LostFocus += (s, e) => {
                 
-                string[] withOutSlash = players.Text.Split('/');
-                try {
-                    Int32.TryParse(withOutSlash[0], out game.minPlayers);
-                    Int32.TryParse(withOutSlash[1], out game.maxPlayers);
-                } catch (Exception) {
-                    SystemSounds.Hand.Play();
-                    players.Text = players.waterMark;
-                    MessageBox.Show(messageboxText, "FATAL ERROR IN PLAYERS");
-                }
                 
             };
 
@@ -237,17 +223,16 @@ namespace AdministratorPanel {
         }
 
         protected override Control CreateControls() {
-            
 
+            rght = new GamePopupBoxRght(this);
             Controls.Add(header);
 
-            TableLayoutPanel rght = new TableLayoutPanel();
-            rght.ColumnCount = 1;
-            rght.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            rght.Dock = DockStyle.Fill;
+            lft.ColumnCount = 1;
+            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+            lft.Dock = DockStyle.Fill;
 
-            rght.Controls.Add(gameName);
-            rght.Controls.Add(gameDescription);
+            lft.Controls.Add(gameName);
+            lft.Controls.Add(gameDescription);
 
             TableLayoutPanel generalInformaiton = new TableLayoutPanel();
             generalInformaiton.ColumnCount = 2;
@@ -257,10 +242,10 @@ namespace AdministratorPanel {
             generalInformaiton.Controls.Add(time);
             generalInformaiton.Controls.Add(players);
 
-            rght.Controls.Add(gameDifficulty);
+            lft.Controls.Add(gameDifficulty);
 
-            rght.Controls.Add(generalInformaiton);
-            rght.Controls.Add(genreBox);
+            lft.Controls.Add(generalInformaiton);
+            lft.Controls.Add(genreBox);
 
             TableLayoutPanel imageSeachTable = new TableLayoutPanel();
             imageSeachTable.ColumnCount = 2;
@@ -270,36 +255,75 @@ namespace AdministratorPanel {
             imageSeachTable.Controls.Add(imageText);
             imageSeachTable.Controls.Add(imageSeach);
 
-            rght.Controls.Add(imageSeachTable);
+            lft.Controls.Add(imageSeachTable);
 
-            rght.Controls.Add(gameImage);
-
-            
+            lft.Controls.Add(gameImage);
 
             
 
+            
+            
+            header.Controls.Add(lft);
             header.Controls.Add(rght);
-            
             return header;
         }
 
         protected override void save(object sender, EventArgs e) {
             if (b4EditingGame != null) {
-                game.description = gameDescription.Text;
-                game.name = gameName.Text;
+                game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
+                game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";
                 game.difficulity = gameDifficulty.Value;
-                gametab.games.Remove(game);
+                if (yearPublished.Text != null && yearPublished.Text != "") {
+                    try {
+
+                        Int32.TryParse(yearPublished.Text, out game.publishedYear);
+                    } catch (Exception) {
+                        MessageBox.Show("Please refere from using letters or special characters in Publish year box" + Environment.NewLine + "Yearpublished is not a number: " + yearPublished.Text.ToString(), "Convertion failed");
+                    }
+                } else {
+                    game.publishedYear = 1337;
+                }
+                string messageboxText = "Please only use whole integers" + Environment.NewLine + "In this format INTEGER/INTEGER";
+
+                string[] timeWOS = time.Text.Split('/');
+                try {
+                    Int32.TryParse(timeWOS[0], out game.minPlayTime);
+                    Int32.TryParse(timeWOS[1], out game.maxPlayTime);
+
+                } catch (Exception) {
+                    SystemSounds.Hand.Play();
+                    time.Text = time.waterMark;
+                    MessageBox.Show(messageboxText, "FATAL ERROR IN TIME");
+                }
+
+                string[] playersWOS = players.Text.Split('/');
+                try {
+                    Int32.TryParse(playersWOS[0], out game.minPlayers);
+                    Int32.TryParse(playersWOS[1], out game.maxPlayers);
+                } catch (Exception) {
+                    SystemSounds.Hand.Play();
+                    players.Text = players.waterMark;
+                    MessageBox.Show(messageboxText, "FATAL ERROR IN PLAYERS");
+                }
+
+
+
+                gametab.games.Remove(b4EditingGame);
                 
                 b4EditingGame = game;
+                
             }
 
             //create game.
             gametab.games.Add(game);
+            gametab.game.makeItems("");
             base.save(sender, e);
         }
 
         protected override void delete(object sender, EventArgs e) {
-            //delete game
+            gametab.games.Remove(b4EditingGame);
+            gametab.game.makeItems("");
+            Close();
         }
 
         private void memeberChecked(object sender, ItemCheckEventArgs e) {

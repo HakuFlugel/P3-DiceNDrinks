@@ -11,7 +11,7 @@ namespace AdministratorPanel {
 
         
         public List<Game> games;
-        GamesList game;
+        public GamesList game;
         string seach ="";
         
 
@@ -35,7 +35,7 @@ namespace AdministratorPanel {
             Text = "Add Game",
         };
 
-        NiceTextBox seachBar = new NiceTextBox() {
+        public NiceTextBox seachBar = new NiceTextBox() {
             
             waterMark = "Type something to seach..",
             clearable = true,
