@@ -20,14 +20,14 @@
             p1:layout_centerHorizontal="true"
             p1:layout_marginTop="10dp" />
         <TextView
-            p1:text="Medium Text"
             p1:textAppearance="?android:attr/textAppearanceMedium"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:layout_below="@id/reservationText"
             p1:id="@+id/numPplText"
             p1:layout_marginTop="5dp"
-            p1:layout_marginLeft="5dp" />
+            p1:layout_marginLeft="5dp"
+            p1:text="@string/numPeople" />
         <SeekBar
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
@@ -79,22 +79,67 @@
             p1:id="@+id/timeText"
             p1:layout_alignBaseline="@id/timeButton" />
         <TextView
-            p1:textAppearance="?android:attr/textAppearanceLarge"
+            p1:textAppearance="?android:attr/textAppearanceMedium"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:layout_below="@id/timeButton"
-            p1:id="@+id/commentText"
+            p1:id="@+id/nameText"
             p1:layout_marginLeft="5dp"
-            p1:text="@string/addComments"
+            p1:text="Name"
             p1:layout_marginTop="30dp" />
         <EditText
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:id="@+id/commentEditText"
-            p1:layout_below="@id/commentText"
+            p1:id="@+id/nameEdit"
+            p1:layout_below="@id/nameText"
             p1:maxWidth="375dp"
             p1:minWidth="375dp"
             p1:layout_marginLeft="5dp"
-            p1:hint="@string/addCommentHint" />
+            p1:hint="@string/writeHere" />
+        <TextView
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/nameEdit"
+            p1:id="@+id/phoneNumText"
+            p1:layout_marginLeft="5dp"
+            p1:text="@string/phoneNumber"
+            p1:layout_marginTop="30dp" />
+        <EditText
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/phoneNumEdit"
+            p1:layout_below="@id/phoneNumText"
+            p1:maxWidth="375dp"
+            p1:minWidth="375dp"
+            p1:layout_marginLeft="5dp"
+            p1:hint="@string/writeHere" />
+        <TextView
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:layout_below="@id/phoneNumEdit"
+            p1:id="@+id/emailText"
+            p1:layout_marginLeft="5dp"
+            p1:text="Email"
+            p1:layout_marginTop="30dp" />
+        <EditText
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/emailEdit"
+            p1:layout_below="@id/emailText"
+            p1:maxWidth="375dp"
+            p1:minWidth="375dp"
+            p1:layout_marginLeft="5dp"
+            p1:hint="@string/writeHere" />
+        <Button
+            p1:text="ACCEPT YOUR FATE"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/acceptButton"
+            p1:layout_centerInParent="true"
+            p1:layout_marginLeft="5dp"
+            p1:layout_marginTop="25dp"
+            p1:layout_below="@id/emailEdit" />
     </RelativeLayout>
 </FrameLayout>

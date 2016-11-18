@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Shared;
 
 using Android.App;
 using Android.Content;
@@ -35,6 +36,7 @@ namespace AndroidAppV2.Activities
             TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
+            Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
 
             dateSelectButton.Click += delegate
@@ -59,12 +61,23 @@ namespace AndroidAppV2.Activities
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
 
+            acceptingButton.Click += delegate 
+            {
+                Reservation res = new Reservation();
+                res.numPeople = sb.Progress;
+                res.time = chosenDateTime;
+                res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
+                res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
+                res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
+                SendData(res);
+            };
+
             sb.Max = 20;
             sb.SetOnSeekBarChangeListener(this);
 
         }
 
-        private void SendData(DateTime datetime, int paritcipants)
+        private void SendData(Reservation res)
         {
             //todo: send reservation here
         }
