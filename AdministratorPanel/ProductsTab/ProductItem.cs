@@ -6,18 +6,20 @@ using System.Drawing;
 using System;
 
 namespace AdministratorPanel {
-    class ProductItem : NiceButton {
+    public class ProductItem : NiceButton {
 
         private int sizeX = 192;
         private int sizeY = 192;
         private Image image;
-        private Product product;
+        public Product product;
         private ProductsTab productTab;
 
         public ProductItem(Product product, ProductsTab productTab) {
             this.productTab = productTab;
             this.product = product;
-            Update(product);
+            if (product.name != null && product.section != null && product.category != null) {
+                Update(product);
+            }
 
             //BorderStyle = BorderStyle.FixedSingle;
             bgColor = Color.LightGray;
@@ -80,15 +82,19 @@ namespace AdministratorPanel {
         }
 
         private void Update(Product product){
+            try {
+                image = Image.FromFile("images/" + product.image);
+            } catch (Exception) {
+                MessageBox.Show("image not found");
+            }
             
-            image = Image.FromFile("images/" + product.image);
            
             this.Height = sizeY;
             this.Width = sizeX;
         }
 
         protected override void OnClick(EventArgs e) {
-            ProductPopupBox p = new ProductPopupBox(productTab, product);
+            ProductPopupBox p = new ProductPopupBox(productTab, this);
             p.Show();
             base.OnClick(e);
 

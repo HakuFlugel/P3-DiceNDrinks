@@ -10,6 +10,7 @@ namespace Shared
         public string phone;
         public int numPeople;
         public DateTime time;
+        public DateTime created;
         public bool pending;
 
     }

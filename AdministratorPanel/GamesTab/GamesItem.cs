@@ -50,7 +50,6 @@ namespace AdministratorPanel {
         }
         protected override void OnClick(EventArgs e) {
             
-            Console.WriteLine("Din mor en bøgse");
 
             GamePopupBox p = new GamePopupBox(null, game);
             

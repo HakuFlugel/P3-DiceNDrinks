@@ -10,9 +10,9 @@ namespace AdministratorPanel
     public class ReservationList : TableLayoutPanel
     {
         private Calendar calendar;
-        private CalendarTab calTab;
+        private ReservationTab calTab;
 
-        public ReservationList(Calendar calendar, CalendarTab calTab)
+        public ReservationList(Calendar calendar, ReservationTab calTab)
         {
             this.calendar = calendar;
             this.calTab = calTab;
@@ -24,8 +24,11 @@ namespace AdministratorPanel
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //AutoScroll = true;
-            VScroll = true;
+            //AutoSize = true;
+            HorizontalScroll.Maximum = 0;
+            AutoScroll = true;
+            
+            
         }
 
         public void makeItems(DateTime day)
@@ -38,11 +41,12 @@ namespace AdministratorPanel
             }
             calendar.SelectionStart = cd.theDay.Date;
 
-            foreach (var res in cd.reservations) {
+            foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => !o.pending)) {
                 ReservationItem reservationItem = new ReservationItem(calTab, res);
 
                 Controls.Add(reservationItem);
             }
+           
         }
     }
 }
