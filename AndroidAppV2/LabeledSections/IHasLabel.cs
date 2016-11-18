@@ -1,8 +1,7 @@
 namespace AndroidAppV2.LabeledSections
 {
-	interface IHasLabel
-	{
-		string Label {get;}
-	}
+    public interface IHasLabel
+    {
+        string Label { get; }
+    }
 }
-

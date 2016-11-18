@@ -4,6 +4,7 @@ using System.Linq;
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using Shared;
 
 namespace AndroidAppV2.LabeledSections
 {
@@ -14,24 +15,14 @@ namespace AndroidAppV2.LabeledSections
 		{
 			base.OnCreate (bundle);
 			
-			var data = new ListItemCollection<ListItemValue> () {
-				new ListItemValue ("Babbage"),
-				new ListItemValue ("Boole"),
-				new ListItemValue ("Berners-Lee"),
-				new ListItemValue ("Atanasoff"),
-				new ListItemValue ("Allen"),
-				new ListItemValue ("Cormack"),
-				new ListItemValue ("Cray"),
-				new ListItemValue ("Dijkstra"),
-				new ListItemValue ("Dix"),
-				new ListItemValue ("Dewey"),
-				new ListItemValue ("Erdos"),
+			var data = new ListItemCollection<Product> () {
+				new Product("derp","faggot") 
 			};
 			
 			var sortedContacts = data.GetSortedData ();
 			var adapter = CreateAdapter (sortedContacts);
 			ListAdapter = adapter;
-			SetContentView (Resource.Layout.Main);
+
 		}
 		
 		SeparatedListAdapter CreateAdapter<T> (Dictionary<string, List<T>> sortedObjects)

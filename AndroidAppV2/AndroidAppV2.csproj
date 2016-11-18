@@ -125,7 +125,7 @@
     <Compile Include="LabeledSections\Activity1.cs" />
     <Compile Include="LabeledSections\IHasLabel.cs" />
     <Compile Include="LabeledSections\ListItemCollection.cs" />
-    <Compile Include="LabeledSections\ListItemValue.cs" />
+    <Compile Include="LabeledSections\Product.cs" />
     <Compile Include="LabeledSections\SeparatedListAdapter.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
