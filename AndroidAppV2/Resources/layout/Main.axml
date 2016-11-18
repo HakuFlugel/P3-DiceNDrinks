@@ -83,7 +83,7 @@
             p1:scaleX="1"
             p1:scaleY="1" />
     </RelativeLayout>
-  <!--
+<!--
     <SlidingDrawer
         p1:id="@+id/drawer"
         p1:layout_width="200dp"
