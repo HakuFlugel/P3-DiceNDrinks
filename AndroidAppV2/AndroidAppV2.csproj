@@ -122,7 +122,6 @@
     <Compile Include="Activities\GameActivity.cs" />
     <Compile Include="Activities\ReservationActivity.cs" />
     <Compile Include="ItemAdapter.cs" />
-    <Compile Include="LabeledSections\Activity1.cs" />
     <Compile Include="LabeledSections\IHasLabel.cs" />
     <Compile Include="LabeledSections\ListItemCollection.cs" />
     <Compile Include="LabeledSections\Product.cs" />
