@@ -121,7 +121,8 @@
     <Compile Include="Activities\FoodmenuActivity.cs" />
     <Compile Include="Activities\GameActivity.cs" />
     <Compile Include="Activities\ReservationActivity.cs" />
-    <Compile Include="GameAdapter.cs" />
+    <Compile Include="ListAdapters\ProductAdapter.cs" />
+    <Compile Include="ListAdapters\GameAdapter.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

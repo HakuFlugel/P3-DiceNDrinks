@@ -12,9 +12,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
+using AndroidAppV2.ListAdapters;
 using Shared;
-using IOException = Java.IO.IOException;
 
 namespace AndroidAppV2.Activities
 {
@@ -36,7 +35,8 @@ namespace AndroidAppV2.Activities
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
             Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
-
+            List<Game> list = getGames();
+            
             gameSpinner.ItemSelected += spinner_ItemSelected;
             var adapter = ArrayAdapter.CreateFromResource(
                     this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
@@ -57,10 +57,9 @@ namespace AndroidAppV2.Activities
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             gameSpinner.Adapter = adapter;
 
-            List<Game> list = getGames();
+
             GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
-
             listView.ItemClick += OnListItemClick;
 
         }
@@ -75,6 +74,8 @@ namespace AndroidAppV2.Activities
         List<Game> getGames()
         {
             List<Game> list = new List<Game>();
+
+
             Game testgame = new Game
             {
                 name = "game",
@@ -93,7 +94,7 @@ namespace AndroidAppV2.Activities
             list.Add(testgame2);
 
             //todo: get the games here
-
+            list.Sort();
             return list;
         }
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
