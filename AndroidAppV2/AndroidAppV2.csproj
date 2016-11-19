@@ -136,6 +136,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <AndroidAsset Include="Assets\VirtualServerReservation.json" />
+    <AndroidAsset Include="Assets\TheUserReservationID.json" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
