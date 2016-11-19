@@ -29,14 +29,14 @@ namespace AndroidAppV2.Activities
 
             // Create your application here
             var data = new ListItemCollection<Product>() {
-                new Product("derp","faggot")
+                new Product("derp","faggot","faggotass")
             };
 
             var sortedContacts = data.GetSortedData();
             var adapter = CreateAdapter(sortedContacts);
             ListAdapter = adapter;
 
-
+            /*
             FindViewById<Button>(Resource.Id.foodButton).Click += delegate
             {
 
@@ -51,7 +51,7 @@ namespace AndroidAppV2.Activities
             {
 
                 //todo: update list
-            };
+            };*/
         }
         SeparatedListAdapter CreateAdapter<T>(Dictionary<string, List<T>> sortedObjects)
     where T : IHasLabel, IComparable<T>

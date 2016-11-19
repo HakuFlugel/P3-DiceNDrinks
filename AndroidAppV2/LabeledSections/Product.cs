@@ -14,7 +14,7 @@ namespace AndroidAppV2.LabeledSections
         public string section;
         public List<PriceElement> PriceElements = new List<PriceElement>();
 
-        public Product(string name, string image)
+        public Product(string name, string image, string section)
         {
             this.name = name; this.image = image;
         }
@@ -29,7 +29,7 @@ namespace AndroidAppV2.LabeledSections
 
         int IComparable<Product>.CompareTo (Product value)
 		{
-			return this.id.CompareTo (value.id);
+			return id.CompareTo (value.id);
 		}
 		
 
