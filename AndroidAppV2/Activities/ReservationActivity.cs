@@ -14,6 +14,8 @@ using Android.Widget;
 using Java.Lang;
 using Xamarin.Android;
 using Android.Content.PM;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace AndroidAppV2.Activities
 {
@@ -22,6 +24,8 @@ namespace AndroidAppV2.Activities
     {
         public bool State = true; //checks if the user has made any changes
         private DateTime _chosenDateTime = DateTime.Now;
+        private int _userID;
+        private Reservation res;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -37,7 +41,30 @@ namespace AndroidAppV2.Activities
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
+
+
+            LoadID();
+
+            if (_userID == 0) {
+                Random random = new Random();
+
+                _userID = random.Next(0, 100);
+            }
             
+            LoadData();
+            
+            if (res == null) {
+                res = new Reservation();
+            }
+            else {
+                sb.Progress = res.numPeople;
+                _chosenDateTime = res.time;
+                dateText.Text = res.time.ToString("dd. MMMMM, yyyy");
+                timeText.Text = res.time.ToString("HH:mm");
+                FindViewById<EditText>(Resource.Id.nameEdit).Text = res.name;
+                FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = res.phone;
+                FindViewById<EditText>(Resource.Id.emailEdit).Text = res.email;
+            }
             dateSelectButton.Click += delegate
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
@@ -63,12 +90,13 @@ namespace AndroidAppV2.Activities
 
             acceptingButton.Click += delegate 
             {
-                Reservation res = new Reservation();
                 res.numPeople = sb.Progress;
                 res.time = _chosenDateTime;
                 res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
                 res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
                 res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
+                res.created = DateTime.Now;
+                res.id = _userID;
                 SendData(res);
             };
 
@@ -76,9 +104,50 @@ namespace AndroidAppV2.Activities
             sb.SetOnSeekBarChangeListener(this);
 
         }
+        private void LoadID() {
+            string input;
+            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            if (!File.Exists(path + "/TheUserReservationID.json")) {
+                return;
+            }
+            var filename = Path.Combine(path, "TheUserReservationID.json");
+
+            input = File.ReadAllText(filename);
+
+            if (input != null) {
+                _userID = JsonConvert.DeserializeObject<int>(input);
+            }
+        }
+
+        private void LoadData() {
+            string input;
+            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            if (!File.Exists(path + "/VirtualServerReservation.json")) {
+                return;
+            }
+            var filename = Path.Combine(path, "VirtualServerReservation.json");
+
+            input = File.ReadAllText(filename);
+
+            if (input != null) {
+                res = JsonConvert.DeserializeObject<Reservation>(input);
+            }
+        }
 
         private void SendData(Reservation res)
         {
+
+            var json = JsonConvert.SerializeObject(res);
+            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            var filename = Path.Combine(path, "VirtualServerReservation.json");
+
+            File.WriteAllText(filename, json);
+
+            var json2 = JsonConvert.SerializeObject(res.id);
+            var filename2 = Path.Combine(path, "TheUserReservationID.json");
+
+            File.WriteAllText(filename2, json2);
+
             //todo: send reservation here
         }
 
