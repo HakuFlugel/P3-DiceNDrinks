@@ -14,11 +14,12 @@ using Android.Views;
 using Android.Widget;
 using AndroidAppV2.ListAdapters;
 using Shared;
+using Android.Support.V4.App;
 
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
-    public class GameActivity : Activity
+    public class GameActivity : FragmentActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -60,7 +61,11 @@ namespace AndroidAppV2.Activities
 
             GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
-            listView.ItemClick += OnListItemClick;
+            listView.ItemClick += delegate {
+                var dialog = new ListDialogFragments.GameDialogFragment();
+                dialog.Show(SupportFragmentManager, "dialog");
+                
+            };
 
         }
 
