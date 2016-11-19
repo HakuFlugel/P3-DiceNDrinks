@@ -12,9 +12,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
+using AndroidAppV2.ListAdapters;
 using Shared;
-using IOException = Java.IO.IOException;
 
 namespace AndroidAppV2.Activities
 {
@@ -36,7 +35,8 @@ namespace AndroidAppV2.Activities
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
             Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
-
+            List<Game> list = getGames();
+            
             gameSpinner.ItemSelected += spinner_ItemSelected;
             var adapter = ArrayAdapter.CreateFromResource(
                     this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
@@ -57,10 +57,9 @@ namespace AndroidAppV2.Activities
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             gameSpinner.Adapter = adapter;
 
-            List<Game> list = getGames();
+
             GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
-
             listView.ItemClick += OnListItemClick;
 
         }
@@ -75,16 +74,18 @@ namespace AndroidAppV2.Activities
         List<Game> getGames()
         {
             List<Game> list = new List<Game>();
+
+
             Game testgame = new Game
             {
-                name = "game",
-                publishedYear = 1994,
+                name = "Secret Hitler",
+                genre = { "Party game"},
                 thumbnail = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
             };
             Game testgame2 = new Game
             {
-                name = "faggot",
-                publishedYear = 2020,
+                name = "In time you will know the tragic extends of my failings",
+                genre = {"how","quickly","the","tides","turn"},
                 thumbnail = "small.jpg"
             };
 
@@ -93,7 +94,6 @@ namespace AndroidAppV2.Activities
             list.Add(testgame2);
 
             //todo: get the games here
-
             return list;
         }
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)

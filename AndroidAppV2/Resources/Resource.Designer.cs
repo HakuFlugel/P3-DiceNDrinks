@@ -2608,14 +2608,17 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f0200fa
 			public const int navigation_empty_icon = 2130837754;
 			
-			// aapt resource value: 0x7f0200fd
-			public const int notification_template_icon_bg = 2130837757;
+			// aapt resource value: 0x7f0200fe
+			public const int notification_template_icon_bg = 2130837758;
 			
 			// aapt resource value: 0x7f0200fb
-			public const int Top_Left_Games = 2130837755;
+			public const int splash_screen = 2130837755;
 			
 			// aapt resource value: 0x7f0200fc
-			public const int Top_Right_Menu = 2130837756;
+			public const int Top_Left_Games = 2130837756;
+			
+			// aapt resource value: 0x7f0200fd
+			public const int Top_Right_Menu = 2130837757;
 			
 			static Drawable()
 			{
@@ -4224,6 +4227,15 @@ namespace AndroidAppV2
 			
 			// aapt resource value: 0x7f0a001a
 			public const int CardView_Light = 2131361818;
+			
+			// aapt resource value: 0x7f0a0182
+			public const int MyTheme = 2131362178;
+			
+			// aapt resource value: 0x7f0a0181
+			public const int MyTheme_Base = 2131362177;
+			
+			// aapt resource value: 0x7f0a0183
+			public const int MyTheme_Splash = 2131362179;
 			
 			// aapt resource value: 0x7f0a0034
 			public const int Platform_AppCompat = 2131361844;
