@@ -32,7 +32,7 @@ namespace AndroidAppV2.Activities
             ListView listView = FindViewById<ListView>(Resource.Id.list);
             List<Product> list = GenerateProductList();
             ProductAdapter adapter = new ProductAdapter(this, list);
-            adapter.SetListType("Food"); // default value
+            adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
 
             listView.ItemClick += OnListItemClick;
