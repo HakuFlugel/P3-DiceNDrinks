@@ -28,4 +28,9 @@
     <item>Year of publication</item>
     <item>Game Time</item>
   </string-array>
+  <string-array name="categoryspinner">
+    <item>Food</item>
+    <item>Drinks</item>
+    <item>Misc</item>
+  </string-array>
 </resources>

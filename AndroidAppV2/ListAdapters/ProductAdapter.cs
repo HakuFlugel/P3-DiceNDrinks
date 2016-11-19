@@ -54,7 +54,24 @@ namespace AndroidAppV2.ListAdapters
         public void SetListType(string type)
         {
             items = baseItems.Where(prd => prd.category == type).ToList();
-            this.NotifyDataSetChanged();
+        }
+
+        public List<string> GetSections()
+        {
+            List<string> sections = new List<string>();
+
+            foreach (var item in items)
+            {
+                if (!sections.Any(x => x.Contains(item.section)))
+                sections.Add(item.section);
+            }
+            return sections;
+        }
+        
+        public void SetList(string section)
+        {
+            items = baseItems.Where(prd => prd.section == section).ToList();
+            NotifyDataSetChanged();
         }
     }
 }

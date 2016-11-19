@@ -13,24 +13,24 @@
         p1:layout_height="match_parent"
         p1:id="@+id/linearLayout1"
         p1:padding="8dp">
-        <TableRow
+        <LinearLayout
+            p1:orientation="horizontal"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
-            p1:id="@+id/tableRow1">
-            <Button
-                p1:text="@string/foodButton"
-                p1:id="@+id/foodButton"
+            p1:id="@+id/linearLayout2">
+            <Spinner
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/categorySpinner"
                 p1:layout_weight="1" />
-          <Button
-                p1:text="@string/drinkButton"
-                p1:id="@+id/drinkButton"
+            <Spinner
+                p1:layout_width="match_parent"
+                p1:layout_height="match_parent"
+                p1:id="@+id/sectionSpinner"
                 p1:layout_weight="1" />
-          <Button
-                p1:text="@string/miscButton"
-
-                p1:id="@+id/miscButton"
-                p1:layout_weight="1" />
-        </TableRow>
+        </LinearLayout>
         <ListView
             p1:minWidth="25px"
             p1:minHeight="25px"

@@ -26,32 +26,42 @@ namespace AndroidAppV2.Activities
             
             
             SetContentView(Resource.Layout.foodmenuLayout);
-            
+
             // Create your application here
-            Button foodButton = FindViewById<Button>(Resource.Id.foodButton);
+            Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
+            Spinner sectionSpinner = FindViewById<Spinner>(Resource.Id.sectionSpinner);
             ListView listView = FindViewById<ListView>(Resource.Id.list);
             List<Product> list = GenerateProductList();
             ProductAdapter adapter = new ProductAdapter(this, list);
             adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
-
+            List<string> sectionList = adapter.GetSections();
             listView.ItemClick += OnListItemClick;
 
-            foodButton.Click += delegate
-            {
-                adapter.SetListType("Food");
+            var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
+                this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
 
-            };
-            FindViewById<Button>(Resource.Id.drinkButton).Click += delegate
-            {
-                adapter.SetListType("drinks");
+            ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, sectionList);
 
-            };
-            FindViewById<Button>(Resource.Id.miscButton).Click += delegate
-            {
-                adapter.SetListType("misc");
+            
 
+            categorySpinner.Adapter = categorySpinnerAdapter;
+
+            sectionSpinner.Adapter = sectionSpinnerAdapter;
+            
+            categorySpinner.ItemSelected += delegate
+            {
+                adapter.SetListType((string)categorySpinner.SelectedItem);
+                sectionSpinnerAdapter.Clear();
+                sectionSpinnerAdapter.AddAll(adapter.GetSections());
+                sectionSpinner.SetSelection(0);
+                adapter.SetList(adapter.GetSections()[0]);
             };
+            sectionSpinner.ItemSelected += delegate
+            {
+                adapter.SetList((string)sectionSpinner.SelectedItem);
+            };
+
         }
 
         private void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
@@ -87,17 +97,17 @@ namespace AndroidAppV2.Activities
 
 
             //drinks
-            productList.Add(Prmake("1", "ProductTest/Red.png", "drinks", "cola 1", pricelist));
-            productList.Add(Prmake("2", "ProductTest/Red.png", "drinks", "coffe 2", pricelist));
-            productList.Add(Prmake("3", "ProductTest/Red.png", "drinks", "stuff", pricelist));
-            productList.Add(Prmake("4", "ProductTest/Red.png", "drinks", "other", pricelist));
+            productList.Add(Prmake("1", "ProductTest/Red.png", "Drinks", "cola 1", pricelist));
+            productList.Add(Prmake("2", "ProductTest/Red.png", "Drinks", "coffe 2", pricelist));
+            productList.Add(Prmake("3", "ProductTest/Red.png", "Drinks", "stuff", pricelist));
+            productList.Add(Prmake("4", "ProductTest/Red.png", "Drinks", "other", pricelist));
 
 
             // misc.
-            productList.Add(Prmake("5", "ProductTest/Red.png", "misc", "1", pricelist));
-            productList.Add(Prmake("6", "ProductTest/Red.png", "misc", "2", pricelist));
-            productList.Add(Prmake("7", "ProductTest/Red.png", "misc", "3", pricelist));
-            productList.Add(Prmake("8", "ProductTest/Red.png", "misc", "4", pricelist));
+            productList.Add(Prmake("5", "ProductTest/Red.png", "Misc", "1", pricelist));
+            productList.Add(Prmake("6", "ProductTest/Red.png", "Misc", "2", pricelist));
+            productList.Add(Prmake("7", "ProductTest/Red.png", "Misc", "3", pricelist));
+            productList.Add(Prmake("8", "ProductTest/Red.png", "Misc", "4", pricelist));
 
             return productList;
         }
@@ -115,6 +125,9 @@ namespace AndroidAppV2.Activities
 
             return pr;
         }
+
+
+
 
 
     }
