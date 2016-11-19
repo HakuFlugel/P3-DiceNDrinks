@@ -45,12 +45,13 @@ namespace AndroidAppV2.Activities
 
             LoadID();
 
+            //Using Random because we have no server to request from (method implemention)?
             if (_userID == 0) {
                 Random random = new Random();
 
                 _userID = random.Next(0, 100);
             }
-            
+
             LoadData();
             
             if (res == null) {
@@ -96,6 +97,8 @@ namespace AndroidAppV2.Activities
                 res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
                 res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
                 res.created = DateTime.Now;
+
+                //SERVER TODO: Request ID method? - Why we have random atm.
                 res.id = _userID;
                 SendData(res);
             };
@@ -120,6 +123,8 @@ namespace AndroidAppV2.Activities
         }
 
         private void LoadData() {
+            //SERVER TODO: Should get reservation based on ID.
+            //Loading locally instead
             string input;
             var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             if (!File.Exists(path + "/VirtualServerReservation.json")) {
@@ -136,7 +141,8 @@ namespace AndroidAppV2.Activities
 
         private void SendData(Reservation res)
         {
-
+            //SERVER TODO: Should send reservation connected to the ID server gave the user.
+            //Saving locally instead
             var json = JsonConvert.SerializeObject(res);
             var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             var filename = Path.Combine(path, "VirtualServerReservation.json");
