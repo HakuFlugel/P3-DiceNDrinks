@@ -21,13 +21,14 @@ namespace AndroidAppV2.ListAdapters
     class ProductAdapter : BaseAdapter<Product>
     {
         List<Product> items;
+        private List<Product> baseItems;
         Activity context;
         private FoodmenuActivity foodmenuActivity;
 
         public ProductAdapter(Activity context, List<Product> items)
         {
             this.context = context;
-            this.items = items;
+            baseItems = this.items = items;
         }
 
         public override long GetItemId(int position)
@@ -50,7 +51,10 @@ namespace AndroidAppV2.ListAdapters
 
         public override Product this[int position] => items[position];
 
-
-
+        public void SetListType(string type)
+        {
+            items = baseItems.Where(prd => prd.category == type).ToList();
+            this.NotifyDataSetChanged();
+        }
     }
 }

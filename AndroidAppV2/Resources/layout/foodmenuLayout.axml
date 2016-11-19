@@ -21,12 +21,13 @@
                 p1:text="@string/foodButton"
                 p1:id="@+id/foodButton"
                 p1:layout_weight="1" />
-            <Button
+          <Button
                 p1:text="@string/drinkButton"
                 p1:id="@+id/drinkButton"
                 p1:layout_weight="1" />
-            <Button
+          <Button
                 p1:text="@string/miscButton"
+
                 p1:id="@+id/miscButton"
                 p1:layout_weight="1" />
         </TableRow>

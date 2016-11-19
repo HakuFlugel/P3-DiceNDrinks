@@ -31,28 +31,26 @@ namespace AndroidAppV2.Activities
             Button foodButton = FindViewById<Button>(Resource.Id.foodButton);
             ListView listView = FindViewById<ListView>(Resource.Id.list);
             List<Product> list = GenerateProductList();
-
+            ProductAdapter adapter = new ProductAdapter(this, list);
+            adapter.SetListType("Food"); // default value
+            listView.Adapter = adapter;
 
             listView.ItemClick += OnListItemClick;
 
             foodButton.Click += delegate
             {
-                foodButton.Enabled = true;
-                List<Product> foodList = list.Where(prd => prd.category == "Food").ToList();
-                ProductAdapter foodAdapter = new ProductAdapter(this, foodList);
-                listView.Adapter = foodAdapter;
+                adapter.SetListType("Food");
+
             };
             FindViewById<Button>(Resource.Id.drinkButton).Click += delegate
             {
-                List<Product> drinksList = list.Where(prd => prd.category == "drinks").ToList();
-                ProductAdapter drinksAdapter = new ProductAdapter(this, drinksList);
-                listView.Adapter = drinksAdapter;
+                adapter.SetListType("drinks");
+
             };
             FindViewById<Button>(Resource.Id.miscButton).Click += delegate
             {
-                List<Product> miscList = list.Where(prd => prd.category == "misc").ToList();
-                ProductAdapter miscAdapter = new ProductAdapter(this, miscList);
-                listView.Adapter = miscAdapter;
+                adapter.SetListType("misc");
+
             };
         }
 
