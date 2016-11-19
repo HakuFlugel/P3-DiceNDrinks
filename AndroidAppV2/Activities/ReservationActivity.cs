@@ -62,6 +62,7 @@ namespace AndroidAppV2.Activities
                 _chosenDateTime = res.time;
                 dateText.Text = res.time.ToString("dd. MMMMM, yyyy");
                 timeText.Text = res.time.ToString("HH:mm");
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = res.numPeople.ToString();
                 FindViewById<EditText>(Resource.Id.nameEdit).Text = res.name;
                 FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = res.phone;
                 FindViewById<EditText>(Resource.Id.emailEdit).Text = res.email;
@@ -141,6 +142,26 @@ namespace AndroidAppV2.Activities
 
         private void SendData(Reservation res)
         {
+            if (res.phone == FindViewById<EditText>(Resource.Id.phoneNumEdit).Hint &&
+                res.email == FindViewById<EditText>(Resource.Id.emailEdit).Hint) {
+                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
+                errorEmailPhone.SetMessage("You need to input a phone number or a email");
+                errorEmailPhone.SetTitle("Error");
+                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { return; });
+                errorEmailPhone.Show();
+                return;
+            }
+            try {
+                emailCheck(res.email);
+            }
+            catch (Java.Lang.Exception en) {
+                AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
+                typoEmail.SetMessage(en.Message);
+                typoEmail.SetTitle("Typo Error");
+                typoEmail.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { return; });
+                typoEmail.Show();
+                return;
+            }
             //SERVER TODO: Should send reservation connected to the ID server gave the user.
             //Saving locally instead
             var json = JsonConvert.SerializeObject(res);
@@ -154,10 +175,45 @@ namespace AndroidAppV2.Activities
 
             File.WriteAllText(filename2, json2);
 
+            
             //todo: send reservation here
         }
+        public void emailCheck(string email) {
 
-        private DateTime InsertDateTime(DateTime date, DateTime time)
+            const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
+            const string validDomainSymbols = ".-";
+
+
+
+            string[] emailParts = email.Split('@');
+
+            if (emailParts.Length != 2)
+                throw new Java.Lang.Exception("Email address must contain exactly one '@'");
+            if (emailParts[0].Length == 0 || emailParts[1].Length == 0) 
+                throw new Java.Lang.Exception("Email address must contain something on both sides of '@'");
+            
+            if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
+                throw new Java.Lang.Exception("Email address local- or domain-part can't start or end with a '.'");
+
+            if (!emailParts[1].Contains('.'))
+                throw new Java.Lang.Exception("Email adress domain part must contain atleast 1 '.'. ie. @domain.tld");
+
+            if (email.Contains(".."))
+                throw new Java.Lang.Exception("Email address may not contain consecutive '.'s, ie. '..'.");
+
+            foreach (char ch in emailParts[0]) {
+                if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch))
+                    throw new Java.Lang.Exception($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validLocalSymbols }\"");
+            }
+
+            foreach (var ch in emailParts[1]) {
+                if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
+                    throw new Java.Lang.Exception($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validDomainSymbols }\"");
+            }
+        }
+
+
+private DateTime InsertDateTime(DateTime date, DateTime time)
         {
             return new DateTime(date.Year, date.Month, date.Day,time.Hour,time.Minute,time.Second);
         }
