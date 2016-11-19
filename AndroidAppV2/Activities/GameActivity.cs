@@ -78,14 +78,14 @@ namespace AndroidAppV2.Activities
 
             Game testgame = new Game
             {
-                name = "game",
-                publishedYear = 1994,
+                name = "Secret Hitler",
+                genre = { "Party game"},
                 thumbnail = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
             };
             Game testgame2 = new Game
             {
-                name = "faggot",
-                publishedYear = 2020,
+                name = "In time you will know the tragic extends of my failings",
+                genre = {"how","quickly","the","tides","turn"},
                 thumbnail = "small.jpg"
             };
 

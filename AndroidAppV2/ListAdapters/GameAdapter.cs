@@ -41,24 +41,14 @@ namespace AndroidAppV2.ListAdapters
             //sets the view as convertView unless convertView is null
             View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
-            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.publishedYear}";
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(DLImage(item.thumbnail));
+            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre apperently is a list q.q
+            view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
             return view;
         }
 
         public override int Count => items.Count;
 
         public override Game this[int position] => items[position];
-
-        Drawable DLImage(string path)
-        {
-
-            Stream asset = context.Assets.Open(path);
-
-            Drawable d = Drawable.CreateFromStream(asset,null);
-
-            return d;
-        }
 
     }
 }

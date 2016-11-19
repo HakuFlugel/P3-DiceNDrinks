@@ -10,7 +10,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AndroidAppV2</RootNamespace>
-    <AssemblyName>AndroidAppV2</AssemblyName>
+    <AssemblyName>DiceNDrinksApp</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
@@ -121,11 +121,13 @@
     <Compile Include="Activities\FoodmenuActivity.cs" />
     <Compile Include="Activities\GameActivity.cs" />
     <Compile Include="Activities\ReservationActivity.cs" />
+    <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Android Product\PriceElement.cs" />
     <Compile Include="Android Product\Product.cs" />
     <Compile Include="Android Product\ProductCategory.cs" />
     <Compile Include="Android Product\ProductMenu.cs" />
     <Compile Include="Android Product\ProductSection.cs" />
+    <Compile Include="ListAdapters\AdapterShared.cs" />
     <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
     <Compile Include="MainActivity.cs" />
@@ -197,10 +199,16 @@
     <AndroidAsset Include="Assets\small.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Red.png" />
+    <AndroidAsset Include="Assets\ProductTest\Red.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\_default.png" />
+    <AndroidAsset Include="Assets\ProductTest\_default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Style.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\splash_screen.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

@@ -42,7 +42,7 @@ namespace AndroidAppV2.ListAdapters
             View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0].name}: {item.PriceElements[0].price}";
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(DLImage(item.image));
+            view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(AdapterShared.DLImage(context,item.image));
             return view;
         }
 
@@ -50,15 +50,7 @@ namespace AndroidAppV2.ListAdapters
 
         public override Product this[int position] => items[position];
 
-        Drawable DLImage(string path)
-        {
 
-            Stream asset = context.Assets.Open(path);
-
-            Drawable d = Drawable.CreateFromStream(asset,null);
-
-            return d;
-        }
 
     }
 }
