@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-
+using Java.IO;
 using Shared;
+using IOException = Java.IO.IOException;
 
 namespace AndroidAppV2.Activities
 {
@@ -71,6 +75,22 @@ namespace AndroidAppV2.Activities
         List<Game> getGames()
         {
             List<Game> list = new List<Game>();
+            Game testgame = new Game
+            {
+                name = "game",
+                publishedYear = 1994,
+                thumbnail = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
+            };
+            Game testgame2 = new Game
+            {
+                name = "faggot",
+                publishedYear = 2020,
+                thumbnail = "small.jpg"
+            };
+
+            
+            list.Add(testgame);
+            list.Add(testgame2);
 
             //todo: get the games here
 
@@ -81,5 +101,7 @@ namespace AndroidAppV2.Activities
             var listView = sender as ListView;
             //todo: dialog fragment med yderligere info om et item
         }
+
+
     }
 }

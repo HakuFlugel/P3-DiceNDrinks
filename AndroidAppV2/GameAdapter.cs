@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidAppV2.Activities;
+using Java.IO;
 using Shared;
 
 namespace AndroidAppV2
@@ -49,7 +52,13 @@ namespace AndroidAppV2
 
         Drawable DLImage(string path)
         {
-            return Drawable.CreateFromPath("" + path); //todo: image download path
+
+            Stream asset = context.Assets.Open(path);
+
+            Drawable d = Drawable.CreateFromStream(asset,null);
+
+            return d;
         }
+
     }
 }
