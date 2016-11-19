@@ -54,7 +54,7 @@ namespace AndroidAppV2.Activities
             gameSpinner.Adapter = adapter;
 
             List<Game> list = getGames();
-            ItemAdapter itemAdapter = new ItemAdapter(this, list);
+            GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
 
             listView.ItemClick += OnListItemClick;

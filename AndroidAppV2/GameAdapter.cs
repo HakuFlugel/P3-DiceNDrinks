@@ -15,13 +15,13 @@ using Shared;
 
 namespace AndroidAppV2
 {
-    class ItemAdapter : BaseAdapter<Game>
+    class GameAdapter : BaseAdapter<Game>
     {
         List<Game> items;
         Activity context;
         private FoodmenuActivity foodmenuActivity;
 
-        public ItemAdapter(Activity context, List<Game> items)
+        public GameAdapter(Activity context, List<Game> items)
         {
             this.context = context;
             this.items = items;
