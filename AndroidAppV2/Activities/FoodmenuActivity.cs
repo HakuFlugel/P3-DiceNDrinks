@@ -12,7 +12,6 @@ using Android.Widget;
 using Shared;
 
 
-
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu")]

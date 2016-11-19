@@ -121,6 +121,11 @@
     <Compile Include="Activities\FoodmenuActivity.cs" />
     <Compile Include="Activities\GameActivity.cs" />
     <Compile Include="Activities\ReservationActivity.cs" />
+    <Compile Include="Android Product\PriceElement.cs" />
+    <Compile Include="Android Product\Product.cs" />
+    <Compile Include="Android Product\ProductCategory.cs" />
+    <Compile Include="Android Product\ProductMenu.cs" />
+    <Compile Include="Android Product\ProductSection.cs" />
     <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
     <Compile Include="MainActivity.cs" />
