@@ -130,6 +130,7 @@
     <Compile Include="ListAdapters\AdapterShared.cs" />
     <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
+    <Compile Include="ListDialogFragments\GameDialogFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +151,9 @@
     <AndroidResource Include="Resources\layout\GameLayout.axml" />
     <AndroidResource Include="Resources\layout\ReservationLayout.axml" />
     <AndroidResource Include="Resources\layout\CustomItemView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\GameDialogView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
