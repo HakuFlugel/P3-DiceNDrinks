@@ -43,12 +43,12 @@ namespace AndroidAppV2.Activities
 
             ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, sectionList);
 
-            
 
+            categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             categorySpinner.Adapter = categorySpinnerAdapter;
-
+            sectionSpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             sectionSpinner.Adapter = sectionSpinnerAdapter;
-            
+
             categorySpinner.ItemSelected += delegate
             {
                 adapter.SetListType((string)categorySpinner.SelectedItem);
