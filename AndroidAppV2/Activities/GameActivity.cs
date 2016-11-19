@@ -94,7 +94,6 @@ namespace AndroidAppV2.Activities
             list.Add(testgame2);
 
             //todo: get the games here
-            list.Sort();
             return list;
         }
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)

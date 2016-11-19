@@ -41,7 +41,7 @@ namespace AndroidAppV2.ListAdapters
             //sets the view as convertView unless convertView is null
             View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
-            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0]}";
+            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0].name}: {item.PriceElements[0].price}";
             view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(DLImage(item.image));
             return view;
         }
