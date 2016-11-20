@@ -48,7 +48,6 @@ namespace AndroidAppV2.ListAdapters
         public void SetListType(string type)
         {
             _items = _baseItems.Where(prd => prd.category == type).ToList();
-            GC.Collect();
         }
 
         public List<string> GetSections()
