@@ -22,11 +22,12 @@
   <string name="advancedSearch">Advanced Search.</string>
   <string-array name="gameSortArray">
     <item>Alphabetical</item>
-    <item>Players</item>
-    <item>Game Time</item>
+    <item>Min. Players</item>
+    <item>Max. Players</item>
+    <item>Min. Game Time</item>
+    <item>Max. Game Time</item>
     <item>Difficulty</item>
-    <item>Year of publication</item>
-    <item>Game Time</item>
+    <item>Year of Publication</item>
   </string-array>
   <string-array name="categoryspinner">
     <item>Food</item>

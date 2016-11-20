@@ -5,15 +5,9 @@ using System.Text;
 using Shared;
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
-using Java.Lang;
-using Xamarin.Android;
-using Android.Content.PM;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -22,10 +16,10 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
-        public bool State = true; //checks if the user has made any changes
+        private bool _state = true; //checks if the user has made any changes
         private DateTime _chosenDateTime = DateTime.Now;
         private int _userID;
-        private Reservation res;
+        private Reservation _res;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -54,25 +48,25 @@ namespace AndroidAppV2.Activities
 
             LoadData();
             
-            if (res == null) {
-                res = new Reservation();
+            if (_res == null) {
+                _res = new Reservation();
             }
             else {
-                sb.Progress = res.numPeople;
-                _chosenDateTime = res.time;
-                dateText.Text = res.time.ToString("dd. MMMMM, yyyy");
-                timeText.Text = res.time.ToString("HH:mm");
-                FindViewById<TextView>(Resource.Id.inviteesNum).Text = res.numPeople.ToString();
-                FindViewById<EditText>(Resource.Id.nameEdit).Text = res.name;
-                FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = res.phone;
-                FindViewById<EditText>(Resource.Id.emailEdit).Text = res.email;
+                sb.Progress = _res.numPeople;
+                _chosenDateTime = _res.time;
+                dateText.Text = _res.time.ToString("dd. MMMMM, yyyy");
+                timeText.Text = _res.time.ToString("HH:mm");
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
+                FindViewById<EditText>(Resource.Id.nameEdit).Text = _res.name;
+                FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = _res.phone;
+                FindViewById<EditText>(Resource.Id.emailEdit).Text = _res.email;
             }
             dateSelectButton.Click += delegate
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
-                    State = false;
+                    _state = false;
                     dateText.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
 
                 });
@@ -84,7 +78,7 @@ namespace AndroidAppV2.Activities
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
                     _chosenDateTime = InsertDateTime(_chosenDateTime,time);
-                    State = false;
+                    _state = false;
                     timeText.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
@@ -92,22 +86,23 @@ namespace AndroidAppV2.Activities
 
             acceptingButton.Click += delegate 
             {
-                res.numPeople = sb.Progress;
-                res.time = _chosenDateTime;
-                res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
-                res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
-                res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
-                res.created = DateTime.Now;
+                _res.numPeople = sb.Progress;
+                _res.time = _chosenDateTime;
+                _res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
+                _res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
+                _res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
+                _res.created = DateTime.Now;
 
                 //SERVER TODO: Request ID method? - Why we have random atm.
-                res.id = _userID;
-                SendData(res);
+                _res.id = _userID;
+                SendData(_res);
             };
 
             sb.Max = 20;
             sb.SetOnSeekBarChangeListener(this);
 
         }
+
         private void LoadID() {
             string input;
             var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
@@ -136,7 +131,7 @@ namespace AndroidAppV2.Activities
             input = File.ReadAllText(filename);
 
             if (input != null) {
-                res = JsonConvert.DeserializeObject<Reservation>(input);
+                _res = JsonConvert.DeserializeObject<Reservation>(input);
             }
         }
 
@@ -152,7 +147,7 @@ namespace AndroidAppV2.Activities
                 return;
             }
             try {
-                emailCheck(res.email);
+                EmailCheck(res.email);
             }
             catch (Java.Lang.Exception en) {
                 AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
@@ -178,7 +173,8 @@ namespace AndroidAppV2.Activities
             
             //todo: send reservation here
         }
-        public void emailCheck(string email) {
+
+        private static void EmailCheck(string email) {
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
@@ -212,15 +208,14 @@ namespace AndroidAppV2.Activities
             }
         }
 
-
-private DateTime InsertDateTime(DateTime date, DateTime time)
+        private static DateTime InsertDateTime(DateTime date, DateTime time)
         {
             return new DateTime(date.Year, date.Month, date.Day,time.Hour,time.Minute,time.Second);
         }
 
         public override void OnBackPressed()
         {
-            if (!State)
+            if (!_state)
             {
                 AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
                 exitApp.SetMessage(Resource.String.exitReservation);
@@ -253,11 +248,8 @@ private DateTime InsertDateTime(DateTime date, DateTime time)
         {
             System.Diagnostics.Debug.WriteLine("Stopped tracking changes.");
         }
-
-        //TODO: OVERRIDE OnBackPressed to Pause instead of destroy activity
     }
     
-
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener
     {

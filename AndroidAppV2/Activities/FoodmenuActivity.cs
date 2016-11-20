@@ -1,15 +1,9 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
-using Android.Graphics;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
+
 using AndroidAppV2.ListAdapters;
 using Shared;
 
@@ -35,13 +29,12 @@ namespace AndroidAppV2.Activities
             ProductAdapter adapter = new ProductAdapter(this, list);
             adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
-            List<string> sectionList = adapter.GetSections();
             listView.ItemClick += OnListItemClick;
 
             var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
                 this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
 
-            ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, sectionList);
+            ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, adapter.GetSections());
 
 
             categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
@@ -51,11 +44,11 @@ namespace AndroidAppV2.Activities
 
             categorySpinner.ItemSelected += delegate
             {
-                adapter.SetListType((string)categorySpinner.SelectedItem);
-                sectionSpinnerAdapter.Clear();
-                sectionSpinnerAdapter.AddAll(adapter.GetSections());
-                sectionSpinner.SetSelection(0);
-                adapter.SetList(adapter.GetSections()[0]);
+                adapter.SetListType((string)categorySpinner.SelectedItem);  //Sets the category of the list to the chosen item
+                sectionSpinnerAdapter.Clear();                              //Removes all current items from the spinner list
+                sectionSpinnerAdapter.AddAll(adapter.GetSections());        //Adds all item associated with the chosen category
+                sectionSpinner.SetSelection(0);                             //Selects the topmost item (because this isn't normal behavior)
+                adapter.SetList(adapter.GetSections()[0]);                  //Sets the list to correspond the chosen section.
             };
             sectionSpinner.ItemSelected += delegate
             {
@@ -71,6 +64,7 @@ namespace AndroidAppV2.Activities
             //todo: dialog fragment med yderligere info om et item
         }
 
+        //functions from the adminpanel to generate a list of products
         private List<Product> GenerateProductList()
         {
             List<Product> productList = new List<Product>();
@@ -91,8 +85,9 @@ namespace AndroidAppV2.Activities
 
 
             // food
-            productList.Add(Prmake("Asger", "ProductTest/Red.png", "Food", "Meat", pricelist));
+            productList.Add(Prmake("gert", "ProductTest/_default.png", "Food", "Meat", pricelist));
             productList.Add(Prmake("shano", "ProductTest/_default.png", "Food", "Meat", pricelist));
+            productList.Add(Prmake("Asger", "ProductTest/Red.png", "Food", "Meat", pricelist));
             productList.Add(Prmake("matias", "ProductTest/Red.png", "Food", "derp", pricelist));
 
 
@@ -125,10 +120,5 @@ namespace AndroidAppV2.Activities
 
             return pr;
         }
-
-
-
-
-
     }
 }

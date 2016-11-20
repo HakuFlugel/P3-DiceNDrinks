@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Android.App;
-using Android.Content;
-using Android.Content.Res;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
+using Android.Support.V4.App;
 using Android.Widget;
+
 using AndroidAppV2.ListAdapters;
 using Shared;
-using Android.Support.V4.App;
+
 
 namespace AndroidAppV2.Activities
 {
@@ -36,18 +29,26 @@ namespace AndroidAppV2.Activities
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
             Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
-            List<Game> list = getGames();
-            
-            gameSpinner.ItemSelected += spinner_ItemSelected;
-            var adapter = ArrayAdapter.CreateFromResource(
-                    this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
 
-            gameButton.Text = "↓";
+            List<Game> list = getGames();
+            GameAdapter itemAdapter = new GameAdapter(this, list);
+            listView.Adapter = itemAdapter;
+
+            ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            gameSpinner.Adapter = adapter;
+
+            gameSpinner.ItemSelected += delegate
+            {
+                itemAdapter.Sort((string)gameSpinner.SelectedItem);
+            };
+
+
             gameButton.Click += delegate
             {
                 gameButton.Text = gameButton.Text == "↓" ? "↑" : "↓";
 
-                //TODO: change orientation of search (ascending/descending)
+                itemAdapter.SwitchOrder();
             };
 
             aSearchButton.Click += delegate
@@ -55,25 +56,16 @@ namespace AndroidAppV2.Activities
                 //TODO: Make Search Limit Fragment
             };
 
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            gameSpinner.Adapter = adapter;
+            
 
 
-            GameAdapter itemAdapter = new GameAdapter(this, list);
-            listView.Adapter = itemAdapter;
+
             listView.ItemClick += delegate {
                 var dialog = new ListDialogFragments.GameDialogFragment();
                 dialog.Show(SupportFragmentManager, "dialog");
                 
             };
 
-        }
-
-        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            Spinner spinner = (Spinner)sender;
-
-            //TODO: skift sorting til valgte element
         }
 
         List<Game> getGames()
@@ -85,22 +77,130 @@ namespace AndroidAppV2.Activities
             {
                 name = "Secret Hitler",
                 genre = { "Party game"},
-                thumbnail = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
+                thumbnail = "small.jpg", //TODO: this is a placeholder, both the file-path and the method to retrieve it
+                description = "Gas(Guess) who",
+                difficulity = 99,
+                minPlayers = 5,
+                maxPlayers = 10,
+                minPlayTime = 20,
+                maxPlayTime = 60,
+                publishedYear = 2015
             };
             Game testgame2 = new Game
             {
                 name = "In time you will know the tragic extends of my failings",
-                genre = {"how","quickly","the","tides","turn"},
-                thumbnail = "small.jpg"
+                genre = {"how","quickly","the","tide","turns"},
+                thumbnail = "small.jpg",
+                difficulity = 100,
+                minPlayers = 1,
+                maxPlayers = 1,
+                minPlayTime = 2,
+                maxPlayTime = 1000,
+                publishedYear = 2014
+
+            };
+            Game testgame3 = new Game
+            {
+                name = "wawaawawawawwawa",
+                genre = { "WALUIGI" },
+                thumbnail = "small.jpg",
+                difficulity = 05,
+                minPlayers = 1,
+                maxPlayers = 2,
+                minPlayTime = 60,
+                maxPlayTime = 61,
+                publishedYear = 2005
+            };
+            Game testgame4 = new Game
+            {
+                name = "uguu~",
+                genre = { "fucking degenerate" },
+                thumbnail = "small.jpg",
+                difficulity = 1,
+                minPlayers = 2,
+                maxPlayers = 8,
+                minPlayTime = 20,
+                maxPlayTime = 110,
+                publishedYear = 1945
+            };
+            Game testgame5 = new Game
+            {
+                name = "Look at this net",
+                genre = { "that i just found" },
+                thumbnail = "small.jpg",
+                difficulity = 50,
+                minPlayers = 3,
+                maxPlayers = 4,
+                minPlayTime = 2,
+                maxPlayTime = 5,
+                publishedYear = 2016
+            };
+            Game testgame6 = new Game
+            {
+                name = "CUT MY LIFE INTO PIECES",
+                genre = { "THIS IS MY LAST", "burrito" },
+                thumbnail = "small.jpg",
+                difficulity = 75,
+                minPlayers = 4,
+                maxPlayers = 9,
+                minPlayTime = 15,
+                maxPlayTime = 60,
+                publishedYear = 2007
+            };
+            Game testgame7 = new Game
+            {
+                name = "You tell them you're fine",
+                genre = { "but really you're not fine" },
+                thumbnail = "small.jpg",
+                difficulity = 88,
+                minPlayers = 5,
+                maxPlayers = 10,
+                minPlayTime = 20,
+                maxPlayTime = 60,
+                publishedYear = 2000
+            };
+            Game testgame8 = new Game
+            {
+                name = "Rape",
+                genre = { "Family" },
+                description = "Hemcest ;)",
+                thumbnail = "small.jpg",
+                difficulity = 69,
+                minPlayers = 2,
+                maxPlayers = 4,
+                minPlayTime = 2,
+                maxPlayTime = 5,
+                publishedYear = 1995
+            };
+            Game testgame9 = new Game
+            {
+                name = "Fordi du løber tør for tid~",
+                genre = { "WHAT" },
+                thumbnail = "small.jpg",
+                difficulity = 51,
+                minPlayers = 5,
+                maxPlayers = 10,
+                minPlayTime = 20,
+                maxPlayTime = 60,
+                publishedYear = 1990
             };
 
-            
+
             list.Add(testgame);
             list.Add(testgame2);
+            list.Add(testgame3);
+            list.Add(testgame4);
+            list.Add(testgame5);
+            list.Add(testgame6);
+            list.Add(testgame7);
+            list.Add(testgame8);
+            list.Add(testgame9);
+
 
             //todo: get the games here
             return list;
         }
+
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var listView = sender as ListView;

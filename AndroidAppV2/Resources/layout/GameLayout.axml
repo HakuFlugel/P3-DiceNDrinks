@@ -33,9 +33,9 @@
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
                 p1:layout_weight="1"
-                p1:minWidth="200dp" />
+                p1:minWidth="200dp"/>
             <Button
-                p1:text=""
+                p1:text="↓"
                 p1:id="@+id/gameSortOrderButton"
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,6 +14,7 @@ namespace AndroidAppV2.ListAdapters
     class ProductAdapter : BaseAdapter<Product>
     {
         private List<Product> _items;
+        private List<Product> _categoryItems;
         private readonly List<Product> _baseItems;
         private readonly Activity _context;
         private FoodmenuActivity _foodmenuActivity;
@@ -21,6 +23,7 @@ namespace AndroidAppV2.ListAdapters
         {
             _context = context;
             _baseItems = _items = items;
+            Sort();
         }
 
         public override long GetItemId(int position)
@@ -35,7 +38,7 @@ namespace AndroidAppV2.ListAdapters
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0].name}: {item.PriceElements[0].price}";
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(AdapterShared.DLImage(_context,item.image));
+            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AdapterShared.getBitmapFromAsset(_context, item.image));
             return view;
         }
 
@@ -45,14 +48,14 @@ namespace AndroidAppV2.ListAdapters
 
         public void SetListType(string type)
         {
-            _items = _baseItems.Where(prd => prd.category == type).ToList();
+            _categoryItems = _baseItems.Where(prd => prd.category == type).ToList();
         }
 
         public List<string> GetSections()
         {
             List<string> sections = new List<string>();
 
-            foreach (var item in _items)
+            foreach (var item in _categoryItems)
             {
                 if (!sections.Any(x => x.Contains(item.section)))
                 sections.Add(item.section);
@@ -64,6 +67,12 @@ namespace AndroidAppV2.ListAdapters
         {
             _items = _baseItems.Where(prd => prd.section == section).ToList();
             NotifyDataSetChanged();
+            GC.Collect();
+        }
+
+        private void Sort()
+        {
+            _baseItems.Sort((a,b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
         }
     }
 }
