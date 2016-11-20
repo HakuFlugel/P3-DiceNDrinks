@@ -51,11 +51,10 @@ namespace AndroidAppV2.Activities
 
             categorySpinner.ItemSelected += delegate
             {
-                adapter.SetListType((string)categorySpinner.SelectedItem);
-                sectionSpinnerAdapter.Clear();
-                sectionSpinnerAdapter.AddAll(adapter.GetSections());
-                sectionSpinner.SetSelection(0);
-                adapter.SetList(adapter.GetSections()[0]);
+                adapter.SetListType((string)categorySpinner.SelectedItem);  //Sets the category of the list to the chosen item
+                sectionSpinnerAdapter.Clear();                              //Removes all current items from the spinner list
+                sectionSpinnerAdapter.AddAll(adapter.GetSections());        //Adds all item associated with the chosen category
+                sectionSpinner.SetSelection(0);                             //Selects the topmost item (because this isn't normal behavior)
             };
             sectionSpinner.ItemSelected += delegate
             {
@@ -71,6 +70,7 @@ namespace AndroidAppV2.Activities
             //todo: dialog fragment med yderligere info om et item
         }
 
+        //functions from the adminpanel to generate a list of products
         private List<Product> GenerateProductList()
         {
             List<Product> productList = new List<Product>();
@@ -126,10 +126,5 @@ namespace AndroidAppV2.Activities
 
             return pr;
         }
-
-
-
-
-
     }
 }
