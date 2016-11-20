@@ -85,22 +85,74 @@ namespace AndroidAppV2.Activities
             {
                 name = "Secret Hitler",
                 genre = { "Party game"},
-                thumbnail = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
+                thumbnail = "small.jpg" //TODO: this is a placeholder, both the file-path and the method to retrieve it
             };
             Game testgame2 = new Game
             {
                 name = "In time you will know the tragic extends of my failings",
-                genre = {"how","quickly","the","tides","turn"},
+                genre = {"how","quickly","the","tide","turns"},
+                thumbnail = "small.jpg"
+            };
+            Game testgame3 = new Game
+            {
+                name = "wawaawawawawwawa",
+                genre = { "WALUIGI" },
+                thumbnail = "small.jpg"
+            };
+            Game testgame4 = new Game
+            {
+                name = "uguu~",
+                genre = { "fucking degenerate" },
+                thumbnail = "small.jpg"
+            };
+            Game testgame5 = new Game
+            {
+                name = "Look at this net",
+                genre = { "that i just found" },
+                thumbnail = "small.jpg"
+            };
+            Game testgame6 = new Game
+            {
+                name = "CUT MY LIFE INTO PIECES",
+                genre = { "THIS IS MY LAST", "burrito" },
+                thumbnail = "small.jpg"
+            };
+            Game testgame7 = new Game
+            {
+                name = "You tell them you're fine",
+                genre = { "but really you're not fine" },
+                thumbnail = "small.jpg"
+            };
+            Game testgame8 = new Game
+            {
+                name = "Rape",
+                genre = { "Family" },
+                description = "Hemcest ;)",
+                thumbnail = "small.jpg"
+            };
+            Game testgame9 = new Game
+            {
+                name = "Fordi du løber tør for tid~",
+                genre = { "WHAT" },
                 thumbnail = "small.jpg"
             };
 
-            
+
             list.Add(testgame);
             list.Add(testgame2);
+            list.Add(testgame3);
+            list.Add(testgame4);
+            list.Add(testgame5);
+            list.Add(testgame6);
+            list.Add(testgame7);
+            list.Add(testgame8);
+            list.Add(testgame9);
+
 
             //todo: get the games here
             return list;
         }
+
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             var listView = sender as ListView;
