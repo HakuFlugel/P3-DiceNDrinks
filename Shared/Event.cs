@@ -12,6 +12,6 @@ namespace Shared
         public DateTime startDate;
         public DateTime endDate;
 
-        public string image = "";//TODO:probably not implemented
+        //public string image = "";//TODO:probably not implemented
     }
 }

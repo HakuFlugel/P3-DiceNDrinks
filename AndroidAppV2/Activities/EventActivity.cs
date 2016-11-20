@@ -58,20 +58,42 @@ namespace AndroidAppV2.Activities
 
             Event testevent = new Event
             {
-                name = "Secret Hitler",
-                description = "Party game",
-                image = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
+                name = "Vaffeldag",
+                description = "Massere af vaffler hele dagen",
+                //image = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
             };
             Event testevent2 = new Event
             {
-                name = "In time you will know the tragic extends of my failings",
-                description = "How quickly the tides turn",
-                image = "small.jpg"
+                name = "Mød en ny ven",
+                description = "Kom og få en ven, som du kan spille med",
+                //image = "small.jpg"
             };
 
 
             list.Add(testevent);
             list.Add(testevent2);
+            list.Add(testevent2);
+
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+            list.Add(testevent2);
+
+
+
+
+
+
+
+
+
+
 
             //todo: get the events here
             return list;
