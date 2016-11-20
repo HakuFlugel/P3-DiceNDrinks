@@ -14,6 +14,7 @@ namespace AndroidAppV2.ListAdapters
     class ProductAdapter : BaseAdapter<Product>
     {
         private List<Product> _items;
+        private List<Product> _categoryItems;
         private readonly List<Product> _baseItems;
         private readonly Activity _context;
         private FoodmenuActivity _foodmenuActivity;
@@ -47,14 +48,14 @@ namespace AndroidAppV2.ListAdapters
 
         public void SetListType(string type)
         {
-            _items = _baseItems.Where(prd => prd.category == type).ToList();
+            _categoryItems = _baseItems.Where(prd => prd.category == type).ToList();
         }
 
         public List<string> GetSections()
         {
             List<string> sections = new List<string>();
 
-            foreach (var item in _items)
+            foreach (var item in _categoryItems)
             {
                 if (!sections.Any(x => x.Contains(item.section)))
                 sections.Add(item.section);

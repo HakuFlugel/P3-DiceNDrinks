@@ -21,11 +21,9 @@ namespace AndroidAppV2.ListAdapters
             {
                 // handle exception
             }
-            if (bitmap != null && bitmap.IsMutable)
-            {
-                bitmap.Width = 48;
-                bitmap.Height = 48;
-            }
+            if (bitmap == null || !bitmap.IsMutable) return bitmap;
+            bitmap.Width = 48;
+            bitmap.Height = 48;
             return bitmap;
         }
     }

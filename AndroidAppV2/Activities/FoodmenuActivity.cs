@@ -29,13 +29,12 @@ namespace AndroidAppV2.Activities
             ProductAdapter adapter = new ProductAdapter(this, list);
             adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
-            List<string> sectionList = adapter.GetSections();
             listView.ItemClick += OnListItemClick;
 
             var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
                 this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
 
-            ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, sectionList);
+            ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, adapter.GetSections());
 
 
             categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
