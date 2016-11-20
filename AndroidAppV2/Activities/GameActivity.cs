@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 using Android.App;
-using Android.Content;
-using Android.Content.Res;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
+using Android.Support.V4.App;
 using Android.Widget;
+
 using AndroidAppV2.ListAdapters;
 using Shared;
-using Android.Support.V4.App;
+
 
 namespace AndroidAppV2.Activities
 {
