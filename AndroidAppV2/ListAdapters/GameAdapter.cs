@@ -7,6 +7,7 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
@@ -44,7 +45,7 @@ namespace AndroidAppV2.ListAdapters
             View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre apperently is a list q.q
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
+            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AdapterShared.getBitmapFromAsset(context,item.thumbnail)); //SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
             return view;
         }
 
@@ -61,9 +62,8 @@ namespace AndroidAppV2.ListAdapters
 
             items.Reverse();
             NotifyDataSetChanged();
-
+            GC.Collect();
         }
-
 
         public void Sort(string key)
         {
@@ -72,22 +72,22 @@ namespace AndroidAppV2.ListAdapters
                 case "Alphabetical":
                     items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
                     break;
-                case "Players":
-                    if (_ascending)
-                        items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
-                    else
-                        items.Sort((a, b) => b.minPlayers.CompareTo(a.minPlayers));
+                case "Max. Players":
+                    items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
                     break;
-                case "Game Time":
-                    if (_ascending)
-                        items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
-                    else
-                        items.Sort((a, b) => b.minPlayTime.CompareTo(a.minPlayTime));
+                case "Min. Players":
+                    items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
+                    break;
+                case "Max. Game Time":
+                    items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
+                    break;
+                case "Min. Game Time":
+                    items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));
                     break;
                 case "Difficulty":
                     items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
-                case "Year pf publication":
+                case "Year of publication":
                     items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
                     break;
                 default:
@@ -95,6 +95,8 @@ namespace AndroidAppV2.ListAdapters
                     break;
             }
             NotifyDataSetChanged();
+            GC.Collect();
         }
+
     }
 }

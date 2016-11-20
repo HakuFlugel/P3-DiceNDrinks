@@ -6,31 +6,38 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Java.IO;
+using IOException = System.IO.IOException;
 
 namespace AndroidAppV2.ListAdapters
 {
     public static class AdapterShared
     {
-        public static Drawable DLImage(Context context, string path)
+        public static Bitmap getBitmapFromAsset(Context context, string filePath)
         {
+            Bitmap bitmap = null;
             try
             {
-                Stream asset = context.Assets.Open(path);
-
-                Drawable d = Drawable.CreateFromStream(asset, null);
-
-                return d;
+                Stream str = context.Assets.Open(filePath);
+                bitmap = BitmapFactory.DecodeStream(str);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                // handle exception
             }
-
+            if (bitmap != null && bitmap.IsMutable)
+            {
+                bitmap.Width = 48;
+                bitmap.Height = 48;
+            }
+            return bitmap;
         }
     }
 }

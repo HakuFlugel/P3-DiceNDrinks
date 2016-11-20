@@ -55,6 +55,7 @@ namespace AndroidAppV2.Activities
                 sectionSpinnerAdapter.Clear();                              //Removes all current items from the spinner list
                 sectionSpinnerAdapter.AddAll(adapter.GetSections());        //Adds all item associated with the chosen category
                 sectionSpinner.SetSelection(0);                             //Selects the topmost item (because this isn't normal behavior)
+                adapter.SetList(adapter.GetSections()[0]);                  //Sets the list to correspond the chosen section.
             };
             sectionSpinner.ItemSelected += delegate
             {
