@@ -3185,11 +3185,11 @@ namespace AndroidAppV2
 			// aapt resource value: 0x7f070050
 			public const int textSpacerNoButtons = 2131165264;
 			
-			// aapt resource value: 0x7f070071
-			public const int textView1 = 2131165297;
-			
 			// aapt resource value: 0x7f070070
-			public const int textView2 = 2131165296;
+			public const int textView1 = 2131165296;
+			
+			// aapt resource value: 0x7f070071
+			public const int textView2 = 2131165297;
 			
 			// aapt resource value: 0x7f070080
 			public const int text_input_password_toggle = 2131165312;
