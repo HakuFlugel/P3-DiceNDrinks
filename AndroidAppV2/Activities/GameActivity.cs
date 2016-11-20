@@ -59,11 +59,16 @@ namespace AndroidAppV2.Activities
                 //TODO: Make Search Limit Fragment
             };
 
-            
-
-            GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
-            listView.ItemClick += OnListItemClick;
+            listView.ItemClick += delegate {
+                Game theGame = itemAdapter.;
+
+                //todo: dialog fragment med yderligere info om et item
+                var dialog = new GameDialogFragment();
+                //dialog.Show(FragmentManager, "lel");
+                dialog.PassDataToFrag(theGame);
+                dialog.Show(FragmentManager, "Game Dialog");
+            };
         }
 
 
@@ -199,18 +204,6 @@ namespace AndroidAppV2.Activities
             //todo: get the games here
             return list;
         }
-
-        void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            Game theGame = getGames()[e.Position];
-            var listView = sender as ListView;
-            //todo: dialog fragment med yderligere info om et item
-            var dialog = new GameDialogFragment();
-            //dialog.Show(FragmentManager, "lel");
-            dialog.PassDataToFrag(theGame);
-            dialog.Show(FragmentManager, "Game Dialog");
-        }
-
 
     }
 }

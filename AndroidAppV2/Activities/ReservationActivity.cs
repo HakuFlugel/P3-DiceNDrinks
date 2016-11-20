@@ -173,7 +173,7 @@ namespace AndroidAppV2.Activities
             
             //todo: send reservation here
         }
-        public void emailCheck(string email) {
+        public void EmailCheck(string email) {
             // Email typo check stuff
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]

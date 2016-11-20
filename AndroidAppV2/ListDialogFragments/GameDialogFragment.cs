@@ -22,8 +22,9 @@ namespace AndroidAppV2.ListDialogFragments {
         private Game game;
 
         public override View OnCreateView(Android.Views.LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-
-            //Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
+            
+            //Maybe unnnesscarydyryryryr
+            Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
             var view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
@@ -45,13 +46,10 @@ namespace AndroidAppV2.ListDialogFragments {
         public override void OnResume() {
 
             // Auto Size based on content
-            //Dialog.Window.SetLayout(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
+            Dialog.Window.SetLayout(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
 
             // No background behind the view
-            //Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Gray));
-
-            //Disables standard dialog style/frame/theme and to make it look like full UI
-            //SetStyle(Android.Support.V4.App.DialogFragment.StyleNoFrame, Android.Resource.Style.Theme);
+            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DarkGray ));
 
             base.OnResume();
         }
