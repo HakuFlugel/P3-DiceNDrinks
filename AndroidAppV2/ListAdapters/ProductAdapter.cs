@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,6 +22,7 @@ namespace AndroidAppV2.ListAdapters
         {
             _context = context;
             _baseItems = _items = items;
+            Sort();
         }
 
         public override long GetItemId(int position)
@@ -64,6 +66,11 @@ namespace AndroidAppV2.ListAdapters
         {
             _items = _baseItems.Where(prd => prd.section == section).ToList();
             NotifyDataSetChanged();
+        }
+
+        private void Sort()
+        {
+            _baseItems.Sort((a,b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
         }
     }
 }

@@ -91,8 +91,9 @@ namespace AndroidAppV2.Activities
 
 
             // food
-            productList.Add(Prmake("Asger", "ProductTest/Red.png", "Food", "Meat", pricelist));
+            productList.Add(Prmake("gert", "ProductTest/_default.png", "Food", "Meat", pricelist));
             productList.Add(Prmake("shano", "ProductTest/_default.png", "Food", "Meat", pricelist));
+            productList.Add(Prmake("Asger", "ProductTest/Red.png", "Food", "Meat", pricelist));
             productList.Add(Prmake("matias", "ProductTest/Red.png", "Food", "derp", pricelist));
 
 
