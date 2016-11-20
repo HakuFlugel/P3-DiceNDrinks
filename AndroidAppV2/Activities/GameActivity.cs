@@ -36,18 +36,26 @@ namespace AndroidAppV2.Activities
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
             Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
-            List<Game> list = getGames();
-            
-            gameSpinner.ItemSelected += spinner_ItemSelected;
-            var adapter = ArrayAdapter.CreateFromResource(
-                    this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
 
-            gameButton.Text = "↓";
+            List<Game> list = getGames();
+            GameAdapter itemAdapter = new GameAdapter(this, list);
+            listView.Adapter = itemAdapter;
+
+            ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            gameSpinner.Adapter = adapter;
+
+            gameSpinner.ItemSelected += delegate
+            {
+                itemAdapter.Sort((string)gameSpinner.SelectedItem);
+            };
+
+
             gameButton.Click += delegate
             {
                 gameButton.Text = gameButton.Text == "↓" ? "↑" : "↓";
 
-                //TODO: change orientation of search (ascending/descending)
+                itemAdapter.SwitchOrder();
             };
 
             aSearchButton.Click += delegate
@@ -55,25 +63,16 @@ namespace AndroidAppV2.Activities
                 //TODO: Make Search Limit Fragment
             };
 
-            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            gameSpinner.Adapter = adapter;
+            
 
 
-            GameAdapter itemAdapter = new GameAdapter(this, list);
-            listView.Adapter = itemAdapter;
+
             listView.ItemClick += delegate {
                 var dialog = new ListDialogFragments.GameDialogFragment();
                 dialog.Show(SupportFragmentManager, "dialog");
                 
             };
 
-        }
-
-        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
-        {
-            Spinner spinner = (Spinner)sender;
-
-            //TODO: skift sorting til valgte element
         }
 
         List<Game> getGames()

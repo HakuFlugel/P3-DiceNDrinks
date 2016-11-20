@@ -23,11 +23,13 @@ namespace AndroidAppV2.ListAdapters
         List<Game> items;
         Activity context;
         private FoodmenuActivity foodmenuActivity;
+        private bool _ascending = true;
 
         public GameAdapter(Activity context, List<Game> items)
         {
             this.context = context;
             this.items = items;
+            Sort("Alphabetical");
         }
 
         public override long GetItemId(int position)
@@ -50,5 +52,49 @@ namespace AndroidAppV2.ListAdapters
 
         public override Game this[int position] => items[position];
 
+        public void SwitchOrder()
+        {
+            if (_ascending)
+                _ascending = false;
+            else
+                _ascending = true;
+
+            items.Reverse();
+            NotifyDataSetChanged();
+
+        }
+
+
+        public void Sort(string key)
+        {
+            switch (key)
+            {
+                case "Alphabetical":
+                    items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+                    break;
+                case "Players":
+                    if (_ascending)
+                        items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
+                    else
+                        items.Sort((a, b) => b.minPlayers.CompareTo(a.minPlayers));
+                    break;
+                case "Game Time":
+                    if (_ascending)
+                        items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
+                    else
+                        items.Sort((a, b) => b.minPlayTime.CompareTo(a.minPlayTime));
+                    break;
+                case "Difficulty":
+                    items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
+                    break;
+                case "Year pf publication":
+                    items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
+                    break;
+                default:
+                    new KeyNotFoundException($"Could not find key: {key}");
+                    break;
+            }
+            NotifyDataSetChanged();
+        }
     }
 }
