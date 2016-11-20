@@ -179,11 +179,10 @@ namespace AndroidAppV2.Activities
             //todo: send reservation here
         }
         public void emailCheck(string email) {
+            // Email typo check stuff
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
-
-
 
             string[] emailParts = email.Split('@');
 

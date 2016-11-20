@@ -13,14 +13,19 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidAppV2.ListAdapters;
+using AndroidAppV2.ListDialogFragments;
 using Shared;
 using Android.Support.V4.App;
+using Android.Support.V7.App;
+using Newtonsoft.Json;
 
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
     public class GameActivity : FragmentActivity
     {
+        public static Game GAME_FRAGMENT_KEY;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             
@@ -61,13 +66,9 @@ namespace AndroidAppV2.Activities
 
             GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
-            listView.ItemClick += delegate {
-                var dialog = new ListDialogFragments.GameDialogFragment();
-                dialog.Show(SupportFragmentManager, "dialog");
-                
-            };
-
+            listView.ItemClick += OnListItemClick;
         }
+
 
         private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
@@ -103,8 +104,13 @@ namespace AndroidAppV2.Activities
         }
         void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
+            Game theGame = getGames()[e.Position];
             var listView = sender as ListView;
             //todo: dialog fragment med yderligere info om et item
+            var dialog = new GameDialogFragment();
+            //dialog.Show(FragmentManager, "lel");
+            dialog.PassDataToFrag(theGame);
+            dialog.Show(FragmentManager, "Game Dialog");
         }
 
 
