@@ -63,12 +63,10 @@ namespace AndroidAppV2.Activities
 
 
             listView.Adapter = itemAdapter;
-            listView.ItemClick += delegate {
-                Game theGame = itemAdapter.;
-
-                //todo: dialog fragment med yderligere info om et item
+            listView.ItemClick += (s,e) => {
+                Game theGame = itemAdapter.GetGameByPosition(e.Position);
+                
                 var dialog = new GameDialogFragment();
-                //dialog.Show(FragmentManager, "lel");
                 dialog.PassDataToFrag(theGame);
                 dialog.Show(FragmentManager, "Game Dialog");
             };
