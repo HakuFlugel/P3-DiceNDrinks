@@ -59,6 +59,9 @@ namespace AndroidAppV2.Activities
                 //TODO: Make Search Limit Fragment
             };
 
+            
+
+
             listView.Adapter = itemAdapter;
             listView.ItemClick += delegate {
                 Game theGame = itemAdapter.;
