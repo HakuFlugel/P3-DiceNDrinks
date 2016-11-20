@@ -6,6 +6,7 @@ using Android.Support.V4.App;
 using Android.Widget;
 
 using AndroidAppV2.ListAdapters;
+using AndroidAppV2.ListDialogFragments;
 using Shared;
 
 
@@ -61,7 +62,7 @@ namespace AndroidAppV2.Activities
 
 
             listView.ItemClick += delegate {
-                var dialog = new ListDialogFragments.GameDialogFragment();
+                GameDialogFragment dialog = new GameDialogFragment();
                 dialog.Show(SupportFragmentManager, "dialog");
                 
             };
@@ -170,7 +171,7 @@ namespace AndroidAppV2.Activities
                 maxPlayers = 4,
                 minPlayTime = 2,
                 maxPlayTime = 5,
-                publishedYear = 1995
+                publishedYear = 1996
             };
             Game testgame9 = new Game
             {
