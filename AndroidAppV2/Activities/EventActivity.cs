@@ -1,23 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using AndroidAppV2.ListAdapters;
+
+using Shared;
+using Android.Support.V4.App;
 
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Events")]
-    public class EventActivity : Activity
+    public class EventActivity : FragmentActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            
+
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.eventLayout);
@@ -28,7 +35,47 @@ namespace AndroidAppV2.Activities
             //https://components.xamarin.com/gettingstarted/facebook-sdk
             //TODO: Eller hvis det bliver et no-go, så have et link til DnD's fb side
 
+            ListView listView = FindViewById<ListView>(Resource.Id.listView1);
 
+            List<Event> list = getEventsTemp();
+
+
+            EventAdapter itemAdapter = new EventAdapter(this, list);
+            listView.Adapter = itemAdapter;
+            listView.ItemClick += delegate
+            {
+                var dialog = new ListDialogFragments.GameDialogFragment();
+                dialog.Show(SupportFragmentManager, "dialog");
+                //dialog.Show(Android.Support.V4.App.FragmentManager, "derperperpepreprp");
+
+            };
         }
+
+        List<Event> getEventsTemp()
+        {
+            List<Event> list = new List<Event>();
+
+
+            Event testevent = new Event
+            {
+                name = "Secret Hitler",
+                description = "Party game",
+                image = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
+            };
+            Event testevent2 = new Event
+            {
+                name = "In time you will know the tragic extends of my failings",
+                description = "How quickly the tides turn",
+                image = "small.jpg"
+            };
+
+
+            list.Add(testevent);
+            list.Add(testevent2);
+
+            //todo: get the events here
+            return list;
+        }
+
     }
 }
