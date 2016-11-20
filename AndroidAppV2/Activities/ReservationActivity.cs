@@ -147,7 +147,7 @@ namespace AndroidAppV2.Activities
                 return;
             }
             try {
-                EmailCheck(res.email);
+                emailCheck(res.email);
             }
             catch (Java.Lang.Exception en) {
                 AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
@@ -173,13 +173,11 @@ namespace AndroidAppV2.Activities
             
             //todo: send reservation here
         }
-
-        private static void EmailCheck(string email) {
+        public void emailCheck(string email) {
+            // Email typo check stuff
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
-
-
 
             string[] emailParts = email.Split('@');
 

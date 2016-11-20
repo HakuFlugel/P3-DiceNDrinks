@@ -89,5 +89,10 @@ namespace AndroidAppV2.ListAdapters
             GC.Collect();
         }
 
+        public Game GetGameByPosition(int pos)
+        {
+            return items[pos];
+        } 
+
     }
 }

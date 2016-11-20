@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Shared;
 
 using Android.App;
 using Android.Content;
@@ -14,16 +15,23 @@ using Android.Graphics.Drawables;
 using Android.Graphics;
 
 namespace AndroidAppV2.ListDialogFragments {
-    public class GameDialogFragment : Android.Support.V4.App.DialogFragment {
+    public class GameDialogFragment : DialogFragment {
 
-        Button Button_Dismiss;
+        private Button Button_Dismiss;
+        private TextView Text_something;
+        private Game game;
 
-        public override Android.Views.View OnCreateView(Android.Views.LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-
+        public override View OnCreateView(Android.Views.LayoutInflater inflater, ViewGroup container, Bundle bundle) {
+            
+            //Maybe unnnesscarydyryryryr
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
             var view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
+
+            //Test textssssss
+            Text_something = view.FindViewById<TextView>(Resource.Id.textView1);
+            Text_something.Text = game.name;
 
             //Button test dismiss
             Button_Dismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
@@ -31,17 +39,17 @@ namespace AndroidAppV2.ListDialogFragments {
 
             return view;
         }
-
+        public void PassDataToFrag(Game game) {
+            this.game = game;
+        }
+        
         public override void OnResume() {
 
             // Auto Size based on content
             Dialog.Window.SetLayout(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
 
             // No background behind the view
-            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.Red));
-
-            //Disables standard dialog style/frame/theme and to make it look like full UI
-            SetStyle(Android.Support.V4.App.DialogFragment.StyleNoFrame, Android.Resource.Style.Theme);
+            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DarkGray ));
 
             base.OnResume();
         }
@@ -51,7 +59,7 @@ namespace AndroidAppV2.ListDialogFragments {
 
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
-
+            
             if (disposing) {
                 Button_Dismiss.Click -= Button_Dismiss_Click;
             }

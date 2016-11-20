@@ -6,6 +6,7 @@ using Android.Support.V4.App;
 using Android.Widget;
 
 using AndroidAppV2.ListAdapters;
+using AndroidAppV2.ListDialogFragments;
 using Shared;
 
 
@@ -14,6 +15,8 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
     public class GameActivity : FragmentActivity
     {
+        public static Game GAME_FRAGMENT_KEY;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             
@@ -59,14 +62,16 @@ namespace AndroidAppV2.Activities
             
 
 
-
-            listView.ItemClick += delegate {
-                var dialog = new ListDialogFragments.GameDialogFragment();
-                dialog.Show(SupportFragmentManager, "dialog");
+            listView.Adapter = itemAdapter;
+            listView.ItemClick += (s,e) => {
+                Game theGame = itemAdapter.GetGameByPosition(e.Position);
                 
+                var dialog = new GameDialogFragment();
+                dialog.PassDataToFrag(theGame);
+                dialog.Show(FragmentManager, "Game Dialog");
             };
-
         }
+
 
         List<Game> getGames()
         {
@@ -170,7 +175,7 @@ namespace AndroidAppV2.Activities
                 maxPlayers = 4,
                 minPlayTime = 2,
                 maxPlayTime = 5,
-                publishedYear = 1995
+                publishedYear = 1996
             };
             Game testgame9 = new Game
             {
@@ -200,13 +205,6 @@ namespace AndroidAppV2.Activities
             //todo: get the games here
             return list;
         }
-
-        void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            var listView = sender as ListView;
-            //todo: dialog fragment med yderligere info om et item
-        }
-
 
     }
 }
