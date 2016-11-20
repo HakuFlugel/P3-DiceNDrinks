@@ -147,7 +147,7 @@ namespace AndroidAppV2.Activities
                 return;
             }
             try {
-                EmailCheck(res.email);
+                emailCheck(res.email);
             }
             catch (Java.Lang.Exception en) {
                 AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);

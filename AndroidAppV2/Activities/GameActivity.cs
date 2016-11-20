@@ -61,7 +61,7 @@ namespace AndroidAppV2.Activities
 
             
 
-            GameAdapter itemAdapter = new GameAdapter(this, list);
+
             listView.Adapter = itemAdapter;
             listView.ItemClick += OnListItemClick;
         }
