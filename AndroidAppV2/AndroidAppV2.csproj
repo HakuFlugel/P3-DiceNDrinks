@@ -131,6 +131,7 @@
     <Compile Include="ListAdapters\EventAdapter.cs" />
     <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
+    <Compile Include="ListDialogFragments\EventDialogFragment.cs" />
     <Compile Include="ListDialogFragments\GameDialogFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
@@ -145,7 +146,9 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\contactLayout.axml" />
-    <AndroidResource Include="Resources\layout\eventLayout.axml" />
+    <AndroidResource Include="Resources\layout\eventLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\foodmenuLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -158,6 +161,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\eventListItem.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\eventDialogView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

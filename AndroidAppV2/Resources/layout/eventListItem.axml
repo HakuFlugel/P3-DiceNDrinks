@@ -4,54 +4,53 @@
     android:layout_height="wrap_content"
     android:background="#FFDAFF7F"
     android:padding="8dp">
-  <LinearLayout
-  android:id="@+id/Text"
-  android:orientation="horizontal"
-  android:layout_width="fill_parent"
-  android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/Text"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.4">
-      <TextView
-          android:id="@+id/Text1"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:textColor="#FF7F3300"
-          android:textSize="20dip"
-          android:textStyle="italic" />
-      <TextView
-          android:id="@+id/Text2"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:textSize="14dip"
-          android:textColor="#FF267F00" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/Text"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4">
+            <TextView
+                android:id="@+id/Text1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7F3300"
+                android:textSize="20dip"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/Text2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dip"
+                android:textColor="#FF267F00" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/Text"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6" >
+            <TextView
+                android:id="@+id/Text3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7F3300"
+                android:textSize="20dip"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/Text4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dip"
+                android:textColor="#FF267F00" />
+        </LinearLayout>
     </LinearLayout>
-    <LinearLayout
-      android:id="@+id/Text"
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_weight="0.6"
-      android:paddingLeft="10dip">
-      <TextView
-          android:id="@+id/Text3"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:textColor="#FF7F3300"
-          android:textSize="20dip"
-          android:textStyle="italic" />
-      <TextView
-          android:id="@+id/Text4"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:textSize="14dip"
-          android:textColor="#FF267F00" />
-    </LinearLayout>
-  </LinearLayout>
-  <!--<ImageView
+<!--<ImageView
         android:id="@+id/Image"
         android:layout_width="48dp"
         android:layout_height="48dp"
