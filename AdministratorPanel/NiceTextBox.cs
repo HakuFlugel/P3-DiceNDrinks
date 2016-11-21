@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    class NiceTextBox : TextBox
+    public class NiceTextBox : TextBox
     {
         private bool waterMarkActive = true;
         private string _waterMark = "";

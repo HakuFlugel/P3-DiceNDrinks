@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace AdministratorPanel {
     public class PendingReservationList : TableLayoutPanel {
-        private ReservationTab calTab;
+        private ReservationsTab calTab;
         private Calendar cal;
-        public PendingReservationList(Calendar cal, ReservationTab calTab) {
+        public PendingReservationList(Calendar cal, ReservationsTab calTab) {
             this.calTab = calTab;
             this.cal = cal;
 
