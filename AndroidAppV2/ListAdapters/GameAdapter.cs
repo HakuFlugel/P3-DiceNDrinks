@@ -83,11 +83,11 @@ namespace AndroidAppV2.ListAdapters
                 case "Difficulty":
                     _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
-                case "Year of publication":
+                case "Year of Publication":
                     _items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
                     break;
                 default:
-                    throw new KeyNotFoundException($"Could not find key: {key}");
+                    throw new KeyNotFoundException($"Could not find key: \"{key}\"");
             }
             NotifyDataSetChanged();
             GC.Collect();
