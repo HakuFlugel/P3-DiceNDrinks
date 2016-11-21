@@ -12,17 +12,8 @@ namespace AdministratorPanel {
         public ReservationList reserveationList;
         public PendingReservationList pendingReservationList;
 
-        public ReservationTab() {
+        public ReservationTab(ReservationController reservationController) {
             Load();
-            //Random rand = new Random(100);
-            //CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>(), theDay = DateTime.Now.Date };
-            
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    Reservation res = new Reservation { time = DateTime.Now.Date, name = "fish", numPeople = rand.Next(1, 100), pending = true };
-            //    test.reservations.Add(res);
-            //}
-            //calDay.Add(test);
 
             Text = "Reservations";
 

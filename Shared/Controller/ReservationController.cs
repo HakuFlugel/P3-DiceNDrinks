@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 
+// TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
+
 namespace Shared
 {
     public class ReservationController : ControllerBase
@@ -31,10 +33,6 @@ namespace Shared
             public Reservation oldReservation;
             public bool hasMoved;
 
-            public UpdateReservationEventArgs(Reservation reservation)
-            {
-            }
-
             public UpdateReservationEventArgs(Reservation oldReservation, Reservation reservation, bool hasMoved)
             {
                 this.oldReservation = oldReservation;
@@ -43,7 +41,16 @@ namespace Shared
             }
         }
 
+        public event EventHandler<RemoveReservationEventArgs> ReservationRemoved;
+        public class RemoveReservationEventArgs
+        {
+            public Reservation reservation;
 
+            public RemoveReservationEventArgs(Reservation reservation)
+            {
+                this.reservation = reservation;
+            }
+        }
 
         public void addReservation(Reservation reservation)
         {
@@ -76,8 +83,17 @@ namespace Shared
 
         }
 
+        public void removeReservation(Reservation reservation)
+        {
+
+            removeFromDay(reservation);
+
+            ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(reservation));
+
+        }
+
         private Random rand = new Random();
-        public int getRandomID()
+        private int getRandomID()
         {
             int id;
 
@@ -87,7 +103,7 @@ namespace Shared
 
         }
 
-        public void addToDay(Reservation reservation)
+        private void addToDay(Reservation reservation)
         {
             CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay == reservation.time.Date);
             if (resDay == null)
@@ -100,7 +116,7 @@ namespace Shared
 
         }
 
-        public void removeFromDay(Reservation reservation)
+        private void removeFromDay(Reservation reservation)
         {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);

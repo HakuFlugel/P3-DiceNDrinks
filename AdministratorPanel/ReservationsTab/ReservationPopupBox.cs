@@ -43,15 +43,11 @@ namespace AdministratorPanel {
         };
 
 
-        private ReservationTab calTab;
+        private ReservationController reservationController;
         private Reservation res;
 
-        public ReservationPopupBox() {
-
-        }
-
-        public ReservationPopupBox(ReservationTab calTab, Reservation res = null) {
-            this.calTab = calTab;
+        public ReservationPopupBox(ReservationController reservationController, Reservation res = null) {
+            this.reservationController = reservationController;
             this.res = res;
             if (res != null) {
                 try {
@@ -71,7 +67,6 @@ namespace AdministratorPanel {
                 catch (ArgumentOutOfRangeException) {
 
                 }
-                
 
             }
             else {
@@ -119,17 +114,18 @@ namespace AdministratorPanel {
 
         protected override void delete(object sender, EventArgs e) {
             if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this reservation?", MessageBoxButtons.YesNo)) {
-                foreach (var item in calTab.calDayList) {
-                    item.reservations.Remove(res);
-                }
-                //calTab.calDay.Find(o => o.theDay.Date == res.time.Date);
 
-                calTab.reserveationList.makeItems(DateTime.Today.Date);
-                calTab.pendingReservationList.makeItems();
+                reservationController.removeReservation(res);
+
+                //TODO: move to event on list... _.. er auto-rename
+                //_reservationController.reserveationList.makeItems(DateTime.Today.Date);
+                //_reservationController.pendingReservationList.makeItems();
             }
         }
 
         protected override void save(object sender, EventArgs e) {
+
+            //TODO: kan vi ikke bruge Validate til det her?
 
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
@@ -152,7 +148,6 @@ namespace AdministratorPanel {
                 MessageBox.Show(en.Message);
                 return;
             }
-            
 
             string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
             string tempTime = timePicker.Text;
@@ -164,11 +159,11 @@ namespace AdministratorPanel {
 
             
 
-            CalendarDay cd = calTab.calDayList.Find(o => o.theDay.Date == newDate.Date);
+            CalendarDay cd = _reservationController.calDayList.Find(o => o.theDay.Date == newDate.Date);
 
             if (cd == null) {
                 cd = new CalendarDay { theDay = newDate.Date };
-                calTab.calDayList.Add(cd);
+                _reservationController.calDayList.Add(cd);
             }
 
             if (res == null) {
@@ -177,7 +172,7 @@ namespace AdministratorPanel {
                 cd.reservations.Add(res);
             }
             else if (newDate.Date != res.time.Date) {
-                foreach (var item in calTab.calDayList) {
+                foreach (var item in _reservationController.calDayList) {
                     item.reservations.Remove(res);
                 }
                 cd.reservations.Add(res);
@@ -195,7 +190,7 @@ namespace AdministratorPanel {
             res.email = email.Text;
             res.time = newDate;
 
-            //foreach (var item in calTab.calDay) {
+            //foreach (var item in reservationController.calDay) {
             //    if (item.theDay.Date == newStartDate.Date) {
             //    }
             //    else {
@@ -203,8 +198,8 @@ namespace AdministratorPanel {
             //}
 
             this.Close();
-            calTab.reserveationList.makeItems(newDate.Date);
-            calTab.pendingReservationList.makeItems();
+            _reservationController.reserveationList.makeItems(newDate.Date);
+            _reservationController.pendingReservationList.makeItems();
             
         }
 
@@ -241,49 +236,3 @@ namespace AdministratorPanel {
         }
     }
 }
-
-
-
-
-/*
- public string email {
-            get {
-                return email;
-            }
-            set {
-                const string validLocalSymbols = ".-"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
-                const string validDomainSymbols = ".-";
-
-
-
-                string[] emailParts = value.Split('@');
-
-                if (emailParts.Length != 2)
-                    throw new FormatException("Email address must contain exactly one '@'");
-
-                if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
-                    throw new FormatException("Email address local- or domain-part can't start or end with a '.'");
-
-                if (!emailParts[1].Contains('.'))
-                    throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.tld");
-
-                if (value.Contains(".."))
-                    throw new FormatException("Email address may not contain consecutive '.'s, ie. '..'.");
-
-                foreach (char ch in emailParts[0]) {
-                    if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch)) 
-                        throw new FormatException($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols "{validLocalSymbols}"");
-                }
-
-                foreach (var ch in emailParts[1]) {
-                    if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
-                        throw new FormatException($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols "{validDomainSymbols}"");
-                }
-
-
-
-                _email = value;
-
-            }
-        }
-*/

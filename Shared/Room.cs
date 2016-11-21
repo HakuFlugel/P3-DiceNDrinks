@@ -1,4 +1,6 @@
-﻿namespace Shared
+﻿using System.Collections.Generic;
+
+namespace Shared
 {
     public class Room
     {
