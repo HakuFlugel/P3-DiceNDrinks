@@ -15,7 +15,6 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
     public class GameActivity : FragmentActivity
     {
-        public static Game GAME_FRAGMENT_KEY;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
