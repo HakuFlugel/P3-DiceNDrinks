@@ -189,6 +189,7 @@ namespace AdministratorPanel {
             res.phone = phoneNumber.Text;
             res.email = email.Text;
             res.time = newDate;
+            cd.fullness += res.numPeople;
 
             //foreach (var item in reservationController.calDay) {
             //    if (item.theDay.Date == newStartDate.Date) {

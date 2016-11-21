@@ -7,22 +7,21 @@ using System.Linq;
 using Shared;
 
 namespace AdministratorPanel {
-    class Xml {
+    class XmlParser {
         string search = "http://geekdo.com/xmlapi/search?search=";
         string searchend = "&exact=1";
         private XmlDocument doc = new XmlDocument();
 
         public List<Game> gameSearchResult = new List<Game>();
         
-        public Xml() {
+        public XmlParser() {
             
         }
         
-        List<Game> getGames(string ind) {
+        public List<Game> getGames(string ind) {
             doc.Load(search + ind + searchend);
             gameSearchResult = PreLoadListOfGames();
             gameSearchResult = ExpandToFullList(gameSearchResult);
-
             return gameSearchResult;
         }
 
@@ -36,51 +35,51 @@ namespace AdministratorPanel {
 
                 //info
 
-                int placeHoldeer; bool boolHolder;
+                int intHolder; bool boolHolder;
 
                 Dictionary<string, bool> thisWasHere = new Dictionary<string, bool>();
 
                 try {
-                    Int32.TryParse(node["minplayers"].InnerText, out placeHoldeer);
+                    Int32.TryParse(node["minplayers"].InnerText, out intHolder);
                     boolHolder = true;
                 } catch (Exception) {
-                    placeHoldeer = 0;
+                    intHolder = 0;
                     boolHolder = false;
                 }
 
                 thisWasHere.Add("Minimum players", boolHolder);
-                game.minPlayers = placeHoldeer;
+                game.minPlayers = intHolder;
 
                 try {
-                    Int32.TryParse(node["maxplayers"].InnerText, out placeHoldeer);
+                    Int32.TryParse(node["maxplayers"].InnerText, out intHolder);
                     boolHolder = true;
                 } catch (Exception) {
-                    placeHoldeer = 0;
+                    intHolder = 0;
                     boolHolder = false;
                 }
 
                 thisWasHere.Add("Maximum players", boolHolder);
-                game.maxPlayers = placeHoldeer;
+                game.maxPlayers = intHolder;
 
                 try {
-                    Int32.TryParse(node["minplaytime"].InnerText, out placeHoldeer);
+                    Int32.TryParse(node["minplaytime"].InnerText, out intHolder);
                     boolHolder = true;
                 } catch (Exception) {
-                    placeHoldeer = 0;
+                    intHolder = 0;
                     boolHolder = false;
                 }
                 thisWasHere.Add("Minimum playtime", boolHolder);
-                game.minPlayTime = placeHoldeer;
+                game.minPlayTime = intHolder;
 
                 try {
-                    Int32.TryParse(node["maxplaytime"].InnerText, out placeHoldeer);
+                    Int32.TryParse(node["maxplaytime"].InnerText, out intHolder);
                     boolHolder = true;
                 } catch (Exception) {
-                    placeHoldeer = 0;
+                    intHolder = 0;
                     boolHolder = false;
                 }
                 thisWasHere.Add("Maximum playtime", boolHolder);
-                game.maxPlayTime = placeHoldeer;
+                game.maxPlayTime = intHolder;
 
                 try {
                     game.description = stringFormater(node["description"].InnerText);
@@ -111,7 +110,7 @@ namespace AdministratorPanel {
                 }
                 thisWasHere.Add("Image", boolHolder);
                 bool textBoxNeeded = false;
-                string whatIsMissing = "These things could not be found from the API: " + Environment.NewLine + Environment.NewLine;
+                string whatIsMissing = "These things could not be found in game with ID: " + game.bggid +  " from the API: " + Environment.NewLine + Environment.NewLine;
                 foreach (var item in thisWasHere.Where(x => x.Value.Equals(false))) {
                     whatIsMissing += "  * " + item.Key + Environment.NewLine;
                     textBoxNeeded = true;

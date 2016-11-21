@@ -13,7 +13,7 @@ namespace AdministratorPanel
 {
     /*abstract*/
 
-    abstract class FancyPopupBox : Form
+    public abstract class FancyPopupBox : Form
     {
         protected Padding labelPadding = new Padding(5, 0, 5, 0);
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
@@ -79,7 +79,9 @@ namespace AdministratorPanel
         protected abstract Control CreateControls();
 
         protected virtual void save(object sender, EventArgs e) {
+            
             hasBeenChanged = false;
+            Close();
         }
 
         protected abstract void delete(object sender, EventArgs e);

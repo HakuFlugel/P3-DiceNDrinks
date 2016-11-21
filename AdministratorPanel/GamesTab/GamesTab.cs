@@ -11,9 +11,9 @@ namespace AdministratorPanel {
 
         
         public List<Game> games;
-        GamesList game;
-        public Action<string> UserSearchText { get; set; }
+        public GamesList game;
         string seach ="";
+        
 
         TableLayoutPanel tb = new TableLayoutPanel() {
             ColumnCount = 1,
@@ -35,12 +35,11 @@ namespace AdministratorPanel {
             Text = "Add Game",
         };
 
-        NiceTextBox seachBar = new NiceTextBox() {
+        public NiceTextBox seachBar = new NiceTextBox() {
             
             waterMark = "Type something to seach..",
             clearable = true,
             MinimumSize = new Size(200, 0),
-
             Margin = new Padding(20, 5, 20, 5),
         };
         
@@ -48,7 +47,8 @@ namespace AdministratorPanel {
         public GamesTab() {
 
             Load();
-            game = new GamesList(seach, games);
+            game = new GamesList(games,this);
+            game.makeItems(seach);
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
@@ -84,15 +84,18 @@ namespace AdministratorPanel {
 
         private void update() {
 
-            seachBar.Text = seach;
-            game.Controls.Clear();
+            seachBar.Text = (seachBar.Text == "") ? seachBar.waterMark : seach;
+
             game.makeItems(seach);
         }
 
 
              
-        public override void Save() {
+        public override void Save()
+        {
+            Directory.CreateDirectory("Sources");
             var json = JsonConvert.SerializeObject(games);
+            Directory.CreateDirectory("Sources");
             if (!File.Exists(@"Sources/Games.json"))
                 File.Create(@"Sources/Games.json");
 
@@ -130,6 +133,7 @@ namespace AdministratorPanel {
                 genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
+                difficulity = 75,
                 minPlayers = 5,
                 maxPlayers = 10,
                 minPlayTime = 30,
@@ -143,6 +147,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 20,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
@@ -155,6 +160,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 30,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
@@ -167,6 +173,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 100,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
@@ -179,6 +186,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 56,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
@@ -191,6 +199,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 32,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
@@ -215,6 +224,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 13,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
@@ -227,6 +237,7 @@ namespace AdministratorPanel {
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
+                difficulity = 85,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,

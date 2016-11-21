@@ -7,7 +7,7 @@ using System;
 namespace AdministratorPanel {
     public class PendingReservationItem : NiceButton {
 
-        public PendingReservationItem(Calendar cal, ReservationTab calTab, DateTime calDay, List<Reservation> resList) {
+        public PendingReservationItem(Calendar cal, ReservationsTab calTab, DateTime calDay, List<Reservation> resList) {
             RowCount = 1;
             ColumnCount = 1;
             bgColor = Color.LightGray;
@@ -17,7 +17,7 @@ namespace AdministratorPanel {
             Margin = new Padding(4, 4, 20, 4);
             Click += (s, e) => {
                 cal.SelectionStart = calDay.Date;
-                calTab.reserveationList.makeItems(calDay.Date);
+                calTab.reservationList.makeItems(calDay.Date);
             };
 
             Controls.Add(new Label { Text = calDay.Date.ToString("dd. MMMMM yyyy"), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Top, Font = new Font("Arial", 12) });

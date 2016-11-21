@@ -25,7 +25,7 @@ namespace AdministratorPanel {
             //cp.AutoSize = true;
 
             tabs.AddRange(new AdminTabPage[]{
-                new ReservationTab(),
+                new ReservationsTab(),
                 new ProductsTab(),
                 new GamesTab(),
                 new EventsTab()

@@ -4,8 +4,8 @@ using Shared;
 
 namespace AdministratorPanel {
     public class ProductCategoryTab : TabPage{
-        private ProductCategory category;
-        private TableLayoutPanel table = new TableLayoutPanel();
+        public ProductCategory category;
+        public TableLayoutPanel table = new TableLayoutPanel();
 
         public ProductCategoryTab(ProductCategory productCategory) {
             this.category = productCategory;
