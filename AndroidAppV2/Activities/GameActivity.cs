@@ -15,7 +15,6 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
     public class GameActivity : FragmentActivity
     {
-        public static Game GAME_FRAGMENT_KEY;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -121,6 +120,11 @@ namespace AndroidAppV2.Activities
                 name = "uguu~",
                 genre = { "fucking degenerate" },
                 thumbnail = "small.jpg",
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem.",
                 difficulity = 1,
                 minPlayers = 2,
                 maxPlayers = 8,

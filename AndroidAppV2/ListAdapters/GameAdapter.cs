@@ -1,26 +1,27 @@
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
 
 using AndroidAppV2.Activities;
 using Shared;
+using Enumerable = System.Linq.Enumerable;
 
 namespace AndroidAppV2.ListAdapters
 {
-    class GameAdapter : BaseAdapter<Game>
+    internal class GameAdapter : BaseAdapter<Game>
     {
-        List<Game> items;
-        Activity context;
-        private FoodmenuActivity foodmenuActivity;
-        private bool _ascending = true;
+        private List<Game> _items;
+        private List<Game> _baseItems;
+        private readonly Activity _context;
+
 
         public GameAdapter(Activity context, List<Game> items)
         {
-            this.context = context;
-            this.items = items;
+            _context = context;
+            _items = items;
             Sort("Alphabetical");
         }
 
@@ -31,68 +32,153 @@ namespace AndroidAppV2.ListAdapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
-            Game item = items[position];
+            Game item = _items[position];
             //sets the view as convertView unless convertView is null
-            View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
+            View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre apperently is a list q.q
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AdapterShared.getBitmapFromAsset(context,item.thumbnail)); //SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
+            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AdapterShared.getBitmapFromAsset(_context,item.thumbnail)); //SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
             return view;
         }
 
-        public override int Count => items.Count;
+        public override int Count => _items.Count;
 
-        public override Game this[int position] => items[position];
+        public override Game this[int position] => _items[position];
 
-        public void SwitchOrder()
+        //collects garbage and updates the listview
+        private void RemoveGarbage()
         {
-            if (_ascending)
-                _ascending = false;
-            else
-                _ascending = true;
-
-            items.Reverse();
             NotifyDataSetChanged();
             GC.Collect();
         }
 
+        //switches the list between being ascending and descending
+        public void SwitchOrder()
+        {
+            _items.Reverse();
+            NotifyDataSetChanged();
+            GC.Collect();
+        }
+
+        //Spinner sorter
         public void Sort(string key)
         {
             switch (key)
             {
                 case "Alphabetical":
-                    items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+                    _items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
                     break;
                 case "Max. Players":
-                    items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
+                    _items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
                     break;
                 case "Min. Players":
-                    items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
+                    _items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
                     break;
                 case "Max. Game Time":
-                    items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
+                    _items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
                     break;
                 case "Min. Game Time":
-                    items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));
+                    _items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));
                     break;
                 case "Difficulty":
-                    items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
+                    _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
-                case "Year of publication":
-                    items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
+                case "Year of Publication":
+                    _items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
                     break;
                 default:
-                    new KeyNotFoundException($"Could not find key: {key}");
-                    break;
+                    throw new KeyNotFoundException($"Could not find key: \"{key}\"");
             }
             NotifyDataSetChanged();
             GC.Collect();
         }
 
+        //Gets the game according to the position in the listview
         public Game GetGameByPosition(int pos)
         {
-            return items[pos];
-        } 
+            return _items[pos];
+        }
 
+        //search name
+        public void AdvancedSearch(string value)
+        {
+            foreach (Game game in _baseItems)
+            {
+                if (game.name.Contains(value) && !_items.Contains(game))
+                    _items.Add(game);
+                else if (_items.Contains(game))
+                    _items.Remove(game);
+            }
+
+            RemoveGarbage();
+        }
+
+        //search genre(s)
+        public void AdvancedSearch(string[] value)
+        {
+            foreach (Game game in _baseItems)
+            {
+                if (game.genre.Any(x => value.Any(y => y.ToString() == x)) && !_items.Contains(game))
+                    _items.Add(game);
+                else if (_items.Contains(game))
+                    _items.Remove(game);
+            }
+
+            RemoveGarbage();
+        }
+
+        //search num. of players, difficulty, and playtime //TODO: Implement more search
+        /*public void AdvancedSearch(string item, int value)
+        {
+            switch (item)
+            {
+                case "MaxPlayers":
+                    foreach (Game game in _items)
+                    {
+                        if (game.maxPlayers > value && !_items.Contains(game))
+                        {
+                            _items.Add(game);
+                        }
+                        else if (_items.Contains(game))
+                        {
+                            _items.Remove(game);
+                        }
+                    }
+                    break;
+                case "MinPlayers":
+                    foreach (Game game in _items)
+                    {
+                        if (game.minPlayers > value && !_items.Contains(game))
+                        {
+                            _items.Add(game);
+                        }
+                        else if (_items.Contains(game))
+                        {
+                            _items.Remove(game);
+                        }
+                    }
+                    break;
+                case "MinDiff":
+                    foreach (Game game in _items)
+                    {
+                        if (game.difficulity > value && !_items.Contains(game))
+                        {
+                            _items.Add(game);
+                        }
+                        else if (_items.Contains(game))
+                        {
+                            _items.Remove(game);
+                        }
+                    }
+                    break;
+            }
+            RemoveGarbage();
+        }*/
+
+        public void ResetSearch()
+        {
+            _items = _baseItems;
+            RemoveGarbage();
+        }
     }
 }

@@ -24,14 +24,25 @@ namespace AndroidAppV2.ListDialogFragments {
         public override View OnCreateView(Android.Views.LayoutInflater inflater, ViewGroup container, Bundle bundle) {
             
             //Maybe unnnesscarydyryryryr
-            Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
+            //Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
             var view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
 
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var item in game.genre) {
+                sb.Append(item + ",  ");
+            }
+            sb.Remove(sb.Length - 3, 3);
+
             //Test textssssss
-            Text_something = view.FindViewById<TextView>(Resource.Id.textView1);
-            Text_something.Text = game.name;
+            view.FindViewById<TextView>(Resource.Id.gameNameText).Text = game.name;
+            view.FindViewById<TextView>(Resource.Id.gameDescrText).Text = game.description;
+            view.FindViewById<TextView>(Resource.Id.gamePlayerText).Text = "Players: " + game.minPlayers.ToString() + "-" + game.maxPlayers.ToString();
+            view.FindViewById<TextView>(Resource.Id.gamePlayTimeText).Text = "Time: " + game.minPlayTime + "-" + game.maxPlayTime + " min";
+            view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = "Genres: " + sb.ToString();
+            view.FindViewById<TextView>(Resource.Id.gameDiffText).Text = "Diffuclity: " + game.difficulity.ToString() + "/100";
 
             //Button test dismiss
             Button_Dismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
@@ -46,10 +57,10 @@ namespace AndroidAppV2.ListDialogFragments {
         public override void OnResume() {
 
             // Auto Size based on content
-            Dialog.Window.SetLayout(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
+            //Dialog.Window.SetLayout(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
 
             // No background behind the view
-            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DarkGray ));
+            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DimGray));
 
             base.OnResume();
         }

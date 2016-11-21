@@ -5,13 +5,14 @@ using Android.OS;
 using Android.Widget;
 
 using AndroidAppV2.ListAdapters;
+using AndroidAppV2.ListDialogFragments;
 using Shared;
 
 
 namespace AndroidAppV2.Activities
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu")]
-    public class FoodmenuActivity : Activity
+    public class ProductActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -29,7 +30,14 @@ namespace AndroidAppV2.Activities
             ProductAdapter adapter = new ProductAdapter(this, list);
             adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
-            listView.ItemClick += OnListItemClick;
+
+            listView.ItemClick += (s, e) => {
+                Product theProduct = adapter.GetProductByPosition(e.Position);
+
+                var dialog = new ProductDialogFragment();
+                dialog.PassDataToFrag(theProduct);
+                dialog.Show(FragmentManager, "Product Dialog");
+            };
 
             var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
                 this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);

@@ -22,7 +22,6 @@ namespace AndroidAppV2.ListAdapters
     {
         List<Event> items;
         Activity context;
-        private FoodmenuActivity foodmenuActivity;
 
         public EventAdapter(Activity context, List<Event> items)
         {

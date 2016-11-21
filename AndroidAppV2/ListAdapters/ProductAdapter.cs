@@ -17,7 +17,6 @@ namespace AndroidAppV2.ListAdapters
         private List<Product> _categoryItems;
         private readonly List<Product> _baseItems;
         private readonly Activity _context;
-        private FoodmenuActivity _foodmenuActivity;
 
         public ProductAdapter(Activity context, List<Product> items)
         {
@@ -73,6 +72,11 @@ namespace AndroidAppV2.ListAdapters
         private void Sort()
         {
             _baseItems.Sort((a,b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
+        }
+
+        public Product GetProductByPosition(int position)
+        {
+            return _items[position];
         }
     }
 }

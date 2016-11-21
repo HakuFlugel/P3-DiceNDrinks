@@ -33,7 +33,7 @@ namespace AndroidAppV2
 
             FindViewById<ImageButton>(Resource.Id.foodmenuButton).Click += delegate
             {
-                StartActivity(typeof(FoodmenuActivity));
+                StartActivity(typeof(ProductActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.reservationButton).Click += delegate
@@ -69,4 +69,3 @@ namespace AndroidAppV2
         }
     }
 }
-
