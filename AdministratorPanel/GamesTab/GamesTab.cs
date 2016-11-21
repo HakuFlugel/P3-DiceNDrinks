@@ -91,7 +91,9 @@ namespace AdministratorPanel {
 
 
              
-        public override void Save() {
+        public override void Save()
+        {
+            Directory.CreateDirectory("Sources");
             var json = JsonConvert.SerializeObject(games);
             if (!File.Exists(@"Sources/Games.json"))
                 File.Create(@"Sources/Games.json");
