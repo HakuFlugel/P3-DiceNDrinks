@@ -12,7 +12,7 @@ namespace Shared
     {
         JsonSerializer jsonSerializer = JsonSerializer.Create();
 
-        private List<Room> rooms;
+        public List<Room> rooms;
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
         public event EventHandler<AddReservationEventArgs> ReservationAdded;
@@ -120,6 +120,37 @@ namespace Shared
         {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);
+        }
+
+        public void addRoom(Room room)
+        {
+            rooms.Add(room);
+        }
+
+        public void removeRoom(Room room)
+        {
+            rooms.Remove(room);
+            foreach (var day in reservationsCalendar)
+            {
+                day.unreserveRoom(this, room);
+                //day.roomsReserved.Remove(room);
+                //day.calculateSeats(this);
+            }
+
+        }
+
+        public void changeRoom(Room oldroom, Room room)
+        {
+            rooms[rooms.IndexOf(oldroom)] = room;
+
+            foreach (var day in reservationsCalendar)
+            {
+                int roomindex = day.roomsReserved.IndexOf(oldroom);
+                if (roomindex < 0) continue;
+
+                day.roomsReserved[roomindex] = room;
+                day.calculateSeats(this);
+            }
         }
 
         public override void save()
