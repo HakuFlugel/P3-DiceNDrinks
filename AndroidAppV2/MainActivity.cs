@@ -69,4 +69,3 @@ namespace AndroidAppV2
         }
     }
 }
-
