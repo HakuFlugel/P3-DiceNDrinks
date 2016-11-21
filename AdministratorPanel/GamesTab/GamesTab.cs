@@ -95,6 +95,7 @@ namespace AdministratorPanel {
         {
             Directory.CreateDirectory("Sources");
             var json = JsonConvert.SerializeObject(games);
+            Directory.CreateDirectory("Sources");
             if (!File.Exists(@"Sources/Games.json"))
                 File.Create(@"Sources/Games.json");
 
