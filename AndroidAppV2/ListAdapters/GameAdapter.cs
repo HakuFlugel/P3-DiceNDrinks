@@ -16,7 +16,6 @@ namespace AndroidAppV2.ListAdapters
         private List<Game> _items;
         private List<Game> _baseItems;
         private readonly Activity _context;
-        private FoodmenuActivity foodmenuActivity;
 
 
         public GameAdapter(Activity context, List<Game> items)

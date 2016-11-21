@@ -118,7 +118,7 @@
   <ItemGroup>
     <Compile Include="Activities\ContactActivity.cs" />
     <Compile Include="Activities\EventActivity.cs" />
-    <Compile Include="Activities\FoodmenuActivity.cs" />
+    <Compile Include="Activities\ProductActivity.cs" />
     <Compile Include="Activities\GameActivity.cs" />
     <Compile Include="Activities\ReservationActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
@@ -132,6 +132,7 @@
     <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
     <Compile Include="ListDialogFragments\EventDialogFragment.cs" />
+    <Compile Include="ListDialogFragments\ProductDialogFragment.cs" />
     <Compile Include="ListDialogFragments\GameDialogFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
