@@ -162,6 +162,7 @@ namespace Shared
 
         public override void load()
         {
+            //Todo: using using
             Directory.CreateDirectory("data");
             reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(new JsonTextReader(new StreamReader("data/reservationsCalendar.json")));
             rooms = jsonSerializer.Deserialize<List<Room>>(new JsonTextReader(new StreamReader("data/rooms.json")));
