@@ -12,7 +12,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class GameActivity : FragmentActivity
     {
 
@@ -32,7 +32,7 @@ namespace AndroidAppV2.Activities
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
             Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
 
-            List<Game> list = getGames();
+            List<Game> list = GetGames();
             GameAdapter itemAdapter = new GameAdapter(this, list);
             listView.Adapter = itemAdapter;
 
@@ -72,141 +72,12 @@ namespace AndroidAppV2.Activities
         }
 
 
-        List<Game> getGames()
+        List<Game> GetGames()
         {
             List<Game> list = new List<Game>();
 
+            AndroidShared.LoadData(this,"games.json",out list);
 
-            Game testgame = new Game
-            {
-                name = "Secret Hitler",
-                genre = { "Party game"},
-                thumbnail = "small.jpg", //TODO: this is a placeholder, both the file-path and the method to retrieve it
-                description = "Gas(Guess) who",
-                difficulity = 99,
-                minPlayers = 5,
-                maxPlayers = 10,
-                minPlayTime = 20,
-                maxPlayTime = 60,
-                publishedYear = 2015
-            };
-            Game testgame2 = new Game
-            {
-                name = "In time you will know the tragic extends of my failings",
-                genre = {"how","quickly","the","tide","turns"},
-                thumbnail = "small.jpg",
-                difficulity = 100,
-                minPlayers = 1,
-                maxPlayers = 1,
-                minPlayTime = 2,
-                maxPlayTime = 1000,
-                publishedYear = 2014
-
-            };
-            Game testgame3 = new Game
-            {
-                name = "wawaawawawawwawa",
-                genre = { "WALUIGI" },
-                thumbnail = "small.jpg",
-                difficulity = 05,
-                minPlayers = 1,
-                maxPlayers = 2,
-                minPlayTime = 60,
-                maxPlayTime = 61,
-                publishedYear = 2005
-            };
-            Game testgame4 = new Game
-            {
-                name = "uguu~",
-                genre = { "fucking degenerate" },
-                thumbnail = "small.jpg",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem." +
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque scelerisque magna vitae molestie tincidunt. Curabitur posuere urna quis eros laoreet hendrerit. Donec in iaculis libero. Nullam id nulla lobortis, malesuada odio non, pellentesque mauris. Aliquam ut turpis dolor. Donec urna lorem, vestibulum a malesuada pretium, mattis et ipsum. Donec iaculis ante in ultrices efficitur. Curabitur in venenatis sem.",
-                difficulity = 1,
-                minPlayers = 2,
-                maxPlayers = 8,
-                minPlayTime = 20,
-                maxPlayTime = 110,
-                publishedYear = 1945
-            };
-            Game testgame5 = new Game
-            {
-                name = "Look at this net",
-                genre = { "that i just found" },
-                thumbnail = "small.jpg",
-                difficulity = 50,
-                minPlayers = 3,
-                maxPlayers = 4,
-                minPlayTime = 2,
-                maxPlayTime = 5,
-                publishedYear = 2016
-            };
-            Game testgame6 = new Game
-            {
-                name = "CUT MY LIFE INTO PIECES",
-                genre = { "THIS IS MY LAST", "burrito" },
-                thumbnail = "small.jpg",
-                difficulity = 75,
-                minPlayers = 4,
-                maxPlayers = 9,
-                minPlayTime = 15,
-                maxPlayTime = 60,
-                publishedYear = 2007
-            };
-            Game testgame7 = new Game
-            {
-                name = "You tell them you're fine",
-                genre = { "but really you're not fine" },
-                thumbnail = "small.jpg",
-                difficulity = 88,
-                minPlayers = 5,
-                maxPlayers = 10,
-                minPlayTime = 20,
-                maxPlayTime = 60,
-                publishedYear = 2000
-            };
-            Game testgame8 = new Game
-            {
-                name = "Rape",
-                genre = { "Family" },
-                description = "Hemcest ;)",
-                thumbnail = "small.jpg",
-                difficulity = 69,
-                minPlayers = 2,
-                maxPlayers = 4,
-                minPlayTime = 2,
-                maxPlayTime = 5,
-                publishedYear = 1996
-            };
-            Game testgame9 = new Game
-            {
-                name = "Fordi du løber tør for tid~",
-                genre = { "WHAT" },
-                thumbnail = "small.jpg",
-                difficulity = 51,
-                minPlayers = 5,
-                maxPlayers = 10,
-                minPlayTime = 20,
-                maxPlayTime = 60,
-                publishedYear = 1990
-            };
-
-
-            list.Add(testgame);
-            list.Add(testgame2);
-            list.Add(testgame3);
-            list.Add(testgame4);
-            list.Add(testgame5);
-            list.Add(testgame6);
-            list.Add(testgame7);
-            list.Add(testgame8);
-            list.Add(testgame9);
-
-
-            //todo: get the games here
             return list;
         }
 

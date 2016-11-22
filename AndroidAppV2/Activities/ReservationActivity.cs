@@ -46,7 +46,7 @@ namespace AndroidAppV2.Activities
 
                 _userID = random.Next(0, 100);
             }
-            AndroidShared.LoadData("VirtualServerReservation.json", out _res);
+            AndroidShared.LoadData(this,"VirtualServerReservation.json", out _res);
             //LoadData();
             
             if (_res == null) {

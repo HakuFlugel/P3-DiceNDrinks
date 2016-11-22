@@ -11,7 +11,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
     public class ProductActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -57,7 +57,9 @@ namespace AndroidAppV2.Activities
                 sectionSpinnerAdapter.Clear();                              //Removes all current items from the spinner list
                 sectionSpinnerAdapter.AddAll(adapter.GetSections());        //Adds all item associated with the chosen category
                 sectionSpinner.SetSelection(0);                             //Selects the topmost item (because this isn't normal behavior)
+                if (adapter.GetSections().Count != 0)
                 adapter.SetList(adapter.GetSections()[0]);                  //Sets the list to correspond the chosen section.
+
             };
             sectionSpinner.ItemSelected += delegate
             {
@@ -116,10 +118,10 @@ namespace AndroidAppV2.Activities
             return productList;
         }
 
-        private static List<Product> GetProducts()
+        private List<Product> GetProducts()
         {
             List<Product> list;
-            AndroidShared.LoadData("products.json",out list);
+            AndroidShared.LoadData(this,"products.json", out list);
 
             return list;
         } 

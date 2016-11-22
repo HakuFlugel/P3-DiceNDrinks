@@ -217,9 +217,6 @@
     <AndroidResource Include="Resources\drawable-da\Top_Left_Games.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\small.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\ProductTest\Red.png" />
   </ItemGroup>
   <ItemGroup>

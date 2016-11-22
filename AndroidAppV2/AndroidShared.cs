@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -17,18 +18,33 @@ namespace AndroidAppV2
 {
     public static class AndroidShared
     {
-        public static void LoadData<T>(string file, out T type)
+        public static void LoadData<T>(Context context, string file, out T type)
         {
+            string path = string.Empty;
+            string input = string.Empty;
 
-            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
-            if (!File.Exists(path + "/" + file)) //eg. /VirtualServerReservation.json
+            if (typeof(T) == typeof(Reservation))
             {
-                type = default(T);
-                return;
-            }
-            var filename = Path.Combine(path, file); //eg. VirtualServerReservation.json
+                path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+                if (!File.Exists(path + "/" + file)) //eg. /VirtualServerReservation.json
+                {
+                    type = default(T);
+                    return;
+                }
+                var filename = Path.Combine(path, file); //eg. VirtualServerReservation.json
 
-            string input = File.ReadAllText(filename);
+                input = File.ReadAllText(filename);
+            }
+            else
+            {
+                AssetManager am = context.Assets;
+
+                using (StreamReader sr = new StreamReader(am.Open(file)))
+                {
+                    input = sr.ReadToEnd();
+                }
+            }
+
 
             type = JsonConvert.DeserializeObject<T>(input);
         }
