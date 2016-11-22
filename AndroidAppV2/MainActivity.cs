@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Reflection.Emit;
-
+using System.IO;
 using Android.App;
-using Android.Graphics.Pdf;
 using Android.Widget;
 using Android.OS;
-using Android.Views;
-
-using Mono.Security.Interface;
 
 using AndroidAppV2.Activities;
+using Newtonsoft.Json;
 using Shared;
 
 namespace AndroidAppV2
@@ -17,6 +13,7 @@ namespace AndroidAppV2
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Dice 'n Drinks", /*MainLauncher = true,*/ Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
+        private bool _doubleTapToExit = false;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -52,20 +49,23 @@ namespace AndroidAppV2
             };
         }
 
-        //todo: programmer onResume, onPause & onRestoreInstanceState
+
 
 
         public override void OnBackPressed()
         {
-            AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
+            if (_doubleTapToExit)
+                base.OnBackPressed();
+
+            _doubleTapToExit = true;
+            Toast.MakeText(this, "Please click BACK again to exit",ToastLength.Long).Show();
+
+            /*AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
             exitApp.SetMessage(Resource.String.exit);
             exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
-            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Scratch Ass*/ });
-
+            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { _doubleTapToExit = false; });
             Dialog exit = exitApp.Create();
-
-            exit.Show();
-
+            exit.Show();*/
         }
     }
 }

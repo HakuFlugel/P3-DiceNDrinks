@@ -36,7 +36,7 @@ namespace AndroidAppV2.ListAdapters
             //sets the view as convertView unless convertView is null
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
-            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0].name}: {item.PriceElements[0].price}";
+            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0].name}: {item.PriceElements[0].price} kr.";
             view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AdapterShared.getBitmapFromAsset(_context, item.image));
             return view;
         }
@@ -54,12 +54,17 @@ namespace AndroidAppV2.ListAdapters
         {
             List<string> sections = new List<string>();
 
+
             foreach (var item in _categoryItems)
             {
                 if (!sections.Any(x => x.Contains(item.section)))
                 sections.Add(item.section);
             }
-            return sections;
+            if (sections.Count != 0)
+                return sections;
+
+            sections.Add("Nothing");
+                return sections;
         }
         
         public void SetList(string section)

@@ -10,10 +10,11 @@ using Android.Util;
 using Android.Widget;
 using Newtonsoft.Json;
 using System.IO;
+using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
         private bool _state = true; //checks if the user has made any changes
@@ -36,8 +37,9 @@ namespace AndroidAppV2.Activities
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
-
             LoadID();
+
+
 
             //Using Random because we have no server to request from (method implemention)?
             if (_userID == 0) {
@@ -45,8 +47,8 @@ namespace AndroidAppV2.Activities
 
                 _userID = random.Next(0, 100);
             }
-
-            LoadData();
+            AndroidShared.LoadData(this,"VirtualServerReservation.json", out _res);
+            //LoadData();
             
             if (_res == null) {
                 _res = new Reservation();
@@ -118,7 +120,7 @@ namespace AndroidAppV2.Activities
             }
         }
 
-        private void LoadData() {
+        /*private void LoadData() {
             //SERVER TODO: Should get reservation based on ID.
             //Loading locally instead
             string input;
@@ -133,7 +135,7 @@ namespace AndroidAppV2.Activities
             if (input != null) {
                 _res = JsonConvert.DeserializeObject<Reservation>(input);
             }
-        }
+        }*/
 
         private void SendData(Reservation res)
         {

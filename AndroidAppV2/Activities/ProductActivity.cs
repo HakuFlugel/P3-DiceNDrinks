@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 
@@ -11,7 +12,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ProductActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -26,7 +27,8 @@ namespace AndroidAppV2.Activities
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
             Spinner sectionSpinner = FindViewById<Spinner>(Resource.Id.sectionSpinner);
             ListView listView = FindViewById<ListView>(Resource.Id.list);
-            List<Product> list = GenerateProductList();
+            //List<Product> list = GenerateProductList();
+            List<Product> list = GetProducts();
             ProductAdapter adapter = new ProductAdapter(this, list);
             adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
@@ -56,7 +58,9 @@ namespace AndroidAppV2.Activities
                 sectionSpinnerAdapter.Clear();                              //Removes all current items from the spinner list
                 sectionSpinnerAdapter.AddAll(adapter.GetSections());        //Adds all item associated with the chosen category
                 sectionSpinner.SetSelection(0);                             //Selects the topmost item (because this isn't normal behavior)
+                if (adapter.GetSections().Count != 0)
                 adapter.SetList(adapter.GetSections()[0]);                  //Sets the list to correspond the chosen section.
+
             };
             sectionSpinner.ItemSelected += delegate
             {
@@ -114,6 +118,14 @@ namespace AndroidAppV2.Activities
 
             return productList;
         }
+
+        private List<Product> GetProducts()
+        {
+            List<Product> list;
+            AndroidShared.LoadData(this,"products.json", out list);
+
+            return list;
+        } 
 
         private static Product Prmake(string name, string image, string cat, string section, List<PriceElement> pl)
         {
