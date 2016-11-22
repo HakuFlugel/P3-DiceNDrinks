@@ -26,8 +26,8 @@ namespace AndroidAppV2.ListDialogFragments
             View view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
 
             //Test textssssss
-            _textSomething = view.FindViewById<TextView>(Resource.Id.textView1);
-            _textSomething.Text = _product.name;
+            /*_textSomething = view.FindViewById<TextView>(Resource.Id.textView1);
+            _textSomething.Text = _product.name;*/
 
             //Button test dismiss
             _buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
