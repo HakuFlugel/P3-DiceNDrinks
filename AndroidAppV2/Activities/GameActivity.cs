@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using Android.App;
+using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Widget;
@@ -12,7 +13,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games", ConfigurationChanges = Android.Content.PM.ConfigChanges.Orientation | Android.Content.PM.ConfigChanges.ScreenSize)]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : FragmentActivity
     {
 

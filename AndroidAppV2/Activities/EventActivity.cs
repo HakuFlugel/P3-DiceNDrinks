@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
 using Android.OS;
@@ -19,7 +20,7 @@ using Android.Support.V4.App;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Events")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Events", ScreenOrientation = ScreenOrientation.Portrait)]
     public class EventActivity : FragmentActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

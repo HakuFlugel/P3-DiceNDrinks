@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -12,7 +13,7 @@ using Android.Widget;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Contact")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Contact", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ContactActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
