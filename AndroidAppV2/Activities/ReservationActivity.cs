@@ -36,8 +36,9 @@ namespace AndroidAppV2.Activities
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
-
             LoadID();
+
+
 
             //Using Random because we have no server to request from (method implemention)?
             if (_userID == 0) {
@@ -45,8 +46,8 @@ namespace AndroidAppV2.Activities
 
                 _userID = random.Next(0, 100);
             }
-
-            LoadData();
+            AndroidShared.LoadData("VirtualServerReservation.json", out _res);
+            //LoadData();
             
             if (_res == null) {
                 _res = new Reservation();
@@ -118,7 +119,7 @@ namespace AndroidAppV2.Activities
             }
         }
 
-        private void LoadData() {
+        /*private void LoadData() {
             //SERVER TODO: Should get reservation based on ID.
             //Loading locally instead
             string input;
@@ -133,7 +134,7 @@ namespace AndroidAppV2.Activities
             if (input != null) {
                 _res = JsonConvert.DeserializeObject<Reservation>(input);
             }
-        }
+        }*/
 
         private void SendData(Reservation res)
         {

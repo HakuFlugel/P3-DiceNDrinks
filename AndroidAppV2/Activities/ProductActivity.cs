@@ -26,7 +26,8 @@ namespace AndroidAppV2.Activities
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
             Spinner sectionSpinner = FindViewById<Spinner>(Resource.Id.sectionSpinner);
             ListView listView = FindViewById<ListView>(Resource.Id.list);
-            List<Product> list = GenerateProductList();
+            //List<Product> list = GenerateProductList();
+            List<Product> list = GetProducts();
             ProductAdapter adapter = new ProductAdapter(this, list);
             adapter.SetListType("Food"); // default view
             listView.Adapter = adapter;
@@ -114,6 +115,14 @@ namespace AndroidAppV2.Activities
 
             return productList;
         }
+
+        private static List<Product> GetProducts()
+        {
+            List<Product> list;
+            AndroidShared.LoadData("products.json",out list);
+
+            return list;
+        } 
 
         private static Product Prmake(string name, string image, string cat, string section, List<PriceElement> pl)
         {

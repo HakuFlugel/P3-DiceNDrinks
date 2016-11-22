@@ -1,10 +1,11 @@
 ﻿using System;
-
+using System.IO;
 using Android.App;
 using Android.Widget;
 using Android.OS;
 
 using AndroidAppV2.Activities;
+using Newtonsoft.Json;
 using Shared;
 
 namespace AndroidAppV2
@@ -47,6 +48,8 @@ namespace AndroidAppV2
                 StartActivity(typeof(ContactActivity));
             };
         }
+
+
 
 
         public override void OnBackPressed()

@@ -127,6 +127,7 @@
     <Compile Include="Android Product\ProductCategory.cs" />
     <Compile Include="Android Product\ProductMenu.cs" />
     <Compile Include="Android Product\ProductSection.cs" />
+    <Compile Include="AndroidShared.cs" />
     <Compile Include="ListAdapters\AdapterShared.cs" />
     <Compile Include="ListAdapters\EventAdapter.cs" />
     <Compile Include="ListAdapters\ProductAdapter.cs" />
@@ -142,6 +143,9 @@
     <None Include="app.config" />
     <AndroidAsset Include="Assets\VirtualServerReservation.json" />
     <AndroidAsset Include="Assets\TheUserReservationID.json" />
+    <AndroidAsset Include="Assets\products.json" />
+    <AndroidAsset Include="Assets\events.json" />
+    <AndroidAsset Include="Assets\games.json" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
@@ -228,7 +232,7 @@
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\ListButton.xml" />
+    <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
