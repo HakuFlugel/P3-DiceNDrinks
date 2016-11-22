@@ -7,12 +7,14 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using Shared;
+using Path = System.IO.Path;
 
 namespace AndroidAppV2
 {
@@ -47,6 +49,24 @@ namespace AndroidAppV2
 
 
             type = JsonConvert.DeserializeObject<T>(input);
+        }
+
+        public static Bitmap getBitmapFromAsset(Context context, string filePath)
+        {
+            Bitmap bitmap = null;
+            try
+            {
+                Stream str = context.Assets.Open(filePath);
+                bitmap = BitmapFactory.DecodeStream(str);
+            }
+            catch (Exception e)
+            {
+                // handle exception
+            }
+            if (bitmap == null || !bitmap.IsMutable) return bitmap;
+            bitmap.Width = 48;
+            bitmap.Height = 48;
+            return bitmap;
         }
     }
 }
