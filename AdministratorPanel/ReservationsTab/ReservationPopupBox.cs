@@ -44,25 +44,25 @@ namespace AdministratorPanel {
 
 
         private ReservationController reservationController;
-        private Reservation res;
+        private Reservation reservation;
 
-        public ReservationPopupBox(ReservationController reservationController, Reservation res = null) {
+        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
             this.reservationController = reservationController;
-            this.res = res;
-            if (res != null) {
+            this.reservation = reservation;
+            if (reservation != null) {
                 try {
-                    reservationName.Text = res.name;
-                    numPeople.Text = res.numPeople.ToString();
+                    reservationName.Text = reservation.name;
+                    numPeople.Text = reservation.numPeople.ToString();
                     /*TODO: better way than this?:*/
-                    if (res.phone != null) {
-                        phoneNumber.Text = res.phone;
+                    if (reservation.phone != null) {
+                        phoneNumber.Text = reservation.phone;
                     }
-                    if (res.email != null) {
-                        email.Text = res.email;
+                    if (reservation.email != null) {
+                        email.Text = reservation.email;
                     }
-                    datePicker.Value = res.time.Date;
-                    timePicker.Text = res.time.ToString("HH:mm");
-                    pendingSet.Checked = res.pending;
+                    datePicker.Value = reservation.time.Date;
+                    timePicker.Text = reservation.time.ToString("HH:mm");
+                    pendingSet.Checked = reservation.pending;
                 }
                 catch (ArgumentOutOfRangeException) {
 
@@ -115,7 +115,7 @@ namespace AdministratorPanel {
         protected override void delete(object sender, EventArgs e) {
             if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this reservation?", MessageBoxButtons.YesNo)) {
 
-                reservationController.removeReservation(res);
+                reservationController.removeReservation(reservation);
 
                 //TODO: move to event on list... _.. er auto-rename
                 //_reservationController.reserveationList.makeItems(DateTime.Today.Date);
@@ -157,50 +157,31 @@ namespace AdministratorPanel {
                                        CultureInfo.InvariantCulture);
             /*END OF COPY PASTE*/
 
-            
 
-            CalendarDay cd = _reservationController.calDayList.Find(o => o.theDay.Date == newDate.Date);
+            ////////////// actual saving
 
-            if (cd == null) {
-                cd = new CalendarDay { theDay = newDate.Date };
-                _reservationController.calDayList.Add(cd);
-            }
+            Reservation newres = new Reservation();
 
-            if (res == null) {
-                res = new Reservation();
-                res.created = DateTime.Now;
-                cd.reservations.Add(res);
-            }
-            else if (newDate.Date != res.time.Date) {
-                foreach (var item in _reservationController.calDayList) {
-                    item.reservations.Remove(res);
-                }
-                cd.reservations.Add(res);
-            }
+            newres.pending = pendingSet.Checked;
+            newres.name = reservationName.Text;
+            int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
+            newres.phone = phoneNumber.Text;
+            newres.email = email.Text;
+            newres.time = newDate;
+            //cd.fullness += reservation.numPeople;
 
-            if (pendingSet.Checked == true) {
-                res.pending = true;
+            if (reservation == null)
+            {
+                reservationController.addReservation(newres);
             }
-            else {
-                res.pending = false;
+            else
+            {
+                reservationController.updateReservation(reservation, newres);
             }
-            res.name = reservationName.Text;
-            int.TryParse(numPeople.Text, out res.numPeople);
-            res.phone = phoneNumber.Text;
-            res.email = email.Text;
-            res.time = newDate;
-            cd.fullness += res.numPeople;
-
-            //foreach (var item in reservationController.calDay) {
-            //    if (item.theDay.Date == newStartDate.Date) {
-            //    }
-            //    else {
-            //    }
-            //}
 
             this.Close();
-            _reservationController.reserveationList.makeItems(newDate.Date);
-            _reservationController.pendingReservationList.makeItems();
+            //_reservationController.reserveationList.makeItems(newDate.Date); TODO: these two should be implemented using events at those places
+            //_reservationController.pendingReservationList.makeItems();
             
         }
 

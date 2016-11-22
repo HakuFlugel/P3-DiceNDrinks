@@ -12,10 +12,11 @@ namespace Shared
     {
         JsonSerializer jsonSerializer = JsonSerializer.Create();
 
-        public List<Room> rooms;
+        public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
         public event EventHandler<AddReservationEventArgs> ReservationAdded;
+
         public class AddReservationEventArgs
         {
             public Reservation reservation;
@@ -27,6 +28,7 @@ namespace Shared
         }
 
         public event EventHandler<UpdateReservationEventArgs> ReservationUpdated;
+
         public class UpdateReservationEventArgs
         {
             public Reservation reservation;
@@ -42,6 +44,7 @@ namespace Shared
         }
 
         public event EventHandler<RemoveReservationEventArgs> ReservationRemoved;
+
         public class RemoveReservationEventArgs
         {
             public Reservation reservation;
@@ -55,6 +58,7 @@ namespace Shared
         public void addReservation(Reservation reservation)
         {
             reservation.id = getRandomID();
+            reservation.created = DateTime.Now;
 
             addToDay(reservation);
 
@@ -65,18 +69,19 @@ namespace Shared
         public void updateReservation(Reservation oldReservation, Reservation reservation)
         {
             bool hasMoved = reservation.time.Date != oldReservation.time.Date;
+            //TODO: do we need this if the if-else is commented out?
 
-            if (hasMoved)
-            {
-                removeFromDay(oldReservation);
-                addToDay(reservation);
-            }
-            else
-            {
-                CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
-
-                resDay.reservations[resDay.reservations.IndexOf(oldReservation)] = reservation;
-            }
+//            if (hasMoved)
+//            {
+            removeFromDay(oldReservation);
+            addToDay(reservation);
+//            }
+//            else
+//            {
+//                CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
+//
+//                resDay.reservations[resDay.reservations.IndexOf(oldReservation)] = reservation; // This would have to update reservedseats too, but why split this responsibility even more?
+//            }
 
 
             ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(oldReservation, reservation, hasMoved));
@@ -93,6 +98,7 @@ namespace Shared
         }
 
         private Random rand = new Random();
+
         private int getRandomID()
         {
             int id;
@@ -113,6 +119,8 @@ namespace Shared
             }
 
             resDay.reservations.Add(reservation);
+            resDay.calculateSeats(this);
+            //resDay.reservedSeats += reservation.numPeople;
 
         }
 
@@ -120,6 +128,8 @@ namespace Shared
         {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);
+            resDay.calculateSeats(this);
+            //resDay.reservedSeats -= reservation.numPeople;
         }
 
         public void addRoom(Room room)
@@ -156,16 +166,56 @@ namespace Shared
         public override void save()
         {
             Directory.CreateDirectory("data");
-            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("data/reservationsCalendar.json")), reservationsCalendar);
-            jsonSerializer.Serialize(new JsonTextWriter(new StreamWriter("data/rooms.json")), rooms);
+
+            using (StreamWriter streamWriter = new StreamWriter("data/reservationsCalendar.json"))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, reservationsCalendar);
+            }
+            using (StreamWriter streamWriter = new StreamWriter("data/rooms.json"))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, rooms);
+            }
         }
+
+
 
         public override void load()
         {
             //Todo: using using
             Directory.CreateDirectory("data");
-            reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(new JsonTextReader(new StreamReader("data/reservationsCalendar.json")));
-            rooms = jsonSerializer.Deserialize<List<Room>>(new JsonTextReader(new StreamReader("data/rooms.json")));
+            try
+            {
+                using (StreamReader streamReader = new StreamReader("data/reservationsCalendar.json"))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(jsonTextReader);
+
+                }
+                using (StreamReader streamReader = new StreamReader("data/rooms.json"))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    rooms = jsonSerializer.Deserialize<List<Room>>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("reservationsCalendar.json or rooms.json not found"); // TODO: put this stuff inside some function
+            }
+
+            if (reservationsCalendar == null)
+            {
+                Console.WriteLine("reservationsCalendar was null after loading... setting it to new list");
+                reservationsCalendar = new List<CalendarDay>();
+            }
+
+            if (rooms == null)
+            {
+                Console.WriteLine("rooms was null after loading... setting it to new list");
+                rooms = new List<Room>();
+            }
 
         }
 

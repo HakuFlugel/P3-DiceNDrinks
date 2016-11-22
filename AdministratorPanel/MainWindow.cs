@@ -24,11 +24,14 @@ namespace AdministratorPanel {
 
             //cp.AutoSize = true;
 
+            reservationController = new ReservationController();
+            reservationController.load();
+
             tabs.AddRange(new AdminTabPage[]{
-                new ReservationsTab(),
-                new ProductsTab(),
-                new GamesTab(),
-                new EventsTab()
+                new ReservationTab(reservationController),
+                //new ProductsTab(),
+                //new GamesTab(),
+                //new EventsTab()
             });
 
             cp.Controls.AddRange(tabs.ToArray());
@@ -49,21 +52,23 @@ namespace AdministratorPanel {
             foreach (var tab in tabs) {
                 tab.Save();
             }
+            reservationController.save();
         }
 
         [STAThread]
         public static void Main(string[] args) {
 
-            ReservationController reservationController = new ReservationController();
+            //ReservationController reservationController = new ReservationController();
+            //reservationController.load();
             //...
             //...
             //...
 
 
-            MainWindow p = new MainWindow()
-            {
-                reservationController = reservationController
-            };
+            MainWindow p = new MainWindow();
+//            {
+//                reservationController = reservationController
+//            };
 
 
 

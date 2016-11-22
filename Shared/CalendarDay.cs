@@ -10,7 +10,7 @@ namespace Shared
         public int reservedSeats;
         public int numSeats;
         public bool isFullChecked;
-        public List<Room> roomsReserved; // TODO: room fulness, reference? duplicate?
+        public List<Room> roomsReserved = new List<Room>(); // TODO: room fulness, reference? duplicate?
         public DateTime theDay;
 
         public void reserveRoom(ReservationController reservationController, Room room)

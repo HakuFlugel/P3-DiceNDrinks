@@ -15,7 +15,7 @@ namespace AdministratorPanel
         public DateTime created;
         public bool pending;
 
-        public ReservationItem(ReservationsTab calTab, Reservation res)
+        public ReservationItem(ReservationController reservationController, Reservation res)
         {
             name = res.name;
             email = res.email;
@@ -34,7 +34,7 @@ namespace AdministratorPanel
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
             Click += (s, e) => {
-                ReservationPopupBox p = new ReservationPopupBox(calTab, res);
+                ReservationPopupBox p = new ReservationPopupBox(reservationController, res);
                 p.Show();
             };
 
@@ -57,24 +57,29 @@ namespace AdministratorPanel
             acceptButton.Text = "Accept";
             acceptButton.Click += (s, e) => {
                 res.pending = false;
-                calTab.reservationList.makeItems(time.Date);
-                calTab.pendingReservationList.makeItems();
+                reservationController.updateReservation(res, res); //TODO: a little hacky
+                //calTab.reservationList.makeItems(time.Date);
+                //calTab.pendingReservationList.makeItems();
             };
 
             Button declineButton = new Button();
             twoButtons.Controls.Add(declineButton);
             declineButton.Text = "Decline";
             declineButton.Click += (s, e) => {
-                foreach (var item in calTab.calDayList) {
+                //TODO: should we actually have a state for this?? So that the customer can see that it was rejected for some reason...
+                MessageBox.Show("This feature is probably not fully implemented...");
+                reservationController.removeReservation(res);
+                /*foreach (var item in reservationController.calDayList) {
                     item.reservations.Remove(res);
                 }
                 calTab.reservationList.makeItems(time.Date);
-                calTab.pendingReservationList.makeItems();
+                calTab.pendingReservationList.makeItems();*/
             };
 
             Controls.Add(theLeftItems);
             Controls.Add(theMiddleItems);
             Controls.Add(theRightItems);
+            //           theWrongItems
 
 
             theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation

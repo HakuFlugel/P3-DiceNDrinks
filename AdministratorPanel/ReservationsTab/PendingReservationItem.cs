@@ -6,8 +6,8 @@ using System;
 
 namespace AdministratorPanel {
     public class PendingReservationItem : NiceButton {
-
-        public PendingReservationItem(Calendar cal, ReservationsTab calTab, DateTime calDay, List<Reservation> resList) {
+        // TODO: maybe update on event???
+        public PendingReservationItem(Calendar cal, ReservationTab calTab, DateTime calDay, List<Reservation> resList) {
             RowCount = 1;
             ColumnCount = 1;
             bgColor = Color.LightGray;
