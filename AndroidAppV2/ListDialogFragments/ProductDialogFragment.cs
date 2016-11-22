@@ -39,7 +39,7 @@ namespace AndroidAppV2.ListDialogFragments
             }
 
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
-            view.FindViewById<ImageView>(Resource.Id.productImage).SetImageBitmap(AndroidShared.getBitmapFromAsset(_context, $"ProductPics/{_product.image}"));
+            view.FindViewById<ImageView>(Resource.Id.productImage).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, $"ProductPics/{_product.image}"));
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
 
 
