@@ -37,7 +37,7 @@ namespace AndroidAppV2.ListAdapters
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.PriceElements[0].name}: {item.PriceElements[0].price} kr.";
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.getBitmapFromAsset(_context, item.image));
+            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, item.image));
             return view;
         }
 
