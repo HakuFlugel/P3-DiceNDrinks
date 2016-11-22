@@ -56,8 +56,9 @@ namespace AndroidAppV2.Activities
         {
             List<Event> list = new List<Event>();
 
+            AndroidShared.LoadData(this, "events.json", out list);
 
-            Event testevent = new Event
+            /*Event testevent = new Event
             {
                 name = "Vaffeldag",
                 description = "Massere af vaffler hele dagen",
@@ -84,19 +85,8 @@ namespace AndroidAppV2.Activities
             list.Add(testevent2);
             list.Add(testevent2);
             list.Add(testevent2);
-            list.Add(testevent2);
+            list.Add(testevent2);*/
 
-
-
-
-
-
-
-
-
-
-
-            //todo: get the events here
             return list;
         }
 
