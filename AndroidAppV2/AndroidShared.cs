@@ -51,7 +51,7 @@ namespace AndroidAppV2
             type = JsonConvert.DeserializeObject<T>(input);
         }
 
-        public static Bitmap GetBitmapFromAsset(Context context, string filePath)
+        public static Bitmap GetBitmapFromAsset(Context context, string filePath) //TODO: Out view view
         {
             Bitmap bitmap = null;
             try
@@ -62,9 +62,9 @@ namespace AndroidAppV2
             catch (Exception e)
             {
                 // handle exception
-                bitmap = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable._default);
+                bitmap = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.Icon);
             }
-            return bitmap ?? (BitmapFactory.DecodeResource(context.Resources, Resource.Drawable._default));
+            return bitmap ?? (BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.Icon));
         }
     }
 }
