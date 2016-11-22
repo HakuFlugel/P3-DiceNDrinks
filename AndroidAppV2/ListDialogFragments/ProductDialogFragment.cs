@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Shared;
+using Java.Lang;
 
 namespace AndroidAppV2.ListDialogFragments
 {
@@ -23,15 +24,27 @@ namespace AndroidAppV2.ListDialogFragments
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
-            View view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
+            View view = inflater.Inflate(Resource.Layout.ProductDialogView, container, true);
+
+
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var item in _product.PriceElements) {
+                sb.Append(item.name + " " + item.price + System.Environment.NewLine);
+            }
+
+            view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
+            //view.FindViewById<ImageView>(Resource.Id.productImage). TODO: Når vi har billeder og bruge?
+            view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
 
             //Test textssssss
             /*_textSomething = view.FindViewById<TextView>(Resource.Id.textView1);
             _textSomething.Text = _product.name;*/
 
             //Button test dismiss
-            _buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
-            _buttonDismiss.Click += Button_Dismiss_Click;
+            //_buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
+            //_buttonDismiss.Click += Button_Dismiss_Click;
 
             return view;
         }
