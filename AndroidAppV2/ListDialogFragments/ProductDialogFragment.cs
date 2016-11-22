@@ -10,6 +10,7 @@ using Shared;
 using Java.Lang;
 
 using AndroidAppV2.ListAdapters;
+using Android.Content;
 
 namespace AndroidAppV2.ListDialogFragments
 {
@@ -18,7 +19,7 @@ namespace AndroidAppV2.ListDialogFragments
         private Button _buttonDismiss;
         private TextView _textSomething;
         private Product _product;
-        private ProductAdapter _productAdapter;
+        private Context _context;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
@@ -38,10 +39,9 @@ namespace AndroidAppV2.ListDialogFragments
             }
 
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
-            //view.FindViewById<ImageView>(Resource.Id.productImage). //TODO: Når vi har billeder og bruge?
+            view.FindViewById<ImageView>(Resource.Id.productImage).SetImageBitmap(AndroidShared.getBitmapFromAsset(_context, $"ProductPics/{_product.image}"));
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
 
-            //_productAdapter.æ
 
             //Test textssssss
             /*_textSomething = view.FindViewById<TextView>(Resource.Id.textView1);
@@ -53,10 +53,10 @@ namespace AndroidAppV2.ListDialogFragments
             
             return view;
         }
-        public void PassDataToFrag(Product product, ProductAdapter productAdapter)
+        public void PassDataToFrag(Product product, Context context)
         {
             _product = product;
-            _productAdapter = productAdapter;
+            _context = context;
         }
 
         public override void OnResume()

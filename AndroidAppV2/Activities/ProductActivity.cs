@@ -37,7 +37,7 @@ namespace AndroidAppV2.Activities
                 Product theProduct = adapter.GetProductByPosition(e.Position);
 
                 var dialog = new ProductDialogFragment();
-                dialog.PassDataToFrag(theProduct, adapter);
+                dialog.PassDataToFrag(theProduct, this);
                 dialog.Show(FragmentManager, "Product Dialog");
             };
 
