@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace Shared {
-    class Genres {
+    public class Genres {
         public List<string> differentGenres = new List<string> {
             "Horror",
             "Lying",
@@ -24,36 +24,35 @@ namespace Shared {
 
 
         public Genres() {
-
-            Directory.CreateDirectory("Sources");
-            var json = JsonConvert.SerializeObject(games);
-            Directory.CreateDirectory("Sources");
-            if (!File.Exists(@"Sources/Games.json"))
-                File.Create(@"Sources/Games.json");
-
-            using (StreamWriter textWriter = new StreamWriter(@"Sources/Games.json")) {
-                foreach (var item in json) {
-                    textWriter.Write(item.ToString());
-                }
-            }
+            Load();
+           
         }
 
         public void Load() {
             string input;
-            if (File.Exists(@"Sources/Games.json")) {
-                using (StreamReader streamReader = new StreamReader(@"Sources/Games.json")) {
+            if (File.Exists(@"Sources/Genres.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Genres.json")) {
                     input = streamReader.ReadToEnd();
                     streamReader.Close();
                 }
                 if (input != null) {
-                    games = JsonConvert.DeserializeObject<List<Game>>(input);
+                    differentGenres = JsonConvert.DeserializeObject<List<string>>(input);
 
                 }
             }
         }
 
-        public void Save() {
+        public void Save(){
+            Directory.CreateDirectory("Sources");
+            var json = JsonConvert.SerializeObject(differentGenres);
+            Directory.CreateDirectory("Sources");
 
+
+            using (StreamWriter textWriter = new StreamWriter(@"Sources/Genres.json")) {
+                foreach (var item in json) {
+                    textWriter.Write(item.ToString());
+                }
+            }
         }
 
         public void add(string add) {

@@ -81,13 +81,14 @@ namespace AdministratorPanel {
                 foreach (var item in games) {
                     gameList.Controls.Add(new XmlGameItem(item, gamePopupBox));
                     Console.WriteLine(item.ToString());
-                }
-            else
+                } else if (seach != "")
                 MessageBox.Show(
-                    "Could not find anything, there could be two reasons for this:" + Environment.NewLine + 
-                    "1. " + seach + " is not a valid BoardGame name " + Environment.NewLine + 
+                    "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
+                    "1. " + seach + " is not a valid BoardGame name " + Environment.NewLine +
                     "2. There is no information on " + seach + " in the API.",
                     "Could not find anything on this" + seach);
+
+
         }
     }
 }

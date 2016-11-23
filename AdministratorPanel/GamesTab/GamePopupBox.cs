@@ -114,7 +114,7 @@ namespace AdministratorPanel {
 
         GamePopupBoxRght rght;
         private List<ListViewItem> genreItems = new List<ListViewItem>();
-        
+        private Genres genres = new Genres();
         private GamesTab gametab;
         public Game game;
         private Game b4EditingGame;
@@ -128,9 +128,9 @@ namespace AdministratorPanel {
 
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
+            
 
-
-            foreach(var item in differentGenres) 
+            foreach (var item in genres.differentGenres) 
                 genreItems.Add(new ListViewItem { Name = item, Text = item});
             
 
@@ -168,6 +168,7 @@ namespace AdministratorPanel {
 
             Show();
             SubscriptionList();
+            toolTipControl();
         }
 
         
@@ -219,7 +220,6 @@ namespace AdministratorPanel {
             toolTip.SetToolTip(players, "Minimum / maximum players. Should be written as" + Environment.NewLine + "min/max eg. 5/10");
             toolTip.SetToolTip(gameName, "Game name");
             toolTip.SetToolTip(gameDescription, "Game description");
-            
         }
 
         protected override Control CreateControls() {
@@ -330,8 +330,8 @@ namespace AdministratorPanel {
             if (e.CurrentValue != CheckState.Checked) {
                 string temp = genreBox.Items[e.Index].Text;
                 game.genre.Add(temp);
-                if (!differentGenres.Contains(temp))
-                    differentGenres.Add(temp);
+                if (!genres.differentGenres.Contains(temp))
+                    genres.add(temp);
             }
                        
              
