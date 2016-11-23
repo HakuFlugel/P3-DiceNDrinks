@@ -31,8 +31,6 @@ namespace AndroidAppV2.Activities
 
             //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
-            TextView dateText = FindViewById<TextView>(Resource.Id.dateText);
-            TextView timeText = FindViewById<TextView>(Resource.Id.timeText);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
@@ -56,8 +54,8 @@ namespace AndroidAppV2.Activities
             else {
                 sb.Progress = _res.numPeople;
                 _chosenDateTime = _res.time;
-                dateText.Text = _res.time.ToString("dd. MMMMM, yyyy");
-                timeText.Text = _res.time.ToString("HH:mm");
+                dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
+                timeSelectButton.Text = _res.time.ToString("HH:mm");
                 FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
                 FindViewById<EditText>(Resource.Id.nameEdit).Text = _res.name;
                 FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = _res.phone;
@@ -69,7 +67,7 @@ namespace AndroidAppV2.Activities
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
                     _state = false;
-                    dateText.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
+                    dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
 
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
@@ -81,7 +79,7 @@ namespace AndroidAppV2.Activities
                 {
                     _chosenDateTime = InsertDateTime(_chosenDateTime,time);
                     _state = false;
-                    timeText.Text = _chosenDateTime.ToString("HH:mm");
+                    timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
@@ -139,8 +137,7 @@ namespace AndroidAppV2.Activities
 
         private void SendData(Reservation res)
         {
-            if (res.phone == FindViewById<EditText>(Resource.Id.phoneNumEdit).Hint &&
-                res.email == FindViewById<EditText>(Resource.Id.emailEdit).Hint) {
+            if (res.phone == "" && res.email == "") {
                 AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
                 errorEmailPhone.SetMessage("You need to input a phone number or a email");
                 errorEmailPhone.SetTitle("Error");
@@ -148,17 +145,20 @@ namespace AndroidAppV2.Activities
                 errorEmailPhone.Show();
                 return;
             }
-            try {
-                emailCheck(res.email);
+            if (res.email != "") {
+                try {
+                    emailCheck(res.email);
+                }
+                catch (Java.Lang.Exception en) {
+                    AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
+                    typoEmail.SetMessage(en.Message);
+                    typoEmail.SetTitle("Typo Error");
+                    typoEmail.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
+                    typoEmail.Show();
+                    return;
+                }
             }
-            catch (Java.Lang.Exception en) {
-                AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
-                typoEmail.SetMessage(en.Message);
-                typoEmail.SetTitle("Typo Error");
-                typoEmail.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { return; });
-                typoEmail.Show();
-                return;
-            }
+            
             //SERVER TODO: Should send reservation connected to the ID server gave the user.
             //Saving locally instead
             var json = JsonConvert.SerializeObject(res);
@@ -172,7 +172,11 @@ namespace AndroidAppV2.Activities
 
             File.WriteAllText(filename2, json2);
 
-            
+            AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
+            resSucces.SetMessage("Your reservation has been sent! And awaits confirmation!");
+            resSucces.SetTitle("Reservation made");
+            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
+            resSucces.Show();
             //todo: send reservation here
         }
         public void emailCheck(string email) {

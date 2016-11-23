@@ -5,6 +5,7 @@
   <string name="exit">Vil du virkelig gerne afslutte?</string>
   <string name="yes">Ja</string>
   <string name="no">Nej</string>
+  <string name="ok">Ok</string>
   <string name="foodButton">Mad</string>
   <string name="drinkButton">Drikkevarer</string>
   <string name="miscButton">Andet</string>

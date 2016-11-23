@@ -5,6 +5,7 @@
   <string name="exit">Do you really want to exit?</string>
   <string name="yes">Yes</string>
   <string name="no">No</string>
+  <string name="ok">Ok</string>
   <string name="foodButton">Food</string>
   <string name="drinkButton">Drinks</string>
   <string name="miscButton">Misc.</string>

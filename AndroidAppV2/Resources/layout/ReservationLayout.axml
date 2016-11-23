@@ -5,141 +5,95 @@
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
     p1:id="@+id/frameLayout1">
-    <RelativeLayout
+    <LinearLayout
         p1:minWidth="25px"
         p1:minHeight="25px"
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
-        p1:id="@+id/relativeLayout1">
+        p1:id="@+id/linearLayout1"
+        p1:orientation="vertical"
+        p1:padding="8dp">
         <TextView
             p1:textAppearance="?android:attr/textAppearanceLarge"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/reservationText"
-            p1:text="@string/reservation"
-            p1:layout_centerHorizontal="true"
-            p1:layout_marginTop="10dp" />
+            p1:text="@string/reservation" />
+        <!--<CalendarView
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/calendarView1" />-->
         <TextView
             p1:textAppearance="?android:attr/textAppearanceMedium"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:layout_below="@id/reservationText"
+            p1:id="@+id/nameText"
+            p1:text="Name" />
+        <EditText
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/nameEdit"
+            p1:hint="@string/writeHere" />
+        <TextView
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/phoneNumText"
+            p1:text="@string/phoneNumber" />
+        <EditText
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/phoneNumEdit"
+            p1:hint="@string/writeHere" />
+        <TextView
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/emailText"
+            p1:text="Email" />
+        <EditText
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/emailEdit"
+            p1:hint="@string/writeHere" />
+        <TextView
+            p1:textAppearance="?android:attr/textAppearanceMedium"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
             p1:id="@+id/numPplText"
-            p1:layout_marginTop="5dp"
-            p1:layout_marginLeft="5dp"
             p1:text="@string/numPeople" />
         <SeekBar
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/seekBar1"
-            p1:layout_below="@id/numPplText"
-            p1:layout_marginLeft="5dp"
-            p1:layout_marginRight="5dp"
-            p1:layout_marginTop="10dp" />
+            p1:layout_below="@id/numPplText" />
         <TextView
             p1:text="Invitees"
             p1:textAppearance="?android:attr/textAppearanceSmall"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
-            p1:layout_below="@id/seekBar1"
-            p1:id="@+id/inviteesNum"
-            p1:layout_centerInParent="true" />
+            p1:id="@+id/inviteesNum" />
+        <LinearLayout
+            p1:orientation="horizontal"
+            p1:id="@+id/dateTimeLayout"
+            p1:layout_height="wrap_content"
+            p1:layout_width="match_parent">
+            <Button
+                p1:text="Date"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/dateButton" />
+            <Button
+                p1:text="Time"
+                p1:layout_width="wrap_content"
+                p1:layout_height="wrap_content"
+                p1:id="@+id/timeButton" />
+        </LinearLayout>
         <Button
-            p1:text="Date"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/dateButton"
-            p1:layout_centerInParent="true"
-            p1:layout_alignParentLeft="true"
-            p1:layout_marginLeft="5dp"
-            p1:layout_marginTop="25dp"
-            p1:layout_below="@id/inviteesNum" />
-        <Button
-            p1:text="Time"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/dateButton"
-            p1:id="@+id/timeButton"
-            p1:layout_marginLeft="5dp"
-            p1:layout_marginTop="15dp" />
-        <TextView
-            p1:text="Pick date"
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/dateText"
-            p1:layout_toRightOf="@id/dateButton"
-            p1:layout_alignBaseline="@id/dateButton" />
-        <TextView
-            p1:text="Pick Time of day"
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_toRightOf="@id/timeButton"
-            p1:id="@+id/timeText"
-            p1:layout_alignBaseline="@id/timeButton" />
-        <TextView
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/timeButton"
-            p1:id="@+id/nameText"
-            p1:layout_marginLeft="5dp"
-            p1:text="Name"
-            p1:layout_marginTop="30dp" />
-        <EditText
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/nameEdit"
-            p1:layout_below="@id/nameText"
-            p1:maxWidth="375dp"
-            p1:minWidth="375dp"
-            p1:layout_marginLeft="5dp"
-            p1:hint="@string/writeHere" />
-        <TextView
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/nameEdit"
-            p1:id="@+id/phoneNumText"
-            p1:layout_marginLeft="5dp"
-            p1:text="@string/phoneNumber"
-            p1:layout_marginTop="30dp" />
-        <EditText
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/phoneNumEdit"
-            p1:layout_below="@id/phoneNumText"
-            p1:maxWidth="375dp"
-            p1:minWidth="375dp"
-            p1:layout_marginLeft="5dp"
-            p1:hint="@string/writeHere" />
-        <TextView
-            p1:textAppearance="?android:attr/textAppearanceMedium"
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:layout_below="@id/phoneNumEdit"
-            p1:id="@+id/emailText"
-            p1:layout_marginLeft="5dp"
-            p1:text="Email"
-            p1:layout_marginTop="30dp" />
-        <EditText
-            p1:layout_width="wrap_content"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/emailEdit"
-            p1:layout_below="@id/emailText"
-            p1:maxWidth="375dp"
-            p1:minWidth="375dp"
-            p1:layout_marginLeft="5dp"
-            p1:hint="@string/writeHere" />
-        <Button
-            p1:text="ACCEPT YOUR FATE"
-            p1:layout_width="wrap_content"
+            p1:text="Accept"
+            p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/acceptButton"
-            p1:layout_centerInParent="true"
-            p1:layout_marginLeft="5dp"
-            p1:layout_marginTop="25dp"
-            p1:layout_below="@id/emailEdit" />
-    </RelativeLayout>
+            p1:layout_gravity="center_horizontal" />
+    </LinearLayout>
 </FrameLayout>
