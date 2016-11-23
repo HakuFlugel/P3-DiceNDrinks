@@ -269,6 +269,9 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e)    {
+
+            genres.Save();
+
             if (b4EditingGame != null) {
                 game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
                 game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";

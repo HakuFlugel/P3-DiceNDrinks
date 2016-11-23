@@ -52,8 +52,8 @@ namespace AdministratorPanel {
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
-
-            //CreateGamesForDebugShit(); // For testing purpose only
+            if(games.Count < 1)
+                CreateGamesForDebugShit(); // For testing purpose only
 
             AutoSize = true;
             Dock = DockStyle.Fill;
