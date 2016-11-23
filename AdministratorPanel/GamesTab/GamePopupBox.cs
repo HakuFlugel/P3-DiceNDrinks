@@ -114,7 +114,7 @@ namespace AdministratorPanel {
 
         GamePopupBoxRght rght;
         private List<ListViewItem> genreItems = new List<ListViewItem>();
-        public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
+        
         private GamesTab gametab;
         public Game game;
         private Game b4EditingGame;
@@ -268,14 +268,13 @@ namespace AdministratorPanel {
             return header;
         }
 
-        protected override void save(object sender, EventArgs e) {
+        protected override void save(object sender, EventArgs e)    {
             if (b4EditingGame != null) {
                 game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
                 game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";
                 game.difficulity = gameDifficulty.Value;
                 if (yearPublished.Text != null && yearPublished.Text != "") {
                     try {
-
                         Int32.TryParse(yearPublished.Text, out game.publishedYear);
                     } catch (Exception) {
                         MessageBox.Show("Please refere from using letters or special characters in Publish year box" + Environment.NewLine + "Yearpublished is not a number: " + yearPublished.Text.ToString(), "Convertion failed");

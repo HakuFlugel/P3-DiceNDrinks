@@ -22,6 +22,7 @@ namespace AdministratorPanel {
             doc.Load(search + ind + searchend);
             gameSearchResult = PreLoadListOfGames();
             gameSearchResult = ExpandToFullList(gameSearchResult);
+
             return gameSearchResult;
         }
 

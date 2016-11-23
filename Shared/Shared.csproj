@@ -40,6 +40,7 @@
     <Compile Include="CalendarDay.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Genres.cs" />
     <Compile Include="PriceElement.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductCategory.cs" />
