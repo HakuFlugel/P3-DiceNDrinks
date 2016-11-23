@@ -1,14 +1,17 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.Drawing;
 using System.Collections.Generic;
-using System;
+using Shared;
 
 namespace AdministratorPanel {
-    public class Program : Form {
+    public class MainWindow : Form {
 
         List<AdminTabPage> tabs = new List<AdminTabPage>();
 
-        public Program() {
+        public ReservationController reservationController;
+
+        public MainWindow() {
             
             AutoScaleMode = AutoScaleMode.Dpi;
 
@@ -21,8 +24,11 @@ namespace AdministratorPanel {
 
             //cp.AutoSize = true;
 
+            reservationController = new ReservationController();
+            reservationController.load();
+
             tabs.AddRange(new AdminTabPage[]{
-                new ReservationsTab(),
+                new ReservationTab(reservationController),
                 new ProductsTab(),
                 new GamesTab(),
                 new EventsTab()
@@ -36,7 +42,7 @@ namespace AdministratorPanel {
 
         }
 
-        private void Start() {
+        public void Start() {
 
             DoubleBuffered = true;
             Application.Run(this);
@@ -46,12 +52,28 @@ namespace AdministratorPanel {
             foreach (var tab in tabs) {
                 tab.Save();
             }
+            reservationController.save();
         }
-        [STAThread]
-        static void Main(string[] args) {
 
-            Program p = new Program();
+        [STAThread]
+        public static void Main(string[] args) {
+
+            //ReservationController reservationController = new ReservationController();
+            //reservationController.load();
+            //...
+            //...
+            //...
+
+
+            MainWindow p = new MainWindow();
+//            {
+//                reservationController = reservationController
+//            };
+
+
+
             p.Start();
         }
+
     }
 }

@@ -43,35 +43,30 @@ namespace AdministratorPanel {
         };
 
 
-        private ReservationsTab calTab;
-        private Reservation res;
+        private ReservationController reservationController;
+        private Reservation reservation;
 
-        public ReservationPopupBox() {
-
-        }
-
-        public ReservationPopupBox(ReservationsTab calTab, Reservation res = null) {
-            this.calTab = calTab;
-            this.res = res;
-            if (res != null) {
+        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
+            this.reservationController = reservationController;
+            this.reservation = reservation;
+            if (reservation != null) {
                 try {
-                    reservationName.Text = res.name;
-                    numPeople.Text = res.numPeople.ToString();
+                    reservationName.Text = reservation.name;
+                    numPeople.Text = reservation.numPeople.ToString();
                     /*TODO: better way than this?:*/
-                    if (res.phone != null) {
-                        phoneNumber.Text = res.phone;
+                    if (reservation.phone != null) {
+                        phoneNumber.Text = reservation.phone;
                     }
-                    if (res.email != null) {
-                        email.Text = res.email;
+                    if (reservation.email != null) {
+                        email.Text = reservation.email;
                     }
-                    datePicker.Value = res.time.Date;
-                    timePicker.Text = res.time.ToString("HH:mm");
-                    pendingSet.Checked = res.pending;
+                    datePicker.Value = reservation.time.Date;
+                    timePicker.Text = reservation.time.ToString("HH:mm");
+                    pendingSet.Checked = reservation.pending;
                 }
                 catch (ArgumentOutOfRangeException) {
 
                 }
-                
 
             }
             else {
@@ -119,18 +114,18 @@ namespace AdministratorPanel {
 
         protected override void delete(object sender, EventArgs e) {
             if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this reservation?", MessageBoxButtons.YesNo)) {
-                foreach (var item in calTab.calDayList) {
-                    item.reservations.Remove(res);
-                }
-                //calTab.calDay.Find(o => o.theDay.Date == res.time.Date);
 
-                calTab.reservationList.makeItems(DateTime.Today.Date);
-                calTab.pendingReservationList.makeItems();
-                
+                reservationController.removeReservation(reservation);
+
+                //TODO: move to event on list... _.. er auto-rename
+                //_reservationController.reserveationList.makeItems(DateTime.Today.Date);
+                //_reservationController.pendingReservationList.makeItems();
             }
         }
 
         protected override void save(object sender, EventArgs e) {
+
+            //TODO: kan vi ikke bruge Validate til det her?
 
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
@@ -153,7 +148,6 @@ namespace AdministratorPanel {
                 MessageBox.Show(en.Message);
                 return;
             }
-            
 
             string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
             string tempTime = timePicker.Text;
@@ -163,51 +157,31 @@ namespace AdministratorPanel {
                                        CultureInfo.InvariantCulture);
             /*END OF COPY PASTE*/
 
-            
 
-            CalendarDay cd = calTab.calDayList.Find(o => o.theDay.Date == newDate.Date);
+            ////////////// actual saving
 
-            if (cd == null) {
-                cd = new CalendarDay { theDay = newDate.Date, isFullChecked = false };
-                calTab.calDayList.Add(cd);
-                
-            }
+            Reservation newres = new Reservation();
 
-            if (res == null) {
-                res = new Reservation();
-                res.created = DateTime.Now;
-                cd.reservations.Add(res);
-            }
-            else if (newDate.Date != res.time.Date) {
-                foreach (var item in calTab.calDayList) {
-                    item.reservations.Remove(res);
-                }
-                cd.reservations.Add(res);
-            }
+            newres.pending = pendingSet.Checked;
+            newres.name = reservationName.Text;
+            int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
+            newres.phone = phoneNumber.Text;
+            newres.email = email.Text;
+            newres.time = newDate;
+            //cd.fullness += reservation.numPeople;
 
-            if (pendingSet.Checked == true) {
-                res.pending = true;
+            if (reservation == null)
+            {
+                reservationController.addReservation(newres);
             }
-            else {
-                res.pending = false;
+            else
+            {
+                reservationController.updateReservation(reservation, newres);
             }
-            res.name = reservationName.Text;
-            int.TryParse(numPeople.Text, out res.numPeople);
-            res.phone = phoneNumber.Text;
-            res.email = email.Text;
-            res.time = newDate;
-            cd.fullness += res.numPeople;
-
-            //foreach (var item in calTab.calDay) {
-            //    if (item.theDay.Date == newStartDate.Date) {
-            //    }
-            //    else {
-            //    }
-            //}
 
             this.Close();
-            calTab.reservationList.makeItems(newDate.Date);
-            calTab.pendingReservationList.makeItems();
+            //_reservationController.reserveationList.makeItems(newDate.Date); TODO: these two should be implemented using events at those places
+            //_reservationController.pendingReservationList.makeItems();
             
         }
 
@@ -244,49 +218,3 @@ namespace AdministratorPanel {
         }
     }
 }
-
-
-
-
-/*
- public string email {
-            get {
-                return email;
-            }
-            set {
-                const string validLocalSymbols = ".-"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
-                const string validDomainSymbols = ".-";
-
-
-
-                string[] emailParts = value.Split('@');
-
-                if (emailParts.Length != 2)
-                    throw new FormatException("Email address must contain exactly one '@'");
-
-                if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
-                    throw new FormatException("Email address local- or domain-part can't start or end with a '.'");
-
-                if (!emailParts[1].Contains('.'))
-                    throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.tld");
-
-                if (value.Contains(".."))
-                    throw new FormatException("Email address may not contain consecutive '.'s, ie. '..'.");
-
-                foreach (char ch in emailParts[0]) {
-                    if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch)) 
-                        throw new FormatException($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols "{validLocalSymbols}"");
-                }
-
-                foreach (var ch in emailParts[1]) {
-                    if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
-                        throw new FormatException($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols "{validDomainSymbols}"");
-                }
-
-
-
-                _email = value;
-
-            }
-        }
-*/

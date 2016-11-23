@@ -7,10 +7,8 @@ using System.IO;
 using System.Drawing;
 
 namespace AdministratorPanel {
-    public class ReservationsTab : AdminTabPage {
+    public class ReservationTab : AdminTabPage {
         private Calendar calendar;
-        private List<Room> rooms;
-        public List<CalendarDay> calDayList = new List<CalendarDay>();
 
         public ReservationList reservationList;
         public PendingReservationList pendingReservationList;
@@ -20,19 +18,10 @@ namespace AdministratorPanel {
         public Label reserveSpaceText = new Label();
         public CheckBox reservationFull = new CheckBox();
 
-        public ReservationsTab() {
+        public ReservationTab(ReservationController reservationController) {
             Load();
-            //Random rand = new Random(100);
-            //CalendarDay test = new CalendarDay() { fullness = 1, isFullChecked = false, reservations = new List<Reservation>(), theDay = DateTime.Now.Date };
-            
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    Reservation res = new Reservation { time = DateTime.Now.Date, name = "fish", numPeople = rand.Next(1, 100), pending = true };
-            //    test.reservations.Add(res);
-            //}
-            //calDay.Add(test);
 
-            Text = "Calendar";
+            Text = "Reservations";
 
             TableLayoutPanel outerTable = new TableLayoutPanel();
             outerTable.Dock = DockStyle.Fill;
@@ -54,7 +43,7 @@ namespace AdministratorPanel {
             //calendar.Anchor = AnchorStyles.Top;
             leftTable.Controls.Add(calendar);
 
-            pendingReservationList = new PendingReservationList(calendar, this);
+            pendingReservationList = new PendingReservationList(calendar, this, reservationController);
             leftTable.Controls.Add(pendingReservationList);
 
 
@@ -79,46 +68,56 @@ namespace AdministratorPanel {
             reserveSpaceText.Dock = DockStyle.Left;
             reserveSpaceText.Font = new Font("Arial", 16);
             reservationFull.Text = "Lock Reservations";
+//reservationFull.Checked
+
 
             topRightTable.Controls.Add(reserveSpaceText);
             topRightTable.Controls.Add(reserveSpace);
             topRightTable.Controls.Add(reservationFull);
-            
+
             Button addReservation = new Button();
             addReservation.Height = 20;
             addReservation.Width = 100;
             addReservation.Dock = DockStyle.Right;
             addReservation.Text = "Add Reservation";
             addReservation.Click += (s, e) => {
-                ReservationPopupBox p = new ReservationPopupBox(this);
+                ReservationPopupBox p = new ReservationPopupBox(reservationController);
                 p.Show();
             };
             topRightTable.Controls.Add(addReservation);
 
-            reservationList = new ReservationList(calendar, this); /*TODO: fix*/
+            reservationList = new ReservationList(calendar, reservationController); /*TODO: fix*/
             rightTable.Controls.Add(reservationList);
-            reservationFull.Click += reservationList.lockReservations;
+            reservationFull.Click += (s, e) => { reservationList.lockReservations(reservationFull.Checked); };
             //rightTable.makeItems(reservations, DateTime.Today);
             /*TODO: fix*/
 
+            calendar.DateSelected += (sender, args) =>
+            {
+                reservationFull.Checked = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date)?.isFullChecked ?? false;
+            };
+
+
 
         }
 
+
+        // TODO: functions...
         public override void Save() {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<CalendarDay>));
-            using (StreamWriter textWriter = new StreamWriter(@"Reservations.xml")) {
-                serializer.Serialize(textWriter, calDayList);
-            }
+//            XmlSerializer serializer = new XmlSerializer(typeof(List<CalendarDay>));
+//            using (StreamWriter textWriter = new StreamWriter(@"Reservations.xml")) {
+//                serializer.Serialize(textWriter, calDayList);
+//            }
         }
 
         public override void Load() {
-            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
-            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
-                try {
-                    calDayList = deserializer.Deserialize(fileReader) as List<CalendarDay>;
-                }
-                catch (Exception) { }
-            }
+//            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
+//            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
+//                try {
+//                    calDayList = deserializer.Deserialize(fileReader) as List<CalendarDay>;
+//                }
+//                catch (Exception) { }
+//            }
         }
     }
 }

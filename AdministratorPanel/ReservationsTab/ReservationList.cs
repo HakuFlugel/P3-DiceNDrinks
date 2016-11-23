@@ -10,15 +10,15 @@ namespace AdministratorPanel
     public class ReservationList : TableLayoutPanel
     {
         private Calendar calendar;
-        private ReservationsTab calTab;
         public CalendarDay cd;
+        private ReservationController reservationController;
 
-        public ReservationList(Calendar calendar, ReservationsTab calTab)
+        public ReservationList(Calendar calendar, ReservationController reservationController)
         {
             this.calendar = calendar;
-            this.calTab = calTab;
+            this.reservationController = reservationController;
 
-            calendar.DateSelected += (sender, args) => { this.makeItems(args.Start);};
+            calendar.DateSelected += (sender, args) => { makeItems(args.Start);};
             makeItems(calendar.SelectionStart);
 
             Dock = DockStyle.Fill;
@@ -28,51 +28,72 @@ namespace AdministratorPanel
             //AutoSize = true;
             HorizontalScroll.Maximum = 0;
             AutoScroll = true;
+
+            reservationController.ReservationAdded += (sender, args) =>
+            {
+                makeItems();
+            };
+            reservationController.ReservationRemoved += (sender, args) =>
+            {
+                makeItems();
+            };
+            reservationController.ReservationUpdated += (sender, args) =>
+            {
+                makeItems();
+            };
             
             
+        }
+
+        //TODO: call on change...
+        public void makeItems()
+        {
+            makeItems(cd.theDay.Date);
         }
 
         public void makeItems(DateTime day)
         {
             Controls.Clear();
             
-            cd = calTab.calDayList.Find(o => o.theDay.Date == day.Date);
+            cd = reservationController.reservationsCalendar.Find(o => o.theDay.Date == day.Date);
             if (cd == null) {
                 return;
             }
             calendar.SelectionStart = cd.theDay.Date;
+//TODO: move to event in reservationtab or should it be part of this class instead?
+//            calTab.reserveSpaceValue = 0;
+//            foreach (var item in cd.reservations.FindAll(o => o.pending == false)) {
+//                calTab.reserveSpaceValue += item.numPeople;
+//            }
+//            if (calTab.reserveSpaceValue < 100) {
+//                calTab.reserveSpace.Value = calTab.reserveSpaceValue;
+//            }
+//            else {
+//                calTab.reserveSpace.Value = 100;
+//                MessageBox.Show("The reservation max count is exceeded!");
+//            }
+//            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
 
-            calTab.reserveSpaceValue = 0;
-            foreach (var item in cd.reservations.FindAll(o => o.pending == false)) {
-                calTab.reserveSpaceValue += item.numPeople;
-            }
-            if (calTab.reserveSpaceValue < 100) {
-                calTab.reserveSpace.Value = calTab.reserveSpaceValue;
-            }
-            else {
-                calTab.reserveSpace.Value = 100;
-                MessageBox.Show("The reservation max count is exceeded!");
-            }
-            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
+//            calTab.reservationFull.Checked = cd.isFullChecked;
 
-            calTab.reservationFull.Checked = cd.isFullChecked;
-
-            SuspendLayout();
+            //SuspendLayout();
             foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => !o.pending)) {
-                ReservationItem reservationItem = new ReservationItem(calTab, res);
+                ReservationItem reservationItem = new ReservationItem(reservationController, res);
 
                 Controls.Add(reservationItem);
             }
-            ResumeLayout();
+            //ResumeLayout();
            
         }
 
-        public void lockReservations(object sender, EventArgs e) {
+        public void lockReservations(bool isChecked) {
             if (cd == null) {
                 cd = new CalendarDay { theDay = calendar.SelectionStart, isFullChecked = false };
-                calTab.calDayList.Add(cd);
+                reservationController.reservationsCalendar.Add(cd);
             }
-            cd.isFullChecked = calTab.reservationFull.Checked;
+            cd.isFullChecked = isChecked;
+            //cd.isFullChecked = (Parent.Parent.Parent as ReservationTab).reservationFull.Checked;
+            //cd.isFullChecked = calTab.reservationFull.Checked;
         }
     }
 }
