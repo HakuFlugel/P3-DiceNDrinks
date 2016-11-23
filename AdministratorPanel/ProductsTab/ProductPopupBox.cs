@@ -205,10 +205,17 @@ namespace AdministratorPanel {
 
             int index = dataTable.Rows.Count;
 
-            for (int first = 0; first < index; first++) {
+            for (int row = 0; row < index; row++) {
+                int wrongness = (dataTable.Rows[row][0] == null ? 1 : 0) + (dataTable.Rows[row][1] == null ? 1 : 0);
+                if (wrongness == 2) {
+                    continue;
+                }else if (wrongness == 1) {
+                    MessageBox.Show("Prices have not been saved");
+                    return null;
+                }
                 PriceElement priceElement = new PriceElement();
-                priceElement.name = dataTable.Rows[first][0].ToString(); // string(name)
-                priceElement.price = decimal.Parse(dataTable.Rows[first][1].ToString()); // decimal(price)
+                priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
+                priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
                 pr.Add(priceElement);
             }
 
@@ -236,9 +243,13 @@ namespace AdministratorPanel {
 
             if (productItem == null) {
                 Product tempProduct = new Product();
+                List<PriceElement> lp = new List<PriceElement>();
 
                 tempProduct.name = productName.Text;
-                tempProduct.PriceElements = SavePriceElemets();
+                lp = SavePriceElemets();
+                if (lp != null) {
+                    tempProduct.PriceElements = lp;
+                }
                 tempProduct.category = categoryName.Text;
                 tempProduct.section = sectionName.Text;
                 tempProduct.image = imageName;
@@ -258,6 +269,7 @@ namespace AdministratorPanel {
                 productItem.product.section = sectionName.Text;
                 productItem.product.image = imageName;
             }
+
 
             Close();
         }
