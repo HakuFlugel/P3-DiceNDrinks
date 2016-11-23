@@ -62,9 +62,9 @@ namespace AndroidAppV2
             catch (Exception e)
             {
                 // handle exception
-                bitmap = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.Icon);
+                bitmap = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.nopic);
             }
-            return bitmap ?? (BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.Icon));
+            return bitmap ?? (BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.nopic));
         }
     }
 }
