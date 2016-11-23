@@ -21,7 +21,6 @@
                 android:textSize="20dip"
                 android:textStyle="italic" />
         </LinearLayout>
-                  <!--TODO wtf is this?--> 
         <LinearLayout
             android:id="@+id/Text"
             android:orientation="vertical"

@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:p1="http://schemas.android.com/apk/res/android"
-    p1:minWidth="25px"
-    p1:minHeight="25px"
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
-    p1:id="@+id/listView1"
-    p1:padding="8dp"
-    p1:dividerHeight="4dp" />
+    p1:padding="8dp">
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceLarge"
+        p1:text="Begivenheder"
+        p1:gravity="center_horizontal" 
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:layout_gravity="center_horizontal"/>
+    <ListView
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="match_parent"
+        p1:id="@+id/listView1"
+        p1:dividerHeight="4dp" />
+</LinearLayout>

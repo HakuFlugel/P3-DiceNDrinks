@@ -39,7 +39,7 @@ namespace AndroidAppV2.ListAdapters
             Event item = items[position];
             //sets the view as convertView unless convertView is null
             View view = convertView ?? context.LayoutInflater.Inflate(Resource.Layout.eventListItem, null);
-            view.FindViewById<TextView>(Resource.Id.eventNameText).Text = item.name;//TODO Fucking naming....
+            view.FindViewById<TextView>(Resource.Id.eventNameText).Text = item.name;
             //view.FindViewById<TextView>(Resource.Id.Text2).Text = item.description;
             view.FindViewById<TextView>(Resource.Id.eventDateText).Text = item.startDate.ToShortDateString();
             view.FindViewById<TextView>(Resource.Id.eventTimeText).Text = item.startDate.ToShortTimeString() + "-" + item.endDate.ToShortTimeString();

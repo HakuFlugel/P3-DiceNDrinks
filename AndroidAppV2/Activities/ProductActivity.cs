@@ -69,13 +69,6 @@ namespace AndroidAppV2.Activities
 
         }
 
-        private void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
-        {
-            var listView = sender as ListView;
-
-            //todo: dialog fragment med yderligere info om et item
-        }
-
         //functions from the adminpanel to generate a list of products
         private List<Product> GenerateProductList()
         {
