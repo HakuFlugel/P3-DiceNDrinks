@@ -16,8 +16,7 @@ namespace AndroidAppV2.ListDialogFragments
 {
     internal class ProductDialogFragment : DialogFragment
     {
-        private Button _buttonDismiss;
-        private TextView _textSomething;
+        //private Button _buttonDismiss;
         private Product _product;
         private Context _context;
 
@@ -37,9 +36,11 @@ namespace AndroidAppV2.ListDialogFragments
             foreach (var item in _product.PriceElements) {
                 sb.Append(item.name + " for " + item.price + System.Environment.NewLine);
             }
-
+            AndroidShared an = new AndroidShared();
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
-            view.FindViewById<ImageView>(Resource.Id.productImage).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, $"ProductPics/{_product.image}"));
+            int[] sizes = {200, 200}; //TODO: Placeholder
+            an.GetImages(_context, $"ProductPics/{_product.image}.png",view, Resource.Id.productImage,sizes);
+            //view.FindViewById<ImageView>(Resource.Id.productImage).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, $"ProductPics/{_product.image}"));
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
 
 
@@ -70,7 +71,7 @@ namespace AndroidAppV2.ListDialogFragments
 
             base.OnResume();
         }
-        private void Button_Dismiss_Click(object sender, EventArgs e)
+        /*private void Button_Dismiss_Click(object sender, EventArgs e)
         {
             Dismiss();
         }
@@ -83,6 +84,6 @@ namespace AndroidAppV2.ListDialogFragments
             {
                 _buttonDismiss.Click -= Button_Dismiss_Click;
             }
-        }
+        }*/
     }
 }

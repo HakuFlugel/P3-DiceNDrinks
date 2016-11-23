@@ -24,8 +24,8 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/Image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:padding="5dp"
         android:src="@drawable/icon"
         android:layout_alignParentRight="true" />
