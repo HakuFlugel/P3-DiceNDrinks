@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Android.App;
+using Android.Content;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using AndroidAppV2.Activities;
@@ -33,11 +36,15 @@ namespace AndroidAppV2.ListAdapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             Product item = _items[position];
+            AndroidShared anSh = new AndroidShared();
             //sets the view as convertView unless convertView is null
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"From {item.PriceElements[0].price} kr.";
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, item.image));
+            //GetImages($"ProductPics/{item.image}.png",view, Resource.Id.Image);
+            int[] sizes = {75, 75};
+            anSh.GetImages(_context, $"ProductPics/{item.image}.png",view, Resource.Id.Image,sizes);
+            //view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, item.image));
             return view;
         }
 
@@ -83,5 +90,13 @@ namespace AndroidAppV2.ListAdapters
         {
             return _items[position];
         }
+
+        /*private async void GetImages(string image, View view, int id)
+        {
+            AndroidShared As = new AndroidShared();
+            BitmapFactory.Options options = await As.GetBitmapOptionsOfImageAsync(_context, image);
+            Bitmap bitmapToDisplay = await As.LoadScaledDownBitmapForDisplayAsync(_context, image, options, 50, 50);
+            view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+        }*/
     }
 }
