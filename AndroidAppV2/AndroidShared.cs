@@ -119,5 +119,15 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
         }
 
+
+        //placeholder for a method to get images
+        public async void GetImages(Context contex, string image, View view, int id, int[] sizes)
+        {
+            //sizes[0] is reqWidth sizes[1] is reqHeight
+            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
+            Bitmap bitmapToDisplay = await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
+            view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+        }
+
     }
 }
