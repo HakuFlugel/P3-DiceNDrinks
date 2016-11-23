@@ -96,8 +96,6 @@ namespace AdministratorPanel {
             Directory.CreateDirectory("Sources");
             var json = JsonConvert.SerializeObject(games);
             Directory.CreateDirectory("Sources");
-            if (!File.Exists(@"Sources/Games.json"))
-                File.Create(@"Sources/Games.json");
 
             using (StreamWriter textWriter = new StreamWriter(@"Sources/Games.json")) {
                 foreach (var item in json) {

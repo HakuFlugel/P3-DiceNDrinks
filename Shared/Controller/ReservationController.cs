@@ -183,7 +183,7 @@ namespace Shared
 
         public override void load()
         {
-            //Todo: using using
+            //TODO: create a function for these(consider Entity System thing)
             Directory.CreateDirectory("data");
             try
             {

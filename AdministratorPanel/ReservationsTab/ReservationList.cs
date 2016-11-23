@@ -68,13 +68,13 @@ namespace AdministratorPanel
            
         }
 
-        public void lockReservations(object sender, EventArgs e) {
+        public void lockReservations(bool isChecked) {
             if (cd == null) {
                 cd = new CalendarDay { theDay = calendar.SelectionStart, isFullChecked = false };
                 reservationController.reservationsCalendar.Add(cd);
             }
-            // TODO: how do we make this prettier? move to this class????
-            cd.isFullChecked = (Parent.Parent.Parent as ReservationTab).reservationFull.Checked;
+            cd.isFullChecked = isChecked;
+            //cd.isFullChecked = (Parent.Parent.Parent as ReservationTab).reservationFull.Checked;
             //cd.isFullChecked = calTab.reservationFull.Checked;
         }
     }

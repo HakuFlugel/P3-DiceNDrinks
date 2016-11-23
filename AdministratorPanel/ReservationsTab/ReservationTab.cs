@@ -68,6 +68,8 @@ namespace AdministratorPanel {
             reserveSpaceText.Dock = DockStyle.Left;
             reserveSpaceText.Font = new Font("Arial", 16);
             reservationFull.Text = "Lock Reservations";
+//reservationFull.Checked
+
 
             topRightTable.Controls.Add(reserveSpaceText);
             topRightTable.Controls.Add(reserveSpace);
@@ -86,9 +88,15 @@ namespace AdministratorPanel {
 
             reservationList = new ReservationList(calendar, reservationController); /*TODO: fix*/
             rightTable.Controls.Add(reservationList);
-            reservationFull.Click += reservationList.lockReservations;
+            reservationFull.Click += (s, e) => { reservationList.lockReservations(reservationFull.Checked); };
             //rightTable.makeItems(reservations, DateTime.Today);
             /*TODO: fix*/
+
+            calendar.DateSelected += (sender, args) =>
+            {
+                reservationFull.Checked = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date)?.isFullChecked ?? false;
+            };
+
 
 
         }

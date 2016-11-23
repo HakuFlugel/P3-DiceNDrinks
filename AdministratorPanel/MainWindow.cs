@@ -29,9 +29,9 @@ namespace AdministratorPanel {
 
             tabs.AddRange(new AdminTabPage[]{
                 new ReservationTab(reservationController),
-                //new ProductsTab(),
-                //new GamesTab(),
-                //new EventsTab()
+                new ProductsTab(),
+                new GamesTab(),
+                new EventsTab()
             });
 
             cp.Controls.AddRange(tabs.ToArray());
