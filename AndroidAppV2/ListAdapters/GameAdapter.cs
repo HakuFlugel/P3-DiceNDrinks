@@ -34,10 +34,13 @@ namespace AndroidAppV2.ListAdapters
         {
             Game item = _items[position];
             //sets the view as convertView unless convertView is null
+            AndroidShared an = new AndroidShared();
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre apperently is a list q.q
-            view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context,item.thumbnail)); //SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
+            int[] sizes = {75, 75};
+            an.GetImages(_context, $"ProductPics/{item.thumbnail}.png", view, Resource.Id.productImage, sizes);
+            //view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context,item.thumbnail)); //SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
             return view;
         }
 

@@ -23,6 +23,7 @@ namespace AndroidAppV2
             SetContentView(Resource.Layout.Main);
             //DO NOT WRITE CODE ABOVE THIS LINE
             GC.Collect();
+            
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
                 StartActivity(typeof(GameActivity));

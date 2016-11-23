@@ -226,12 +226,6 @@
     <AndroidResource Include="Resources\drawable-da\Top_Left_Games.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\ProductTest\Red.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductTest\_default.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\values\Style.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -286,7 +280,7 @@
     <AndroidAsset Include="Assets\ProductPics\westonscider.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\nopic.jpg" />
+    <AndroidResource Include="Assets\nopic.jpg" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

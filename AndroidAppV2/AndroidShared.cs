@@ -53,22 +53,6 @@ namespace AndroidAppV2
             type = JsonConvert.DeserializeObject<T>(input);
         }
 
-        public static Bitmap GetBitmapFromAsset(Context context, string filePath) //TODO: Out view view
-        {
-            Bitmap bitmap = null;
-            try
-            {
-                Stream str = context.Assets.Open(filePath);
-                bitmap = BitmapFactory.DecodeStream(str);
-            }
-            catch (Exception e)
-            {
-                // handle exception
-                bitmap = BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.Icon);
-            }
-            return bitmap ?? (BitmapFactory.DecodeResource(context.Resources, Resource.Drawable.Icon));
-        }
-
         public async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(Context context, string path)
         {
             BitmapFactory.Options options = new BitmapFactory.Options
@@ -124,9 +108,22 @@ namespace AndroidAppV2
         public async void GetImages(Context contex, string image, View view, int id, int[] sizes)
         {
             //sizes[0] is reqWidth sizes[1] is reqHeight
-            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
-            Bitmap bitmapToDisplay = await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
-            view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+            AssetManager am = contex.Assets;
+            string fileNotFound = "ProductPics/nopic.jpg";
+            if (am.Open(image).CanRead)
+            {
+                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
+                Bitmap bitmapToDisplay =
+                    await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
+                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+            }
+            else
+            {
+                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
+                Bitmap bitmapToDisplay =
+                    await LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, options, sizes[0], sizes[1]);
+                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+            }
         }
 
     }
