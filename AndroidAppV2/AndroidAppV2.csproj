@@ -174,7 +174,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\GameLayout.axml" />
-    <AndroidResource Include="Resources\layout\ReservationLayout.axml" />
+    <AndroidResource Include="Resources\layout\ReservationLayout.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
     <AndroidResource Include="Resources\layout\CustomItemView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -188,6 +190,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\GameDialogView.axml" />
+    <AndroidResource Include="Resources\layout\gameItemView.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">

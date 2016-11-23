@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="#FFDAFF7F"
     android:padding="8dp">
     <LinearLayout
         android:id="@+id/Text"
@@ -16,19 +15,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.4">
             <TextView
-                android:id="@+id/Text1"
+                android:id="@+id/eventNameText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF7F3300"
                 android:textSize="20dip"
                 android:textStyle="italic" />
-            <TextView
-                android:id="@+id/Text2"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14dip"
-                android:textColor="#FF267F00" />
         </LinearLayout>
+                  <!--TODO wtf is this?--> 
         <LinearLayout
             android:id="@+id/Text"
             android:orientation="vertical"
@@ -36,18 +29,16 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.6">
             <TextView
-                android:id="@+id/Text3"
+                android:id="@+id/eventDateText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FF7F3300"
                 android:textSize="20dip"
                 android:textStyle="italic" />
             <TextView
-                android:id="@+id/Text4"
+                android:id="@+id/eventTimeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14dip"
-                android:textColor="#FF267F00" />
+                android:textSize="14dip" />
         </LinearLayout>
     </LinearLayout>
 <!--<ImageView
