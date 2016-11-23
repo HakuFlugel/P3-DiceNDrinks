@@ -21,7 +21,7 @@ namespace AndroidAppV2.ListAdapters
         public GameAdapter(Activity context, List<Game> items)
         {
             _context = context;
-            _items = items;
+            _baseItems = _items = items;
             Sort("Alphabetical");
         }
 

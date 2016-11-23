@@ -16,8 +16,7 @@ namespace AndroidAppV2.ListDialogFragments
 {
     internal class ProductDialogFragment : DialogFragment
     {
-        private Button _buttonDismiss;
-        private TextView _textSomething;
+        //private Button _buttonDismiss;
         private Product _product;
         private Context _context;
 
@@ -72,7 +71,7 @@ namespace AndroidAppV2.ListDialogFragments
 
             base.OnResume();
         }
-        private void Button_Dismiss_Click(object sender, EventArgs e)
+        /*private void Button_Dismiss_Click(object sender, EventArgs e)
         {
             Dismiss();
         }
@@ -85,6 +84,6 @@ namespace AndroidAppV2.ListDialogFragments
             {
                 _buttonDismiss.Click -= Button_Dismiss_Click;
             }
-        }
+        }*/
     }
 }

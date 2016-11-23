@@ -18,7 +18,6 @@ namespace AndroidAppV2.ListDialogFragments {
     public class GameDialogFragment : DialogFragment {
 
         private Button Button_Dismiss;
-        private TextView Text_something;
         private Game game;
 
         public override View OnCreateView(Android.Views.LayoutInflater inflater, ViewGroup container, Bundle bundle) {
