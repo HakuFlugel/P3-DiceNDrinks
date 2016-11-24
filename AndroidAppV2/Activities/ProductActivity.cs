@@ -21,7 +21,7 @@ namespace AndroidAppV2.Activities
             base.OnCreate(savedInstanceState);
             
             
-            SetContentView(Resource.Layout.foodmenuLayout);
+            SetContentView(Resource.Layout.productLayout);
 
             // Create your application here
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
@@ -76,19 +76,5 @@ namespace AndroidAppV2.Activities
 
             return list;
         } 
-
-        private static Product Prmake(string name, string image, string cat, string section, List<PriceElement> pl)
-        {
-            Product pr = new Product
-            {
-                name = name,
-                image = image,
-                category = cat,
-                section = section,
-                PriceElements = pl
-            };
-
-            return pr;
-        }
     }
 }

@@ -165,7 +165,7 @@
     <AndroidResource Include="Resources\layout\eventLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\foodmenuLayout.axml">
+    <AndroidResource Include="Resources\layout\productLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\GameLayout.axml" />

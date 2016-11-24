@@ -15,7 +15,7 @@ namespace AndroidAppV2.Activities
     public class SplashActivity : AppCompatActivity
     {
         // ReSharper disable once InconsistentNaming
-        static readonly string TAG = "X:" + typeof(SplashActivity).Name;
+        private static readonly string TAG = "X:" + typeof(SplashActivity).Name;
 
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
@@ -34,7 +34,7 @@ namespace AndroidAppV2.Activities
             });
 
             startupWork.ContinueWith(t => {
-                Log.Debug(TAG, "Work is finished - start Activity1.");
+                Log.Debug(TAG, "Work is finished - start MainActivity");
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
