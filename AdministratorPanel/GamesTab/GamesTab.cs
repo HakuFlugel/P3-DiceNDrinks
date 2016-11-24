@@ -47,13 +47,14 @@ namespace AdministratorPanel {
         public GamesTab() {
 
             Load();
+            if (games.Count < 1)
+                CreateGamesForDebugShit(); // For testing purpose only
             game = new GamesList(games,this,genres);
             game.makeItems(seach);
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
-            if(games.Count < 1)
-                CreateGamesForDebugShit(); // For testing purpose only
+            
 
             AutoSize = true;
             Dock = DockStyle.Fill;
