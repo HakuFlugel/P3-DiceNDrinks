@@ -56,7 +56,7 @@ namespace AdministratorPanel {
 
             //// Right side
             TableLayoutPanel topRightTable = new TableLayoutPanel();
-            topRightTable.Dock = DockStyle.Fill;
+            topRightTable.Dock = DockStyle.Top;
             topRightTable.AutoSize = true;
             topRightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             topRightTable.ColumnCount = 4;
