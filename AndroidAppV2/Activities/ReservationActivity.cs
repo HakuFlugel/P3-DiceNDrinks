@@ -15,7 +15,7 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
-        private bool _state = true; //checks if the user has made any changes
+        private bool _state = false; //checks if the user has made any changes
         private DateTime _chosenDateTime = DateTime.Now;
         private int _userId;
         private Reservation _res;
@@ -179,10 +179,11 @@ namespace AndroidAppV2.Activities
                 resSucces.SetMessage("Din reservation er blevet sendt! Og venter nu på at blive godkendt!");
                 resSucces.SetTitle("Reservation sendt");
             }
+            _state = true;
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
             resSucces.Show();
             FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations stadie: Afventer svar";
-            _state = false;
+            
             Data = true;
 
         }
