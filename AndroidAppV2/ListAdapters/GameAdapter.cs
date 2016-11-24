@@ -19,7 +19,7 @@ namespace AndroidAppV2.ListAdapters
         {
             _context = context;
             _baseItems = _items = items;
-            Sort("Alphabetical");
+            Sort("Alfabetisk");
         }
 
         public override long GetItemId(int position)

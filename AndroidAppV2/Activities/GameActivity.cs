@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Util;
 using Android.Widget;
 
 using AndroidAppV2.ListAdapters;
@@ -43,7 +45,15 @@ namespace AndroidAppV2.Activities
 
             gameSpinner.ItemSelected += delegate
             {
-                itemAdapter.Sort((string)gameSpinner.SelectedItem);
+                try
+                {
+                    itemAdapter.Sort((string)gameSpinner.SelectedItem);
+                }
+                catch (KeyNotFoundException e)
+                {
+                    Log.Debug("X:GameActivity", e.ToString(), "Could not find key");
+                }
+
                 if (!_ascending)
                 {
                     itemAdapter.SwitchOrder();
