@@ -110,20 +110,25 @@ namespace AndroidAppV2
             //sizes[0] is reqWidth sizes[1] is reqHeight
             AssetManager am = contex.Assets;
             string fileNotFound = "nopic.jpg";
-            if (am.Open(image).IsDataAvailable())
+            try
             {
-                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
-                Bitmap bitmapToDisplay =
-                    await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
-                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+                Stream s = am.Open(image);
+
             }
-            else
+            catch (Exception ex)
             {
-                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
-                Bitmap bitmapToDisplay =
-                    await LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, options, sizes[0], sizes[1]);
-                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+                BitmapFactory.Options FnFoptions = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
+                Bitmap FnFbitmapToDisplay =
+                await LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, FnFoptions, sizes[0], sizes[1]);
+                view.FindViewById<ImageView>(id).SetImageBitmap(FnFbitmapToDisplay);
+                return;
             }
+
+            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
+            Bitmap bitmapToDisplay =
+                await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
+            view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+
         }
 
     }
