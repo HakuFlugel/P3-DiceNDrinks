@@ -18,14 +18,14 @@ namespace AdministratorPanel {
         TableLayoutPanel tb = new TableLayoutPanel() {
             ColumnCount = 1,
             RowCount = 2,
-            Dock = DockStyle.Fill,
+            Dock = DockStyle.Fill
             
         };
         TableLayoutPanel tbtb = new TableLayoutPanel() {
             ColumnCount = 2,
             AutoSize = true,
             RowCount = 1,
-            Dock = DockStyle.Top,
+            Dock = DockStyle.Top
             
         };
 

@@ -30,5 +30,10 @@ namespace Shared
             numSeats = reservationController.rooms.Sum(r => r.seats);//reservationController.rooms.Where(o => !roomsReserved.Contains(o)).Sum(o => o.seats);
             numSeats -= roomsReserved.Sum(r => r.seats);
         }
+
+        public void calculateReservedSeats()
+        {
+            reservedSeats = reservations.Sum(r => r.numPeople);
+        }
     }
 }

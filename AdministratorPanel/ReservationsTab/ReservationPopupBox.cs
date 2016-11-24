@@ -124,8 +124,8 @@ namespace AdministratorPanel {
                 reservationController.removeReservation(reservation);
 
                 //TODO: move to event on list... _.. er auto-rename
-                //_reservationController.reserveationList.makeItems(DateTime.Today.Date);
-                //_reservationController.pendingReservationList.makeItems();
+                //_reservationController.reserveationList.updateCurrentDay(DateTime.Today.Date);
+                //_reservationController.pendingReservationList.updateCurrentDay();
             }
         }
 
@@ -186,8 +186,8 @@ namespace AdministratorPanel {
             }
 
             this.Close();
-            //_reservationController.reserveationList.makeItems(newDate.Date); TODO: these two should be implemented using events at those places
-            //_reservationController.pendingReservationList.makeItems();
+            //_reservationController.reserveationList.updateCurrentDay(newDate.Date); TODO: these two should be implemented using events at those places
+            //_reservationController.pendingReservationList.updateCurrentDay();
             
         }
 
