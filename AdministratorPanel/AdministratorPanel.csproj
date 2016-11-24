@@ -78,9 +78,6 @@
     <Compile Include="NiceTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProductsTab\PriceElementPopupBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="ProductsTab\ProductCategoryTab.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -154,6 +151,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ProductsTab" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

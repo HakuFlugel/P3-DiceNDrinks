@@ -9,15 +9,15 @@ namespace AdministratorPanel {
     public class GamePopupBoxRght : TableLayoutPanel {
         
         TableLayoutPanel gameList = new TableLayoutPanel() {
-            Dock = DockStyle.Fill,
+            Dock = DockStyle.Fill, //TODO: FAFSAJFASDQWHFBQKFHQWIFQWHFAWISFHAIFHWQIF
 
             BorderStyle = BorderStyle.Fixed3D,
             ColumnCount = 1,
 
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            MinimumSize = new Size(200, 440),
+            //MinimumSize = new Size(200, 440),
 
-            AutoSize = false,
+            //AutoSize = true,
             AutoScroll = true
             
         };
@@ -28,7 +28,7 @@ namespace AdministratorPanel {
             clearable = true,
             MinimumSize = new Size(200, 0),
 
-            Margin = new Padding(5, 5, 20, 5),
+            //Margin = new Padding(5, 5, 20, 5),
         };
 
         private XmlParser api = new XmlParser();
@@ -43,7 +43,8 @@ namespace AdministratorPanel {
 
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            Dock = DockStyle.Fill;
+            Dock = DockStyle.Right;
+            AutoSize = true;
 
 
             seachBar.KeyPress += (s,e) => {
