@@ -40,7 +40,7 @@ namespace AdministratorPanel {
             waterMark = "Type something to seach..",
             clearable = true,
             MinimumSize = new Size(200, 0),
-            Margin = new Padding(20, 5, 20, 5),
+            //Margin = new Padding(20, 5, 20, 5),
         };
         
         
@@ -52,12 +52,12 @@ namespace AdministratorPanel {
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
-            if(games.Count < 1)
-                CreateGamesForDebugShit(); // For testing purpose only
+//            if(games.Count < 1)
+//                CreateGamesForDebugShit(); // For testing purpose only
 
             AutoSize = true;
             Dock = DockStyle.Fill;
-            BackColor = Color.AliceBlue;
+            //BackColor = Color.AliceBlue;
 
             seachBar.KeyPress += (sender, e) => {
 
@@ -115,6 +115,12 @@ namespace AdministratorPanel {
                     games = JsonConvert.DeserializeObject<List<Game>>(input);
                     
                 }
+            }
+
+            //TODO: do this for all tabs?
+            if (games == null)
+            {
+                games = new List<Game>();
             }
         }
 

@@ -18,13 +18,14 @@ namespace AdministratorPanel {
         protected TableLayoutPanel lft = new TableLayoutPanel() {
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            Dock = DockStyle.Fill
+            //Dock = DockStyle.Fill
+            AutoSize = true
         };
 
         protected TableLayoutPanel header = new TableLayoutPanel() {
             RowCount = 1,
             ColumnCount = 2,
-            Dock = DockStyle.Fill,
+            //Dock = DockStyle.Fill,
             AutoSize = true,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         };
@@ -105,10 +106,10 @@ namespace AdministratorPanel {
 
         public TrackBar gameDifficulty = new TrackBar() {
             Size = new Size(195, 45),
-            Maximum = 100,
+            Maximum = 10,
             TickFrequency = 1,
-            LargeChange = 10,
-            SmallChange = 1,
+            LargeChange = 2,
+            SmallChange = 1
         };
 
 
@@ -229,7 +230,7 @@ namespace AdministratorPanel {
 
             lft.ColumnCount = 1;
             lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
+            //lft.Dock = DockStyle.Fill;
 
             lft.Controls.Add(gameName);
             lft.Controls.Add(gameDescription);

@@ -20,7 +20,7 @@ namespace AdministratorPanel {
 
             TableLayoutPanel headtlp = new TableLayoutPanel();
             headtlp.Dock = DockStyle.Fill;
-            headtlp.BackColor = Color.Transparent;
+            //headtlp.BackColor = Color.Transparent;
             headtlp.RowCount = 2;
             headtlp.ColumnCount = 1;
 
@@ -56,6 +56,7 @@ namespace AdministratorPanel {
             }
         }
 
+        //TODO: change xml to json
         public override void Save() {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
             using (StreamWriter textWriter = new StreamWriter(@"fix.xml")) {

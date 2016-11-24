@@ -67,7 +67,7 @@ namespace AdministratorPanel {
             TableLayoutPanel header = new TableLayoutPanel();
             header.RowCount = 1;
             header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
+            //header.Dock = DockStyle.Fill;
             header.AutoSize = true;
             header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
 
@@ -76,7 +76,8 @@ namespace AdministratorPanel {
             TableLayoutPanel rght = new TableLayoutPanel();
             rght.ColumnCount = 1;
             rght.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            rght.Dock = DockStyle.Fill;
+            rght.AutoSize = true;
+            //rght.Dock = DockStyle.Fill;
 
             rght.Controls.Add(eventName);
             rght.Controls.Add(eventDescription);
@@ -84,7 +85,9 @@ namespace AdministratorPanel {
             TableLayoutPanel lft = new TableLayoutPanel();
             lft.ColumnCount = 1;
             lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
+            lft.AutoSize = true;
+
+            //lft.Dock = DockStyle.Fill;
 
             lft.Controls.Add(startDatePicker);
             lft.Controls.Add(endDatePicker);

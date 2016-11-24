@@ -70,8 +70,7 @@ namespace AdministratorPanel {
             reservationFull.Text = "Lock Reservations";
 //reservationFull.Checked
 
-
-            topRightTable.Controls.Add(reserveSpaceText);
+//          topRightTable.Controls.Add(reserveSpaceText);
             topRightTable.Controls.Add(reserveSpace);
             topRightTable.Controls.Add(reservationFull);
 
@@ -96,8 +95,6 @@ namespace AdministratorPanel {
             {
                 reservationFull.Checked = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date)?.isFullChecked ?? false;
             };
-
-
 
         }
 
