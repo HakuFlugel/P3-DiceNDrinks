@@ -75,7 +75,7 @@ namespace AndroidAppV2.Activities
 
         List<Game> GetGames()
         {
-            List<Game> list = new List<Game>();
+            List<Game> list;
 
             AndroidShared.LoadData(this,"games.json",out list);
 

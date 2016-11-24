@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Shared;
@@ -16,11 +8,11 @@ namespace AndroidAppV2.ListDialogFragments
 {
     public class EventDialogFragment : DialogFragment
     {
-        private Event item;
+        private readonly Event _item;
 
         public EventDialogFragment(Event item)
         {
-            this.item = item;
+            _item = item;
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -30,9 +22,9 @@ namespace AndroidAppV2.ListDialogFragments
 
             var view = inflater.Inflate(Resource.Layout.eventDialogView, container, true);
 
-            view.FindViewById<TextView>(Resource.Id.textViewTitle).Text = item.name;
-            view.FindViewById<TextView>(Resource.Id.textViewDateTime).Text = item.startDate.ToShortDateString() + " " + item.startDate.ToShortTimeString() + " - " + item.endDate.ToShortTimeString();
-            view.FindViewById<TextView>(Resource.Id.textViewDescription).Text = item.description;
+            view.FindViewById<TextView>(Resource.Id.textViewTitle).Text = _item.name;
+            view.FindViewById<TextView>(Resource.Id.textViewDateTime).Text = _item.startDate.ToShortDateString() + " " + _item.startDate.ToShortTimeString() + " - " + _item.endDate.ToShortTimeString();
+            view.FindViewById<TextView>(Resource.Id.textViewDescription).Text = _item.description;
 
             return view;/*base.OnCreateView(inflater, container, savedInstanceState);*/
         }

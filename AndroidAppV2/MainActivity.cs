@@ -1,19 +1,16 @@
 ﻿using System;
-using System.IO;
 using Android.App;
 using Android.Widget;
 using Android.OS;
 
 using AndroidAppV2.Activities;
-using Newtonsoft.Json;
-using Shared;
 
 namespace AndroidAppV2
 {
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Dice 'n Drinks", /*MainLauncher = true,*/ Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
-        private bool _doubleTapToExit = false;
+        private bool _doubleTapToExit;
 
         protected override void OnCreate(Bundle bundle)
         {

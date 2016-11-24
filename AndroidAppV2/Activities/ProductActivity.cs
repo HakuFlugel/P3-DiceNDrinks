@@ -69,49 +69,6 @@ namespace AndroidAppV2.Activities
 
         }
 
-        //functions from the adminpanel to generate a list of products
-        private List<Product> GenerateProductList()
-        {
-            List<Product> productList = new List<Product>();
-            PriceElement priceElementLittle = new PriceElement
-            {
-                name = "Little drink",
-                price = 11
-            };
-
-
-            PriceElement priceElementBig = new PriceElement
-            {
-                name = "Big drink",
-                price = 69
-            };
-
-            List<PriceElement> pricelist = new List<PriceElement> {priceElementLittle, priceElementBig};
-
-
-            // food
-            productList.Add(Prmake("gert", "ProductTest/_default.png", "Food", "Meat", pricelist));
-            productList.Add(Prmake("shano", "ProductTest/_default.png", "Food", "Meat", pricelist));
-            productList.Add(Prmake("Asger", "ProductTest/Red.png", "Food", "Meat", pricelist));
-            productList.Add(Prmake("matias", "ProductTest/Red.png", "Food", "derp", pricelist));
-
-
-            //drinks
-            productList.Add(Prmake("1", "ProductTest/Red.png", "Drinks", "cola 1", pricelist));
-            productList.Add(Prmake("2", "ProductTest/Red.png", "Drinks", "coffe 2", pricelist));
-            productList.Add(Prmake("3", "ProductTest/Red.png", "Drinks", "stuff", pricelist));
-            productList.Add(Prmake("4", "ProductTest/Red.png", "Drinks", "other", pricelist));
-
-
-            // misc.
-            productList.Add(Prmake("5", "ProductTest/Red.png", "Misc", "1", pricelist));
-            productList.Add(Prmake("6", "ProductTest/Red.png", "Misc", "2", pricelist));
-            productList.Add(Prmake("7", "ProductTest/Red.png", "Misc", "3", pricelist));
-            productList.Add(Prmake("8", "ProductTest/Red.png", "Misc", "4", pricelist));
-
-            return productList;
-        }
-
         private List<Product> GetProducts()
         {
             List<Product> list;

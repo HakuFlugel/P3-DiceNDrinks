@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Android.App;
-using Android.Content;
-using Android.Content.Res;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using AndroidAppV2.Activities;
 
 using Shared;
 
 namespace AndroidAppV2.ListAdapters
 {
-    class ProductAdapter : BaseAdapter<Product>
+    internal class ProductAdapter : BaseAdapter<Product>
     {
         private List<Product> _items;
         private List<Product> _categoryItems;

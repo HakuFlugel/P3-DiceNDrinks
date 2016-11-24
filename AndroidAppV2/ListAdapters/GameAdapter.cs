@@ -5,16 +5,14 @@ using Android.App;
 using Android.Views;
 using Android.Widget;
 
-using AndroidAppV2.Activities;
 using Shared;
-using Enumerable = System.Linq.Enumerable;
 
 namespace AndroidAppV2.ListAdapters
 {
     internal class GameAdapter : BaseAdapter<Game>
     {
         private List<Game> _items;
-        private List<Game> _baseItems;
+        private readonly List<Game> _baseItems;
         private readonly Activity _context;
 
 
@@ -36,8 +34,8 @@ namespace AndroidAppV2.ListAdapters
             //sets the view as convertView unless convertView is null
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.gameItemView, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
-            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre apperently is a list q.q
-            //view.FindViewById<ImageView>(Resource.Id.Image).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context,item.thumbnail)); //SetImageDrawable(AdapterShared.DLImage(context, item.thumbnail));
+            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre is a list q.q
+            
             return view;
         }
 

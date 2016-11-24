@@ -23,9 +23,6 @@ namespace AndroidAppV2.ListDialogFragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
 
-            //Maybe unnnesscarydyryryryr
-            Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
-
             //Create view
             View view = inflater.Inflate(Resource.Layout.ProductDialogView, container, true);
 
@@ -38,15 +35,9 @@ namespace AndroidAppV2.ListDialogFragments
             }
             AndroidShared an = new AndroidShared();
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
-            int[] sizes = {200, 200}; //TODO: Placeholder
+            int[] sizes = {150, 150}; //TODO: Placeholder
             an.GetImages(_context, $"ProductPics/{_product.image}.png",view, Resource.Id.productImage,sizes);
-            //view.FindViewById<ImageView>(Resource.Id.productImage).SetImageBitmap(AndroidShared.GetBitmapFromAsset(_context, $"ProductPics/{_product.image}"));
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
-
-
-            //Test textssssss
-            /*_textSomething = view.FindViewById<TextView>(Resource.Id.textView1);
-            _textSomething.Text = _product.name;*/
             
             //Button test dismiss
             //_buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);

@@ -1,17 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 using Android.App;
-using Android.Content;
 using Android.Content.PM;
-using Android.Content.Res;
-using Android.Graphics.Drawables;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using AndroidAppV2.ListAdapters;
 
@@ -32,13 +23,9 @@ namespace AndroidAppV2.Activities
 
             // Create your application here
 
-            //TODO: Her skal der laves link til Facebook med FB SDK...
-            //https://components.xamarin.com/gettingstarted/facebook-sdk
-            //TODO: Eller hvis det bliver et no-go, så have et link til DnD's fb side
-
             ListView listView = FindViewById<ListView>(Resource.Id.listView1);
 
-            List<Event> list = getEventsTemp();
+            List<Event> list = GetEventsTemp();
 
 
             EventAdapter itemAdapter = new EventAdapter(this, list);
@@ -52,40 +39,11 @@ namespace AndroidAppV2.Activities
             };
         }
 
-        List<Event> getEventsTemp()
+        private List<Event> GetEventsTemp()
         {
-            List<Event> list = new List<Event>();
+            List<Event> list;
 
             AndroidShared.LoadData(this, "events.json", out list);
-
-            /*Event testevent = new Event
-            {
-                name = "Vaffeldag",
-                description = "Massere af vaffler hele dagen",
-                //image = "small.jpg" //TODO: this is a placeholder, both the file and the method to retrieve it
-            };
-            Event testevent2 = new Event
-            {
-                name = "Mød en ny ven",
-                description = "Kom og få en ven, som du kan spille med",
-                //image = "small.jpg"
-            };
-
-
-            list.Add(testevent);
-            list.Add(testevent2);
-            list.Add(testevent2);
-
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);
-            list.Add(testevent2);*/
 
             return list;
         }
