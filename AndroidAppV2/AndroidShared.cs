@@ -19,31 +19,34 @@ namespace AndroidAppV2
         {
             string input;
 
-            if (typeof(T) == typeof(Reservation))
-            {
-                string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-                if (!File.Exists(path + "/" + file)) //eg. /VirtualServerReservation.json
-                {
-                    type = default(T);
-                    return;
-                }
-                var filename = Path.Combine(path, file); //eg. VirtualServerReservation.json
+            AssetManager am = context.Assets;
 
-                input = File.ReadAllText(filename);
-            }
-            else
+            using (StreamReader sr = new StreamReader(am.Open(file)))
             {
-                AssetManager am = context.Assets;
-
-                using (StreamReader sr = new StreamReader(am.Open(file)))
-                {
-                    input = sr.ReadToEnd();
-                }
+                input = sr.ReadToEnd();
             }
+
+            type = JsonConvert.DeserializeObject<T>(input);
+        }
+
+        public static void LoadSavedData<T>(Context context, string file, out T type)
+        {
+
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            if (!File.Exists(path + "/" + file)) //eg. /VirtualServerReservation.json
+            {
+                type = default(T);
+                return;
+            }
+            var filename = Path.Combine(path, file); //eg. VirtualServerReservation.json
+
+            string input = File.ReadAllText(filename);
+
 
 
             type = JsonConvert.DeserializeObject<T>(input);
         }
+
 
         public async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(Context context, string path)
         {

@@ -10,6 +10,7 @@ using Android.Util;
 using Android.Widget;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq.Expressions;
 using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
@@ -21,6 +22,18 @@ namespace AndroidAppV2.Activities
         private DateTime _chosenDateTime = DateTime.Now;
         private int _userID;
         private Reservation _res;
+        private bool _data; // checks if the user already has made a reservation
+
+        private bool Data
+        {
+            get { return _data; }
+            set
+            {
+                _data = value;
+                Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
+                acceptingButton.Text = "Ændrer Reservation";
+            }
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,9 +48,11 @@ namespace AndroidAppV2.Activities
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
-            LoadID();
 
-
+            AndroidShared.LoadSavedData(this, "TheUserReservationID.json", out _userID);
+            AndroidShared.LoadSavedData(this, "VirtualServerReservation.json", out _res);
+            //LoadID();
+            //LoadData();
 
             //Using Random because we have no server to request from (method implemention)?
             if (_userID == 0) {
@@ -45,13 +60,13 @@ namespace AndroidAppV2.Activities
 
                 _userID = random.Next(0, 100);
             }
-            AndroidShared.LoadData(this,"VirtualServerReservation.json", out _res);
-            //LoadData();
-            
+
             if (_res == null) {
                 _res = new Reservation();
             }
-            else {
+            else
+            {
+                Data = true;
                 sb.Progress = _res.numPeople;
                 _chosenDateTime = _res.time;
                 dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
@@ -98,9 +113,11 @@ namespace AndroidAppV2.Activities
             sb.Max = 20;
             sb.SetOnSeekBarChangeListener(this);
 
+            
+
         }
 
-        private void LoadID() {
+        /*private void LoadID() {
             string input;
             var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             if (!File.Exists(path + "/TheUserReservationID.json")) {
@@ -113,7 +130,7 @@ namespace AndroidAppV2.Activities
             if (input != null) {
                 _userID = JsonConvert.DeserializeObject<int>(input);
             }
-        }
+        }*/
 
 
         private void SendData(Reservation res)
@@ -154,13 +171,23 @@ namespace AndroidAppV2.Activities
             File.WriteAllText(filename2, json2);
 
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
-            resSucces.SetMessage("Your reservation has been sent! And awaits confirmation!");
-            resSucces.SetTitle("Reservation made");
+            if (Data)
+            {
+                resSucces.SetMessage("Din reservation er blevet opdateret! Og venter nu på at blive godkendt igen!");
+                resSucces.SetTitle("Reservation opdateret");
+            }
+            else
+            {
+                resSucces.SetMessage("Din reservation er blevet sendt! Og venter nu på at blive godkendt!");
+                resSucces.SetTitle("Reservation sendt");
+            }
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
             resSucces.Show();
             _state = false;
+            Data = true;
 
         }
+
         public void emailCheck(string email) {
             // Email typo check stuff
 
