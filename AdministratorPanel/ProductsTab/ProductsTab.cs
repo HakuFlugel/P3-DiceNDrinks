@@ -18,8 +18,8 @@ namespace AdministratorPanel {
             Text = "Products";
 
             tabControl.Dock = DockStyle.Fill;
-            //Load();
-            Generate();
+            Load();
+            //Generate();
             MakeItems();
 
 
@@ -141,30 +141,48 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            //var json = JsonConvert.SerializeObject(productCategories);
-            //if (File.Exists(@"Sources/Category.json"))
-            //    File.Create(@"Sources/Category.json");
-            //using (StreamWriter textWriter = new StreamWriter(@"Sources/Category.json")) {
-            //    foreach (var item in json) {
-            //        textWriter.Write(item.ToString());
-            //    }
-            //}
+            var jsonCategory = JsonConvert.SerializeObject(productCategories);
+            Directory.CreateDirectory("Sources");
+            using (StreamWriter textWriter = new StreamWriter(@"Sources/Category.json")) {
+                foreach (var item in jsonCategory) {
+                    textWriter.Write(item.ToString());
+                }
+            }
+
+            var jsonProducts = JsonConvert.SerializeObject(productList);
+            using (StreamWriter textWriter = new StreamWriter(@"Sources/Products.json")) {
+                foreach (var item in jsonProducts) {
+                    textWriter.Write(item.ToString());
+                }
+            }
+
         }
 
         public override void Load() {
-            //string input;
-            //if (File.Exists(@"Sources/Category.json")) {
-            //    using (StreamReader streamReader = new StreamReader(@"Sources/Category.json")) {
-            //        input = streamReader.ReadToEnd();
-            //        streamReader.Close();
-            //    }
+            string loadStringCategory;
+            if (File.Exists(@"Sources/Category.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Category.json")) {
+                    loadStringCategory = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
                 
-            //    if (input != null) {
-            //        productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(input);
-            //    }
+                if (loadStringCategory != null) {
+                    productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(loadStringCategory);
+                }
+            }
 
+            string loadStringProducts;
 
-            //}
+            if (File.Exists(@"Sources/Products.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
+                    loadStringProducts = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
+
+                if (loadStringProducts != null) {
+                    productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
+                }
+            }
 
         }
     }
