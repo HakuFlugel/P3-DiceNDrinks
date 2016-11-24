@@ -171,7 +171,7 @@ namespace AndroidAppV2.Activities
                 errorEmailPhone.Show();
                 return;
             }
-            if (dateSelectButton.Text == "DATE" || timeSelectButton.Text == "KLOKKESLÆT") {
+            if (dateSelectButton.Text == "DATO" || timeSelectButton.Text == "KLOKKESLÆT") {
                 AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
                 errorEmailPhone.SetMessage("Angiv en dato og tid for hvornår du vil sætte din reservation.");
                 errorEmailPhone.SetTitle("Error");
