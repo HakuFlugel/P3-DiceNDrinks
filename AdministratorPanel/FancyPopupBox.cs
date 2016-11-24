@@ -43,7 +43,7 @@ namespace AdministratorPanel
             p.Height = 48;
             //p.AutoSize = true;
             p.Dock = DockStyle.Bottom;
-            //p.BackColor = Color.LightBlue;
+            p.BackColor = Color.Transparent;
             p.Padding = new Padding(8);
             container.Controls.Add(p);
 

@@ -5,6 +5,7 @@ using Shared;
 using System.Xml.Serialization;
 using System.IO;
 using System.Drawing;
+using System.Linq;
 
 namespace AdministratorPanel {
     public class ReservationTab : AdminTabPage {
@@ -93,7 +94,10 @@ namespace AdministratorPanel {
 
             calendar.DateSelected += (sender, args) =>
             {
-                reservationFull.Checked = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date)?.isFullChecked ?? false;
+                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date);
+                reservationFull.Checked = day?.isFullChecked ?? false;
+                reserveSpace.Value = day?.reservedSeats ?? 0;
+                reserveSpace.Maximum = reservationController.rooms.Sum(r => r.seats);
             };
 
         }
