@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="DiceNDrinksApp.AndroidAppV2" android:versionCode="3" android:versionName="1.1_01" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="DiceNDrinksApp.AndroidAppV2" android:versionCode="3" android:versionName="1.1_02" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="16" />
 	<uses-permission android:name="android.permission.WRITE_CALENDAR" />
 	<application android:label="DiceNDrinksApp" android:icon="@drawable/Icon" android:largeHeap="true"></application>
