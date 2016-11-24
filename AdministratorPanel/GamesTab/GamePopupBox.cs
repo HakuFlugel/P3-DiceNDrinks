@@ -297,7 +297,7 @@ namespace AdministratorPanel {
                     try {
                         Int32.TryParse(yearPublished.Text, out game.publishedYear);
                     } catch (Exception) {
-                        MessageBox.Show("Please refere from using letters or special characters in Publish year box" + Environment.NewLine + "Yearpublished is not a number: " + yearPublished.Text.ToString(), "Convertion failed");
+                        MessageBox.Show("Published year is not a valid number", "Year invalid");
                     }
                 } else {
                     game.publishedYear = 1337;

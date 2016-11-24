@@ -132,7 +132,7 @@ namespace AdministratorPanel {
         protected override void save(object sender, EventArgs e) {
 
             //TODO: kan vi ikke bruge Validate til det her?
-
+            //TODO: use a proper control for things such as time, so that we don't have to implement these checks all over the program...
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
 

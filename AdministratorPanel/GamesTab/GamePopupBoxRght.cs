@@ -74,6 +74,7 @@ namespace AdministratorPanel {
                 games = api.getGames(seach);
 
             } catch (WebException) {
+                //TODO: put message in result box instead
                 MessageBox.Show("Do hast nich interneten, please connect to an internet source to use this AMAZEBALLZ thingy!", "No internetious");
             } catch (Exception e) {
                 MessageBox.Show(e.Message.ToString());

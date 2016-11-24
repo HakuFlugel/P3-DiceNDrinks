@@ -67,6 +67,7 @@ namespace AdministratorPanel
             declineButton.Text = "Decline";
             declineButton.Click += (s, e) => {
                 //TODO: should we actually have a state for this?? So that the customer can see that it was rejected for some reason...
+                //TODO: locking reservations = deny remaining reservations?
                 MessageBox.Show("This feature is probably not fully implemented...");
                 reservationController.removeReservation(res);
                 /*foreach (var item in reservationController.calDayList) {
