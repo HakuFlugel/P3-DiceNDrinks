@@ -143,7 +143,7 @@ namespace AndroidAppV2.Activities
             }
             if (res.phone == "" && res.email == "") {
                 AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
-                errorEmailPhone.SetMessage("Du skal angive et telefon nummer og email.");
+                errorEmailPhone.SetMessage("Du skal angive et telefon nummer og/eller email.");
                 errorEmailPhone.SetTitle("Error");
                 errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
                 errorEmailPhone.Show();

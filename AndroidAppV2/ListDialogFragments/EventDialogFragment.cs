@@ -17,6 +17,9 @@ namespace AndroidAppV2.ListDialogFragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
+            //NO TITLE
+            Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
+
             // Use this to return your custom view for this Fragment
             // return inflater.Inflate(Resource.Layout.YourFragment, container, false);
 

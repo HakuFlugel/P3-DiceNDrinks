@@ -16,11 +16,12 @@ namespace AndroidAppV2.ListDialogFragments {
         private Game _game;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-
+            //NO TITLE
+            Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
             var view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
-
+            
             StringBuilder sb = new StringBuilder();
 
             foreach (string item in _game.genre) {

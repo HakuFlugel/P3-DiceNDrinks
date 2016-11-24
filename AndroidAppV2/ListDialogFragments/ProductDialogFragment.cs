@@ -22,6 +22,8 @@ namespace AndroidAppV2.ListDialogFragments
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
         {
+            //NO TITLE
+            Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
             View view = inflater.Inflate(Resource.Layout.ProductDialogView, container, true);
