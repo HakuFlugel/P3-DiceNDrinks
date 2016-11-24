@@ -81,7 +81,7 @@ namespace AdministratorPanel {
             if (games.Count > 0)
                 foreach (var item in games) {
                     gameList.Controls.Add(new XmlGameItem(item, gamePopupBox));
-                    Console.WriteLine(item.ToString());
+                    
                 } else if (seach != "")
                 MessageBox.Show(
                     "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
