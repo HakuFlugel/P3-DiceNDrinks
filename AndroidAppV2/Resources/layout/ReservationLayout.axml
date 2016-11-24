@@ -7,90 +7,100 @@
     p1:id="@+id/linearLayout1"
     p1:orientation="vertical"
     p1:padding="8dp">
-  <TextView
-      p1:textAppearance="?android:attr/textAppearanceLarge"
-      p1:layout_width="wrap_content"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/reservationText"
-      p1:text="@string/reservation"
-      p1:layout_gravity="center_horizontal" />
-  <!--<CalendarView
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceLarge"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/reservationText"
+        p1:text="@string/reservation"
+        p1:layout_gravity="center_horizontal" />
+<!--<CalendarView
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
             p1:id="@+id/calendarView1" />-->
-  <TextView
-      p1:textAppearance="?android:attr/textAppearanceMedium"
-      p1:layout_width="wrap_content"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/nameText"
-      p1:text="Name" />
-  <EditText
-      p1:layout_width="match_parent"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/nameEdit"
-      p1:hint="@string/writeHere" />
-  <TextView
-      p1:textAppearance="?android:attr/textAppearanceMedium"
-      p1:layout_width="wrap_content"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/phoneNumText"
-      p1:text="@string/phoneNumber" />
-  <EditText
-      p1:layout_width="match_parent"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/phoneNumEdit"
-      p1:hint="@string/writeHere" />
-  <TextView
-      p1:textAppearance="?android:attr/textAppearanceMedium"
-      p1:layout_width="wrap_content"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/emailText"
-      p1:text="Email" />
-  <EditText
-      p1:layout_width="match_parent"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/emailEdit"
-      p1:hint="@string/writeHere" />
-  <TextView
-      p1:textAppearance="?android:attr/textAppearanceMedium"
-      p1:layout_width="wrap_content"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/numPplText"
-      p1:text="@string/numPeople" />
-  <SeekBar
-      p1:layout_width="match_parent"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/seekBar1"
-      p1:layout_below="@id/numPplText" />
-  <TextView
-      p1:text="Invitees"
-      p1:textAppearance="?android:attr/textAppearanceSmall"
-      p1:layout_width="wrap_content"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/inviteesNum"
-      p1:layout_gravity="center_horizontal" />
-  <LinearLayout
-      p1:orientation="horizontal"
-      p1:id="@+id/dateTimeLayout"
-      p1:layout_height="wrap_content"
-      p1:layout_width="match_parent">
-    <Button
-        p1:text="Date"
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
-        p1:id="@+id/dateButton"
-        p1:layout_weight="50" />
-    <Button
-        p1:text="Time"
+        p1:id="@+id/nameText"
+        p1:text="Name" />
+    <EditText
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/nameEdit"
+        p1:hint="@string/writeHere"
+        p1:inputType="textPersonName" />
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
-        p1:id="@+id/timeButton"
-        p1:layout_weight="50" />
-  </LinearLayout>
-  <Button
-      p1:text="Accept"
-      p1:layout_width="match_parent"
-      p1:layout_height="wrap_content"
-      p1:id="@+id/acceptButton"
-      p1:layout_gravity="center_horizontal" />
+        p1:id="@+id/phoneNumText"
+        p1:text="@string/phoneNumber" />
+    <EditText
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/phoneNumEdit"
+        p1:hint="@string/writeHere"
+        p1:inputType="phone" />
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/emailText"
+        p1:text="Email" />
+    <EditText
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/emailEdit"
+        p1:hint="@string/writeHere"
+        p1:inputType="textEmailAddress" />
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/numPplText"
+        p1:text="@string/numPeople" />
+    <SeekBar
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/seekBar1"
+        p1:layout_below="@id/numPplText" />
+    <TextView
+        p1:text="Invitees"
+        p1:textAppearance="?android:attr/textAppearanceSmall"
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/inviteesNum"
+        p1:layout_gravity="center_horizontal" />
+    <LinearLayout
+        p1:orientation="horizontal"
+        p1:id="@+id/dateTimeLayout"
+        p1:layout_height="wrap_content"
+        p1:layout_width="match_parent">
+        <Button
+            p1:text="Dato"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/dateButton"
+            p1:layout_weight="50" />
+        <Button
+            p1:text="Klokkeslæt"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/timeButton"
+            p1:layout_weight="50" />
+    </LinearLayout>
+    <Button
+        p1:text="Accept"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/acceptButton"
+        p1:layout_gravity="center_horizontal" />
+    <TextView
+        p1:text="Reservations stadie: Ingen reservation"
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/textView1"
+        p1:padding="8dp" />
 </LinearLayout>

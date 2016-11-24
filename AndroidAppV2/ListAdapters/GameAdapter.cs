@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
@@ -99,15 +100,17 @@ namespace AndroidAppV2.ListAdapters
         //search name
         public void NameSearch(string value)
         {
-            foreach (Game game in _baseItems)
+            List<Game> searchList = new List<Game>();
+            foreach (Game game in _baseItems.ToList())
             {
-                if (game.name.ToLower().Contains(value.ToLower()) && !_items.Contains(game))
-                    _items.Add(game);
-                else if (_items.Contains(game))
-                    _items.Remove(game);
+                if (game.name.ToLower().Contains(value.ToLower()) && !searchList.Contains(game))
+                    searchList.Add(game);
+                else if (searchList.Contains(game))
+                    searchList.Remove(game);
             }
-
+            _items = searchList;
             RemoveGarbage();
+            NotifyDataSetChanged();
         }
 
         //search genre(s) //TODO: Implement more search
