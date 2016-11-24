@@ -5,6 +5,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
+using Android.Util;
 using Android.Text;
 using Android.Widget;
 
@@ -45,8 +46,17 @@ namespace AndroidAppV2.Activities
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             gameSpinner.Adapter = adapter;
 
-            gameSpinner.ItemSelected += delegate {
-                itemAdapter.Sort((string)gameSpinner.SelectedItem);
+            gameSpinner.ItemSelected += delegate
+            {
+                try
+                {
+                    itemAdapter.Sort((string)gameSpinner.SelectedItem);
+                }
+                catch (KeyNotFoundException e)
+                {
+                    Log.Debug("X:GameActivity", e.ToString(), "Could not find key");
+                }
+
                 if (!_ascending)
                 {
                     itemAdapter.SwitchOrder();
