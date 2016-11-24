@@ -8,24 +8,12 @@ using Newtonsoft.Json;
 
 namespace Shared {
     public class Genres {
-        public List<string> differentGenres = new List<string> {
-            "Horror",
-            "Lying",
-            "Other stuff",
-            "Third stuff",
-            "Strategy",
-            "Coop",
-            "Adventure",
-            "dnd",
-            "Entertainment",
-            "Comic",
-            "Ballzy",
-            "#360NoScope" };
+        public List<string> differentGenres = new List<string>();
 
 
         public Genres() {
             Load();
-           
+            
         }
 
         public void Load() {
@@ -38,8 +26,9 @@ namespace Shared {
                 if (input != null) {
                     differentGenres = JsonConvert.DeserializeObject<List<string>>(input);
 
-                }
-            }
+                } 
+            } else
+                addtemplates();
         }
 
         public void Save(){
@@ -66,6 +55,26 @@ namespace Shared {
         public void rename(string before, string after) {
             remove(before);
             add(after);
+        }
+
+        private void addtemplates() {
+            differentGenres.Add("Horror");
+            differentGenres.Add("Strategy");
+            differentGenres.Add("Horror");
+            differentGenres.Add("Family Friendly");
+            differentGenres.Add("Coop");
+            differentGenres.Add("Challenge");
+            differentGenres.Add("Competetive");
+            differentGenres.Add("RPG");
+            differentGenres.Add("Cardgame");
+            differentGenres.Add("Casual");
+            differentGenres.Add("Casual");
+            differentGenres.Add("Pary game");
+            differentGenres.Add("Logic game");
+            differentGenres.Add("Educational game");
+            differentGenres.Add("War game");
+            differentGenres.Add("Abstracts");
+            differentGenres.Add("Thematic Games");
         }
     }
 }

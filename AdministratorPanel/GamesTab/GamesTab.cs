@@ -42,18 +42,18 @@ namespace AdministratorPanel {
             MinimumSize = new Size(200, 0),
             //Margin = new Padding(20, 5, 20, 5),
         };
-        
-        
+
+        Genres genres = new Genres();
         public GamesTab() {
 
             Load();
-            game = new GamesList(games,this);
+            game = new GamesList(games,this,genres);
             game.makeItems(seach);
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
-//            if(games.Count < 1)
-//                CreateGamesForDebugShit(); // For testing purpose only
+            if(games == null || games.Count < 1)
+                CreateGamesForDebugShit(); // For testing purpose only
 
             AutoSize = true;
             Dock = DockStyle.Fill;
@@ -72,7 +72,7 @@ namespace AdministratorPanel {
 
 
             addGameButton.Click += (e, s) => {
-                GamePopupBox gameBox = new GamePopupBox(this, null);
+                GamePopupBox gameBox = new GamePopupBox(this, null, genres);
             };
             
             tb.Controls.Add(game);
@@ -93,6 +93,7 @@ namespace AdministratorPanel {
              
         public override void Save()
         {
+            genres.Save();
             Directory.CreateDirectory("Sources");
             var json = JsonConvert.SerializeObject(games);
             Directory.CreateDirectory("Sources");
@@ -134,7 +135,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "AHZ2xB",
                 name = "Secret Hitler",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 difficulity = 75,
@@ -147,7 +147,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "AHO2xB",
                 name = "Killer game",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -160,7 +159,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "ABZ2xB",
                 name = "Vertical",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -173,7 +171,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "PHZ2xB",
                 name = "Shit Storm",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -186,7 +183,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "5ExgGS",
                 name = "Small Worlds",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -199,7 +195,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "AHZ2xB",
                 name = "Dominion",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -212,7 +207,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "TYE3sj",
                 name = "Enter The Gundion",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -224,7 +218,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "TYE3Kj",
                 name = "Risk",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
@@ -237,7 +230,6 @@ namespace AdministratorPanel {
             games.Add(new Game {
                 bggid = "TSE3sj",
                 name = "Settelers",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
                 description = "A game about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
