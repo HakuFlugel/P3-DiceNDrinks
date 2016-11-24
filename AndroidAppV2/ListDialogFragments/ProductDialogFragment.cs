@@ -35,7 +35,7 @@ namespace AndroidAppV2.ListDialogFragments
             }
             AndroidShared an = new AndroidShared();
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
-            int[] sizes = {150, 150}; //TODO: Placeholder
+            int[] sizes = {150, 150}; //placeholder as we do not have larger images
             an.GetImages(_context, $"ProductPics/{_product.image}.png",view, Resource.Id.productImage,sizes);
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
             

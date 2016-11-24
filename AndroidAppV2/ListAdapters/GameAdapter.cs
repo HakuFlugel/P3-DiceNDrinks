@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
@@ -63,25 +62,25 @@ namespace AndroidAppV2.ListAdapters
         {
             switch (key)
             {
-                case "Alphabetical":
+                case "Alfabetisk":
                     _items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
                     break;
-                case "Max. Players":
+                case "Max. Spillere":
                     _items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
                     break;
-                case "Min. Players":
+                case "Min. Spillere":
                     _items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
                     break;
-                case "Max. Game Time":
+                case "Max. Spilletid":
                     _items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
                     break;
-                case "Min. Game Time":
+                case "Min. Spilletid":
                     _items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));
                     break;
-                case "Difficulty":
+                case "Sværhedsgrad":
                     _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
-                case "Year of Publication":
+                case "Udgivelsesår":
                     _items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
                     break;
                 default:
@@ -98,11 +97,11 @@ namespace AndroidAppV2.ListAdapters
         }
 
         //search name
-        public void AdvancedSearch(string value)
+        public void NameSearch(string value)
         {
             foreach (Game game in _baseItems)
             {
-                if (game.name.Contains(value) && !_items.Contains(game))
+                if (game.name.ToLower().Contains(value.ToLower()) && !_items.Contains(game))
                     _items.Add(game);
                 else if (_items.Contains(game))
                     _items.Remove(game);
@@ -111,8 +110,8 @@ namespace AndroidAppV2.ListAdapters
             RemoveGarbage();
         }
 
-        //search genre(s)
-        public void AdvancedSearch(string[] value)
+        //search genre(s) //TODO: Implement more search
+        /*public void AdvancedSearch(string[] value)
         {
             foreach (Game game in _baseItems)
             {
@@ -125,8 +124,8 @@ namespace AndroidAppV2.ListAdapters
             RemoveGarbage();
         }
 
-        //search num. of players, difficulty, and playtime //TODO: Implement more search
-        /*public void AdvancedSearch(string item, int value)
+        //search num. of players, difficulty, and playtime 
+        public void AdvancedSearch(string item, int value)
         {
             switch (item)
             {

@@ -29,7 +29,7 @@ namespace AndroidAppV2.Activities
             SetContentView(Resource.Layout.ReservationLayout);
             // Create your application here
 
-            //TODO: Her skal laves forbindelse med serveren så man kan indsende reservationer
+
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
@@ -91,7 +91,6 @@ namespace AndroidAppV2.Activities
                 _res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
                 _res.created = DateTime.Now;
 
-                //SERVER TODO: Request ID method? - Why we have random atm.
                 _res.id = _userID;
                 SendData(_res);
             };
@@ -116,22 +115,6 @@ namespace AndroidAppV2.Activities
             }
         }
 
-        /*private void LoadData() {
-            //SERVER TODO: Should get reservation based on ID.
-            //Loading locally instead
-            string input;
-            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
-            if (!File.Exists(path + "/VirtualServerReservation.json")) {
-                return;
-            }
-            var filename = Path.Combine(path, "VirtualServerReservation.json");
-
-            input = File.ReadAllText(filename);
-
-            if (input != null) {
-                _res = JsonConvert.DeserializeObject<Reservation>(input);
-            }
-        }*/
 
         private void SendData(Reservation res)
         {
@@ -157,8 +140,8 @@ namespace AndroidAppV2.Activities
                 }
             }
             
-            //SERVER TODO: Should send reservation connected to the ID server gave the user.
-            //Saving locally instead
+
+            //Saving locally instead of server saving
             var json = JsonConvert.SerializeObject(res);
             var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             var filename = Path.Combine(path, "VirtualServerReservation.json");
@@ -176,7 +159,7 @@ namespace AndroidAppV2.Activities
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
             resSucces.Show();
             _state = false;
-            //todo: send reservation here
+
         }
         public void emailCheck(string email) {
             // Email typo check stuff

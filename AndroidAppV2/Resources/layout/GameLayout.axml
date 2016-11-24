@@ -48,11 +48,6 @@
                 p1:layout_height="match_parent"
                 p1:layout_weight="1" />
         </LinearLayout>
-        <Button
-            p1:text="@string/advancedSearch"
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/advancedSearchButton" />
         <ListView
             p1:minWidth="25px"
             p1:minHeight="25px"

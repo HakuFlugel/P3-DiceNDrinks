@@ -9,6 +9,7 @@ using Android.Widget;
 using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
+// ReSharper disable All
 
 
 namespace AndroidAppV2.Activities
@@ -16,7 +17,7 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : FragmentActivity
     {
-
+        private bool _ascending = true;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             
@@ -31,7 +32,6 @@ namespace AndroidAppV2.Activities
             ListView listView = FindViewById<ListView>(Resource.Id.gameListView);
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
-            Button aSearchButton = FindViewById<Button>(Resource.Id.advancedSearchButton);
 
             List<Game> list = GetGames();
             GameAdapter itemAdapter = new GameAdapter(this, list);
@@ -44,23 +44,19 @@ namespace AndroidAppV2.Activities
             gameSpinner.ItemSelected += delegate
             {
                 itemAdapter.Sort((string)gameSpinner.SelectedItem);
+                if (!_ascending)
+                {
+                    itemAdapter.SwitchOrder();
+                    _ascending = true;
+                }
             };
 
 
             gameButton.Click += delegate
             {
-                gameButton.Text = gameButton.Text == "↓" ? "↑" : "↓";
-
                 itemAdapter.SwitchOrder();
+                SwitchAscending();
             };
-
-            aSearchButton.Click += delegate
-            {
-                //TODO: Make Search Limit Fragment
-            };
-
-            
-
 
             listView.Adapter = itemAdapter;
             listView.ItemClick += (s,e) => {
@@ -72,6 +68,20 @@ namespace AndroidAppV2.Activities
             };
         }
 
+        private void SwitchAscending()
+        {
+            Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
+
+            if (_ascending)
+            {
+                _ascending = false;
+                gameButton.Text = "↑";
+                return;
+            }
+            _ascending = true;
+            gameButton.Text = "↓";
+            return;
+        }
 
         List<Game> GetGames()
         {
