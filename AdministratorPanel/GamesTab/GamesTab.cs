@@ -52,7 +52,7 @@ namespace AdministratorPanel {
             Text = "Games";
             //foreach (var item in games)
             //    Console.WriteLine(item.name);
-            if(games == null || games.Count < 1)
+            if(games.Count < 1)
                 CreateGamesForDebugShit(); // For testing purpose only
 
             AutoSize = true;
