@@ -12,6 +12,7 @@ using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Java.Lang;
 using Shared;
+// ReSharper disable All
 
 
 namespace AndroidAppV2.Activities
@@ -19,7 +20,7 @@ namespace AndroidAppV2.Activities
     [Activity(Theme = "@style/Theme.NoTitle", Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : FragmentActivity
     {
-
+        private bool _ascending = true;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             
@@ -46,6 +47,11 @@ namespace AndroidAppV2.Activities
 
             gameSpinner.ItemSelected += delegate {
                 itemAdapter.Sort((string)gameSpinner.SelectedItem);
+                if (!_ascending)
+                {
+                    itemAdapter.SwitchOrder();
+                    _ascending = true;
+                }
             };
 
             gameSearch.AddTextChangedListener(new TextWatcher());
@@ -53,11 +59,9 @@ namespace AndroidAppV2.Activities
 
             gameButton.Click += delegate
             {
-                gameButton.Text = gameButton.Text == "↓" ? "↑" : "↓";
-
                 itemAdapter.SwitchOrder();
+                SwitchAscending();
             };
-
 
             listView.Adapter = itemAdapter;
             listView.ItemClick += (s,e) => {
@@ -69,6 +73,20 @@ namespace AndroidAppV2.Activities
             };
         }
 
+        private void SwitchAscending()
+        {
+            Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
+
+            if (_ascending)
+            {
+                _ascending = false;
+                gameButton.Text = "↑";
+                return;
+            }
+            _ascending = true;
+            gameButton.Text = "↓";
+            return;
+        }
 
 
         List<Game> GetGames()

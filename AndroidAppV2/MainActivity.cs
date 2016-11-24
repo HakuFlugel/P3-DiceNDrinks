@@ -2,7 +2,7 @@
 using Android.App;
 using Android.Widget;
 using Android.OS;
-
+using Android.Util;
 using AndroidAppV2.Activities;
 
 namespace AndroidAppV2
@@ -23,31 +23,34 @@ namespace AndroidAppV2
             
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
+                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name,$"Opening {(typeof(GameActivity)).Name}");
                 StartActivity(typeof(GameActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.foodmenuButton).Click += delegate
             {
+                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(ProductActivity)).Name}");
                 StartActivity(typeof(ProductActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.reservationButton).Click += delegate
             {
+                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(ReservationActivity)).Name}");
                 StartActivity(typeof(ReservationActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.eventButton).Click += delegate
             {
+                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(EventActivity)).Name}");
                 StartActivity(typeof(EventActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.centerImageButton1).Click += delegate
             {
+                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(ContactActivity)).Name}");
                 StartActivity(typeof(ContactActivity));
             };
         }
-
-
 
 
         public override void OnBackPressed()

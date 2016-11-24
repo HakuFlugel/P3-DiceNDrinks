@@ -18,4 +18,31 @@
   <string name="phoneNumber">Telefon nummer</string>
   <string name="writeHere">Skriv her...</string>
   <string name="numPeople">Antal personer</string>
+  <string name="reservation">Reservation</string>
+  <string name="gameSpinnerPromt">Sorter efter...</string>
+  <string name="aboutUsDescription">
+    Dice \'n Drinks er Aalborgs lokale br/ætspilscafé.
+    Vores mål er at tilbyde jer en oplevelse ud over det sædvanlige. Dette vil vi gøre
+    med vores store brætspilsbibliotek, hvor alle spil står til fri afbenyttelse for
+    årsmedlemmer, eller til fri afbenyttelse for 20 kroner om dagen. Til spillene
+    serverer vi fadøl fra Thisted Bryghus, lækker kaffe og te samt chokolade.
+  </string>
+  <string name="aboutUsAdress">Sankelmarksgade 15\n9000 Aalborg\nDenmark</string>
+  <string name="aboutUsPhone">Tlf.: +45 22 76 76 51</string>
+  <string name="aboutUsEmail">info@dicendrinks.com</string>
+  <string name="aboutUsHours">Mandag - Torsdag\n16:00 - 24:00\nFredag - Lørdag\n12:00 - 02:00\nSøndag\n12:00 - 24:00</string>
+  <string-array name="gameSortArray">
+    <item>Alfabetisk</item>
+    <item>Min. Spillere</item>
+    <item>Max. Spillere</item>
+    <item>Min. Spilletid</item>
+    <item>Max. Spilletid</item>
+    <item>Sværhedsgrad</item>
+    <item>Udgivelsesår</item>
+  </string-array>
+  <string-array name="categoryspinner">
+    <item>Mad</item>
+    <item>Drikke</item>
+    <item>Andet</item>
+  </string-array>
 </resources>
