@@ -31,7 +31,7 @@ namespace AndroidAppV2.ListDialogFragments
             StringBuilder sb = new StringBuilder();
 
             foreach (var item in _product.PriceElements) {
-                sb.Append(item.name + " for " + item.price + System.Environment.NewLine);
+                sb.Append(item.name + " for " + item.price + " kr,-" + System.Environment.NewLine);
             }
             AndroidShared an = new AndroidShared();
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;

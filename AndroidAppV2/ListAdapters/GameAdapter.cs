@@ -67,13 +67,13 @@ namespace AndroidAppV2.ListAdapters
                     _items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
                     break;
                 case "Max. Spillere":
-                    _items.Sort((a,b) => a.maxPlayers.CompareTo(b.maxPlayers));
+                    _items.Sort((a,b) => b.maxPlayers.CompareTo(a.maxPlayers));
                     break;
                 case "Min. Spillere":
                     _items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
                     break;
                 case "Max. Spilletid":
-                    _items.Sort((a, b) => a.maxPlayTime.CompareTo(b.maxPlayTime));
+                    _items.Sort((a, b) => b.maxPlayTime.CompareTo(a.maxPlayTime));
                     break;
                 case "Min. Spilletid":
                     _items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));

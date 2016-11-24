@@ -28,9 +28,7 @@ namespace AndroidAppV2.Activities
             base.OnResume();
 
             Task startupWork = new Task(() => {
-                Log.Debug(TAG, "Performing some startup work that takes a bit of time.");
-                Task.Delay(500);  //TODO: Download games/menu here
-                Log.Debug(TAG, "Working in the background - important stuff.");
+                 //TODO: Download games/menu here
             });
 
             startupWork.ContinueWith(t => {

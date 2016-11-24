@@ -9,7 +9,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewTitle" />
+        android:id="@+id/textViewTitle"
+        android:includeFontPadding="false"/>
     <TextView
         android:text="Date &amp; Time"
         android:textAppearance="?android:attr/textAppearanceMedium"
