@@ -26,7 +26,7 @@ namespace AdministratorPanel {
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;
             AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowOnly;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             Margin = new Padding(4, 4, 20, 4);
             Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(evntTab, evnt);

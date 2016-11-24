@@ -9,6 +9,8 @@ namespace AdministratorPanel
 
         public Calendar()
         {
+            // TODO: show fullness???!!??
+
             ShowTodayCircle = true; // Red circle
             ShowToday = true; // Text below calendar
             //calendar.Dock = DockStyle.Fill;

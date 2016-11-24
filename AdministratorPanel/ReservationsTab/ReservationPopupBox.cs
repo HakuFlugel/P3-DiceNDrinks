@@ -46,7 +46,10 @@ namespace AdministratorPanel {
         private ReservationController reservationController;
         private Reservation reservation;
 
-        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
+        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null)
+        {
+            Text = "Reservation";
+
             this.reservationController = reservationController;
             this.reservation = reservation;
             if (reservation != null) {
@@ -90,7 +93,9 @@ namespace AdministratorPanel {
             TableLayoutPanel rght = new TableLayoutPanel();
             rght.ColumnCount = 1;
             rght.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            rght.Dock = DockStyle.Fill;
+            //rght.Dock = DockStyle.Fill;
+            rght.AutoSize = true;
+
 
             rght.Controls.Add(reservationName);
             rght.Controls.Add(numPeople);
@@ -100,7 +105,8 @@ namespace AdministratorPanel {
             TableLayoutPanel lft = new TableLayoutPanel();
             lft.ColumnCount = 1;
             lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
+            //lft.Dock = DockStyle.Fill;
+            lft.AutoSize = true;
 
             lft.Controls.Add(datePicker);
             lft.Controls.Add(timePicker);
@@ -118,15 +124,15 @@ namespace AdministratorPanel {
                 reservationController.removeReservation(reservation);
 
                 //TODO: move to event on list... _.. er auto-rename
-                //_reservationController.reserveationList.makeItems(DateTime.Today.Date);
-                //_reservationController.pendingReservationList.makeItems();
+                //_reservationController.reserveationList.updateCurrentDay(DateTime.Today.Date);
+                //_reservationController.pendingReservationList.updateCurrentDay();
             }
         }
 
         protected override void save(object sender, EventArgs e) {
 
             //TODO: kan vi ikke bruge Validate til det her?
-
+            //TODO: use a proper control for things such as time, so that we don't have to implement these checks all over the program...
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
 
@@ -180,8 +186,8 @@ namespace AdministratorPanel {
             }
 
             this.Close();
-            //_reservationController.reserveationList.makeItems(newDate.Date); TODO: these two should be implemented using events at those places
-            //_reservationController.pendingReservationList.makeItems();
+            //_reservationController.reserveationList.updateCurrentDay(newDate.Date); TODO: these two should be implemented using events at those places
+            //_reservationController.pendingReservationList.updateCurrentDay();
             
         }
 

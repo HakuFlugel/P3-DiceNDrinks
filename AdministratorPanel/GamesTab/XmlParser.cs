@@ -22,6 +22,7 @@ namespace AdministratorPanel {
             doc.Load(search + ind + searchend);
             gameSearchResult = PreLoadListOfGames();
             gameSearchResult = ExpandToFullList(gameSearchResult);
+
             return gameSearchResult;
         }
 
@@ -86,7 +87,6 @@ namespace AdministratorPanel {
                     boolHolder = true;
                 } catch (Exception) {
                     game.description = "";
-                    Console.WriteLine("Not found description");
                     boolHolder = false;
                 }
                 thisWasHere.Add("Description", boolHolder);
@@ -116,8 +116,10 @@ namespace AdministratorPanel {
                     textBoxNeeded = true;
                 }
                 string caption = (game.name != "") ? game.name : "Game with unknown name.";
-                if (textBoxNeeded)
-                    MessageBox.Show(whatIsMissing, caption);
+                if (textBoxNeeded) {
+                    //MessageBox.Show(whatIsMissing, caption);
+                }
+                    
             }
 
 

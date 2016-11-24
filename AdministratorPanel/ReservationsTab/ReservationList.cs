@@ -31,24 +31,25 @@ namespace AdministratorPanel
 
             reservationController.ReservationAdded += (sender, args) =>
             {
-                makeItems();
+                updateCurrentDay();
             };
             reservationController.ReservationRemoved += (sender, args) =>
             {
-                makeItems();
+                updateCurrentDay();
             };
             reservationController.ReservationUpdated += (sender, args) =>
             {
-                makeItems();
+                updateCurrentDay();
             };
             
             
         }
 
         //TODO: call on change...
-        public void makeItems()
+        public void updateCurrentDay()
         {
-            makeItems(cd.theDay.Date);
+
+            makeItems(calendar.SelectionStart.Date);
         }
 
         public void makeItems(DateTime day)

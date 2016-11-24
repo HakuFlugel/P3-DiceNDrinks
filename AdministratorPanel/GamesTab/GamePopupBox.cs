@@ -18,13 +18,14 @@ namespace AdministratorPanel {
         protected TableLayoutPanel lft = new TableLayoutPanel() {
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            Dock = DockStyle.Fill
+            //Dock = DockStyle.Fill
+            AutoSize = true
         };
 
         protected TableLayoutPanel header = new TableLayoutPanel() {
             RowCount = 1,
             ColumnCount = 2,
-            Dock = DockStyle.Fill,
+            //Dock = DockStyle.Fill,
             AutoSize = true,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         };
@@ -33,6 +34,13 @@ namespace AdministratorPanel {
             Width = 200,
             waterMark = "Game name",
             Margin = new Padding(5, 10, 20, 10)
+        };
+
+        private Button editGenre = new Button() {
+            
+            Text = "Edit",
+            Dock = DockStyle.Right,
+            MaximumSize = new Size(50, 17),
         };
 
         public ToolTip toolTip = new ToolTip() {
@@ -100,21 +108,21 @@ namespace AdministratorPanel {
             FullRowSelect = true,
             GridLines = true,
             Sorting = SortOrder.Ascending,
-            Size = new Size(200, 200)
+            Size = new Size(200, 100)
         };
 
         public TrackBar gameDifficulty = new TrackBar() {
             Size = new Size(195, 45),
-            Maximum = 100,
+            Maximum = 10,
             TickFrequency = 1,
-            LargeChange = 10,
-            SmallChange = 1,
+            LargeChange = 2,
+            SmallChange = 1
         };
 
 
         GamePopupBoxRght rght;
         private List<ListViewItem> genreItems = new List<ListViewItem>();
-        public List<string> differentGenres = new List<string>{ "Horror", "Lying", "Other stuff","Third stuff","Strategy","Coop","Adventure","dnd","Entertainment","Comic","Ballzy","#360NoScope" };
+        private Genres genres;
         private GamesTab gametab;
         public Game game;
         private Game b4EditingGame;
@@ -123,14 +131,18 @@ namespace AdministratorPanel {
         public List<Game> games;
         
 
-        public GamePopupBox(GamesTab gametab, Game game) {
-            Size = new Size(500,700);
+        public GamePopupBox(GamesTab gametab, Game game, Genres genres)
+        {
 
+            Text = "Game";
+
+            Size = new Size(500,640);
+            this.genres = genres;
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
+            
 
-
-            foreach(var item in differentGenres) 
+            foreach (var item in genres.differentGenres) 
                 genreItems.Add(new ListViewItem { Name = item, Text = item});
             
 
@@ -158,7 +170,6 @@ namespace AdministratorPanel {
 
             } else {
                 this.game = new Game();
-                Console.WriteLine(this.game.ToString());
                 Controls.Find("delete", true).First().Enabled = false;
             }
             
@@ -168,6 +179,7 @@ namespace AdministratorPanel {
 
             Show();
             SubscriptionList();
+            toolTipControl();
         }
 
         
@@ -205,21 +217,25 @@ namespace AdministratorPanel {
 
             imageText.Click += OpenFileOpener;
 
-            gameDifficulty.Scroll +=(s,e) => {
+            gameDifficulty.Scroll += (s, e) => {
 
                 toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100");
                 hasBeenChanged = (isNewGame) ? ((b4EditingGame.difficulity != gameDifficulty.Value) ? true : false) : true;
-                
+
             };
-            
+
+            editGenre.Click += (s, e) => {
+                EditGenrePopupbox bob = new EditGenrePopupbox(genres);
+            };
+
+
         }
 
         private void toolTipControl() {
-            toolTip.SetToolTip(time, "minimum / maximum time. Should be written as" + Environment.NewLine + "min/max eg. 20/40");
-            toolTip.SetToolTip(players, "Minimum / maximum players. Should be written as" + Environment.NewLine + "min/max eg. 5/10");
+            toolTip.SetToolTip(time, time.Name);
+            toolTip.SetToolTip(players, players.Name);
             toolTip.SetToolTip(gameName, "Game name");
             toolTip.SetToolTip(gameDescription, "Game description");
-            
         }
 
         protected override Control CreateControls() {
@@ -229,7 +245,7 @@ namespace AdministratorPanel {
 
             lft.ColumnCount = 1;
             lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
+            //lft.Dock = DockStyle.Fill;
 
             lft.Controls.Add(gameName);
             lft.Controls.Add(gameDescription);
@@ -246,6 +262,7 @@ namespace AdministratorPanel {
 
             lft.Controls.Add(generalInformaiton);
             lft.Controls.Add(genreBox);
+            genreBox.Controls.Add(editGenre);
 
             TableLayoutPanel imageSeachTable = new TableLayoutPanel();
             imageSeachTable.ColumnCount = 2;
@@ -268,17 +285,19 @@ namespace AdministratorPanel {
             return header;
         }
 
-        protected override void save(object sender, EventArgs e) {
+        protected override void save(object sender, EventArgs e)    {
+
+            genres.Save();
+
             if (b4EditingGame != null) {
                 game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
                 game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";
                 game.difficulity = gameDifficulty.Value;
                 if (yearPublished.Text != null && yearPublished.Text != "") {
                     try {
-
                         Int32.TryParse(yearPublished.Text, out game.publishedYear);
                     } catch (Exception) {
-                        MessageBox.Show("Please refere from using letters or special characters in Publish year box" + Environment.NewLine + "Yearpublished is not a number: " + yearPublished.Text.ToString(), "Convertion failed");
+                        MessageBox.Show("Published year is not a valid number", "Year invalid");
                     }
                 } else {
                     game.publishedYear = 1337;
@@ -331,8 +350,8 @@ namespace AdministratorPanel {
             if (e.CurrentValue != CheckState.Checked) {
                 string temp = genreBox.Items[e.Index].Text;
                 game.genre.Add(temp);
-                if (!differentGenres.Contains(temp))
-                    differentGenres.Add(temp);
+                if (!genres.differentGenres.Contains(temp))
+                    genres.add(temp);
             }
                        
              

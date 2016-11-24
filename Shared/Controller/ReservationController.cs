@@ -71,6 +71,8 @@ namespace Shared
             bool hasMoved = reservation.time.Date != oldReservation.time.Date;
             //TODO: do we need this if the if-else is commented out?
 
+
+            reservation.created = oldReservation.created;
 //            if (hasMoved)
 //            {
             removeFromDay(oldReservation);
@@ -111,7 +113,7 @@ namespace Shared
 
         private void addToDay(Reservation reservation)
         {
-            CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay == reservation.time.Date);
+            CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay.Date == reservation.time.Date);
             if (resDay == null)
             {
                 resDay = new CalendarDay() {theDay = reservation.time.Date};
@@ -119,7 +121,7 @@ namespace Shared
             }
 
             resDay.reservations.Add(reservation);
-            resDay.calculateSeats(this);
+            resDay.calculateReservedSeats();
             //resDay.reservedSeats += reservation.numPeople;
 
         }
@@ -128,7 +130,7 @@ namespace Shared
         {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);
-            resDay.calculateSeats(this);
+            resDay.calculateReservedSeats();
             //resDay.reservedSeats -= reservation.numPeople;
         }
 

@@ -11,8 +11,11 @@ namespace AdministratorPanel {
 
         public ReservationController reservationController;
 
-        public MainWindow() {
-            
+        public MainWindow()
+        {
+
+            Text = "Dice 'n Drinks";
+
             AutoScaleMode = AutoScaleMode.Dpi;
 
             MinimumSize = new Size(960, 540);

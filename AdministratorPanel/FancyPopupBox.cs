@@ -25,15 +25,27 @@ namespace AdministratorPanel
             //MinimumSize = new Size(800, 600);
             //MaximumSize = MinimumSize;
             AutoSize = true;
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             FormBorderStyle = FormBorderStyle.Fixed3D;
 
+            TableLayoutPanel container = new TableLayoutPanel();
+            container.RowCount = 2;
+            container.AutoSize = true;
+            container.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Controls.Add(container);
+
+
+            container.Controls.Add(CreateControls());
+
+
+
             Panel p = new Panel();
-            p.Height = 42;
+            p.Height = 48;
             //p.AutoSize = true;
             p.Dock = DockStyle.Bottom;
-            p.BackColor = Color.LightBlue;
+            p.BackColor = Color.Transparent;
             p.Padding = new Padding(8);
-            Controls.Add(p);
+            container.Controls.Add(p);
 
             Button delete = new Button();
             delete.Text = "Delete";
@@ -57,13 +69,13 @@ namespace AdministratorPanel
             save.Click += this.save;
             p.Controls.Add(save);
 
-            Controls.Add(CreateControls());
 
         }
         protected override void OnFormClosing(FormClosingEventArgs e) {
             switch (e.CloseReason) {
                 case CloseReason.UserClosing:
                     SystemSounds.Question.Play();
+                    //TODO: see product on close for messagebox text
                     if (hasBeenChanged && DialogResult.No ==
                         MessageBox.Show("Are you sure? Everything unsaved will be lost.",
                             "About to close", MessageBoxButtons.YesNo)) {
