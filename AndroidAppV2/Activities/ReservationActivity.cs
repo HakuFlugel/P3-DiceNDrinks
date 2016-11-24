@@ -20,6 +20,8 @@ namespace AndroidAppV2.Activities
         private int _userId;
         private Reservation _res;
         private bool _data; // checks if the user already has made a reservation
+        private Button dateSelectButton;
+        private Button timeSelectButton;
 
         private bool Data
         {
@@ -41,8 +43,8 @@ namespace AndroidAppV2.Activities
 
 
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
-            Button dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
-            Button timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
+            dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
+            timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
 
@@ -60,6 +62,7 @@ namespace AndroidAppV2.Activities
 
             if (_res == null) {
                 _res = new Reservation();
+                sb.Progress = 0;
             }
             else
             {
@@ -110,9 +113,6 @@ namespace AndroidAppV2.Activities
             
             sb.Max = 20;
             sb.SetOnSeekBarChangeListener(this);
-
-            
-
         }
 
         /*private void LoadID() {
@@ -133,9 +133,17 @@ namespace AndroidAppV2.Activities
 
         private void SendData(Reservation res)
         {
+            if (res.name == "") {
+                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
+                errorEmailPhone.SetMessage("Venligst angiv et navn.");
+                errorEmailPhone.SetTitle("Error");
+                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
+                errorEmailPhone.Show();
+                return;
+            }
             if (res.phone == "" && res.email == "") {
                 AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
-                errorEmailPhone.SetMessage("You need to input a phone number or a email");
+                errorEmailPhone.SetMessage("Du skal angive et telefon nummer og email.");
                 errorEmailPhone.SetTitle("Error");
                 errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
                 errorEmailPhone.Show();
@@ -153,6 +161,23 @@ namespace AndroidAppV2.Activities
                     typoEmail.Show();
                     return;
                 }
+            }
+            int i;
+            if (res.phone.Length != 8 || !int.TryParse(res.phone, out i)) {
+                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
+                errorEmailPhone.SetMessage("Et nummer skal indeholde 8 numre. F.eks.: 10203040");
+                errorEmailPhone.SetTitle("Error");
+                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
+                errorEmailPhone.Show();
+                return;
+            }
+            if (dateSelectButton.Text == "DATE" || timeSelectButton.Text == "KLOKKESLÆT") {
+                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
+                errorEmailPhone.SetMessage("Angiv en dato og tid for hvornår du vil sætte din reservation.");
+                errorEmailPhone.SetTitle("Error");
+                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
+                errorEmailPhone.Show();
+                return;
             }
             
 

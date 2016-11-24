@@ -26,8 +26,6 @@ namespace AndroidAppV2.ListDialogFragments
             //Create view
             View view = inflater.Inflate(Resource.Layout.ProductDialogView, container, true);
 
-
-
             StringBuilder sb = new StringBuilder();
 
             foreach (var item in _product.PriceElements) {
