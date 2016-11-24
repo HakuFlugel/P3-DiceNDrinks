@@ -107,7 +107,7 @@ namespace AndroidAppV2.Activities
                 _res.id = _userId;
                 SendData(_res);
             };
-
+            
             sb.Max = 20;
             sb.SetOnSeekBarChangeListener(this);
 
@@ -282,7 +282,7 @@ namespace AndroidAppV2.Activities
             DatePickerDialog dialog = new DatePickerDialog(Activity,
                                                            this,
                                                            currently.Year,
-                                                           currently.Month,
+                                                           currently.Month - 1,
                                                            currently.Day);
             dialog.DatePicker.MinDate = new Java.Util.Date().Time -1000;
             
