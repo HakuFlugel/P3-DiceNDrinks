@@ -110,14 +110,14 @@ namespace AndroidAppV2
             //sizes[0] is reqWidth sizes[1] is reqHeight
             AssetManager am = contex.Assets;
             string fileNotFound = "nopic.jpg";
-            try
+            if (am.Open(image).IsDataAvailable())
             {
                 BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
                 Bitmap bitmapToDisplay =
                     await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
                 view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
             }
-            catch (Exception)
+            else
             {
                 BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
                 Bitmap bitmapToDisplay =
