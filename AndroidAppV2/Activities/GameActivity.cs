@@ -54,7 +54,9 @@ namespace AndroidAppV2.Activities
                 }
             };
 
-            gameSearch.AddTextChangedListener(new TextWatcher());
+            gameSearch.TextChanged += (s, e) => {
+                itemAdapter.NameSearch(gameSearch.Text);
+            };
 
 
             gameButton.Click += delegate
@@ -98,29 +100,5 @@ namespace AndroidAppV2.Activities
             return list;
         }
 
-    }
-
-    internal class TextWatcher : ITextWatcher {
-        public IntPtr Handle {
-            get {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void AfterTextChanged(IEditable s) {
-            
-        }
-
-        public void BeforeTextChanged(ICharSequence s, int start, int count, int after) {
-            
-        }
-
-        public void Dispose() {
-            return;
-        }
-
-        public void OnTextChanged(ICharSequence s, int start, int before, int count) {
-            
-        }
     }
 }
