@@ -1,46 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+    p1:orientation="vertical"
     p1:minWidth="25px"
     p1:minHeight="25px"
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
-    p1:id="@+id/frameLayout1">
+    p1:id="@+id/linearLayout1">
+    <TextView
+        p1:textAppearance="?android:attr/textAppearanceLarge"
+        p1:text="Menu"
+        p1:layout_height="wrap_content"
+        p1:layout_width="wrap_content"
+        p1:layout_gravity="center_horizontal" 
+        p1:padding="8dp" />
     <LinearLayout
-        p1:orientation="vertical"
+        p1:orientation="horizontal"
+        p1:minWidth="25px"
+        p1:minHeight="25px"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/linearLayout2" >
+        <Spinner
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/categorySpinner"
+            p1:layout_weight="1"
+            p1:minWidth="200dp"
+            p1:minHeight="40dp" />
+        <Spinner
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/sectionSpinner"
+            p1:layout_weight="1"
+            p1:minWidth="200dp"
+            p1:minHeight="40dp" />
+    </LinearLayout>
+    <ListView
         p1:minWidth="25px"
         p1:minHeight="25px"
         p1:layout_width="match_parent"
         p1:layout_height="match_parent"
-        p1:id="@+id/linearLayout1"
-        p1:padding="8dp">
-        <LinearLayout
-            p1:orientation="horizontal"
-            p1:minWidth="25px"
-            p1:minHeight="25px"
-            p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/linearLayout2">
-            <Spinner
-                p1:layout_width="match_parent"
-                p1:layout_height="match_parent"
-                p1:id="@+id/categorySpinner"
-                p1:layout_weight="1"
-                p1:minWidth="200dp"
-                p1:minHeight="40dp"/>
-            <Spinner
-                p1:layout_width="match_parent"
-                p1:layout_height="match_parent"
-                p1:id="@+id/sectionSpinner"
-                p1:layout_weight="1"
-                p1:minWidth="200dp"
-                p1:minHeight="40dp"/>
-        </LinearLayout>
-        <ListView
-            p1:minWidth="25px"
-            p1:minHeight="25px"
-            p1:layout_width="match_parent"
-            p1:layout_height="match_parent"
-            p1:id="@+id/list"
-            p1:padding="8dp" />
-    </LinearLayout>
-</FrameLayout>
+        p1:id="@+id/list"
+        p1:padding="8dp" />
+</LinearLayout>

@@ -66,7 +66,6 @@ namespace AndroidAppV2.Activities
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
-                    _state = false;
                     dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
 
                 });
@@ -78,7 +77,6 @@ namespace AndroidAppV2.Activities
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
                     _chosenDateTime = InsertDateTime(_chosenDateTime,time);
-                    _state = false;
                     timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
@@ -177,6 +175,7 @@ namespace AndroidAppV2.Activities
             resSucces.SetTitle("Reservation made");
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
             resSucces.Show();
+            _state = false;
             //todo: send reservation here
         }
         public void emailCheck(string email) {
