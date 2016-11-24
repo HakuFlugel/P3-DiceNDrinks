@@ -72,12 +72,14 @@ namespace AdministratorPanel {
 
                 loadPriceElements(productItem.product.PriceElements);
 
-                try {
-                    image = Image.FromFile("images/" + productItem.product.image);
-                    productImage.BackgroundImage = image;
+                if (productItem.product.image != null) {
+                    try {
+                        image = Image.FromFile("images/" + productItem.product.image);
+                        productImage.BackgroundImage = image;
 
-                } catch (Exception e) {
-                    MessageBox.Show(e.Message);
+                    } catch (Exception e) {
+                        MessageBox.Show(e.Message);
+                    }
                 }
 
             } else {
@@ -206,13 +208,13 @@ namespace AdministratorPanel {
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                int wrongness = (dataTable.Rows[row][0] == null ? 1 : 0) + (dataTable.Rows[row][1] == null ? 1 : 0);
-                if (wrongness == 2) {
-                    continue;
-                }else if (wrongness == 1) {
-                    MessageBox.Show("Prices have not been saved");
+                if (dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
+                    MessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
+                } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
+                    continue;
                 }
+                
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
                 priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
@@ -228,10 +230,18 @@ namespace AdministratorPanel {
 
         protected override void save(object sender, EventArgs e) {
 
+            List<PriceElement> lp = SavePriceElemets();
+            if (lp == null) {
+                return;
+            }
+
             Directory.CreateDirectory("images");
 
             if (image == null) {
-                MessageBox.Show("No image in product ");
+                if (DialogResult.OK == MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
+
+                }
+
                 image = productImage.BackgroundImage;
             } else {
                 Console.WriteLine(imageName);
@@ -242,34 +252,32 @@ namespace AdministratorPanel {
 
 
             if (productItem == null) {
-                Product tempProduct = new Product();
-                List<PriceElement> lp = new List<PriceElement>();
+                Product product = new Product();
 
-                tempProduct.name = productName.Text;
-                lp = SavePriceElemets();
-                if (lp != null) {
-                    tempProduct.PriceElements = lp;
-                }
-                tempProduct.category = categoryName.Text;
-                tempProduct.section = sectionName.Text;
-                tempProduct.image = imageName;
+                product.name = productName.Text;
+                product.PriceElements = lp;
+                product.category = categoryName.Text;
+                product.section = sectionName.Text;
+                product.image = imageName;
 
-                productItem = new ProductItem(tempProduct,productTab);
+                productItem = new ProductItem(product, productTab);
 
                 productTab.productList.Add(productItem.product);
                 productTab.AddProductItem(productItem);
 
+                Close();
+                return;
+
             } else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
+            } 
 
-                productItem.product.name = productName.Text;
-                productItem.product.PriceElements = SavePriceElemets();
-                productItem.product.category = categoryName.Text;
-                productItem.product.section = sectionName.Text;
-                productItem.product.image = imageName;
-            }
-
+            productItem.product.name = productName.Text;
+            productItem.product.PriceElements = lp;
+            productItem.product.category = categoryName.Text;
+            productItem.product.section = sectionName.Text;
+            productItem.product.image = imageName;
 
             Close();
         }
