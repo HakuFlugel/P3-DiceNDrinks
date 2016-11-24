@@ -96,7 +96,7 @@ namespace AdministratorPanel {
             MakeItems();
         }
 
-        private void MakeItems() {
+        public void MakeItems() {
             tabControl.Controls.Clear();
             foreach (var item in productCategories) {
                 ProductCategoryTab category = new ProductCategoryTab(item);

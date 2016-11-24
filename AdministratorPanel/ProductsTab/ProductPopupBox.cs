@@ -281,6 +281,8 @@ namespace AdministratorPanel {
             productItem.product.section = sectionName.Text;
             productItem.product.image = imageName;
 
+            productTab.MakeItems();
+
             Close();
         }
     }

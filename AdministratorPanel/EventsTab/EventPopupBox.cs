@@ -92,7 +92,8 @@ namespace AdministratorPanel {
             TableLayoutPanel Leftpanel = new TableLayoutPanel();
             Leftpanel.ColumnCount = 1;
             Leftpanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            Leftpanel.Dock = DockStyle.Fill;
+            Leftpanel.AutoSize = true;
+            //Leftpanel.Dock = DockStyle.Fill;
 
             Leftpanel.Controls.Add(eventName);
             Leftpanel.Controls.Add(eventDescription);
@@ -100,7 +101,8 @@ namespace AdministratorPanel {
             TableLayoutPanel rightPanel = new TableLayoutPanel();
             rightPanel.ColumnCount = 1;
             rightPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            rightPanel.Dock = DockStyle.Fill;
+            rightPanel.AutoSize = true;
+           // rightPanel.Dock = DockStyle.Fill;
 
             rightPanel.Controls.Add(startDate);
             rightPanel.Controls.Add(startDatePicker);
