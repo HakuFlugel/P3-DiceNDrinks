@@ -37,9 +37,12 @@ namespace AdministratorPanel {
         private EventsTab eventsTab;
         private Event evnt;
 
-        public EventPopupBox() { }
 
-        public EventPopupBox(EventsTab eventsTab, Event evnt = null) {
+        public EventPopupBox(EventsTab eventsTab, Event evnt = null)
+        {
+
+            Text = "Event";
+
             this.eventsTab = eventsTab;
             this.evnt = evnt;
             if (evnt != null) {

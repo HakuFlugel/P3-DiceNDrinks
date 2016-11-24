@@ -53,9 +53,11 @@ namespace AdministratorPanel {
         private Image image;
         private string imageName = "_default.png";
 
-        public ProductPopupBox() { }
+        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null)
+        {
 
-        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
+            Text = "Product";
+
             this.productTab = productTab;
             this.productItem = productItem;
 

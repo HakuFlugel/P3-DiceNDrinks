@@ -46,7 +46,10 @@ namespace AdministratorPanel {
         private ReservationController reservationController;
         private Reservation reservation;
 
-        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
+        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null)
+        {
+            Text = "Reservation";
+
             this.reservationController = reservationController;
             this.reservation = reservation;
             if (reservation != null) {

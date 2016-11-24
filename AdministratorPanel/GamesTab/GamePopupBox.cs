@@ -131,7 +131,11 @@ namespace AdministratorPanel {
         public List<Game> games;
         
 
-        public GamePopupBox(GamesTab gametab, Game game, Genres genres) {
+        public GamePopupBox(GamesTab gametab, Game game, Genres genres)
+        {
+
+            Text = "Game";
+
             Size = new Size(500,640);
             this.genres = genres;
             this.gametab = gametab;
