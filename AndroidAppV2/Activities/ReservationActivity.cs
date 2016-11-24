@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Shared;
 
 using Android.App;
@@ -10,7 +8,6 @@ using Android.Util;
 using Android.Widget;
 using Newtonsoft.Json;
 using System.IO;
-using System.Linq.Expressions;
 using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
@@ -20,7 +17,7 @@ namespace AndroidAppV2.Activities
     {
         private bool _state = true; //checks if the user has made any changes
         private DateTime _chosenDateTime = DateTime.Now;
-        private int _userID;
+        private int _userId;
         private Reservation _res;
         private bool _data; // checks if the user already has made a reservation
 
@@ -49,16 +46,16 @@ namespace AndroidAppV2.Activities
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
 
-            AndroidShared.LoadSavedData(this, "TheUserReservationID.json", out _userID);
+            AndroidShared.LoadSavedData(this, "TheUserReservationID.json", out _userId);
             AndroidShared.LoadSavedData(this, "VirtualServerReservation.json", out _res);
             //LoadID();
             //LoadData();
 
             //Using Random because we have no server to request from (method implemention)?
-            if (_userID == 0) {
+            if (_userId == 0) {
                 Random random = new Random();
 
-                _userID = random.Next(0, 100);
+                _userId = random.Next(0, 100);
             }
 
             if (_res == null) {
@@ -106,7 +103,7 @@ namespace AndroidAppV2.Activities
                 _res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
                 _res.created = DateTime.Now;
 
-                _res.id = _userID;
+                _res.id = _userId;
                 SendData(_res);
             };
 
@@ -139,19 +136,19 @@ namespace AndroidAppV2.Activities
                 AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
                 errorEmailPhone.SetMessage("You need to input a phone number or a email");
                 errorEmailPhone.SetTitle("Error");
-                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { return; });
+                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
                 errorEmailPhone.Show();
                 return;
             }
             if (res.email != "") {
                 try {
-                    emailCheck(res.email);
+                    EmailCheck(res.email);
                 }
                 catch (Java.Lang.Exception en) {
                     AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
                     typoEmail.SetMessage(en.Message);
                     typoEmail.SetTitle("Typo Error");
-                    typoEmail.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
+                    typoEmail.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
                     typoEmail.Show();
                     return;
                 }
@@ -173,7 +170,7 @@ namespace AndroidAppV2.Activities
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
             if (Data)
             {
-                resSucces.SetMessage("Din reservation er blevet opdateret! Og venter nu på at blive godkendt igen!");
+                resSucces.SetMessage("Din reservation er blevet opdateret! Og venter nu på at blive godkendt!");
                 resSucces.SetTitle("Reservation opdateret");
             }
             else
@@ -181,14 +178,14 @@ namespace AndroidAppV2.Activities
                 resSucces.SetMessage("Din reservation er blevet sendt! Og venter nu på at blive godkendt!");
                 resSucces.SetTitle("Reservation sendt");
             }
-            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { return; });
+            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
             resSucces.Show();
             _state = false;
             Data = true;
 
         }
 
-        public void emailCheck(string email) {
+        public void EmailCheck(string email) {
             // Email typo check stuff
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
@@ -247,8 +244,7 @@ namespace AndroidAppV2.Activities
         {
             if (fromUser)
             {
-                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress}";
-                System.Diagnostics.Debug.WriteLine($"seekbar progress: {seekBar.Progress}");
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress} Person(er)";
             }
         }
 
@@ -266,7 +262,7 @@ namespace AndroidAppV2.Activities
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener
     {
-        // TAG can be any string of your choice.
+        // ReSharper disable once InconsistentNaming
         public static readonly string TAG = "X:" + typeof(DatePickerFragment).Name.ToUpper();
 
         // Initialize this value to prevent NullReferenceExceptions.
@@ -303,6 +299,7 @@ namespace AndroidAppV2.Activities
 
     public class TimePickerFragment : DialogFragment, TimePickerDialog.IOnTimeSetListener
     {
+        // ReSharper disable once InconsistentNaming
         public static readonly string TAG = "X:" + typeof(TimePickerFragment).Name.ToUpper();
 
         Action<DateTime> _timeSelectedHandler = delegate { };
