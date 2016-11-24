@@ -68,6 +68,15 @@
             android:id="@+id/gameDiffText"
             android:layout_below="@id/gameGenreText"
             android:layout_marginTop="5dp" />
+        <TextView
+            android:text="HYPERLINK"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameHyperText"
+            android:layout_below="@id/gameDiffText"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
     <Button
         android:text="Dismiss"

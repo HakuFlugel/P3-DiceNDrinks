@@ -35,6 +35,10 @@ namespace AndroidAppV2.ListDialogFragments {
             view.FindViewById<TextView>(Resource.Id.gamePlayTimeText).Text = "Time: " + _game.minPlayTime + "-" + _game.maxPlayTime + " min";
             view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = "Genres: " + sb;
             view.FindViewById<TextView>(Resource.Id.gameDiffText).Text = "Diffuclity: " + _game.difficulity + "/100";
+            if (_game.bggid != null) {
+                view.FindViewById<TextView>(Resource.Id.gameHyperText).Text = "Data provided by BoardGameGeek";
+            }
+            
 
             //Button test dismiss
             _buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
