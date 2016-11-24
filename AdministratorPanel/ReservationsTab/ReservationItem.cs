@@ -58,8 +58,8 @@ namespace AdministratorPanel
             acceptButton.Click += (s, e) => {
                 res.pending = false;
                 reservationController.updateReservation(res, res); //TODO: a little hacky
-                //calTab.reservationList.makeItems(time.Date);
-                //calTab.pendingReservationList.makeItems();
+                //calTab.reservationList.updateCurrentDay(time.Date);
+                //calTab.pendingReservationList.updateCurrentDay();
             };
 
             Button declineButton = new Button();
@@ -73,8 +73,8 @@ namespace AdministratorPanel
                 /*foreach (var item in reservationController.calDayList) {
                     item.reservations.Remove(res);
                 }
-                calTab.reservationList.makeItems(time.Date);
-                calTab.pendingReservationList.makeItems();*/
+                calTab.reservationList.updateCurrentDay(time.Date);
+                calTab.pendingReservationList.updateCurrentDay();*/
             };
 
             Controls.Add(theLeftItems);

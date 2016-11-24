@@ -14,6 +14,10 @@ namespace AdministratorPanel {
         public Product product;
         private ProductsTab productTab;
 
+        public ProductItem() {
+
+        }
+
         public ProductItem(Product product, ProductsTab productTab) {
             this.productTab = productTab;
             this.product = product;
@@ -71,8 +75,9 @@ namespace AdministratorPanel {
                 preLabel.Text = prefix.ToString();
                 lList.Add(preLabel);
                 
-                price.Append("Price: ");
+               
                 price.Append(item.price);
+                price.Append(" kr.");
                 priceLabel.Text = price.ToString();
                 lList.Add(priceLabel);
             }
@@ -82,10 +87,16 @@ namespace AdministratorPanel {
         }
 
         private void Update(Product product){
+
+
             try {
                 image = Image.FromFile("images/" + product.image);
             } catch (Exception) {
-                MessageBox.Show("image not found");
+                image = Image.FromFile("images/_default.png");
+                if (product.image != null) {
+                    MessageBox.Show($"image {product.image} not found");
+                }
+                
             }
             
            
