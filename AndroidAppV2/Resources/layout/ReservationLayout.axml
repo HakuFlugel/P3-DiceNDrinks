@@ -78,13 +78,13 @@
         p1:layout_height="wrap_content"
         p1:layout_width="match_parent">
         <Button
-            p1:text="Date"
+            p1:text="Dato"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/dateButton"
             p1:layout_weight="50" />
         <Button
-            p1:text="Time"
+            p1:text="Klokkeslæt"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/timeButton"
@@ -96,4 +96,11 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/acceptButton"
         p1:layout_gravity="center_horizontal" />
+    <TextView
+        p1:text="Reservations stadie: Ingen reservation"
+        p1:textAppearance="?android:attr/textAppearanceMedium"
+        p1:layout_width="match_parent"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/textView1"
+        p1:padding="8dp" />
 </LinearLayout>

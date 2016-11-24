@@ -72,6 +72,7 @@ namespace AndroidAppV2.Activities
                 FindViewById<EditText>(Resource.Id.nameEdit).Text = _res.name;
                 FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = _res.phone;
                 FindViewById<EditText>(Resource.Id.emailEdit).Text = _res.email;
+                FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations stadie: Afventer svar";
             }
             dateSelectButton.Click += delegate
             {
@@ -180,6 +181,7 @@ namespace AndroidAppV2.Activities
             }
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
             resSucces.Show();
+            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations stadie: Afventer svar";
             _state = false;
             Data = true;
 
