@@ -35,6 +35,13 @@ namespace AdministratorPanel {
             Margin = new Padding(5, 10, 20, 10)
         };
 
+        private Button editGenre = new Button() {
+            
+            Text = "Edit",
+            Dock = DockStyle.Right,
+            MaximumSize = new Size(50, 17),
+        };
+
         public ToolTip toolTip = new ToolTip() {
             AutoPopDelay = 5000,
             InitialDelay = 100,
@@ -100,7 +107,7 @@ namespace AdministratorPanel {
             FullRowSelect = true,
             GridLines = true,
             Sorting = SortOrder.Ascending,
-            Size = new Size(200, 200)
+            Size = new Size(200, 100)
         };
 
         public TrackBar gameDifficulty = new TrackBar() {
@@ -114,7 +121,7 @@ namespace AdministratorPanel {
 
         GamePopupBoxRght rght;
         private List<ListViewItem> genreItems = new List<ListViewItem>();
-        private Genres genres = new Genres();
+        private Genres genres;
         private GamesTab gametab;
         public Game game;
         private Game b4EditingGame;
@@ -123,9 +130,9 @@ namespace AdministratorPanel {
         public List<Game> games;
         
 
-        public GamePopupBox(GamesTab gametab, Game game) {
-            Size = new Size(500,700);
-
+        public GamePopupBox(GamesTab gametab, Game game, Genres genres) {
+            Size = new Size(500,640);
+            this.genres = genres;
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
             
@@ -206,18 +213,23 @@ namespace AdministratorPanel {
 
             imageText.Click += OpenFileOpener;
 
-            gameDifficulty.Scroll +=(s,e) => {
+            gameDifficulty.Scroll += (s, e) => {
 
                 toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100");
                 hasBeenChanged = (isNewGame) ? ((b4EditingGame.difficulity != gameDifficulty.Value) ? true : false) : true;
-                
+
             };
-            
+
+            editGenre.Click += (s, e) => {
+                EditGenrePopupbox bob = new EditGenrePopupbox(genres);
+            };
+
+
         }
 
         private void toolTipControl() {
-            toolTip.SetToolTip(time, "minimum / maximum time. Should be written as" + Environment.NewLine + "min/max eg. 20/40");
-            toolTip.SetToolTip(players, "Minimum / maximum players. Should be written as" + Environment.NewLine + "min/max eg. 5/10");
+            toolTip.SetToolTip(time, time.Name);
+            toolTip.SetToolTip(players, players.Name);
             toolTip.SetToolTip(gameName, "Game name");
             toolTip.SetToolTip(gameDescription, "Game description");
         }
@@ -246,6 +258,7 @@ namespace AdministratorPanel {
 
             lft.Controls.Add(generalInformaiton);
             lft.Controls.Add(genreBox);
+            genreBox.Controls.Add(editGenre);
 
             TableLayoutPanel imageSeachTable = new TableLayoutPanel();
             imageSeachTable.ColumnCount = 2;
