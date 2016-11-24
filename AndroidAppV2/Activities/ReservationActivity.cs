@@ -64,7 +64,7 @@ namespace AndroidAppV2.Activities
             else
             {
                 Data = true;
-                sb.Progress = _res.numPeople;
+                sb.Progress = _res.numPeople - 1;
                 _chosenDateTime = _res.time;
                 dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
                 timeSelectButton.Text = _res.time.ToString("HH:mm");
@@ -97,7 +97,7 @@ namespace AndroidAppV2.Activities
 
             acceptingButton.Click += delegate 
             {
-                _res.numPeople = sb.Progress;
+                _res.numPeople = sb.Progress + 1;
                 _res.time = _chosenDateTime;
                 _res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
                 _res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
@@ -247,7 +247,7 @@ namespace AndroidAppV2.Activities
         {
             if (fromUser)
             {
-                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress} Person(er)";
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress + 1} Person(er)";
             }
         }
 
