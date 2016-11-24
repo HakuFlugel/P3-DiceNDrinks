@@ -5,13 +5,16 @@
     p1:layout_width="wrap_content"
     p1:layout_height="wrap_content"
     p1:id="@+id/linearLayout"
-    p1:orientation="vertical">
+    p1:orientation="vertical"
+    p1:descendantFocusability="beforeDescendants"
+    p1:focusableInTouchMode="true">
     <TextView
         p1:textAppearance="?android:attr/textAppearanceLarge"
         p1:text="Spil"
         p1:layout_height="wrap_content"
         p1:layout_width="wrap_content"
-        p1:layout_gravity="center_horizontal" />
+        p1:layout_gravity="center_horizontal"
+        p1:paddingTop="8dp" />
     <LinearLayout
         p1:orientation="vertical"
         p1:minWidth="25px"
@@ -48,11 +51,12 @@
                 p1:layout_height="match_parent"
                 p1:layout_weight="1" />
         </LinearLayout>
-        <Button
-            p1:text="@string/advancedSearch"
+        <EditText
+            p1:hint="Søg..."
             p1:layout_width="match_parent"
-            p1:layout_height="wrap_content"
-            p1:id="@+id/advancedSearchButton" />
+            p1:layout_height="match_parent"
+            p1:id="@+id/gameSearchEdit"
+            p1:singleLine="true"/>
         <ListView
             p1:minWidth="25px"
             p1:minHeight="25px"
