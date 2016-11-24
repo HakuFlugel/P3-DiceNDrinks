@@ -165,7 +165,6 @@ namespace AdministratorPanel {
 
             } else {
                 this.game = new Game();
-                Console.WriteLine(this.game.ToString());
                 Controls.Find("delete", true).First().Enabled = false;
             }
             
