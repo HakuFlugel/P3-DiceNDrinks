@@ -1,18 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Java.IO;
 using Newtonsoft.Json;
 using Shared;
 using File = System.IO.File;
@@ -24,12 +17,11 @@ namespace AndroidAppV2
     {
         public static void LoadData<T>(Context context, string file, out T type)
         {
-            string path = string.Empty;
-            string input = string.Empty;
+            string input;
 
             if (typeof(T) == typeof(Reservation))
             {
-                path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 if (!File.Exists(path + "/" + file)) //eg. /VirtualServerReservation.json
                 {
                     type = default(T);
@@ -112,15 +104,15 @@ namespace AndroidAppV2
             string fileNotFound = "nopic.jpg";
             try
             {
-                Stream s = am.Open(image);
+                am.Open(image);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                BitmapFactory.Options FnFoptions = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
-                Bitmap FnFbitmapToDisplay =
-                await LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, FnFoptions, sizes[0], sizes[1]);
-                view.FindViewById<ImageView>(id).SetImageBitmap(FnFbitmapToDisplay);
+                BitmapFactory.Options fnFoptions = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
+                Bitmap fnFbitmapToDisplay =
+                await LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, fnFoptions, sizes[0], sizes[1]);
+                view.FindViewById<ImageView>(id).SetImageBitmap(fnFbitmapToDisplay);
                 return;
             }
 
