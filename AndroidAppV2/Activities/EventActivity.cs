@@ -11,7 +11,7 @@ using Android.Support.V4.App;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Events", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Events", ScreenOrientation = ScreenOrientation.Portrait)]
     public class EventActivity : FragmentActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

@@ -18,7 +18,7 @@
                 android:id="@+id/eventNameText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textStyle="italic" />
         </LinearLayout>
         <LinearLayout
@@ -31,13 +31,13 @@
                 android:id="@+id/eventDateText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textStyle="italic" />
             <TextView
                 android:id="@+id/eventTimeText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14dip" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
     </LinearLayout>
 <!--<ImageView
