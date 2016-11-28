@@ -39,6 +39,7 @@
     <item>Udgivelsesår</item>
   </string-array>
   <string-array name="categoryspinner">
+    <item>Alt</item>
     <item>Mad</item>
     <item>Drikke</item>
     <item>Andet</item>
