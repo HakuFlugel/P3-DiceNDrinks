@@ -10,50 +10,46 @@ namespace Shared
 {
     public class ReservationController : ControllerBase
     {
-        JsonSerializer jsonSerializer = JsonSerializer.Create();
 
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
-        public event EventHandler<AddReservationEventArgs> ReservationAdded;
+/*        public event EventHandler<AddReservationEventArgs> ReservationAdded;
 
         public class AddReservationEventArgs
         {
-            public Reservation reservation;
+            public Reservation newReservation;
 
-            public AddReservationEventArgs(Reservation reservation)
+            public AddReservationEventArgs(Reservation newReservation)
             {
-                this.reservation = reservation;
+                this.newReservation = newReservation;
             }
-        }
+        }*/
 
         public event EventHandler<UpdateReservationEventArgs> ReservationUpdated;
 
         public class UpdateReservationEventArgs
         {
-            public Reservation reservation;
+            public Reservation newReservation;
             public Reservation oldReservation;
-            public bool hasMoved;
 
-            public UpdateReservationEventArgs(Reservation oldReservation, Reservation reservation, bool hasMoved)
+            public UpdateReservationEventArgs(Reservation oldReservation, Reservation newReservation)
             {
                 this.oldReservation = oldReservation;
-                this.reservation = reservation;
-                this.hasMoved = hasMoved;
+                this.newReservation = newReservation;
             }
         }
 
-        public event EventHandler<RemoveReservationEventArgs> ReservationRemoved;
-
+/*        public event EventHandler<RemoveReservationEventArgs> ReservationRemoved;
         public class RemoveReservationEventArgs
         {
-            public Reservation reservation;
+            public Reservation newReservation;
 
-            public RemoveReservationEventArgs(Reservation reservation)
+            public RemoveReservationEventArgs(Reservation newReservation)
             {
-                this.reservation = reservation;
+                this.newReservation = newReservation;
             }
-        }
+        }*/
 
         public void addReservation(Reservation reservation)
         {
@@ -62,29 +58,23 @@ namespace Shared
 
             addToDay(reservation);
 
-            ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
+            //ReservationAdded?.Invoke(this, new AddReservationEventArgs(newReservation));
+            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(null, reservation));
 
         }
 
-        public void updateReservation(Reservation oldReservation, Reservation reservation)
+        public void updateReservation(Reservation oldReservation, Reservation newReservation)
         {
-            bool hasMoved = reservation.time.Date != oldReservation.time.Date;
+            bool hasMoved = newReservation.time.Date != oldReservation.time.Date;
             //TODO: do we need this if the if-else is commented out?
 
-//            if (hasMoved)
-//            {
+
+            newReservation.created = oldReservation.created;
+
             removeFromDay(oldReservation);
-            addToDay(reservation);
-//            }
-//            else
-//            {
-//                CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
-//
-//                resDay.reservations[resDay.reservations.IndexOf(oldReservation)] = reservation; // This would have to update reservedseats too, but why split this responsibility even more?
-//            }
+            addToDay(newReservation);
 
-
-            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(oldReservation, reservation, hasMoved));
+            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(oldReservation, newReservation));
 
         }
 
@@ -93,8 +83,8 @@ namespace Shared
 
             removeFromDay(reservation);
 
-            ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(reservation));
-
+            //ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(newReservation));
+            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(reservation, null));
         }
 
         private Random rand = new Random();
@@ -111,7 +101,7 @@ namespace Shared
 
         private void addToDay(Reservation reservation)
         {
-            CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay == reservation.time.Date);
+            CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay.Date == reservation.time.Date);
             if (resDay == null)
             {
                 resDay = new CalendarDay() {theDay = reservation.time.Date};
@@ -119,8 +109,8 @@ namespace Shared
             }
 
             resDay.reservations.Add(reservation);
-            resDay.calculateSeats(this);
-            //resDay.reservedSeats += reservation.numPeople;
+            resDay.calculateReservedSeats();
+            //resDay.reservedSeats += newReservation.numPeople;
 
         }
 
@@ -128,8 +118,8 @@ namespace Shared
         {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);
-            resDay.calculateSeats(this);
-            //resDay.reservedSeats -= reservation.numPeople;
+            resDay.calculateReservedSeats();
+            //resDay.reservedSeats -= newReservation.numPeople;
         }
 
         public void addRoom(Room room)
@@ -159,64 +149,22 @@ namespace Shared
                 if (roomindex < 0) continue;
 
                 day.roomsReserved[roomindex] = room;
-                day.calculateSeats(this);
+                day.calculateSeats(this); //TODO: add to add and remove room
             }
         }
 
         public override void save()
         {
-            Directory.CreateDirectory("data");
-
-            using (StreamWriter streamWriter = new StreamWriter("data/reservationsCalendar.json"))
-            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
-            {
-                jsonSerializer.Serialize(jsonTextWriter, reservationsCalendar);
-            }
-            using (StreamWriter streamWriter = new StreamWriter("data/rooms.json"))
-            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
-            {
-                jsonSerializer.Serialize(jsonTextWriter, rooms);
-            }
+            saveFile("data/reservationsCalendar.json", reservationsCalendar);
+            saveFile("data/rooms.json", rooms);
         }
 
 
 
         public override void load()
         {
-            //TODO: create a function for these(consider Entity System thing)
-            Directory.CreateDirectory("data");
-            try
-            {
-                using (StreamReader streamReader = new StreamReader("data/reservationsCalendar.json"))
-                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
-                {
-                    reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(jsonTextReader);
-
-                }
-                using (StreamReader streamReader = new StreamReader("data/rooms.json"))
-                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
-                {
-                    rooms = jsonSerializer.Deserialize<List<Room>>(jsonTextReader);
-
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                Console.WriteLine("reservationsCalendar.json or rooms.json not found"); // TODO: put this stuff inside some function
-            }
-
-            if (reservationsCalendar == null)
-            {
-                Console.WriteLine("reservationsCalendar was null after loading... setting it to new list");
-                reservationsCalendar = new List<CalendarDay>();
-            }
-
-            if (rooms == null)
-            {
-                Console.WriteLine("rooms was null after loading... setting it to new list");
-                rooms = new List<Room>();
-            }
-
+            reservationsCalendar = loadFile<CalendarDay>("data/reservationsCalendar.json");
+            rooms = loadFile<Room>("data/rooms.json");
         }
 
     }

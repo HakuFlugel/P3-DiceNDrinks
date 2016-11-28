@@ -113,7 +113,7 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this reservation?", MessageBoxButtons.YesNo)) {
+            if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
 
                 reservationController.removeReservation(reservation);
 
@@ -168,7 +168,7 @@ namespace AdministratorPanel {
             newres.phone = phoneNumber.Text;
             newres.email = email.Text;
             newres.time = newDate;
-            //cd.fullness += reservation.numPeople;
+            //cd.fullness += newReservation.numPeople;
 
             if (reservation == null)
             {
