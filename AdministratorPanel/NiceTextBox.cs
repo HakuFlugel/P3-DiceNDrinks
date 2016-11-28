@@ -4,6 +4,7 @@ using System.Windows.Forms;
 namespace AdministratorPanel {
     public class NiceTextBox : TextBox
     {
+        //TODO: override text getter or similar to prevent getting watermark
         private bool waterMarkActive = true;
         private string _waterMark = "";
         public string waterMark
