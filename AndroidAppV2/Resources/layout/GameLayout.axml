@@ -8,13 +8,6 @@
     p1:orientation="vertical"
     p1:descendantFocusability="beforeDescendants"
     p1:focusableInTouchMode="true">
-    <TextView
-        p1:textAppearance="?android:attr/textAppearanceLarge"
-        p1:text="Spil"
-        p1:layout_height="wrap_content"
-        p1:layout_width="wrap_content"
-        p1:layout_gravity="center_horizontal"
-        p1:paddingTop="8dp" />
     <LinearLayout
         p1:orientation="vertical"
         p1:minWidth="25px"
@@ -56,7 +49,7 @@
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
             p1:id="@+id/gameSearchEdit"
-            p1:singleLine="true"/>
+            p1:singleLine="true" />
         <ListView
             p1:minWidth="25px"
             p1:minHeight="25px"

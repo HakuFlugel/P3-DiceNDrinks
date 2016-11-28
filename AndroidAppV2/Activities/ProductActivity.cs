@@ -12,7 +12,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ProductActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

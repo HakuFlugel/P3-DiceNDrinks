@@ -12,7 +12,7 @@ using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Reservation", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Reservationer", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
         private bool _state = false; //checks if the user has made any changes

@@ -7,13 +7,6 @@
     p1:id="@+id/linearLayout1"
     p1:orientation="vertical"
     p1:padding="8dp">
-    <TextView
-        p1:textAppearance="?android:attr/textAppearanceLarge"
-        p1:layout_width="wrap_content"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/reservationText"
-        p1:text="@string/reservation"
-        p1:layout_gravity="center_horizontal" />
 <!--<CalendarView
             p1:layout_width="match_parent"
             p1:layout_height="wrap_content"
