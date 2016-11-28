@@ -48,8 +48,8 @@ namespace AndroidAppV2.Activities
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
 
-            AndroidShared.LoadSavedData(this, "TheUserReservationID.json", out _userId);
-            AndroidShared.LoadSavedData(this, "VirtualServerReservation.json", out _res);
+            AndroidShared.LoadData("TheUserReservationID.json", out _userId);
+            AndroidShared.LoadData("VirtualServerReservation.json", out _res);
             //LoadID();
             //LoadData();
 

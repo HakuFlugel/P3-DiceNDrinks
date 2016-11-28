@@ -72,7 +72,7 @@ namespace AndroidAppV2.Activities
         private List<Product> GetProducts()
         {
             List<Product> list;
-            AndroidShared.LoadData(this,"products.json", out list);
+            AndroidShared.LoadData("products.json", out list);
 
             return list;
         } 

@@ -99,7 +99,7 @@ namespace AndroidAppV2.Activities
         {
             List<Game> list;
 
-            AndroidShared.LoadData(this,"games.json",out list);
+            AndroidShared.LoadData("games.json",out list);
 
             return list;
         }

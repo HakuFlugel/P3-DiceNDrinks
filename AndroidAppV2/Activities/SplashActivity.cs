@@ -23,11 +23,12 @@ namespace AndroidAppV2.Activities
             Log.Debug(TAG, "SplashActivity.OnCreate");
         }
 
-        protected override void OnResume()
+        protected override async void OnResume()
         {
             base.OnResume();
 
             Task startupWork = new Task(() => {
+
                  //TODO: Download games/menu here
             });
 

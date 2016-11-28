@@ -43,7 +43,7 @@ namespace AndroidAppV2.Activities
         {
             List<Event> list;
 
-            AndroidShared.LoadData(this, "events.json", out list);
+            AndroidShared.LoadData("events.json", out list);
 
             return list;
         }

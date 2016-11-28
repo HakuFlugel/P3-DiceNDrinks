@@ -60,13 +60,6 @@ namespace AndroidAppV2
 
             _doubleTapToExit = true;
             Toast.MakeText(this, "Tryk venligst tilbage igen for at lukke applikationen",ToastLength.Long).Show();
-
-            /*AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
-            exitApp.SetMessage(Resource.String.exit);
-            exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
-            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { _doubleTapToExit = false; });
-            Dialog exit = exitApp.Create();
-            exit.Show();*/
         }
     }
 }

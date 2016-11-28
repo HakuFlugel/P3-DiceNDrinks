@@ -39,7 +39,7 @@ namespace AndroidAppV2.ListAdapters
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"From {item.PriceElements[0].price} kr.";
             int[] sizes = {75, 75};
-            an.GetImages(_context, $"ProductPics/{item.image}.png",view, Resource.Id.Image,sizes);
+            an.GetImagesFromAssets(_context, $"ProductPics/{item.image}.png",view, Resource.Id.Image,sizes);
             return view;
         }
 
