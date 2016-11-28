@@ -54,7 +54,7 @@ namespace AndroidAppV2.Activities
                 }
                 catch (KeyNotFoundException e)
                 {
-                    Log.Debug("X:GameActivity", e.ToString(), "Could not find key");
+                    Log.WriteLine(LogPriority.Error, $"X:{this.ToString()}", e.Message);
                 }
 
                 if (!_ascending)
