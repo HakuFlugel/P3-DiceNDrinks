@@ -4,9 +4,9 @@ using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-
+using System.Text;
 using Shared;
-using Java.Lang;
+
 
 namespace AndroidAppV2.ListAdapters
 {
@@ -40,6 +40,7 @@ namespace AndroidAppV2.ListAdapters
             for (int i = 0; i < item.genre.Count && i < 3; i++) {
                 sb.Append(item.genre[i] + ",  ");
             }
+            sb.Remove(sb.Length - 3, 3);
 
             view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = sb.ToString(); //chooses the first because genre is a list q.q
             view.FindViewById<TextView>(Resource.Id.gameNameText).Text = item.name;
