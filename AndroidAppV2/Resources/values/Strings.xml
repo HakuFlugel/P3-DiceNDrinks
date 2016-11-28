@@ -26,8 +26,8 @@
   årsmedlemmer, eller til fri afbenyttelse for 20 kroner om dagen. Til spillene 
   serverer vi fadøl fra Thisted Bryghus, lækker kaffe og te samt chokolade.</string>
   <string name="aboutUsAdress">Sankelmarksgade 15\n9000 Aalborg\nDenmark</string>
-  <string name="aboutUsPhone">Tlf.: +45 22 76 76 51</string>
-  <string name="aboutUsEmail">info@dicendrinks.com</string>
+  <string name="aboutUsPhone">Ring til os på: +45 22 76 76 51</string>
+  <string name="aboutUsEmail">Skriv til os på: info@dicendrinks.com</string>
   <string name="aboutUsHours">Mandag - Torsdag\n16:00 - 24:00\nFredag - Lørdag\n12:00 - 02:00\nSøndag\n12:00 - 24:00</string>
   <string-array name="gameSortArray">
     <item>Alfabetisk</item>
