@@ -59,7 +59,7 @@
         p1:id="@+id/seekBar1"
         p1:layout_below="@id/numPplText" />
     <TextView
-        p1:text="Invitees"
+        p1:text="1 Person(er)"
         p1:textAppearance="?android:attr/textAppearanceSmall"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"

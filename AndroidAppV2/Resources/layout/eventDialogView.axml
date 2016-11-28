@@ -16,10 +16,16 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewDateTime" />
+        android:id="@+id/textViewDateTime"
+        android:layout_marginTop="10dp"/>
     <TextView
-        android:text="Description"
+        android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textViewDescription" />
+    <Button
+        android:text="Mere info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/expandButton"/>
 </LinearLayout>
