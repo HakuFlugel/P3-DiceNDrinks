@@ -58,8 +58,8 @@ namespace AdministratorPanel
             acceptButton.Click += (s, e) => {
                 res.pending = false;
                 reservationController.updateReservation(res, res); //TODO: a little hacky
-                //calTab.reservationList.makeItems(time.Date);
-                //calTab.pendingReservationList.makeItems();
+                //calTab.reservationList.updateCurrentDay(time.Date);
+                //calTab.pendingReservationList.updateCurrentDay();
             };
 
             Button declineButton = new Button();
@@ -67,13 +67,14 @@ namespace AdministratorPanel
             declineButton.Text = "Decline";
             declineButton.Click += (s, e) => {
                 //TODO: should we actually have a state for this?? So that the customer can see that it was rejected for some reason...
+                //TODO: locking reservations = deny remaining reservations?
                 MessageBox.Show("This feature is probably not fully implemented...");
                 reservationController.removeReservation(res);
                 /*foreach (var item in reservationController.calDayList) {
                     item.reservations.Remove(res);
                 }
-                calTab.reservationList.makeItems(time.Date);
-                calTab.pendingReservationList.makeItems();*/
+                calTab.reservationList.updateCurrentDay(time.Date);
+                calTab.pendingReservationList.updateCurrentDay();*/
             };
 
             Controls.Add(theLeftItems);

@@ -9,15 +9,15 @@ namespace AdministratorPanel {
     public class GamePopupBoxRght : TableLayoutPanel {
         
         TableLayoutPanel gameList = new TableLayoutPanel() {
-            Dock = DockStyle.Fill,
+            Dock = DockStyle.Fill, //TODO: FAFSAJFASDQWHFBQKFHQWIFQWHFAWISFHAIFHWQIF
 
             BorderStyle = BorderStyle.Fixed3D,
             ColumnCount = 1,
 
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            MinimumSize = new Size(200, 440),
+            //MinimumSize = new Size(200, 440),
 
-            AutoSize = false,
+            //AutoSize = true,
             AutoScroll = true
             
         };
@@ -28,7 +28,7 @@ namespace AdministratorPanel {
             clearable = true,
             MinimumSize = new Size(200, 0),
 
-            Margin = new Padding(5, 5, 20, 5),
+            //Margin = new Padding(5, 5, 20, 5),
         };
 
         private XmlParser api = new XmlParser();
@@ -43,7 +43,8 @@ namespace AdministratorPanel {
 
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            Dock = DockStyle.Fill;
+            Dock = DockStyle.Right;
+            AutoSize = true;
 
 
             seachBar.KeyPress += (s,e) => {
@@ -73,6 +74,7 @@ namespace AdministratorPanel {
                 games = api.getGames(seach);
 
             } catch (WebException) {
+                //TODO: put message in result box instead
                 MessageBox.Show("Do hast nich interneten, please connect to an internet source to use this AMAZEBALLZ thingy!", "No internetious");
             } catch (Exception e) {
                 MessageBox.Show(e.Message.ToString());
@@ -80,14 +82,15 @@ namespace AdministratorPanel {
             if (games.Count > 0)
                 foreach (var item in games) {
                     gameList.Controls.Add(new XmlGameItem(item, gamePopupBox));
-                    Console.WriteLine(item.ToString());
-                }
-            else
+                    
+                } else if (seach != "")
                 MessageBox.Show(
-                    "Could not find anything, there could be two reasons for this:" + Environment.NewLine + 
-                    "1. " + seach + " is not a valid BoardGame name " + Environment.NewLine + 
+                    "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
+                    "1. " + seach + " is not a valid BoardGame name " + Environment.NewLine +
                     "2. There is no information on " + seach + " in the API.",
                     "Could not find anything on this" + seach);
+
+
         }
     }
 }

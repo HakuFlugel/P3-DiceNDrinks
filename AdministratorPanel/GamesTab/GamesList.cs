@@ -11,9 +11,11 @@ namespace AdministratorPanel
     {
         public List<Game> games;
         public GamesTab gametab;
-        public GamesList( List<Game> games, GamesTab gametab)
+        Genres genres;
+        public GamesList( List<Game> games, GamesTab gametab, Genres genres)
         {
             this.games = games;
+            this.genres = genres;
             this.gametab = gametab;
             Dock = DockStyle.Fill;
 
@@ -34,7 +36,7 @@ namespace AdministratorPanel
             if (games != null)
                 foreach (var res in games.Where((Game gam) => (gam.name != null) ? (gam.name.ToLower().Contains(seach)):(gam.id.ToString().ToLower().Contains(seach))).OrderBy(o=>  o.name )) {
                     GamesItem gameitem = new GamesItem(res);
-                    gameitem.Click += (s, e) => { GamePopupBox popupbox = new GamePopupBox(gametab,res); };
+                    gameitem.Click += (s, e) => { GamePopupBox popupbox = new GamePopupBox(gametab,res, genres); };
                     Controls.Add(gameitem);
                 }
         }

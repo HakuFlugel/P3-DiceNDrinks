@@ -5,9 +5,12 @@ using Shared;
 using System.Xml.Serialization;
 using System.IO;
 using System.Drawing;
+using System.Linq;
 
-namespace AdministratorPanel {
-    public class ReservationTab : AdminTabPage {
+namespace AdministratorPanel
+{
+    public class ReservationTab : AdminTabPage
+    {
         private Calendar calendar;
 
         public ReservationList reservationList;
@@ -17,9 +20,16 @@ namespace AdministratorPanel {
         public int reserveSpaceValue;
         public Label reserveSpaceText = new Label();
         public CheckBox reservationFull = new CheckBox();
+        private ReservationController reservationController;
 
-        public ReservationTab(ReservationController reservationController) {
-            Load();
+        public ReservationTab(ReservationController reservationController)
+        {
+
+            this.reservationController = reservationController;
+
+            //TODO: temorary debug
+            reservationController.rooms.Clear();
+            reservationController.addRoom(new Room() {name = "Testroom", seats = 100});
 
             Text = "Reservations";
 
@@ -56,22 +66,33 @@ namespace AdministratorPanel {
 
             //// Right side
             TableLayoutPanel topRightTable = new TableLayoutPanel();
-            topRightTable.Dock = DockStyle.Fill;
+            topRightTable.Dock = DockStyle.Top;
             topRightTable.AutoSize = true;
             topRightTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             topRightTable.ColumnCount = 4;
             rightTable.Controls.Add(topRightTable);
 
+            Button roomsButton = new Button();
+            roomsButton.Text = "Modify Rooms";
+            roomsButton.AutoSize = true;
+            roomsButton.Click += (sender, args) =>
+            {
+                MessageBox.Show("Not implemented");
+            };
+            topRightTable.Controls.Add(roomsButton);
+
             reserveSpace.Style = ProgressBarStyle.Continuous;
             reserveSpace.Dock = DockStyle.Left;
             reserveSpace.Minimum = 0;
+            reserveSpace.Step = 1;
+            reserveSpace.Width = 200;
+
             reserveSpaceText.Dock = DockStyle.Left;
             reserveSpaceText.Font = new Font("Arial", 16);
             reservationFull.Text = "Lock Reservations";
 //reservationFull.Checked
 
-
-            topRightTable.Controls.Add(reserveSpaceText);
+//          topRightTable.Controls.Add(reserveSpaceText);
             topRightTable.Controls.Add(reserveSpace);
             topRightTable.Controls.Add(reservationFull);
 
@@ -80,7 +101,8 @@ namespace AdministratorPanel {
             addReservation.Width = 100;
             addReservation.Dock = DockStyle.Right;
             addReservation.Text = "Add Reservation";
-            addReservation.Click += (s, e) => {
+            addReservation.Click += (s, e) =>
+            {
                 ReservationPopupBox p = new ReservationPopupBox(reservationController);
                 p.Show();
             };
@@ -89,18 +111,57 @@ namespace AdministratorPanel {
             reservationList = new ReservationList(calendar, reservationController); /*TODO: fix*/
             rightTable.Controls.Add(reservationList);
             reservationFull.Click += (s, e) => { reservationList.lockReservations(reservationFull.Checked); };
-            //rightTable.makeItems(reservations, DateTime.Today);
+            //rightTable.updateCurrentDay(reservations, DateTime.Today);
             /*TODO: fix*/
 
             calendar.DateSelected += (sender, args) =>
             {
-                reservationFull.Checked = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date)?.isFullChecked ?? false;
+                //TODO: move some of it out of here to its own class
+                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == args.Start.Date);
+                reservationFull.Checked = day?.isFullChecked ?? false;
+                updateProgressBar(day);
+
             };
 
+            //TODO: merge these 3 events?
+            reservationController.ReservationAdded += (sender, args) =>
+            {
+                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date);
 
+                updateProgressBar(day);
+            };
+            reservationController.ReservationRemoved += (sender, args) =>
+            {
+                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date);
 
+                updateProgressBar(day);
+            };
+            reservationController.ReservationUpdated += (sender, args) =>
+            {
+                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date);
+
+                updateProgressBar(day);
+            };
+
+            //TODO: hack
+            updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
         }
 
+        public void updateProgressBar(CalendarDay day)
+        {
+            try
+            {
+                day?.calculateSeats(reservationController); // TODO: we are not doing this elsewere right now
+                reserveSpace.Maximum = day?.numSeats ?? 1;
+                reserveSpace.Value = day?.reservedSeats ?? 0;
+            }
+            catch (Exception)
+            {
+                // We don't care too much about this
+                reserveSpace.Maximum = 1;
+                reserveSpace.Value = 1;
+            }
+        }
 
         // TODO: functions...
         public override void Save() {

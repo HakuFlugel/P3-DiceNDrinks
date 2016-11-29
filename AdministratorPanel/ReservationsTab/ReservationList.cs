@@ -28,11 +28,30 @@ namespace AdministratorPanel
             //AutoSize = true;
             HorizontalScroll.Maximum = 0;
             AutoScroll = true;
+
+            reservationController.ReservationAdded += (sender, args) =>
+            {
+                updateCurrentDay();
+            };
+            reservationController.ReservationRemoved += (sender, args) =>
+            {
+                updateCurrentDay();
+            };
+            reservationController.ReservationUpdated += (sender, args) =>
+            {
+                updateCurrentDay();
+            };
             
             
         }
 
         //TODO: call on change...
+        public void updateCurrentDay()
+        {
+
+            makeItems(calendar.SelectionStart.Date);
+        }
+
         public void makeItems(DateTime day)
         {
             Controls.Clear();
@@ -58,13 +77,13 @@ namespace AdministratorPanel
 
 //            calTab.reservationFull.Checked = cd.isFullChecked;
 
-            SuspendLayout();
+            //SuspendLayout();
             foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => !o.pending)) {
                 ReservationItem reservationItem = new ReservationItem(reservationController, res);
 
                 Controls.Add(reservationItem);
             }
-            ResumeLayout();
+            //ResumeLayout();
            
         }
 
