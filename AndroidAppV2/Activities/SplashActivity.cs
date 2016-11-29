@@ -1,4 +1,5 @@
 
+using System.IO;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -7,11 +8,13 @@ using Android.OS;
 
 using Android.Support.V7.App;
 using Android.Util;
+using File = Java.IO.File;
 
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
+         ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : AppCompatActivity
     {
         // ReSharper disable once InconsistentNaming
@@ -23,20 +26,34 @@ namespace AndroidAppV2.Activities
             Log.Debug(TAG, "SplashActivity.OnCreate");
         }
 
-        protected override void OnResume()
+        protected override async void OnResume()
         {
             base.OnResume();
 
-            Task startupWork = new Task(() => {
-                 //TODO: Download games/menu here
+            Task startupWork = new Task(() =>
+            {
+                if (!System.IO.File.Exists(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD")))
+                    FirstTimeSetup();
+                else //if ()
+                {
+                    //TODO: Download games/menu here
+                }
+
             });
 
-            startupWork.ContinueWith(t => {
+            startupWork.ContinueWith(t =>
+            {
                 Log.Debug(TAG, "Work is finished - start MainActivity");
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
             startupWork.Start();
+        }
+
+        private void FirstTimeSetup()
+        {
+            File folder = new File(Environment.ExternalStorageDirectory.Path + "/DnD/images");
+            folder.Mkdirs();
         }
     }
 }

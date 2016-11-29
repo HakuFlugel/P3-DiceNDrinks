@@ -15,13 +15,13 @@ namespace AndroidAppV2.Activities
     [Activity(Label = "Reservationer", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
-        private bool _state = false; //checks if the user has made any changes
+        private bool _state = true; //checks if the user has made any changes
         private DateTime _chosenDateTime = DateTime.Now;
         private int _userId;
         private Reservation _res;
         private bool _data; // checks if the user already has made a reservation
-        private Button dateSelectButton;
-        private Button timeSelectButton;
+        private Button _dateSelectButton;
+        private Button _timeSelectButton;
 
         private bool Data
         {
@@ -43,15 +43,16 @@ namespace AndroidAppV2.Activities
 
 
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
-            dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
-            timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
+            _dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
+            _timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
 
-            AndroidShared.LoadSavedData(this, "TheUserReservationID.json", out _userId);
-            AndroidShared.LoadSavedData(this, "VirtualServerReservation.json", out _res);
-            //LoadID();
-            //LoadData();
+            AndroidShared.LoadData(this,"TheUserReservationID.json", out _userId);
+            AndroidShared.LoadData(this,"VirtualServerReservation.json", out _res);
+
+            if (_userId == default(int))
+                _state = false;
 
             //Using Random because we have no server to request from (method implemention)?
             if (_userId == 0) {
@@ -69,31 +70,31 @@ namespace AndroidAppV2.Activities
                 Data = true;
                 sb.Progress = _res.numPeople - 1;
                 _chosenDateTime = _res.time;
-                dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
-                timeSelectButton.Text = _res.time.ToString("HH:mm");
+                _dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
+                _timeSelectButton.Text = _res.time.ToString("HH:mm");
                 FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
                 FindViewById<EditText>(Resource.Id.nameEdit).Text = _res.name;
                 FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = _res.phone;
                 FindViewById<EditText>(Resource.Id.emailEdit).Text = _res.email;
                 FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations stadie: Afventer svar";
             }
-            dateSelectButton.Click += delegate
+            _dateSelectButton.Click += delegate
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
-                    dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
+                    _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
 
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
 
-            timeSelectButton.Click += delegate
+            _timeSelectButton.Click += delegate
             {
                 TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
                 {
                     _chosenDateTime = InsertDateTime(_chosenDateTime,time);
-                    timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
+                    _timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
@@ -171,7 +172,7 @@ namespace AndroidAppV2.Activities
                 errorEmailPhone.Show();
                 return;
             }
-            if (dateSelectButton.Text == "DATO" || timeSelectButton.Text == "KLOKKESLÆT") {
+            if (_dateSelectButton.Text == "DATO" || _timeSelectButton.Text == "KLOKKESLÆT") {
                 AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
                 errorEmailPhone.SetMessage("Angiv en dato og tid for hvornår du vil sætte din reservation.");
                 errorEmailPhone.SetTitle("Error");
@@ -183,7 +184,7 @@ namespace AndroidAppV2.Activities
 
             //Saving locally instead of server saving
             var json = JsonConvert.SerializeObject(res);
-            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            var path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
             var filename = Path.Combine(path, "VirtualServerReservation.json");
 
             File.WriteAllText(filename, json);
