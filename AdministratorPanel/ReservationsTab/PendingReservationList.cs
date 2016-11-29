@@ -22,14 +22,6 @@ namespace AdministratorPanel {
             VScroll = true;
 
             //TODO: is this implementation too hacky? maybe do it in item as mentioned in another todo
-            reservationController.ReservationAdded += (sender, args) =>
-            {
-                makeItems();
-            };
-            reservationController.ReservationRemoved += (sender, args) =>
-            {
-                makeItems();
-            };
             reservationController.ReservationUpdated += (sender, args) =>
             {
                 makeItems();

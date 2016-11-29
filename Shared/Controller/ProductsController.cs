@@ -22,7 +22,7 @@ namespace Shared
                 this.newProduct = newProduct;
             }
         }
-
+//TODO: cut+pasta category+section stuff from producttab(popup)
         public void addGame(Product newProduct)
         {
             newProduct.id = new Random().Next(); // TODO: unique id
@@ -61,7 +61,7 @@ namespace Shared
         {
             products = loadFile<Product>("data/products.json");
         }
-        
+
 
 
     }
