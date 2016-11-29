@@ -7,6 +7,7 @@ using Android.OS;
 
 using Android.Support.V7.App;
 using Android.Util;
+using Java.IO;
 
 
 namespace AndroidAppV2.Activities
@@ -28,7 +29,7 @@ namespace AndroidAppV2.Activities
             base.OnResume();
 
             Task startupWork = new Task(() => {
-
+                MakeDirectory();
                  //TODO: Download games/menu here
             });
 
@@ -38,6 +39,12 @@ namespace AndroidAppV2.Activities
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
             startupWork.Start();
+        }
+
+        private void MakeDirectory()
+        {
+            File folder = new File(Environment.ExternalStorageDirectory.Path + "/DnD/images");
+            folder.Mkdirs();
         }
     }
 }
