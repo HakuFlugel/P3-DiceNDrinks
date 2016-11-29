@@ -99,6 +99,7 @@ namespace Shared
 
         }
 
+        //TODO: maybe move add and remove to calendar day
         private void addToDay(Reservation reservation)
         {
             CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay.Date == reservation.time.Date);
@@ -109,8 +110,8 @@ namespace Shared
             }
 
             resDay.reservations.Add(reservation);
-            //resDay.calculateReservedSeats();
-            resDay.reservedSeats += reservation.numPeople;
+            resDay.calculateReservedSeats();
+            //resDay.reservedSeats += reservation.numPeople;
 
         }
 
@@ -118,8 +119,8 @@ namespace Shared
         {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
             resDay.reservations.Remove(reservation);
-            //resDay.calculateReservedSeats();
-            resDay.reservedSeats -= reservation.numPeople;
+            resDay.calculateReservedSeats();
+            //resDay.reservedSeats -= reservation.numPeople;
         }
 
         public void addRoom(Room room)
