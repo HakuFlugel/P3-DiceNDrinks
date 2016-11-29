@@ -29,14 +29,6 @@ namespace AdministratorPanel
             HorizontalScroll.Maximum = 0;
             AutoScroll = true;
 
-            reservationController.ReservationAdded += (sender, args) =>
-            {
-                updateCurrentDay();
-            };
-            reservationController.ReservationRemoved += (sender, args) =>
-            {
-                updateCurrentDay();
-            };
             reservationController.ReservationUpdated += (sender, args) =>
             {
                 updateCurrentDay();
