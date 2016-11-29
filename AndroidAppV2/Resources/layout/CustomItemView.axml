@@ -27,6 +27,6 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:padding="5dp"
-        android:src="@drawable/icon"
+        android:src="@drawable/BasicLoad"
         android:layout_alignParentRight="true" />
 </RelativeLayout>
