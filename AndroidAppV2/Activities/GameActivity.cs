@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
 using Android.Widget;
-
 using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
