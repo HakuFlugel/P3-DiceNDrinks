@@ -35,7 +35,7 @@ namespace AndroidAppV2.ListAdapters
             Product item = _items[position];
             AndroidShared an = new AndroidShared();
             //sets the view as convertView unless convertView is null
-            View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
+            View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.productListItem, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"From {item.PriceElements[0].price} kr.";
             int[] sizes = {75, 75};

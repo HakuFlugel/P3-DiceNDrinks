@@ -56,6 +56,8 @@
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
             p1:id="@+id/gameListView"
+            p1:drawSelectorOnTop="true"
+            p1:dividerHeight="4dp"
             p1:padding="8dp" />
     </LinearLayout>
 </LinearLayout>
