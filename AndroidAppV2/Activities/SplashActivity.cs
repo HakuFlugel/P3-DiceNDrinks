@@ -1,5 +1,6 @@
 
 using System.IO;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -34,9 +35,9 @@ namespace AndroidAppV2.Activities
             {
                 if (!System.IO.File.Exists(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD")))
                     FirstTimeSetup();
-                else //if ()
+                else if (CheckForUpdate())
                 {
-                    //TODO: Download games/menu here
+                    DownloadUpdate();
                 }
 
             });
@@ -50,10 +51,23 @@ namespace AndroidAppV2.Activities
             startupWork.Start();
         }
 
-        private void FirstTimeSetup()
+        private static void FirstTimeSetup()
         {
             File folder = new File(Environment.ExternalStorageDirectory.Path + "/DnD/images");
             folder.Mkdirs();
         }
+
+        private bool CheckForUpdate()
+        {
+            bool update = false;
+            //TODO: ask server for update
+            return update;
+        }
+
+        private void DownloadUpdate()
+        {
+            //TODO: Download games/menu here
+        }
+
     }
 }

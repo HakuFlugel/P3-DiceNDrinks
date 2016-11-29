@@ -1,17 +1,16 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+
 using Android.Content;
 using Android.Graphics;
-using Android.Net.Wifi.P2p;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+
 using Newtonsoft.Json;
 using File = System.IO.File;
 using Path = System.IO.Path;
-using Android.App;
-using Android.OS;
 
 namespace AndroidAppV2
 {
