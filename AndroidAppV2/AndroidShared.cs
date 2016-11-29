@@ -119,6 +119,7 @@ namespace AndroidAppV2
                 Bitmap bitmapFileNotFound = await BitmapFactory.DecodeStreamAsync(stream, new Rect(), fileNotFound);
 
                 view.FindViewById<ImageView>(id).SetImageBitmap(bitmapFileNotFound);
+                
             }
         }
 

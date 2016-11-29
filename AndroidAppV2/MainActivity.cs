@@ -20,7 +20,9 @@ namespace AndroidAppV2
             SetContentView(Resource.Layout.Main);
             //DO NOT WRITE CODE ABOVE THIS LINE
             GC.Collect();
-            
+
+            SetImages();
+
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
                 Log.WriteLine(LogPriority.Info, typeof(MainActivity).Name,$"Opening {typeof(GameActivity).Name}");
@@ -52,6 +54,26 @@ namespace AndroidAppV2
             };
         }
 
+        private void SetImages()
+        {
+            AndroidShared an = new AndroidShared();
+            var metrics = Resources.DisplayMetrics;
+            var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
+            var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
+            int[] sizes = {widthInDp,heightInDp};
+
+            an.GetImages(this, "Top_Left_Games.png", FindViewById<ImageButton>(Resource.Id.gameButton), Resource.Id.gameButton, sizes);
+            an.GetImages(this, "Top_Right_Menu.png", FindViewById<ImageButton>(Resource.Id.foodmenuButton), Resource.Id.foodmenuButton, sizes);
+            an.GetImages(this, "Bottom_Left_Reservation.png", FindViewById<ImageButton>(Resource.Id.reservationButton), Resource.Id.reservationButton, sizes);
+            an.GetImages(this, "Bottom_Right_Events.png", FindViewById<ImageButton>(Resource.Id.eventButton), Resource.Id.eventButton, sizes);
+            an.GetImages(this, "IconV3.png", FindViewById<ImageButton>(Resource.Id.centerImageButton1), Resource.Id.centerImageButton1, sizes);
+        }
+
+        private int ConvertPixelsToDp(float pixelValue)
+        {
+            var dp = (int)(pixelValue / Resources.DisplayMetrics.Density);
+            return dp;
+        }
 
         public override void OnBackPressed()
         {
