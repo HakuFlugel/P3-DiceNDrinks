@@ -92,9 +92,6 @@ namespace AndroidAppV2.ListAdapters
                 case "Sværhedsgrad":
                     _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
-                case "Udgivelsesår":
-                    _items.Sort((a,b) => a.publishedYear.CompareTo(b.publishedYear));
-                    break;
                 default:
                     throw new KeyNotFoundException($"Could not find key: \"{key}\"");
             }

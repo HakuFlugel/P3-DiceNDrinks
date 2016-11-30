@@ -27,7 +27,7 @@ namespace AndroidAppV2.Activities
             Log.Debug(TAG, "SplashActivity.OnCreate");
         }
 
-        protected override async void OnResume()
+        protected override void OnResume()
         {
             base.OnResume();
 
