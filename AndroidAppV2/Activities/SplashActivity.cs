@@ -42,7 +42,7 @@ namespace AndroidAppV2.Activities
 
             });
 
-            await startupWork.ContinueWith(t =>
+            startupWork.ContinueWith(t =>
             {
                 Log.Debug(TAG, "Work is finished - start MainActivity");
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
