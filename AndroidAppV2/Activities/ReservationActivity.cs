@@ -214,7 +214,7 @@ namespace AndroidAppV2.Activities
 
         }
 
-        public void EmailCheck(string email) {
+        private static void EmailCheck(string email) {
             // Email typo check stuff
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
@@ -236,14 +236,14 @@ namespace AndroidAppV2.Activities
             if (email.Contains(".."))
                 throw new Java.Lang.Exception("Email address may not contain consecutive '.'s, ie. '..'.");
 
-            foreach (char ch in emailParts[0]) {
-                if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch))
-                    throw new Java.Lang.Exception($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validLocalSymbols }\"");
+            foreach (char ch in emailParts[0].Where(ch => !char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch)))
+            {
+                throw new Java.Lang.Exception($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validLocalSymbols }\"");
             }
 
-            foreach (var ch in emailParts[1]) {
-                if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
-                    throw new Java.Lang.Exception($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validDomainSymbols }\"");
+            foreach (char ch in emailParts[1].Where(ch => !char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch)))
+            {
+                throw new Java.Lang.Exception($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validDomainSymbols }\"");
             }
         }
 
@@ -279,12 +279,12 @@ namespace AndroidAppV2.Activities
 
         public void OnStartTrackingTouch(SeekBar seekBar)
         {
-            System.Diagnostics.Debug.WriteLine("Tracking changes.");
+
         }
 
         public void OnStopTrackingTouch(SeekBar seekBar)
         {
-            System.Diagnostics.Debug.WriteLine("Stopped tracking changes.");
+
         }
     }
     
@@ -356,8 +356,16 @@ namespace AndroidAppV2.Activities
         public void OnTimeSet(TimePicker view, int hourOfDay, int minute)
         {
             DateTime selectedTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, hourOfDay, minute, 0);
+            selectedTime = Round(selectedTime, new TimeSpan(0,15,0));
             Log.Debug(TAG, selectedTime.ToLongDateString());
             _timeSelectedHandler(selectedTime);
+        }
+
+        private static DateTime Round(DateTime dateTime, TimeSpan interval)
+        {
+            var halfIntervelTicks = ((interval.Ticks + 1) >> 1);
+
+            return dateTime.AddTicks(halfIntervelTicks - ((dateTime.Ticks + halfIntervelTicks) % interval.Ticks));
         }
     }
 }

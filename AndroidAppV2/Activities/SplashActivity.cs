@@ -42,7 +42,7 @@ namespace AndroidAppV2.Activities
 
             });
 
-            startupWork.ContinueWith(t =>
+            await startupWork.ContinueWith(t =>
             {
                 Log.Debug(TAG, "Work is finished - start MainActivity");
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
@@ -67,6 +67,7 @@ namespace AndroidAppV2.Activities
         private void DownloadUpdate()
         {
             //TODO: Download games/menu here
+
         }
 
     }
