@@ -53,9 +53,9 @@ namespace AdministratorPanel {
         private Image image;
         private string imageName = "_default.png";
 
-        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null)
-        {
+        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
 
+            Focus();
             Text = "Product";
 
             this.productTab = productTab;
@@ -105,13 +105,14 @@ namespace AdministratorPanel {
                     ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
                     sectionName.Items.AddRange(cat.sections.ToArray());
                     sectionName.Text = "Section Name";
-                    //test
+                    
                     Console.WriteLine("sections");
                     foreach (var item in cat.sections) {
                         Console.WriteLine(item);
                     }
                 }
                 Console.WriteLine("catname = " + categoryName.Text);
+                
             };
             // update dropdown section
 

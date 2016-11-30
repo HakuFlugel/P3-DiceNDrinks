@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Shared;
 using System.Drawing;
 using System;
+using System.IO;
 
 namespace AdministratorPanel {
     public class ProductItem : NiceButton {
@@ -25,7 +26,6 @@ namespace AdministratorPanel {
                 Update(product);
             }
 
-            //BorderStyle = BorderStyle.FixedSingle;
             bgColor = Color.LightGray;
 
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize; // note skal måske ændres
@@ -34,6 +34,7 @@ namespace AdministratorPanel {
             
             //1
             Panel pn = new Panel();
+            pn.Name = "Image";
             pn.Height = 64;
             pn.Width = ClientSize.Width;
             
@@ -44,23 +45,25 @@ namespace AdministratorPanel {
 
             //2
             Label productName = new Label();
+            productName.Name = "ProductName";
             productName.Dock = DockStyle.Fill;
             productName.Text = product.name;
             Controls.Add(productName);
 
             //3
             TableLayoutPanel priceTable = new TableLayoutPanel();
+            priceTable.Name = "PriceTableName";
             priceTable.AutoSize = true;
             priceTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             priceTable.Dock = DockStyle.Fill;
             priceTable.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             priceTable.ColumnCount = 2;
 
-            Controls.Add(Information(product,priceTable));
+            Controls.Add(priceElementsLoader(product,priceTable));
 
         }
 
-        private TableLayoutPanel Information(Product product, TableLayoutPanel tb) {
+        private TableLayoutPanel priceElementsLoader(Product product, TableLayoutPanel tableLayOutPanel) {
             
             List<Label> lList = new List<Label>();
             
@@ -72,34 +75,43 @@ namespace AdministratorPanel {
                 Label priceLabel = new Label();
 
                 prefix.Append(item.name);
+                preLabel.Name = "PriceElementName";
                 preLabel.Text = prefix.ToString();
                 lList.Add(preLabel);
-                
                
                 price.Append(item.price);
+
+                priceLabel.Name = "PriceElementPrice";
                 price.Append(" kr.");
                 priceLabel.Text = price.ToString();
                 lList.Add(priceLabel);
             }
 
-            tb.Controls.AddRange(lList.ToArray());
-            return tb;
+            tableLayOutPanel.Controls.AddRange(lList.ToArray());
+            return tableLayOutPanel;
         }
 
         private void Update(Product product){
 
-
             try {
-                image = Image.FromFile("images/" + product.image);
-            } catch (Exception) {
-                image = Image.FromFile("images/_default.png");
-                if (product.image != null) {
-                    MessageBox.Show($"image {product.image} not found");
+                string path = "images/";
+                string fileToLoad = path + product.image;
+
+                if (product.image == null) {
+                    fileToLoad = path + "_default.png";
                 }
-                
+
+                image = Image.FromFile(fileToLoad);
+            } catch (Exception) {
+                if (product.image != null) {
+                    MessageBox.Show($"image : {product.image} not found");
+
+                    product.image = null;
+                    Update(product);
+
+                }
             }
-            
-           
+
             this.Height = sizeY;
             this.Width = sizeX;
         }
