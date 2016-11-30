@@ -9,7 +9,7 @@ using Android.Widget;
 using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
-
+using System;
 
 namespace AndroidAppV2.Activities
 {
@@ -51,6 +51,7 @@ namespace AndroidAppV2.Activities
                 for (int i = 0; i < GetGroups(list, (string)categorySpinner.SelectedItem).Count; i++) {
                     expListView.ExpandGroup(i);
                 }
+                GC.Collect();
             };
 
             expListView.ChildClick += (s, e) => {
@@ -59,6 +60,7 @@ namespace AndroidAppV2.Activities
                 var dialog = new ProductDialogFragment();
                 dialog.PassDataToFrag(theProduct, this);
                 dialog.Show(FragmentManager, "Produkt Dialog");
+                GC.Collect();
             };
 
         }
