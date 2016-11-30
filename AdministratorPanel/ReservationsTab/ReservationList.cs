@@ -29,14 +29,6 @@ namespace AdministratorPanel
             HorizontalScroll.Maximum = 0;
             AutoScroll = true;
 
-            reservationController.ReservationAdded += (sender, args) =>
-            {
-                updateCurrentDay();
-            };
-            reservationController.ReservationRemoved += (sender, args) =>
-            {
-                updateCurrentDay();
-            };
             reservationController.ReservationUpdated += (sender, args) =>
             {
                 updateCurrentDay();
@@ -71,7 +63,7 @@ namespace AdministratorPanel
 //            }
 //            else {
 //                calTab.reserveSpace.Value = 100;
-//                MessageBox.Show("The reservation max count is exceeded!");
+//                MessageBox.Show("The newReservation max count is exceeded!");
 //            }
 //            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
 
