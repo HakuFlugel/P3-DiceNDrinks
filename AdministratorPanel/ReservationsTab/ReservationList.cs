@@ -78,7 +78,7 @@ namespace AdministratorPanel
 //            calTab.reservationFull.Checked = cd.isFullChecked;
 
             //SuspendLayout();
-            foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => !o.pending)) {
+            foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => o.state == Reservation.State.Accepted)) {
                 ReservationItem reservationItem = new ReservationItem(reservationController, res);
 
                 Controls.Add(reservationItem);

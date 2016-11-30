@@ -9,10 +9,20 @@ namespace Shared
         public List<Reservation> reservations = new List<Reservation>();
         public int reservedSeats;
         public int numSeats;
+        public bool isLocked = false;
+        public bool isAutoaccept = true;
+        public int defaultAcceptPresentage = 50;
+        public int acceptPresentage;
+        public int defaultAcceptMaxPeople = 5;
+        public int autoAcceptMaxPeople;
         public bool isFullChecked;
         public List<Room> roomsReserved = new List<Room>(); // TODO: room fulness, reference? duplicate?
         public DateTime theDay;
 
+        public CalendarDay() {
+            acceptPresentage = defaultAcceptPresentage;
+            autoAcceptMaxPeople = defaultAcceptMaxPeople;
+        }
         public void reserveRoom(ReservationController reservationController, Room room)
         {
             roomsReserved.Add(room);

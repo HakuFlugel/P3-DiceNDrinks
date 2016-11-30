@@ -40,7 +40,7 @@ namespace AdministratorPanel {
         public void makeItems() {
             Controls.Clear();
             foreach (var item in reservationController.reservationsCalendar.OrderBy(o => o.theDay.Date)) {
-                if (item.reservations.Exists(o => o.pending)) {
+                if (item.reservations.Exists(o => o.state == Reservation.State.Pending)) {
                     PendingReservationItem pendingReservationItem = new PendingReservationItem(cal, calTab, item.theDay, item.reservations);
                     Controls.Add(pendingReservationItem);
                 }

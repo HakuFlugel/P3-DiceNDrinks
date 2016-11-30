@@ -2,8 +2,16 @@
 
 namespace Shared
 {
+    
+
     public class Reservation
     {
+        public enum State {
+            Pending = 0,
+            Accepted = 1,
+            Denied = 2,
+        }
+
         public int id;
         public string name;
         public string email;
@@ -11,7 +19,9 @@ namespace Shared
         public int numPeople;
         public DateTime time;
         public DateTime created;
-        public bool pending;
+        public State state;
+
+        public string message;
 
     }
 }
