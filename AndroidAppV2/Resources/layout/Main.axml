@@ -22,7 +22,6 @@
                 p1:layout_weight="1"
                 p1:layout_width="match_parent">
                 <ImageButton
-                    p1:src="@drawable/top_left_games"
                     p1:layout_column="0"
                     p1:id="@+id/gameButton"
                     p1:layout_weight="1"
@@ -31,9 +30,9 @@
                     p1:scaleType="centerCrop"
                     p1:layout_height="match_parent"
                     p1:layout_width="match_parent"
-                    p1:padding="0dp" />
+                    p1:padding="0dp"
+                    p1:src="@android:color/darker_gray" />
                 <ImageButton
-                    p1:src="@drawable/top_right_menu"
                     p1:layout_column="1"
                     p1:id="@+id/foodmenuButton"
                     p1:layout_weight="1"
@@ -42,7 +41,8 @@
                     p1:padding="0dp"
                     p1:scaleX="1"
                     p1:scaleY="1"
-                    p1:scaleType="centerCrop" />
+                    p1:scaleType="centerCrop"
+                    p1:src="@android:color/background_dark" />
             </TableRow>
             <TableRow
                 p1:id="@+id/tableRow2"
@@ -50,7 +50,7 @@
                 p1:layout_height="match_parent"
                 p1:layout_width="match_parent">
                 <ImageButton
-                    p1:src="@drawable/bottom_left_reservation"
+                    p1:src="@android:color/background_light"
                     p1:layout_column="0"
                     p1:id="@+id/reservationButton"
                     p1:layout_weight="1"
@@ -59,7 +59,7 @@
                     p1:scaleType="centerCrop"
                     p1:padding="0dp" />
                 <ImageButton
-                    p1:src="@drawable/bottom_right_events"
+                    p1:src="@android:color/holo_blue_bright"
                     p1:layout_column="1"
                     p1:id="@+id/eventButton"
                     p1:layout_weight="1"
@@ -72,7 +72,7 @@
             </TableRow>
         </TableLayout>
         <ImageButton
-            p1:src="@drawable/iconv2"
+            p1:src="@drawable/basicload"
             p1:layout_width="200.0dp"
             p1:layout_height="200.0dp"
             p1:id="@+id/centerImageButton1"

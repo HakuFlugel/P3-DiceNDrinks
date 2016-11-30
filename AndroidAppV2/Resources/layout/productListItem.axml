@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="#0D0D21">
     <LinearLayout
         android:id="@+id/Text"
         android:orientation="vertical"
@@ -14,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dip"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:textColor="@android:color/white" />
         <TextView
             android:id="@+id/Text2"
             android:layout_width="wrap_content"
@@ -27,6 +29,6 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:padding="5dp"
-        android:src="@drawable/icon"
+        android:src="@drawable/BasicLoad"
         android:layout_alignParentRight="true" />
 </RelativeLayout>

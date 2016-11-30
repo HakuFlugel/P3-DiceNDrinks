@@ -12,7 +12,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ProductActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -30,7 +30,7 @@ namespace AndroidAppV2.Activities
             //List<Product> list = GenerateProductList();
             List<Product> list = GetProducts();
             ProductAdapter adapter = new ProductAdapter(this, list);
-            adapter.SetListType("Food"); // default view
+            adapter.SetListType("Alt"); // default view
             listView.Adapter = adapter;
 
             listView.ItemClick += (s, e) => {
@@ -38,7 +38,7 @@ namespace AndroidAppV2.Activities
 
                 var dialog = new ProductDialogFragment();
                 dialog.PassDataToFrag(theProduct, this);
-                dialog.Show(FragmentManager, "Product Dialog");
+                dialog.Show(FragmentManager, "Produkt Dialog");
             };
 
             var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(

@@ -11,7 +11,7 @@ using Android.Support.V4.App;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Events", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Begivenheder", ScreenOrientation = ScreenOrientation.Portrait)]
     public class EventActivity : FragmentActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -43,7 +43,7 @@ namespace AndroidAppV2.Activities
         {
             List<Event> list;
 
-            AndroidShared.LoadData(this, "events.json", out list);
+            AndroidShared.LoadData(this,"events.json", out list);
 
             return list;
         }

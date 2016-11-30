@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
-using Android.Text;
 using Android.Widget;
-
 using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
-using Java.Lang;
 using Shared;
-// ReSharper disable All
+
 
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Spil", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : FragmentActivity
     {
         private bool _ascending = true;
@@ -54,7 +49,7 @@ namespace AndroidAppV2.Activities
                 }
                 catch (KeyNotFoundException e)
                 {
-                    Log.Debug("X:GameActivity", e.ToString(), "Could not find key");
+                    Log.WriteLine(LogPriority.Error, $"X:{this}", e.Message);
                 }
 
                 if (!_ascending)
@@ -97,7 +92,6 @@ namespace AndroidAppV2.Activities
             }
             _ascending = true;
             gameButton.Text = "↓";
-            return;
         }
 
 

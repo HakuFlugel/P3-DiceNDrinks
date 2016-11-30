@@ -20,38 +20,60 @@ namespace AndroidAppV2
             SetContentView(Resource.Layout.Main);
             //DO NOT WRITE CODE ABOVE THIS LINE
             GC.Collect();
-            
+
+            SetImages();
+
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
-                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name,$"Opening {(typeof(GameActivity)).Name}");
+                Log.WriteLine(LogPriority.Info, typeof(MainActivity).Name,$"Opening {typeof(GameActivity).Name}");
                 StartActivity(typeof(GameActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.foodmenuButton).Click += delegate
             {
-                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(ProductActivity)).Name}");
+                Log.WriteLine(LogPriority.Info, typeof(MainActivity).Name, $"Opening {typeof(ProductActivity).Name}");
                 StartActivity(typeof(ProductActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.reservationButton).Click += delegate
             {
-                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(ReservationActivity)).Name}");
+                Log.WriteLine(LogPriority.Info, typeof(MainActivity).Name, $"Opening {typeof(ReservationActivity).Name}");
                 StartActivity(typeof(ReservationActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.eventButton).Click += delegate
             {
-                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(EventActivity)).Name}");
+                Log.WriteLine(LogPriority.Info, typeof(MainActivity).Name, $"Opening {typeof(EventActivity).Name}");
                 StartActivity(typeof(EventActivity));
             };
 
             FindViewById<ImageButton>(Resource.Id.centerImageButton1).Click += delegate
             {
-                Log.WriteLine(LogPriority.Info, (typeof(MainActivity)).Name, $"Opening {(typeof(ContactActivity)).Name}");
+                Log.WriteLine(LogPriority.Info, typeof(MainActivity).Name, $"Opening {typeof(ContactActivity).Name}");
                 StartActivity(typeof(ContactActivity));
             };
         }
 
+        private void SetImages()
+        {
+            AndroidShared an = new AndroidShared();
+            var metrics = Resources.DisplayMetrics;
+            var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
+            var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
+            int[] sizes = {widthInDp/2,heightInDp/2};
+
+            an.GetImages(this, "Top_Left_Games.png", FindViewById<ImageButton>(Resource.Id.gameButton), Resource.Id.gameButton, sizes);
+            an.GetImages(this, "Top_Right_Menu.png", FindViewById<ImageButton>(Resource.Id.foodmenuButton), Resource.Id.foodmenuButton, sizes);
+            an.GetImages(this, "Bottom_Left_Reservation.png", FindViewById<ImageButton>(Resource.Id.reservationButton), Resource.Id.reservationButton, sizes);
+            an.GetImages(this, "Bottom_Right_Events.png", FindViewById<ImageButton>(Resource.Id.eventButton), Resource.Id.eventButton, sizes);
+            an.GetImages(this, "IconV3.png", FindViewById<ImageButton>(Resource.Id.centerImageButton1), Resource.Id.centerImageButton1, new [] { widthInDp / 2, widthInDp / 2 });
+        }
+
+        private int ConvertPixelsToDp(float pixelValue)
+        {
+            var dp = (int)(pixelValue / Resources.DisplayMetrics.Density);
+            return dp;
+        }
 
         public override void OnBackPressed()
         {
@@ -59,14 +81,7 @@ namespace AndroidAppV2
                 base.OnBackPressed();
 
             _doubleTapToExit = true;
-            Toast.MakeText(this, "Please click BACK again to exit",ToastLength.Long).Show();
-
-            /*AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
-            exitApp.SetMessage(Resource.String.exit);
-            exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
-            exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { _doubleTapToExit = false; });
-            Dialog exit = exitApp.Create();
-            exit.Show();*/
+            Toast.MakeText(this, "Tryk venligst tilbage igen for at lukke applikationen",ToastLength.Long).Show();
         }
     }
 }

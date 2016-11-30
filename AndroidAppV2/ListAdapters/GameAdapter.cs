@@ -4,8 +4,9 @@ using System.Linq;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-
+using System.Text;
 using Shared;
+
 
 namespace AndroidAppV2.ListAdapters
 {
@@ -33,9 +34,19 @@ namespace AndroidAppV2.ListAdapters
             Game item = _items[position];
             //sets the view as convertView unless convertView is null
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.gameItemView, null);
-            view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
-            view.FindViewById<TextView>(Resource.Id.Text2).Text = $"{item.genre[0]}"; //chooses the first because genre is a list q.q
-            
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < item.genre.Count && i < 3; i++) {
+                sb.Append(item.genre[i] + ",  ");
+            }
+            sb.Remove(sb.Length - 3, 3);
+
+            view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = sb.ToString(); //chooses the first because genre is a list q.q
+            view.FindViewById<TextView>(Resource.Id.gameNameText).Text = item.name;
+            view.FindViewById<TextView>(Resource.Id.gameTimeText).Text = "Time: " + item.minPlayTime + "-" + item.maxPlayTime;
+            view.FindViewById<TextView>(Resource.Id.gamePlayerText).Text = "Players: " + item.minPlayers + "-" + item.maxPlayers;
+
             return view;
         }
 

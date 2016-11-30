@@ -12,6 +12,7 @@ namespace AndroidAppV2.ListAdapters
 {
     internal class ProductAdapter : BaseAdapter<Product>
     {
+        private bool _default = true;
         private List<Product> _items;
         private List<Product> _categoryItems;
         private readonly List<Product> _baseItems;
@@ -34,11 +35,11 @@ namespace AndroidAppV2.ListAdapters
             Product item = _items[position];
             AndroidShared an = new AndroidShared();
             //sets the view as convertView unless convertView is null
-            View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.CustomItemView, null);
+            View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.productListItem, null);
             view.FindViewById<TextView>(Resource.Id.Text1).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.Text2).Text = $"From {item.PriceElements[0].price} kr.";
             int[] sizes = {75, 75};
-            an.GetImages(_context, $"ProductPics/{item.image}.png",view, Resource.Id.Image,sizes);
+            an.GetImages(_context, $"{item.image}.png",view, Resource.Id.Image,sizes);
             return view;
         }
 
@@ -48,29 +49,48 @@ namespace AndroidAppV2.ListAdapters
 
         public void SetListType(string type)
         {
-            _categoryItems = _baseItems.Where(prd => prd.category == type).ToList();
+            if (type != "Alt")
+            {
+                _categoryItems = _baseItems.Where(prd => prd.category == type).ToList();
+                _default = false;
+            }
+            else
+            {
+                _categoryItems = _baseItems;
+                _default = true;
+            }
         }
 
         public List<string> GetSections()
         {
             List<string> sections = new List<string>();
 
+            if (_default)
+            {
+                sections.Add("Alt");
+                return sections;
+            }
 
             foreach (var item in _categoryItems)
             {
                 if (!sections.Any(x => x.Contains(item.section)))
                 sections.Add(item.section);
             }
+
+
             if (sections.Count != 0)
                 return sections;
 
-            sections.Add("Nothing");
+            sections.Add("Ingenting");
                 return sections;
         }
         
         public void SetList(string section)
         {
-            _items = _baseItems.Where(prd => prd.section == section).ToList();
+            if (!_default)
+                _items = _baseItems.Where(prd => prd.section == section).ToList();
+            else
+                _items = _baseItems;
             NotifyDataSetChanged();
             GC.Collect();
         }
