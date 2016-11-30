@@ -43,10 +43,6 @@ namespace AdministratorPanel {
             Controls.Add(tableLayoutPanel);
         }
 
-        public void Update() {
-            MakeItems();
-        }
-
         public void MakeItems() {
             tabControl.Controls.Clear();
 

@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using Shared;
 using System.Drawing;
 using System;
-using System.IO;
 
 namespace AdministratorPanel {
     public class ProductItem : NiceButton {
@@ -15,9 +14,7 @@ namespace AdministratorPanel {
         public Product product;
         private ProductsTab productTab;
 
-        public ProductItem() {
-
-        }
+        public ProductItem() { }
 
         public ProductItem(Product product, ProductsTab productTab) {
             this.productTab = productTab;
@@ -32,25 +29,24 @@ namespace AdministratorPanel {
             RowCount = 3;
             ColumnCount = 1;
             
-            //1
+            //Product Image 
             Panel pn = new Panel();
             pn.Name = "Image";
-            pn.Height = 64;
+            pn.Height = 86;
             pn.Width = ClientSize.Width;
-            
             pn.BackgroundImage = image;
             pn.BackgroundImageLayout = ImageLayout.Zoom;
             pn.BackColor = Color.Black;
             Controls.Add(pn);
 
-            //2
+            //Product Name
             Label productName = new Label();
             productName.Name = "ProductName";
             productName.Dock = DockStyle.Fill;
             productName.Text = product.name;
             Controls.Add(productName);
 
-            //3
+            //Product Prices
             TableLayoutPanel priceTable = new TableLayoutPanel();
             priceTable.Name = "PriceTableName";
             priceTable.AutoSize = true;
@@ -58,9 +54,7 @@ namespace AdministratorPanel {
             priceTable.Dock = DockStyle.Fill;
             priceTable.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             priceTable.ColumnCount = 2;
-
             Controls.Add(priceElementsLoader(product,priceTable));
-
         }
 
         private TableLayoutPanel priceElementsLoader(Product product, TableLayoutPanel tableLayOutPanel) {
@@ -108,10 +102,8 @@ namespace AdministratorPanel {
 
                     product.image = null;
                     Update(product);
-
                 }
             }
-
             this.Height = sizeY;
             this.Width = sizeX;
         }
@@ -120,7 +112,6 @@ namespace AdministratorPanel {
             ProductPopupBox p = new ProductPopupBox(productTab, this);
             p.Show();
             base.OnClick(e);
-
         }
     }
 }

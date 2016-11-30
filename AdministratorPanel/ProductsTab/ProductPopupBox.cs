@@ -116,7 +116,6 @@ namespace AdministratorPanel {
             };
             // update dropdown section
 
-            
 
         }
 
@@ -232,12 +231,7 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
-
-            List<PriceElement> lp = SavePriceElemets();
-            if (lp == null) {
-                return;
-            }
-
+            // Image save
             Directory.CreateDirectory("images");
 
             if (image == null) {
@@ -252,8 +246,12 @@ namespace AdministratorPanel {
                     image.Save("images/" + imageName);
                 }
             }
-
-
+            // convert priceelements to saves
+            List<PriceElement> lp = SavePriceElemets();
+            if (lp == null) {
+                return;
+            }
+            //make new productSave
             if (productItem == null) {
                 Product product = new Product();
 
@@ -271,17 +269,19 @@ namespace AdministratorPanel {
                 Close();
                 return;
 
-            } else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
+            } // override a product
+            else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
             } 
-
+            // save content
             productItem.product.name = productName.Text;
             productItem.product.PriceElements = lp;
             productItem.product.category = categoryName.Text;
             productItem.product.section = sectionName.Text;
             productItem.product.image = imageName;
 
+            // updates producttab elements
             productTab.MakeItems();
 
             Close();
