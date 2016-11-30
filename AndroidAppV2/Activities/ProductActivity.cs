@@ -24,8 +24,6 @@ namespace AndroidAppV2.Activities
             
             base.OnCreate(savedInstanceState);
 
-            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-
             SetContentView(Resource.Layout.productLayout);
 
             // Create your application here
