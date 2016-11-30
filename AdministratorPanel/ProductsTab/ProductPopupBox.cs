@@ -235,8 +235,8 @@ namespace AdministratorPanel {
             Directory.CreateDirectory("images");
 
             if (image == null) {
-                if (DialogResult.OK == MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
-
+                if (DialogResult.OK != MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
+                    return;
                 }
 
                 image = productImage.BackgroundImage;
@@ -249,6 +249,7 @@ namespace AdministratorPanel {
             // convert priceelements to saves
             List<PriceElement> lp = SavePriceElemets();
             if (lp == null) {
+                MessageBox.Show("No price set");
                 return;
             }
             //make new productSave
