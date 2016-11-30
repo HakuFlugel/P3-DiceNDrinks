@@ -20,15 +20,8 @@
             p1:layout_weight="1"
             p1:minWidth="200dp"
             p1:minHeight="40dp" />
-        <Spinner
-            p1:layout_width="match_parent"
-            p1:layout_height="match_parent"
-            p1:id="@+id/sectionSpinner"
-            p1:layout_weight="1"
-            p1:minWidth="200dp"
-            p1:minHeight="40dp" />
     </LinearLayout>
-    <ListView
+    <ExpandableListView
         p1:minWidth="25px"
         p1:minHeight="25px"
         p1:layout_width="match_parent"
