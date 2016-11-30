@@ -31,19 +31,22 @@ namespace AndroidAppV2.ListAdapters {
                 header = Context.LayoutInflater.Inflate(Resource.Layout.productListGroup, null);
             }
             header.FindViewById<TextView>(Resource.Id.productSectionText).Text = GroupList[groupPosition];
-            
+
             return header;
         }
         
         public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent) {
             View row = convertView;
+            AndroidShared an = new AndroidShared();
             if (row == null) {
                 row = Context.LayoutInflater.Inflate(Resource.Layout.productListItem, null);
             }
-            string newId = "", newValue = "";
-            GetChildViewHelper(groupPosition, childPosition, out newId, out newValue);
-            row.FindViewById<TextView>(Resource.Id.Text1).Text = newId;
-            row.FindViewById<TextView>(Resource.Id.Text2).Text = newValue;
+            string Name = "", Price = "", Image = "";
+            GetChildViewHelper(groupPosition, childPosition, out Name, out Price, out Image);
+            row.FindViewById<TextView>(Resource.Id.Text1).Text = Name;
+            row.FindViewById<TextView>(Resource.Id.Text2).Text = Price;
+            int[] sizes = {75, 75};
+            an.GetImagesFromAssets(Context, $"ProductPics/{Image}.png",row, Resource.Id.Image,sizes);
 
             return row;
             //throw new NotImplementedException ();
@@ -60,10 +63,19 @@ namespace AndroidAppV2.ListAdapters {
             }
         }
 
-        private void GetChildViewHelper(int groupPosition, int childPosition, out string Name, out string Price) {
+        private void GetChildViewHelper(int groupPosition, int childPosition, out string Name, out string Price, out string Image) {
             List<Product> results = ProductList.FindAll((Product obj) => obj.section == GroupList[groupPosition]);
             Name = results[childPosition].name;
-            Price = results[childPosition].PriceElements[0].price.ToString();
+            Price = $"From {results[childPosition].PriceElements[0].price.ToString()} kr.";
+            Image = results[childPosition].image;
+        }
+
+        public Product GetTheProduct(int groupPosition, int childPosition) {
+            List<Product> results;
+            Product product;
+            results = ProductList.FindAll((Product obj) => obj.section == GroupList[groupPosition]);
+            product = results[childPosition];
+            return product;
         }
 
         #region implemented abstract members of BaseExpandableListAdapter

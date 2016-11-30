@@ -23,8 +23,9 @@ namespace AndroidAppV2.Activities
         {
             
             base.OnCreate(savedInstanceState);
-            
-            
+
+            ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+
             SetContentView(Resource.Layout.productLayout);
 
             // Create your application here
@@ -40,12 +41,28 @@ namespace AndroidAppV2.Activities
             //List<Product> list = GenerateProductList();
             list = GetProducts();
 
-            expListView.SetAdapter(new ExpandableDataAdapter(this, list, GetGroups(list, (string)categorySpinner.SelectedItem)));
+            ExpandableDataAdapter adapter = new ExpandableDataAdapter(this, list, GetGroups(list, (string)categorySpinner.SelectedItem));
 
+            expListView.SetAdapter(adapter);
+            for (int i = 0; i < GetGroups(list, (string)categorySpinner.SelectedItem).Count; i++) {
+                expListView.ExpandGroup(i);
+            }
             categorySpinner.ItemSelected += delegate {
                 //adapter.SetListType((string)categorySpinner.SelectedItem);  //Sets the category of the list to the chosen item
-                expListView.SetAdapter(new ExpandableDataAdapter(this, list, GetGroups(list, (string)categorySpinner.SelectedItem)));
+                expListView.SetAdapter(adapter = new ExpandableDataAdapter(this, list, GetGroups(list, (string)categorySpinner.SelectedItem)));
+                for (int i = 0; i < GetGroups(list, (string)categorySpinner.SelectedItem).Count; i++) {
+                    expListView.ExpandGroup(i);
+                }
             };
+
+            expListView.ChildClick += (s, e) => {
+                Product theProduct = adapter.GetTheProduct(e.GroupPosition, e.ChildPosition);
+
+                var dialog = new ProductDialogFragment();
+                dialog.PassDataToFrag(theProduct, this);
+                dialog.Show(FragmentManager, "Produkt Dialog");
+            };
+
         }
 
         private List<Product> GetProducts()
