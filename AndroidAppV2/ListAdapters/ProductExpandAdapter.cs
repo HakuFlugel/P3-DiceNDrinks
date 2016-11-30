@@ -46,7 +46,7 @@ namespace AndroidAppV2.ListAdapters {
             row.FindViewById<TextView>(Resource.Id.Text1).Text = Name;
             row.FindViewById<TextView>(Resource.Id.Text2).Text = Price;
             int[] sizes = {75, 75};
-            an.GetImages(Context, $"ProductPics/{Image}.png", row, Resource.Id.Image,sizes);
+            an.GetImages(Context, $"{Image}.png", row, Resource.Id.Image,sizes);
 
             return row;
             //throw new NotImplementedException ();
