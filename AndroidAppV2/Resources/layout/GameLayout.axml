@@ -30,19 +30,39 @@
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
                 p1:layout_weight="1" />
-            <Spinner
-                p1:id="@+id/gameSpinner"
-                p1:prompt="@string/gameSpinnerPromt"
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout3"
+                p1:backgroundTint="#00000000"
+                p1:padding="-8dp"
                 p1:layout_weight="1"
-                p1:minWidth="200dp" />
+                p1:backgroundTintMode="add"
+                p1:elevation="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                p1:background="@android:color/darker_gray">
+                <Spinner
+                    p1:id="@+id/gameSpinner"
+                    p1:prompt="@string/gameSpinnerPromt"
+                    p1:minWidth="200dp"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="match_parent" />
+            </LinearLayout>
             <Button
                 p1:text="↓"
                 p1:id="@+id/gameSortOrderButton"
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
                 p1:layout_weight="1" />
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout4" />
         </LinearLayout>
         <EditText
             p1:hint="Søg..."

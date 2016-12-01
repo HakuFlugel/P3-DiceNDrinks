@@ -16,8 +16,8 @@ namespace AndroidAppV2.ListDialogFragments
         {
             _item = item;
         }
-        private Button expandButton;
-        private TextView describtiveText;
+        private Button _expandButton;
+        private TextView _describtiveText;
         private StringBuilder sb = new StringBuilder();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -33,8 +33,8 @@ namespace AndroidAppV2.ListDialogFragments
             view.FindViewById<TextView>(Resource.Id.textViewTitle).Text = _item.name;
             view.FindViewById<TextView>(Resource.Id.textViewDateTime).Text = _item.startDate.ToShortDateString() + " " + _item.startDate.ToShortTimeString() + " - " + _item.endDate.ToShortTimeString();
 
-            expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
-            describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
+            _expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
+            _describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
 
             
             //string[] tempstr = _item.description.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.None);
@@ -43,14 +43,14 @@ namespace AndroidAppV2.ListDialogFragments
             }
             
             if (_item.description.Length < 100) {
-                expandButton.Visibility = ViewStates.Gone;
+                _expandButton.Visibility = ViewStates.Gone;
             }
             else {
                 sb.Append("...");
-                expandButton.Click += setDescribtion_Click;
+                _expandButton.Click += setDescribtion_Click;
             }
 
-            describtiveText.Text = sb.ToString();
+            _describtiveText.Text = sb.ToString();
 
             
             
@@ -59,17 +59,17 @@ namespace AndroidAppV2.ListDialogFragments
         }
 
         private void setDescribtion_Click(object sender, EventArgs e) {
-            describtiveText.Text = _item.description;
-            expandButton.Text = "Less info";
-            expandButton.Click -= setDescribtion_Click;
-            expandButton.Click += DeSetDescribtion_Click;
+            _describtiveText.Text = _item.description;
+            _expandButton.Text = "Less info";
+            _expandButton.Click -= setDescribtion_Click;
+            _expandButton.Click += DeSetDescribtion_Click;
         }
 
         private void DeSetDescribtion_Click(object sender, EventArgs e) {
 
-            describtiveText.Text = sb.ToString();
-            expandButton.Text = "More info";
-            expandButton.Click += setDescribtion_Click;
+            _describtiveText.Text = sb.ToString();
+            _expandButton.Text = "More info";
+            _expandButton.Click += setDescribtion_Click;
         }
     }
 }
