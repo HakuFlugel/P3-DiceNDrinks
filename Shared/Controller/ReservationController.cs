@@ -89,6 +89,10 @@ namespace Shared
 
         private Random rand = new Random();
 
+        public ReservationController(string path = "data/") : base(path)
+        {
+        }
+
         private int getRandomID()
         {
             int id;

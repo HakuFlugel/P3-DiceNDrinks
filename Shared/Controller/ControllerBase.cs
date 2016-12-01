@@ -8,13 +8,18 @@ namespace Shared
 {
     public abstract class ControllerBase
     {
-        public const string path = "data/";
+        private string path;// = "data/";
         private const string ext = ".json";
 
-        protected  JsonSerializer jsonSerializer = JsonSerializer.Create();
+        private  JsonSerializer jsonSerializer = JsonSerializer.Create();
 
         public abstract void save();
         public abstract void load();
+
+        protected ControllerBase(string path = "data/")
+        {
+            this.path = path;
+        }
 
         protected List<T> loadFile<T>(string name)
         {

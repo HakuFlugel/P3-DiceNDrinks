@@ -7,6 +7,10 @@ namespace Shared
     {
         List<Game> games = new List<Game>();
 
+        public GamesController(string path = "data/") : base(path)
+        {
+        }
+
         public event EventHandler<UpdateGameEventArgs> GameUpdated;
         public class UpdateGameEventArgs
         {

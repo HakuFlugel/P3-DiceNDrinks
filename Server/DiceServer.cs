@@ -1,8 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Newtonsoft.Json;
 using Shared;
 
@@ -11,17 +7,28 @@ using Shared;
 
 namespace Server
 {
-    public class Server : System.Web.UI.Page
+    public class DiceServer
     {
 
-        ReservationController reservationController = new ReservationController();
-        EventsController eventsController = new EventsController();
-        GamesController gamesController = new GamesController();
-        ProductsController productsController = new ProductsController();
+        private string path;
 
-        public Server()
+        public Authentication authentication;
+
+        public ReservationController reservationController;
+        public EventsController eventsController;
+        public GamesController gamesController;
+        public ProductsController productsController;
+
+        public DiceServer(string path)
         {
-            reservationController.load();
+            this.path = path;
+
+            authentication = new Authentication(path);
+
+            reservationController = new ReservationController(path);
+            eventsController = new EventsController(path);
+            gamesController = new GamesController(path);
+            productsController = new ProductsController(path);
 
 
 

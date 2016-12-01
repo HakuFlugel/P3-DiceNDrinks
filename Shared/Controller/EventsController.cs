@@ -8,6 +8,10 @@ namespace Shared
 
         List<Event> events = new List<Event>();
 
+        public EventsController(string path = "data/") : base(path)
+        {
+        }
+
         public event EventHandler<UpdateEventEventArgs> EventUpdated;
         public class UpdateEventEventArgs
         {

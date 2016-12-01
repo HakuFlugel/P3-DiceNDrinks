@@ -2,14 +2,15 @@
 <%@ Import Namespace="System.IO" %>
 
 <%
-
+Response.Write("<title>test</title>");
 Response.Write("Blame Hem hvis det går galt");
 Response.Write(Directory.GetCurrentDirectory());
 Response.Write(Server.MapPath("~"));
 try
 {
-    Server.Server server = new Server.Server();
-    Response.Write(server.getReservations());
+    Server.DiceServer diceServer = new Server.DiceServer();
+    Application.Lock();
+    Response.Write(diceServer.getReservations());
 }
 catch (Exception e)
 {
@@ -18,4 +19,4 @@ catch (Exception e)
 
 %>
 
-<%= typeof(Server.Server)%>
+<%= typeof(Server.DiceServer)%>

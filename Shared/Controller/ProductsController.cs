@@ -10,6 +10,10 @@ namespace Shared
         List<Product> products = new List<Product>();
         List<ProductCategory> categories = new List<ProductCategory>(); //TODO: make stuff
 
+        public ProductsController(string path = "data/") : base(path)
+        {
+        }
+
         public event EventHandler<UpdateGameEventArgs> GameUpdated;
         public class UpdateGameEventArgs
         {
