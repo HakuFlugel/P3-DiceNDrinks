@@ -51,12 +51,12 @@ namespace Shared
 
         public override void save()
         {
-            saveFile("data/games.json", games);
+            saveFile("games", games);
         }
 
         public override void load()
         {
-            games = loadFile<Game>("data/games.json");
+            games = loadFile<Game>("games");
         }
     }
 }

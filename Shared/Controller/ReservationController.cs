@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
+using Newtonsoft;
 
 // TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
 
@@ -156,16 +156,16 @@ namespace Shared
 
         public override void save()
         {
-            saveFile("data/reservationsCalendar.json", reservationsCalendar);
-            saveFile("data/rooms.json", rooms);
+            saveFile("reservationsCalendar", reservationsCalendar);
+            saveFile("rooms", rooms);
         }
 
 
 
         public override void load()
         {
-            reservationsCalendar = loadFile<CalendarDay>("data/reservationsCalendar.json");
-            rooms = loadFile<Room>("data/rooms.json");
+            reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
+            rooms = loadFile<Room>("rooms");
         }
 
     }
