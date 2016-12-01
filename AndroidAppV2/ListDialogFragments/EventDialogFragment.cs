@@ -47,14 +47,14 @@ namespace AndroidAppV2.ListDialogFragments
             }
             
             if (_item.description.Length < 100) {
-                expandButton.Visibility = ViewStates.Gone;
+                _expandButton.Visibility = ViewStates.Gone;
             }
             else {
                 sb.Append("...");
-                expandButton.Click += setDescribtion_Click;
+                _expandButton.Click += setDescribtion_Click;
             }
 
-            describtiveText.Text = sb.ToString();
+            _describtiveText.Text = sb.ToString();
 
 
             fbButton.Click += (s, e) => {
@@ -66,17 +66,17 @@ namespace AndroidAppV2.ListDialogFragments
         }
 
         private void setDescribtion_Click(object sender, EventArgs e) {
-            describtiveText.Text = _item.description;
-            expandButton.Text = "Less info";
-            expandButton.Click -= setDescribtion_Click;
-            expandButton.Click += DeSetDescribtion_Click;
+            _describtiveText.Text = _item.description;
+            _expandButton.Text = "Less info";
+            _expandButton.Click -= setDescribtion_Click;
+            _expandButton.Click += DeSetDescribtion_Click;
         }
 
         private void DeSetDescribtion_Click(object sender, EventArgs e) {
 
-            describtiveText.Text = sb.ToString();
-            expandButton.Text = "More info";
-            expandButton.Click += setDescribtion_Click;
+            _describtiveText.Text = sb.ToString();
+            _expandButton.Text = "More info";
+            _expandButton.Click += setDescribtion_Click;
         }
 
         public static Intent newFacebookIntent(PackageManager pm, String url) {

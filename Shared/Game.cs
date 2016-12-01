@@ -23,6 +23,7 @@ namespace Shared
                     genre.Add(item);
                 difficulity = game.difficulity;
                 publishedYear = game.publishedYear;
+                addedDate = game.addedDate;
                 minPlayers = game.minPlayers;
                 maxPlayers = game.maxPlayers;
                 minPlayTime = game.minPlayTime;
@@ -41,6 +42,7 @@ namespace Shared
         public List<string> genre = new List<string>();  
         public int difficulity;             // 0 - 100 hvor 100 er svært og 0 er nemt.
         public int publishedYear;
+        public DateTime addedDate;
 
         public int minPlayers, maxPlayers;
         public int minPlayTime, maxPlayTime;
@@ -52,18 +54,19 @@ namespace Shared
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("---------------------------");
-            sb.AppendLine("id = " + id.ToString());
+            sb.AppendLine("id = " + id);
             sb.AppendLine("bggid = " + bggid);
             sb.AppendLine("name = " + name);
-            sb.AppendLine("publishedYear = " + publishedYear.ToString());
+            sb.AppendLine("publishedYear = " + publishedYear);
+            sb.AppendLine("added = " + addedDate);
             sb.AppendLine();
-            sb.AppendLine("minplayers = " + minPlayers.ToString());
-            sb.AppendLine("maxplayers = " + maxPlayers.ToString());
+            sb.AppendLine("minplayers = " + minPlayers);
+            sb.AppendLine("maxplayers = " + maxPlayers);
             sb.AppendLine();
-            sb.AppendLine("minplaytime = " + minPlayTime.ToString());
-            sb.AppendLine("maxplaytime = " + maxPlayTime.ToString());
+            sb.AppendLine("minplaytime = " + minPlayTime);
+            sb.AppendLine("maxplaytime = " + maxPlayTime);
             sb.AppendLine();
-            sb.AppendLine("difficulity = " + difficulity.ToString());
+            sb.AppendLine("difficulity = " + difficulity);
             sb.AppendLine();
 
             sb.AppendLine("genre");

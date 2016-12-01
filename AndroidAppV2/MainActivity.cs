@@ -19,9 +19,9 @@ namespace AndroidAppV2
 
             SetContentView(Resource.Layout.Main);
             //DO NOT WRITE CODE ABOVE THIS LINE
-            GC.Collect();
 
             SetImages();
+            GC.Collect();
 
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
@@ -57,9 +57,9 @@ namespace AndroidAppV2
         private void SetImages()
         {
             AndroidShared an = new AndroidShared();
-            var metrics = Resources.DisplayMetrics;
-            var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
-            var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
+            DisplayMetrics metrics = Resources.DisplayMetrics;
+            int widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
+            int heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
             int[] sizes = {widthInDp/2,heightInDp/2};
 
             an.GetImages(this, "Top_Left_Games.png", FindViewById<ImageButton>(Resource.Id.gameButton), Resource.Id.gameButton, sizes);

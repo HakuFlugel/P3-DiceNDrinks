@@ -30,12 +30,8 @@ namespace AndroidAppV2.Activities
             Intent phoneIntent = new Intent(Intent.ActionDial, phoneUri);
 
             Intent mailIntent = new Intent(Intent.ActionSend);
-            mailIntent.PutExtra(Intent.ExtraEmail, "info@dicendrinks.com");
-            //TODO: FIX AT DEN IKKE SENDER EMAIL MED
-            //https://developer.xamarin.com/recipes/android/networking/email/send_an_email/
+            mailIntent.PutExtra(Intent.ExtraEmail, new[] {"info@dicendrinks.com"});
             mailIntent.SetType("message/rfc822");
-
-
 
             phone.Click += delegate
             {
