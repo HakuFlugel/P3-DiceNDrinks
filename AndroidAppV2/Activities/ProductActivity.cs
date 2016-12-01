@@ -26,17 +26,21 @@ namespace AndroidAppV2.Activities
             SetContentView(Resource.Layout.productLayout);
 
             // Create your application here
+            _list = GetProducts();
+
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
             ExpandableListView expListView = FindViewById<ExpandableListView>(Resource.Id.list);
 
-            var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
-                            this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
+            //var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
+
+            ArrayAdapter categorySpinnerAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem,GetCategories(_list));
 
             categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             categorySpinner.Adapter = categorySpinnerAdapter;
 
+
             //List<Product> list = GenerateProductList();
-            _list = GetProducts();
+            
 
             ExpandableDataAdapter adapter = new ExpandableDataAdapter(this, _list, GetGroups(_list, (string)categorySpinner.SelectedItem));
 
@@ -79,7 +83,9 @@ namespace AndroidAppV2.Activities
             return list;
         }
         private List<string> GetCategories(List<Product> productlist) {
+            List<string> list = productlist.Select(o => o.category).Distinct().ToList();
 
+            return list;
         } 
     }
 }
