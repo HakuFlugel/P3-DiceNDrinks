@@ -79,6 +79,9 @@ namespace AndroidAppV2.Activities
             list = tempList.Select(o => o.section).Distinct().ToList();
 
             return list;
+        }
+        private List<string> GetCategories(List<Product> productlist) {
+
         } 
     }
 }
