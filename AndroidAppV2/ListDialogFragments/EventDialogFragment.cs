@@ -1,4 +1,6 @@
 using Android.App;
+using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -18,6 +20,7 @@ namespace AndroidAppV2.ListDialogFragments
         }
         private Button expandButton;
         private TextView describtiveText;
+        private ImageView fbButton;
         private StringBuilder sb = new StringBuilder();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -32,11 +35,12 @@ namespace AndroidAppV2.ListDialogFragments
 
             view.FindViewById<TextView>(Resource.Id.textViewTitle).Text = _item.name;
             view.FindViewById<TextView>(Resource.Id.textViewDateTime).Text = _item.startDate.ToShortDateString() + " " + _item.startDate.ToShortTimeString() + " - " + _item.endDate.ToShortTimeString();
+            
 
             expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
             describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
+            fbButton = view.FindViewById<ImageView>(Resource.Id.fbImageButton);
 
-            
             //string[] tempstr = _item.description.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.None);
             for (int i = 0; i < 100 && i < _item.description.Length; i++) {
                 sb.Append(_item.description[i]);
@@ -52,7 +56,10 @@ namespace AndroidAppV2.ListDialogFragments
 
             describtiveText.Text = sb.ToString();
 
-            
+
+            fbButton.Click += (s, e) => {
+                StartActivity(newFacebookIntent(Android.App.Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
+            };
             
 
             return view;/*base.OnCreateView(inflater, container, savedInstanceState);*/
@@ -70,6 +77,20 @@ namespace AndroidAppV2.ListDialogFragments
             describtiveText.Text = sb.ToString();
             expandButton.Text = "More info";
             expandButton.Click += setDescribtion_Click;
+        }
+
+        public static Intent newFacebookIntent(PackageManager pm, String url) {
+            Android.Net.Uri uri = Android.Net.Uri.Parse(url);
+            try {
+                ApplicationInfo applicationInfo = pm.GetApplicationInfo("com.facebook.katana", 0);
+                if (applicationInfo.Enabled) {
+                    // http://stackoverflow.com/a/24547437/1048340
+                    uri = Android.Net.Uri.Parse("fb://facewebmodal/f?href=" + url);
+                }
+            }
+            catch (PackageManager.NameNotFoundException ignored) {
+            }
+            return new Intent(Intent.ActionView, uri);
         }
     }
 }
