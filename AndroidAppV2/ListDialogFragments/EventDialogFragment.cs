@@ -18,9 +18,9 @@ namespace AndroidAppV2.ListDialogFragments
         {
             _item = item;
         }
-        private Button expandButton;
-        private TextView describtiveText;
-        private ImageView fbButton;
+        private Button _expandButton;
+        private TextView _describtiveText;
+        private ImageView _fbButton;
         private StringBuilder sb = new StringBuilder();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -37,9 +37,9 @@ namespace AndroidAppV2.ListDialogFragments
             view.FindViewById<TextView>(Resource.Id.textViewDateTime).Text = _item.startDate.ToShortDateString() + " " + _item.startDate.ToShortTimeString() + " - " + _item.endDate.ToShortTimeString();
             
 
-            expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
-            describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
-            fbButton = view.FindViewById<ImageView>(Resource.Id.fbImageButton);
+            _expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
+            _describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
+            _fbButton = view.FindViewById<ImageView>(Resource.Id.fbImageButton);
 
             //string[] tempstr = _item.description.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.None);
             for (int i = 0; i < 100 && i < _item.description.Length; i++) {
@@ -57,7 +57,7 @@ namespace AndroidAppV2.ListDialogFragments
             _describtiveText.Text = sb.ToString();
 
 
-            fbButton.Click += (s, e) => {
+            _fbButton.Click += (s, e) => {
                 StartActivity(newFacebookIntent(Android.App.Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
             };
             
