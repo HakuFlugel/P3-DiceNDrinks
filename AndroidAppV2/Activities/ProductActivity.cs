@@ -16,8 +16,7 @@ namespace AndroidAppV2.Activities
     [Activity(Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ProductActivity : Activity
     {
-
-        List<Product> list;
+        private List<Product> _list;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -37,18 +36,18 @@ namespace AndroidAppV2.Activities
             categorySpinner.Adapter = categorySpinnerAdapter;
 
             //List<Product> list = GenerateProductList();
-            list = GetProducts();
+            _list = GetProducts();
 
-            ExpandableDataAdapter adapter = new ExpandableDataAdapter(this, list, GetGroups(list, (string)categorySpinner.SelectedItem));
+            ExpandableDataAdapter adapter = new ExpandableDataAdapter(this, _list, GetGroups(_list, (string)categorySpinner.SelectedItem));
 
             expListView.SetAdapter(adapter);
-            for (int i = 0; i < GetGroups(list, (string)categorySpinner.SelectedItem).Count; i++) {
+            for (int i = 0; i < GetGroups(_list, (string)categorySpinner.SelectedItem).Count; i++) {
                 expListView.ExpandGroup(i);
             }
             categorySpinner.ItemSelected += delegate {
                 //adapter.SetListType((string)categorySpinner.SelectedItem);  //Sets the category of the list to the chosen item
-                expListView.SetAdapter(adapter = new ExpandableDataAdapter(this, list, GetGroups(list, (string)categorySpinner.SelectedItem)));
-                for (int i = 0; i < GetGroups(list, (string)categorySpinner.SelectedItem).Count; i++) {
+                expListView.SetAdapter(adapter = new ExpandableDataAdapter(this, _list, GetGroups(_list, (string)categorySpinner.SelectedItem)));
+                for (int i = 0; i < GetGroups(_list, (string)categorySpinner.SelectedItem).Count; i++) {
                     expListView.ExpandGroup(i);
                 }
                 GC.Collect();
@@ -74,9 +73,8 @@ namespace AndroidAppV2.Activities
         }
         
         private List<string> GetGroups(List<Product> productList, string category) {
-            List<string> list;
             List<Product> tempList = productList.FindAll(o => o.category == category);
-            list = tempList.Select(o => o.section).Distinct().ToList();
+            List<string> list = tempList.Select(o => o.section).Distinct().ToList();
 
             return list;
         }
