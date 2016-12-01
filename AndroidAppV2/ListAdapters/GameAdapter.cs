@@ -92,6 +92,9 @@ namespace AndroidAppV2.ListAdapters
                 case "Sværhedsgrad":
                     _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
+                case "Tilføjet":
+                    _items.Sort((a, b) => a.addedDate.CompareTo(b.addedDate));
+                    break;
                 default:
                     throw new KeyNotFoundException($"Could not find key: \"{key}\"");
             }
