@@ -119,9 +119,13 @@ namespace AdministratorPanel
         }
 
 
-        public void update() {
-            theRightItems.Controls.Clear();
-            if (res.state == Reservation.State.Pending) {
+            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
+            theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
+            theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
+            theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
+            theLeftItems.Controls.Add(new Label { Text = email, Width = 150 });
+            theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
+            if (res.pending == true) {
                 theRightItems.Controls.Add(twoButtons);
             }
         }
