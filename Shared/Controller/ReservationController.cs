@@ -157,7 +157,7 @@ namespace Shared {
 
         private void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
 
-            if (!resDay.isLocked
+            if (resDay != null || !resDay.isLocked
                 && resDay.autoAcceptMaxPeople <= reservation.numPeople
                 && resDay.isAutoaccept //maybe
                 && resDay.acceptPresentage <= (resDay.reservedSeats + reservation.numPeople)*100 / resDay.numSeats

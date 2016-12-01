@@ -110,6 +110,10 @@ namespace AdministratorPanel {
             AutoSize = true,
 
         };
+        Button testButton = new Button() {
+            Text = "TEST Add res",
+            AutoSize = true
+        };
 
         public ReservationTab(ReservationController reservationController) {
 
@@ -154,6 +158,7 @@ namespace AdministratorPanel {
             rightTable.Controls.Add(reservationList);
             topRightTable.Controls.Add(roomsButton);
             topRightTable.Controls.Add(progressbars);
+            testButtonfunc();
             progressbars.Controls.Add(reserveSpaceWithPending);
             progressbars.Controls.Add(reserveSpaceWithoutPending);
             topRightTable.Controls.Add(lockResevations);
@@ -309,12 +314,19 @@ namespace AdministratorPanel {
             try {
 
                 day?.calculateSeats(reservationController); // TODO: we are not doing this elsewere right now
-                reserveSpaceWithPending.Maximum = day?.numSeats ?? 1;
-                reserveSpaceWithPending.Value = day?.reservedSeats ?? 0;
+                
+                
                 int reservedSpace = 0;
-                if (day != null)
-                    foreach (var item in day.reservations.Where(x => x.state == Reservation.State.Pending))
+                int reservedSpaceWpending = 0;
+                if (day != null) {
+                    foreach (var item in day.reservations.Where(x => x.state == Reservation.State.Accepted))
                         reservedSpace += item.numPeople;
+                    foreach (var item in day.reservations.Where(x => x.state != Reservation.State.Denied))
+                        reservedSpaceWpending += item.numPeople;
+                }
+
+                reserveSpaceWithPending.Maximum = day?.numSeats ?? 1;
+                reserveSpaceWithPending.Value = reservedSpaceWpending;
                 reserveSpaceWithoutPending.Value = reservedSpace;
                 reserveSpaceWithoutPending.Maximum = day?.numSeats ?? 1;
 
@@ -349,6 +361,41 @@ namespace AdministratorPanel {
             //                }
             //                catch (Exception) { }
             //            }
+        }
+
+        private void testButtonfunc() {
+            string[] firstnames = {
+                "Candyce","Leigh",
+                "Carl","Klara","Kristan",
+                "Deidre","Everette","Adelle",
+                "Hulda","Dorthey","Shery",
+                "Alfredia","Suzan","Marna","Kareem",
+                "Tina","Kyong","Sherice",
+                "Damian","Arnold" };
+
+            string[] lastnames = {
+                "Holtkamp","Lamirande","Nestor","Ferree","Donahue",
+                "Montville","Neumeister","Hubert","Richarson","Mancino",
+                "Padilla","Ehret","Claxton","Keyes","Staff","Tower",
+                "Backstrom","Oglesby","Stanger","Flansburg"
+            };
+            topRightTable.Controls.Add(testButton);
+            testButton.Click += (s, e) => {
+                Random rand = new Random();
+                Reservation res = new Reservation();
+                string fnam = firstnames[rand.Next(0,firstnames.Count())];
+                string lnam = lastnames[rand.Next(0, lastnames.Count())];
+                res.name = fnam + " " + lnam;
+                res.email = fnam + rand.Next(0, 425).ToString() + "@" + "mail.org";
+
+                res.time = (rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, rand.Next(11, 12), rand.Next(1, 30));
+                res.state = Reservation.State.Pending;
+                res.phone = "12345678";
+                res.numPeople = rand.Next(0, 10);
+                res.created = DateTime.Now;
+                reservationController.addReservation(res);
+            };
+
         }
     }
 }

@@ -3,10 +3,8 @@ using System.Windows.Forms;
 using Shared;
 using System;
 
-namespace AdministratorPanel
-{
-    public class ReservationItem : NiceButton
-    {
+namespace AdministratorPanel {
+    public class ReservationItem : NiceButton {
         public string name;
         public string email;
         public string phone;
@@ -44,12 +42,16 @@ namespace AdministratorPanel
             AutoSize = true,
         };
 
-        
-        public ReservationItem(ReservationController reservationController, Reservation res)
-        {
+
+        public ReservationItem(ReservationController reservationController, Reservation res) {
             this.reservationController = reservationController;
             this.res = res;
-
+            if (res.state == Reservation.State.Denied)
+                bgColor = Color.IndianRed;
+            else if (res.state == Reservation.State.Accepted)
+                bgColor = Color.LightSeaGreen;
+            else
+                bgColor = Color.LightGray;
 
             name = res.name;
             email = res.email;
@@ -62,12 +64,12 @@ namespace AdministratorPanel
 
             RowCount = 1;
             ColumnCount = 3;
-            bgColor = Color.LightGray;
+            
             Dock = DockStyle.Top;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
-            
+
             controlsController();
             subscribeController();
             update();
@@ -83,21 +85,32 @@ namespace AdministratorPanel
             Controls.Add(theMiddleItems);
             Controls.Add(theRightItems);
             //           theWrongItems
-
+            
             theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
             theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
             theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theLeftItems.Controls.Add(new Label { Text = email, Width = 150 });
             theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
+            Console.WriteLine("1");
+            foreach (var item in theRightItems.Controls)
+                Console.WriteLine(item.ToString());
+            Console.WriteLine("2");
+            foreach (var item in theMiddleItems.Controls)
+                Console.WriteLine(item.ToString());
+            Console.WriteLine("3");
+            foreach (var item in theLeftItems.Controls)
+                Console.WriteLine(item.ToString());
         }
 
         private void subscribeController() {
             declineButton.Click += (s, e) => {
                 //TODO: should we actually have a state for this?? So that the customer can see that it was rejected for some reason...
                 //TODO: locking reservations = deny remaining reservations?
-                MessageBox.Show("This feature is probably not fully implemented...");
-                reservationController.removeReservation(res);
+                res.state = Reservation.State.Denied;
+                reservationController.updateReservation(res, res);
+                update();
+                
                 /*foreach (var item in reservationController.calDayList) {
                     item.reservations.Remove(res);
                 }
@@ -112,22 +125,23 @@ namespace AdministratorPanel
             acceptButton.Click += (s, e) => {
                 res.state = Reservation.State.Accepted;
                 update(); //TODO: a little hacky
+                reservationController.updateReservation(res, res);
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };
 
         }
+        
 
 
-            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
-            theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
-            theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
-            theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
-            theLeftItems.Controls.Add(new Label { Text = email, Width = 150 });
-            theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
-            if (res.pending == true) {
+        public void update() {
+            
+            if (res.state == Reservation.State.Pending) {
                 theRightItems.Controls.Add(twoButtons);
             }
+            else if(theRightItems.Controls.Contains(twoButtons))
+                theRightItems.Controls.Remove(twoButtons);
+
         }
     }
 }

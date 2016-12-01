@@ -9,21 +9,25 @@ using System.Globalization;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
+
         NiceTextBox reservationName = new NiceTextBox() {
             Width = 200,
             waterMark = "Reservation Name",
             Margin = new Padding(4, 10, 20, 10)
         };
+
         NiceTextBox numPeople = new NiceTextBox() {
             Width = 200,
             waterMark = "Number of people",
             Margin = new Padding(4, 0, 20, 10)
         };
+
         NiceTextBox phoneNumber = new NiceTextBox() {
             Width = 200,
             waterMark = "Phone number",
             Margin = new Padding(4, 0, 20, 10)
         };
+
         NiceTextBox email = new NiceTextBox() {
             Width = 200,
             waterMark = "Email",
@@ -34,21 +38,22 @@ namespace AdministratorPanel {
             Dock = DockStyle.Right,
             Margin = new Padding(0, 10, 20, 10)
         };
+
         NiceTextBox timePicker = new NiceTextBox() {
             waterMark = "hh:mm"
         };
-        ComboBox pendingSet = new ComboBox() {
-            Items = { "Pending", "Accepted", "Declined" },
-            Text = "Pending"
-        };
 
+        ComboBox pendingSet = new ComboBox() {
+            Text = "Pending",
+            DropDownStyle = ComboBoxStyle.DropDownList,
+        };
 
         private ReservationController reservationController;
         private Reservation reservation;
 
         public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
             Text = "Reservation";
-
+            pendingSet.DataSource = Enum.GetValues(typeof(Reservation.State));
             this.reservationController = reservationController;
             this.reservation = reservation;
             if (reservation != null) {
@@ -62,19 +67,25 @@ namespace AdministratorPanel {
                     if (reservation.email != null) {
                         email.Text = reservation.email;
                     }
+
                     datePicker.Value = reservation.time.Date;
                     timePicker.Text = reservation.time.ToString("HH:mm");
-                    pendingSet.SelectedValue = reservation.state.ToString();
+                    pendingSet.SelectedItem = reservation.state;
+
                 } catch (ArgumentOutOfRangeException) {
 
                 }
 
             } else {
+                pendingSet.SelectedItem = Reservation.State.Accepted;
                 Controls.Find("delete", true).First().Enabled = false;
+                pendingSet.SelectedIndexChanged += (s,e) => {
+                    pendingSet.SelectedItem = Reservation.State.Accepted;
+                    MessageBox.Show("Please refer from creating a pending / declined request this way.");
+                    pendingSet.SelectedItem = Reservation.State.Accepted;
+                };
             }
         }
-
-
 
         protected override Control CreateControls() {
 
@@ -163,8 +174,7 @@ namespace AdministratorPanel {
             // actual saving
 
             Reservation newres = new Reservation();
-
-            newres.state = ((pendingSet.SelectedText == "Pending") ? Reservation.State.Pending : (pendingSet.SelectedText == "Accepted") ? Reservation.State.Accepted : Reservation.State.Denied);
+            newres.state = (Reservation.State)pendingSet.SelectedValue;
 
             newres.name = reservationName.Text;
             int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
