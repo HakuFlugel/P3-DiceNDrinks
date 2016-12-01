@@ -31,7 +31,7 @@ namespace AndroidAppV2.ListAdapters {
         
         public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent) {
             View row = convertView;
-            AndroidShared an = new AndroidShared();
+            AndroidShared androidshared = new AndroidShared();
             if (row == null) {
                 row = _context.LayoutInflater.Inflate(Resource.Layout.productListItem, null);
             }
@@ -40,7 +40,7 @@ namespace AndroidAppV2.ListAdapters {
             row.FindViewById<TextView>(Resource.Id.Text1).Text = name;
             row.FindViewById<TextView>(Resource.Id.Text2).Text = price;
             int[] sizes = {75, 75};
-            an.GetImages(_context, $"{image}.png", row, Resource.Id.Image,sizes);
+            androidshared.GetImages(_context, $"{image}.png", row, Resource.Id.Image,sizes);
 
             return row;
             //throw new NotImplementedException ();
@@ -56,8 +56,17 @@ namespace AndroidAppV2.ListAdapters {
         private void GetChildViewHelper(int groupPosition, int childPosition, out string name, out string price, out string image) {
             List<Product> results = ProductList.FindAll(obj => obj.section == GroupList[groupPosition]);
             name = results[childPosition].name;
-            price = $"From {results[childPosition].PriceElements[0].price} kr.";
             image = results[childPosition].image;
+            if (results[childPosition].PriceElements.Count == 1) {
+                price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr.";
+            }
+            else if(results[childPosition].PriceElements.Count == 2) {
+                price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr." + Environment.NewLine 
+                    + $"{results[childPosition].PriceElements[1].name} for {results[childPosition].PriceElements[1].price} kr.";
+            }
+            else {
+                price = $"Fra {results[childPosition].PriceElements[0].price} kr,-";
+            }
         }
 
         public Product GetTheProduct(int groupPosition, int childPosition) {

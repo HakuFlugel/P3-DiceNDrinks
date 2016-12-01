@@ -122,7 +122,8 @@ expListView.ItemClick += (s, e) => {
 var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
     this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
 
-ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, adapter.GetSections());
+ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, 
+adapter.GetSections());
 
 
 categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
