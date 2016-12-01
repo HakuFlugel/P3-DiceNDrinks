@@ -1,5 +1,3 @@
-using System;
-
 using Android.App;
 using Android.Graphics;
 using Android.Graphics.Drawables;
@@ -9,7 +7,6 @@ using Android.Widget;
 using Shared;
 using Java.Lang;
 
-using AndroidAppV2.ListAdapters;
 using Android.Content;
 
 namespace AndroidAppV2.ListDialogFragments
