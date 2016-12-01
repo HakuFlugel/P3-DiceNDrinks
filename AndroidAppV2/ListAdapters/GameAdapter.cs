@@ -98,8 +98,7 @@ namespace AndroidAppV2.ListAdapters
                 default:
                     throw new KeyNotFoundException($"Could not find key: \"{key}\"");
             }
-            NotifyDataSetChanged();
-            GC.Collect();
+            RemoveGarbage();
         }
 
         //Gets the game according to the position in the listview
@@ -114,14 +113,13 @@ namespace AndroidAppV2.ListAdapters
             List<Game> searchList = new List<Game>();
             foreach (Game game in _baseItems.ToList())
             {
-                if (game.name.ToLower().Contains(value.ToLower()) && !searchList.Contains(game))
+                if ((game.name.ToLower().Contains(value.ToLower()) || game.genre.Any(x => x.Contains(value.ToLower()))) && !searchList.Contains(game))
                     searchList.Add(game);
                 else if (searchList.Contains(game))
                     searchList.Remove(game);
             }
             _items = searchList;
             RemoveGarbage();
-            NotifyDataSetChanged();
         }
 
         //search genre(s) //TODO: Implement more search
