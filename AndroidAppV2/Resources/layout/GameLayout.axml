@@ -37,18 +37,17 @@
                 p1:layout_width="wrap_content"
                 p1:layout_height="match_parent"
                 p1:id="@+id/linearLayout3"
-                p1:backgroundTint="#00000000"
                 p1:padding="-8dp"
                 p1:layout_weight="1"
-                p1:backgroundTintMode="add"
                 p1:elevation="@dimen/abc_action_bar_subtitle_bottom_margin_material"
-                p1:background="@android:color/darker_gray">
+                p1:background="#5a595b">
                 <Spinner
                     p1:id="@+id/gameSpinner"
                     p1:prompt="@string/gameSpinnerPromt"
-                    p1:minWidth="200dp"
+                    p1:minWidth="195dp"
                     p1:layout_width="match_parent"
-                    p1:layout_height="match_parent" />
+                    p1:layout_height="match_parent"
+                    p1:paddingLeft="5dp" />
             </LinearLayout>
             <Button
                 p1:text="↓"

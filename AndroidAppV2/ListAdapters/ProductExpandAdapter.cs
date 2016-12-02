@@ -43,7 +43,6 @@ namespace AndroidAppV2.ListAdapters {
             androidshared.GetImages(_context, $"{image}.png", row, Resource.Id.Image,sizes);
 
             return row;
-            //throw new NotImplementedException ();
         }
 
         public override int GetChildrenCount(int groupPosition) {

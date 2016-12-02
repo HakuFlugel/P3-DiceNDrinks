@@ -21,6 +21,7 @@ namespace AndroidAppV2.ListDialogFragments
         private Button _expandButton;
         private TextView _describtiveText;
         private ImageView _fbButton;
+        private TextView _fbText;
         private StringBuilder sb = new StringBuilder();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -40,6 +41,7 @@ namespace AndroidAppV2.ListDialogFragments
             _expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
             _describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
             _fbButton = view.FindViewById<ImageView>(Resource.Id.fbImageButton);
+            _fbText = view.FindViewById<TextView>(Resource.Id.fbText);
 
             //string[] tempstr = _item.description.Split(new string[] { System.Environment.NewLine }, StringSplitOptions.None);
             for (int i = 0; i < 100 && i < _item.description.Length; i++) {
@@ -56,11 +58,15 @@ namespace AndroidAppV2.ListDialogFragments
 
             _describtiveText.Text = sb.ToString();
 
-
-            _fbButton.Click += (s, e) => {
-                StartActivity(newFacebookIntent(Android.App.Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
-            };
-            
+            if (_item.facebookID == null) {
+                _fbButton.Visibility = ViewStates.Gone;
+                _fbText.Visibility = ViewStates.Gone;
+            }
+            else {
+                _fbButton.Click += (s, e) => {
+                    StartActivity(newFacebookIntent(Android.App.Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
+                };
+            }
 
             return view;/*base.OnCreateView(inflater, container, savedInstanceState);*/
         }
