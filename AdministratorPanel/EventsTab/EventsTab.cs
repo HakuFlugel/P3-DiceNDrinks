@@ -20,7 +20,6 @@ namespace AdministratorPanel {
 
             TableLayoutPanel headTable = new TableLayoutPanel();
             headTable.Dock = DockStyle.Fill;
-            //headTable.BackColor = Color.Transparent;
             headTable.RowCount = 2;
             headTable.ColumnCount = 1;
 
@@ -76,6 +75,10 @@ namespace AdministratorPanel {
                 }
             }
             catch (Exception) { }
+
+            if (Evnts == null) {
+                Evnts = new List<Event>();
+            }
         }
     }
 }
