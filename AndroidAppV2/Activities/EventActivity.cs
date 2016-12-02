@@ -8,6 +8,7 @@ using AndroidAppV2.ListAdapters;
 
 using Shared;
 using Android.Support.V4.App;
+using AndroidAppV2.ListDialogFragments;
 
 namespace AndroidAppV2.Activities
 {
@@ -16,12 +17,8 @@ namespace AndroidAppV2.Activities
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.eventLayout);
-
-            // Create your application here
 
             ListView listView = FindViewById<ListView>(Resource.Id.listView1);
 
@@ -32,10 +29,8 @@ namespace AndroidAppV2.Activities
             listView.Adapter = itemAdapter;
             listView.ItemClick += (s, e) =>
             { 
-                var dialog = new ListDialogFragments.EventDialogFragment(list[e.Position]);
+                EventDialogFragment dialog = new EventDialogFragment(list[e.Position]);
                 dialog.Show(FragmentManager, "dialog");
-                //dialog.Show(Android.Support.V4.App.FragmentManager, "derperperpepreprp");
-
             };
         }
 

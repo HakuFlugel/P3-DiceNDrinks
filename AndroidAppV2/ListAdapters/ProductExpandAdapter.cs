@@ -56,15 +56,18 @@ namespace AndroidAppV2.ListAdapters {
             List<Product> results = ProductList.FindAll(obj => obj.section == GroupList[groupPosition]);
             name = results[childPosition].name;
             image = results[childPosition].image;
-            if (results[childPosition].PriceElements.Count == 1) {
-                price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr.";
-            }
-            else if(results[childPosition].PriceElements.Count == 2) {
-                price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr." + Environment.NewLine 
-                    + $"{results[childPosition].PriceElements[1].name} for {results[childPosition].PriceElements[1].price} kr.";
-            }
-            else {
-                price = $"Fra {results[childPosition].PriceElements[0].price} kr,-";
+            switch (results[childPosition].PriceElements.Count)
+            {
+                case 1:
+                    price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr.";
+                    break;
+                case 2:
+                    price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr." + Environment.NewLine 
+                            + $"{results[childPosition].PriceElements[1].name} for {results[childPosition].PriceElements[1].price} kr.";
+                    break;
+                default:
+                    price = $"Fra {results[childPosition].PriceElements[0].price} kr,-";
+                    break;
             }
         }
 

@@ -10,7 +10,7 @@ using Shared;
 
 namespace AndroidAppV2.ListAdapters
 {
-    class EventAdapter : BaseAdapter<Event>
+    internal class EventAdapter : BaseAdapter<Event>
     {
         private readonly List<Event> _items;
         private readonly Activity _context;

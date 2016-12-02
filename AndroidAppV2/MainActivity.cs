@@ -14,11 +14,8 @@ namespace AndroidAppV2
 
         protected override void OnCreate(Bundle bundle)
         {
-
             base.OnCreate(bundle);
-
             SetContentView(Resource.Layout.Main);
-            //DO NOT WRITE CODE ABOVE THIS LINE
 
             SetImages();
             GC.Collect();
@@ -69,9 +66,15 @@ namespace AndroidAppV2
             an.GetImages(this, "IconV3.png", FindViewById<ImageButton>(Resource.Id.centerImageButton1), Resource.Id.centerImageButton1, new [] { widthInDp / 2, widthInDp / 2 });
         }
 
+        public override void OnRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState)
+        {
+            _doubleTapToExit = false;
+            base.OnRestoreInstanceState(savedInstanceState, persistentState);
+        }
+
         private int ConvertPixelsToDp(float pixelValue)
         {
-            var dp = (int)(pixelValue / Resources.DisplayMetrics.Density);
+            int dp = (int)(pixelValue / Resources.DisplayMetrics.Density);
             return dp;
         }
 
