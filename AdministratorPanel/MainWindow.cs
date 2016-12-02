@@ -15,7 +15,7 @@ namespace AdministratorPanel {
             Size = new Size(220, 100),
             FormBorderStyle = FormBorderStyle.FixedDialog,
             ControlBox = false,
-            //StartPosition = new FormStartPosition(),
+            StartPosition = FormStartPosition.CenterScreen,
         };
 
         private ProgressBar probar = new ProgressBar() {
@@ -23,7 +23,7 @@ namespace AdministratorPanel {
             Dock = DockStyle.Left,
             Minimum = 0,
             Step = 1,
-            Maximum = 10,
+            Maximum = 11,
             Value = 0,
             Width = 200
         };
@@ -41,8 +41,8 @@ namespace AdministratorPanel {
             probar.Value++;
             progressBar.Focus();
             Text = "Dice 'n Drinks";
-            
-            
+
+            StartPosition = FormStartPosition.CenterScreen;
             probar.Value++;
             progressBar.Focus();
             AutoScaleMode = AutoScaleMode.Dpi;
