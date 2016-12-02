@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
+using Newtonsoft;
 
 namespace Shared
 {
@@ -9,6 +9,10 @@ namespace Shared
     {
         List<Product> products = new List<Product>();
         List<ProductCategory> categories = new List<ProductCategory>(); //TODO: make stuff
+
+        public ProductsController(string path = "data/") : base(path)
+        {
+        }
 
         public event EventHandler<UpdateGameEventArgs> GameUpdated;
         public class UpdateGameEventArgs
@@ -54,12 +58,12 @@ namespace Shared
 
         public override void save()
         {
-            saveFile("data/products.json", products);
+            saveFile("products", products);
         }
 
         public override void load()
         {
-            products = loadFile<Product>("data/products.json");
+            products = loadFile<Product>("products");
         }
 
 

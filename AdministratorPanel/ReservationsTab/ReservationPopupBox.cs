@@ -185,8 +185,10 @@ namespace AdministratorPanel {
 
             if (reservation == null) {
                 reservationController.addReservation(newres);
-            } else {
-                reservationController.updateReservation(reservation, newres);
+            }
+            else
+            {
+                reservationController.updateReservation(newres);
             }
 
             this.Close();

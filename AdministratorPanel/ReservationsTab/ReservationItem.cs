@@ -64,7 +64,7 @@ namespace AdministratorPanel {
 
             RowCount = 1;
             ColumnCount = 3;
-            
+
             Dock = DockStyle.Top;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
@@ -78,6 +78,13 @@ namespace AdministratorPanel {
         private void controlsController() {
 
             twoButtons.Controls.Add(acceptButton);
+            acceptButton.Text = "Accept";
+            acceptButton.Click += (s, e) => {
+                res.pending = false;
+                reservationController.updateReservation(res, res); //TODO: a little hacky
+                //calTab.reservationList.updateCurrentDay(time.Date);
+                //calTab.pendingReservationList.updateCurrentDay();
+            };
 
             twoButtons.Controls.Add(declineButton);
 
@@ -85,7 +92,7 @@ namespace AdministratorPanel {
             Controls.Add(theMiddleItems);
             Controls.Add(theRightItems);
             //           theWrongItems
-            
+
             theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
             theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
             theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
@@ -110,7 +117,7 @@ namespace AdministratorPanel {
                 res.state = Reservation.State.Denied;
                 reservationController.updateReservation(res, res);
                 update();
-                
+
                 /*foreach (var item in reservationController.calDayList) {
                     item.reservations.Remove(res);
                 }
@@ -125,17 +132,17 @@ namespace AdministratorPanel {
             acceptButton.Click += (s, e) => {
                 res.state = Reservation.State.Accepted;
                 update(); //TODO: a little hacky
-                reservationController.updateReservation(res, res);
+                reservationController.updateReservation(res/*,*/ /*res*7*/);
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };
 
         }
-        
+
 
 
         public void update() {
-            
+
             if (res.state == Reservation.State.Pending) {
                 theRightItems.Controls.Add(twoButtons);
             }

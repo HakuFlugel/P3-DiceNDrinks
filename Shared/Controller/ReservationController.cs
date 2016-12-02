@@ -1,51 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 
 // TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
 
-namespace Shared {
-    public class ReservationController : ControllerBase {
-        JsonSerializer jsonSerializer = JsonSerializer.Create();
+namespace Shared
+{
+    public class ReservationController : ControllerBase
+    {
 
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
-        public event EventHandler<AddReservationEventArgs> ReservationAdded;
-
-        public class AddReservationEventArgs {
-            public Reservation reservation;
-
-            public AddReservationEventArgs(Reservation reservation) {
-                this.reservation = reservation;
-            }
-        }
-
-        public event EventHandler<UpdateReservationEventArgs> ReservationUpdated;
-
-        public class UpdateReservationEventArgs {
-            public Reservation reservation;
-            public Reservation oldReservation;
-            public bool hasMoved;
-
-            public UpdateReservationEventArgs(Reservation oldReservation, Reservation reservation, bool hasMoved) {
-                this.oldReservation = oldReservation;
-                this.reservation = reservation;
-                this.hasMoved = hasMoved;
-            }
-        }
-
-        public event EventHandler<RemoveReservationEventArgs> ReservationRemoved;
-
-        public class RemoveReservationEventArgs {
-            public Reservation reservation;
-
-            public RemoveReservationEventArgs(Reservation reservation) {
-                this.reservation = reservation;
-            }
-        }
+        public event EventHandler ReservationUpdated;
 
         //TODO: make sure it is pending if from user
 
@@ -53,23 +20,24 @@ namespace Shared {
             reservation.id = getRandomID();
             reservation.created = DateTime.Now;
 
-
             addToDay(reservation);
 
-            ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
+            //ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
         }
-
         //TODO: make sure it is pending if from user
-        public void updateReservation(Reservation oldReservation, Reservation reservation) {
-            bool hasMoved = reservation.time.Date != oldReservation.time.Date;
+        public void updateReservation(Reservation reservation)
+        {
+            Reservation oldReservation =
+                reservationsCalendar.SelectMany(cd => cd.reservations).FirstOrDefault(r => r.id == reservation.id);
 
             reservation.created = oldReservation.created;
+
             removeFromDay(oldReservation);
             addToDay(reservation);
 
-
-            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(oldReservation, reservation, hasMoved));
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
         }
 
@@ -77,13 +45,18 @@ namespace Shared {
 
             removeFromDay(reservation);
 
-            ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(reservation));
-            
+            //ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(reservation));
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         private Random rand = new Random();
 
-        private int getRandomID() {
+        public ReservationController(string path = "data/") : base(path)
+        {
+        }
+
+        private int getRandomID()
+        {
             int id;
 
             do id = rand.Next(); while (reservationsCalendar.Any(cdl => cdl.reservations.Exists(res => res.id == id)));
@@ -98,7 +71,7 @@ namespace Shared {
 
 
             checkIfAutoAccept(reservation, resDay);
-            
+
             resDay.reservations.Add(reservation);
             resDay.calculateReservedSeats();
             //resDay.reservedSeats += reservation.numPeople;
@@ -116,7 +89,7 @@ namespace Shared {
         public void checkIfRemove(CalendarDay day) {
             if (!day.isLocked && day.reservations.Count < 1
                  && day.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
-                 && day.defaultAcceptPresentage == day.acceptPresentage) 
+                 && day.defaultAcceptPresentage == day.acceptPresentage)
 
                 reservationsCalendar.Remove(day);
         }
@@ -133,7 +106,8 @@ namespace Shared {
             rooms.Add(room);
         }
 
-        public void removeRoom(Room room) {
+        public void removeRoom(Room room)
+        {
             rooms.Remove(room);
             foreach (var day in reservationsCalendar) {
                 day.unreserveRoom(this, room);
@@ -155,6 +129,11 @@ namespace Shared {
             }
         }
 
+        public override void save()
+        {
+            saveFile("reservationsCalendar", reservationsCalendar);
+            saveFile("rooms", rooms);
+        }
         private void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
 
             if (resDay != null || !resDay.isLocked
@@ -168,49 +147,11 @@ namespace Shared {
 
         }
 
-        public override void save() {
-            Directory.CreateDirectory("data");
 
-            using (StreamWriter streamWriter = new StreamWriter("data/reservationsCalendar.json"))
-            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter)) {
-                jsonSerializer.Serialize(jsonTextWriter, reservationsCalendar);
-            }
-            using (StreamWriter streamWriter = new StreamWriter("data/rooms.json"))
-            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter)) {
-                jsonSerializer.Serialize(jsonTextWriter, rooms);
-            }
-        }
-
-
-
-        public override void load() {
-            //TODO: create a function for these(consider Entity System thing)
-            Directory.CreateDirectory("data");
-            try {
-                using (StreamReader streamReader = new StreamReader("data/reservationsCalendar.json"))
-                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader)) {
-                    reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(jsonTextReader);
-
-                }
-                using (StreamReader streamReader = new StreamReader("data/rooms.json"))
-                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader)) {
-                    rooms = jsonSerializer.Deserialize<List<Room>>(jsonTextReader);
-
-                }
-            } catch (FileNotFoundException) {
-                Console.WriteLine("reservationsCalendar.json or rooms.json not found"); // TODO: put this stuff inside some function
-            }
-
-            if (reservationsCalendar == null) {
-                Console.WriteLine("reservationsCalendar was null after loading... setting it to new list");
-                reservationsCalendar = new List<CalendarDay>();
-            }
-
-            if (rooms == null) {
-                Console.WriteLine("rooms was null after loading... setting it to new list");
-                rooms = new List<Room>();
-            }
-
+        public override void load()
+        {
+            reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
+            rooms = loadFile<Room>("rooms");
         }
 
     }
