@@ -142,7 +142,7 @@ namespace Shared
                 && resDay.acceptPresentage <= (resDay.reservedSeats + reservation.numPeople)*100 / resDay.numSeats
                 && reservation.state == Reservation.State.Pending) {
                 reservation.state = Reservation.State.Accepted;
-                updateReservation(reservation,reservation);
+                updateReservation(reservation);
             }
 
         }

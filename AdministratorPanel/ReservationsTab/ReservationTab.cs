@@ -178,18 +178,6 @@ namespace AdministratorPanel {
 
         private void subscriberList() {
 
-            reservationController.ReservationAdded += (sender, args) => {
-                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date);
-
-                updateProgressBar(day);
-            };
-
-            reservationController.ReservationRemoved += (sender, args) => {
-                CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date);
-
-                updateProgressBar(day);
-            };
-
             reservationController.ReservationUpdated += (sender, args) => {
                 CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date);
 
