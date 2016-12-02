@@ -128,6 +128,11 @@ namespace AdministratorPanel {
                     productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
                 }
             }
+
+            if (productList == null) {
+                productList = new List<Product>();
+            }
+
         }
     }
 }

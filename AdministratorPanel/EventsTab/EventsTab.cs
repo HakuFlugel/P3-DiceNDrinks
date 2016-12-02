@@ -75,6 +75,10 @@ namespace AdministratorPanel {
                 }
             }
             catch (Exception) { }
+
+            if (Evnts == null) {
+                Evnts = new List<Event>();
+            }
         }
     }
 }

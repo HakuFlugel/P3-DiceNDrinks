@@ -39,6 +39,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Games.cs" />
     <Compile Include="ProductItemTest.cs" />
     <Compile Include="ProductTabTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -172,13 +172,15 @@ namespace AdministratorPanel
         }
 
         public override void Load() {
-//            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
-//            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
-//                try {
-//                    calDayList = deserializer.Deserialize(fileReader) as List<CalendarDay>;
-//                }
-//                catch (Exception) { }
-//            }
+            //            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
+            //            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
+            //                try {
+            //                    calDayList = deserializer.Deserialize(fileReader) as List<CalendarDay>;
+            //                }
+            //                catch (Exception) { }
+            //            }
+
+            
         }
     }
 }
