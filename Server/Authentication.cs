@@ -22,7 +22,7 @@ namespace Server
 
         public bool authenticate(string key)
         {
-            return adminKeys.ContainsKey(key);
+            return !String.IsNullOrEmpty(key) && adminKeys.ContainsKey(key);
         }
 
         public void load()
@@ -55,7 +55,7 @@ namespace Server
             using (StreamWriter streamWriter = new StreamWriter(path + nameext))
             using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
             {
-                jsonSerializer.Serialize(jsonTextWriter, content);
+                jsonSerializer.Serialize(jsonTextWriter, adminKeys);
             }
 
         }

@@ -8,7 +8,7 @@ Response.Write(Directory.GetCurrentDirectory());
 Response.Write(Server.MapPath("~"));
 try
 {
-    Server.DiceServer diceServer = new Server.DiceServer();
+    Server.DiceServer diceServer = (Server.DiceServer) Application["DiceServer"];
     Application.Lock();
     Response.Write(diceServer.getReservations());
 }

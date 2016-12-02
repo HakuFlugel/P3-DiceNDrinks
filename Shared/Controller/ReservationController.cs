@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Newtonsoft;
 
 // TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
 
@@ -14,42 +12,7 @@ namespace Shared
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
-/*        public event EventHandler<AddReservationEventArgs> ReservationAdded;
-
-        public class AddReservationEventArgs
-        {
-            public Reservation newReservation;
-
-            public AddReservationEventArgs(Reservation newReservation)
-            {
-                this.newReservation = newReservation;
-            }
-        }*/
-
-        public event EventHandler<UpdateReservationEventArgs> ReservationUpdated;
-
-        public class UpdateReservationEventArgs
-        {
-            public Reservation newReservation;
-            public Reservation oldReservation;
-
-            public UpdateReservationEventArgs(Reservation oldReservation, Reservation newReservation)
-            {
-                this.oldReservation = oldReservation;
-                this.newReservation = newReservation;
-            }
-        }
-
-/*        public event EventHandler<RemoveReservationEventArgs> ReservationRemoved;
-        public class RemoveReservationEventArgs
-        {
-            public Reservation newReservation;
-
-            public RemoveReservationEventArgs(Reservation newReservation)
-            {
-                this.newReservation = newReservation;
-            }
-        }*/
+        public event EventHandler ReservationUpdated;
 
         public void addReservation(Reservation reservation)
         {
@@ -58,23 +21,22 @@ namespace Shared
 
             addToDay(reservation);
 
-            //ReservationAdded?.Invoke(this, new AddReservationEventArgs(newReservation));
-            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(null, reservation));
+            //ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
         }
 
-        public void updateReservation(Reservation oldReservation, Reservation newReservation)
+        public void updateReservation(Reservation reservation)
         {
-            bool hasMoved = newReservation.time.Date != oldReservation.time.Date;
-            //TODO: do we need this if the if-else is commented out?
+            Reservation oldReservation =
+                reservationsCalendar.SelectMany(cd => cd.reservations).FirstOrDefault(r => r.id == reservation.id);
 
-
-            newReservation.created = oldReservation.created;
+            reservation.created = oldReservation.created;
 
             removeFromDay(oldReservation);
-            addToDay(newReservation);
+            addToDay(reservation);
 
-            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(oldReservation, newReservation));
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
         }
 
@@ -83,8 +45,8 @@ namespace Shared
 
             removeFromDay(reservation);
 
-            //ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(newReservation));
-            ReservationUpdated?.Invoke(this, new UpdateReservationEventArgs(reservation, null));
+            //ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(reservation));
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         private Random rand = new Random();

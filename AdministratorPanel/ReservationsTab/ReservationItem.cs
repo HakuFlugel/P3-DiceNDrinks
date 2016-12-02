@@ -57,7 +57,7 @@ namespace AdministratorPanel
             acceptButton.Text = "Accept";
             acceptButton.Click += (s, e) => {
                 res.pending = false;
-                reservationController.updateReservation(res, res); //TODO: a little hacky
+                reservationController.updateReservation(res);
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };

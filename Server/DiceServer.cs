@@ -12,7 +12,7 @@ namespace Server
 
         private string path;
 
-        public Authentication authentication;
+        //public Authentication authentication;
 
         public ReservationController reservationController;
         public EventsController eventsController;
@@ -23,7 +23,7 @@ namespace Server
         {
             this.path = path;
 
-            authentication = new Authentication(path);
+            //authentication = new Authentication(path);
 
             reservationController = new ReservationController(path);
             eventsController = new EventsController(path);

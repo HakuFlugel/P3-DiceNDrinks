@@ -182,7 +182,7 @@ namespace AdministratorPanel {
             }
             else
             {
-                reservationController.updateReservation(reservation, newres);
+                reservationController.updateReservation(newres);
             }
 
             this.Close();
