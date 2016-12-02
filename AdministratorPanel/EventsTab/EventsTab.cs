@@ -67,13 +67,15 @@ namespace AdministratorPanel {
         public override void Load() {
             //XmlDeclaration deserializer = new XmlDeclaration();
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (FileStream fileReader = new FileStream(@"fix.xml", FileMode.OpenOrCreate)) {
-                try {
+            try
+            {
+                using (FileStream fileReader = new FileStream(@"fix.xml", FileMode.OpenOrCreate)) {
+                
                     Evnts = deserializer.Deserialize(fileReader) as List<Event>;
 
                 }
-                catch (Exception) { }
-            }   
+            }
+            catch (Exception) { }
         }
     }
 }

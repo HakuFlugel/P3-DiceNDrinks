@@ -8,7 +8,7 @@ using System.Drawing;
 using Shared;
 
 namespace AdministratorPanel {
-    class EventItem : NiceButton {
+    public class EventItem : NiceButton {
 
         public string name;
         public string description;
@@ -17,6 +17,7 @@ namespace AdministratorPanel {
 
         public EventItem(EventsTab evntTab, Event evnt) {
             this.name = evnt.name;
+            Name = "EventItem";
             this.description = evnt.description;
             this.startDate = evnt.startDate;
             this.endDate = evnt.endDate;

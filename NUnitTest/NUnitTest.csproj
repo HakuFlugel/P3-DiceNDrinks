@@ -42,7 +42,7 @@
     <Compile Include="ProductItemTest.cs" />
     <Compile Include="ProductTabTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestClass1.cs" />
+    <Compile Include="EventTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

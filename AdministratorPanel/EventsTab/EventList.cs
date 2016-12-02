@@ -8,6 +8,7 @@ using System.Windows.Forms;
 namespace AdministratorPanel {
     class EventList : TableLayoutPanel {
         public EventList() {
+            Name = "EventList";
             Dock = DockStyle.Fill;
             BorderStyle = BorderStyle.Fixed3D;
             ColumnCount = 1;
