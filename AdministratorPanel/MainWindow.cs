@@ -15,7 +15,7 @@ namespace AdministratorPanel {
             Size = new Size(220, 100),
             FormBorderStyle = FormBorderStyle.FixedDialog,
             ControlBox = false,
-            StartPosition = new Point
+            //StartPosition = new FormStartPosition(),
         };
 
         private ProgressBar probar = new ProgressBar() {
