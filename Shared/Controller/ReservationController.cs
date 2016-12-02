@@ -164,12 +164,12 @@ namespace Shared
 
                 reservation.state = Reservation.State.Accepted;
 
-                updateReservation(reservation, reservation);
+                updateReservation(reservation);
 
             } else if (resDay != null && resDay.isLocked) {
                 reservation.state = Reservation.State.Denied;
 
-                updateReservation(reservation, reservation);
+                updateReservation(reservation);
             }
                 
 
