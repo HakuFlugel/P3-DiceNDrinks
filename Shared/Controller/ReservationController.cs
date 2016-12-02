@@ -30,7 +30,7 @@ namespace Shared
         public void updateReservation(Reservation reservation)
         {
             Reservation oldReservation =
-                reservationsCalendar.SelectMany(cd => cd.reservations).FirstOrDefault(r => r.id == reservation.id);
+                reservationsCalendar.SelectMany(cd => cd.reservations).First(r => r.id == reservation.id);
 
             reservation.created = oldReservation.created;
 

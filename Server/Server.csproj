@@ -50,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="dndserver\get.aspx" />
     <Content Include="dndserver\global.asax" />
     <Content Include="dndserver\index.aspx" />
     <Content Include="dndserver\submitReservation.aspx" />

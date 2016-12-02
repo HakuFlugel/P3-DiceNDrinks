@@ -14,40 +14,43 @@
     string action = Request.Form["Action"];
     string reservationString = Request.Form["Reservation"] ?? "null";
 
+
     Shared.Reservation reservation = Newtonsoft.Json.JsonConvert.DeserializeObject<Shared.Reservation>(reservationString);
 
+    if (reservation == null || action == null)
+    {
+        Response.Write("<p>No reservation provided</p>");
+        return;
+    }
+
+    //TODO: make sure it handles both correct and incorrect input...
     Application.Lock();
     if (action == "delete")
     {
         diceServer.reservationController.removeReservation(reservation);
+        Response.Write("deleted");
     }
     else if (action == "add")
     {
         diceServer.reservationController.addReservation(reservation);
+        Response.Write("added " +reservation.id);
     }
     else if (action == "update")
     {
-        diceServer.reservationController.updateReservation(reservation);
-    }
-    Application.UnLock();
-
-
-
-    if (reservation == null)
-    {
-
-        Response.Write("<p>No reservation provided</p>");
-
-
+        try
+        {
+            diceServer.reservationController.updateReservation(reservation);
+            Response.Write("updated");
+        }
+        catch (ArgumentNullException)
+        {
+            Response.Write("failed");
+        }
     }
     else
     {
-        Application.Lock();
-        //TODO: check if add, change or remove; maybe earlier
-        diceServer.reservationController.addReservation(reservation);
-        Response.Write("...");
-        Application.UnLock();
+        Response.Write("<p>invalid action</p>");
     }
-
+    Application.UnLock();
 
 %>
