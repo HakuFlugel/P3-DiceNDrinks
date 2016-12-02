@@ -15,7 +15,6 @@ namespace NUnitTest {
         EventsTab eventsTap = new EventsTab();
         EventItem eventItem;
 
-
         public EventTest() {
             testEvent.id = 1;
             testEvent.name = "Weston Wensday";
@@ -24,11 +23,6 @@ namespace NUnitTest {
             eventsTap.Evnts.Add(testEvent);
             eventsTap.makeItems();
         }
-
-        /*[Test]
-        public void EventAddedTest() {
-            Assert.True(eventsTap.Controls.Find("EventList", true).First().Controls.Find("EventItem", true).Any(o => o is EventItem && (o as EventItem).name == "Weston Wensday"));
-        }*/
 
         [Test]
         public void EventItemCreationTest() {

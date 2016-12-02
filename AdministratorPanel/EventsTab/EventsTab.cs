@@ -11,48 +11,48 @@ using System.Xml.Serialization;
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> Evnts = new List<Event>();
-        EventList lowertlp = new EventList();
+        EventList lowerTable = new EventList();
 
         public EventsTab() {
             Load();
 
             Text = "Events";
 
-            TableLayoutPanel headtlp = new TableLayoutPanel();
-            headtlp.Dock = DockStyle.Fill;
-            //headtlp.BackColor = Color.Transparent;
-            headtlp.RowCount = 2;
-            headtlp.ColumnCount = 1;
+            TableLayoutPanel headTable = new TableLayoutPanel();
+            headTable.Dock = DockStyle.Fill;
+            //headTable.BackColor = Color.Transparent;
+            headTable.RowCount = 2;
+            headTable.ColumnCount = 1;
 
-            FlowLayoutPanel topflp = new FlowLayoutPanel();
-            topflp.Dock = DockStyle.Top;
-            topflp.FlowDirection = FlowDirection.RightToLeft;
-            topflp.AutoSize = true;
+            FlowLayoutPanel topFlowPanel = new FlowLayoutPanel();
+            topFlowPanel.Dock = DockStyle.Top;
+            topFlowPanel.FlowDirection = FlowDirection.RightToLeft;
+            topFlowPanel.AutoSize = true;
 
             makeItems();
 
-            Button addEvent = new Button();
-            addEvent.Height = 20;
-            addEvent.Width = 100;
-            addEvent.Text = "Add Event";
-            addEvent.Click += (s, e) => {
+            Button addEventButton = new Button();
+            addEventButton.Height = 20;
+            addEventButton.Width = 100;
+            addEventButton.Text = "Add Event";
+            addEventButton.Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(this);
                 p.Show();
             };
 
-            topflp.Controls.Add(addEvent);           
-            headtlp.Controls.Add(topflp);
-            headtlp.Controls.Add(lowertlp);
+            topFlowPanel.Controls.Add(addEventButton);           
+            headTable.Controls.Add(topFlowPanel);
+            headTable.Controls.Add(lowerTable);
 
-            Controls.Add(headtlp);
+            Controls.Add(headTable);
             
         }
 
         public void makeItems() {
-            lowertlp.Controls.Clear();
+            lowerTable.Controls.Clear();
 
             foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
-                lowertlp.Controls.Add(new EventItem(this, item));
+                lowerTable.Controls.Add(new EventItem(this, item));
             }
         }
 

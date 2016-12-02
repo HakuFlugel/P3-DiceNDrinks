@@ -8,9 +8,8 @@ namespace Shared
         public int id;
         public string name;
         public string description;
-        public string facebookID;/*TODO: Facebook stuff*/
+        public string facebookID; /*TODO: Facebook stuff*/
         public DateTime startDate;
         public DateTime endDate;
-
     }
 }

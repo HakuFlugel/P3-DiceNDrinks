@@ -34,21 +34,18 @@ namespace AdministratorPanel {
                 p.Show();
             };
 
-
-            TableLayoutPanel lft = new TableLayoutPanel();
-            lft.Dock = DockStyle.Top;
-            lft.RowCount = 2;
-            lft.ColumnCount = 1;
-            lft.AutoSize = true;
+            TableLayoutPanel left = new TableLayoutPanel();
+            left.Dock = DockStyle.Top;
+            left.RowCount = 2;
+            left.ColumnCount = 1;
+            left.AutoSize = true;
             
-            lft.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
-            lft.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
+            left.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
+            left.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
 
-            Controls.Add(lft);
+            Controls.Add(left);
             Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, dd. MMMM, yyyy HH:mm") + 
                                     "\n\n End date: " + endDate.ToString("ddddd, dd. MMMM, yyyy HH:mm"), Dock = DockStyle.Left, AutoSize = true });
-
-
         }
     }
 }
