@@ -7,6 +7,10 @@ namespace Shared
     {
         List<Game> games = new List<Game>();
 
+        public GamesController(string path = "data/") : base(path)
+        {
+        }
+
         public event EventHandler<UpdateGameEventArgs> GameUpdated;
         public class UpdateGameEventArgs
         {
@@ -51,12 +55,12 @@ namespace Shared
 
         public override void save()
         {
-            saveFile("data/games.json", games);
+            saveFile("games", games);
         }
 
         public override void load()
         {
-            games = loadFile<Game>("data/games.json");
+            games = loadFile<Game>("games");
         }
     }
 }
