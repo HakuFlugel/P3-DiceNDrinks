@@ -20,7 +20,6 @@ namespace AdministratorPanel {
 
             TableLayoutPanel headtlp = new TableLayoutPanel();
             headtlp.Dock = DockStyle.Fill;
-            //headtlp.BackColor = Color.Transparent;
             headtlp.RowCount = 2;
             headtlp.ColumnCount = 1;
 

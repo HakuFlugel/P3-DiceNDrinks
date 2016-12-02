@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
-using System.Globalization;
 using System.Drawing;
 using System.Data;
 using System.Drawing.Imaging;
 using System.IO;
 
 namespace AdministratorPanel {
-    class ProductPopupBox : FancyPopupBox {
+     public class ProductPopupBox : FancyPopupBox {
         NiceTextBox productName = new NiceTextBox() {
             Width = 200,
             waterMark = "Product Name",
@@ -222,7 +220,6 @@ namespace AdministratorPanel {
                 priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
                 pr.Add(priceElement);
             }
-
             return pr;
         }
 

@@ -37,18 +37,18 @@ namespace NUnitTest {
 
         [Test]
         public void ProductNameInProductItem() {
-            Label ctr = productItem.Controls.Find("ProductName", true).FirstOrDefault() as Label;
+            Label control = productItem.Controls.Find("ProductName", true).FirstOrDefault() as Label;
 
-            Assert.True(ctr != null && ctr.Text == "Name");
+            Assert.True(control != null && control.Text == "Name");
             
         }
 
         [Test]
         public void PriceElementsInProductItem() {
-            TableLayoutPanel ctr = productItem.Controls.Find("PriceTableName", true).FirstOrDefault() as TableLayoutPanel;
+            TableLayoutPanel control = productItem.Controls.Find("PriceTableName", true).FirstOrDefault() as TableLayoutPanel;
 
-            Label[] priceElementsName = ctr.Controls.Find("PriceElementName", true) as Label[];
-            Label[] priceElementsPrice = ctr.Controls.Find("PriceElementPrice", true) as Label[];
+            Label[] priceElementsName = control.Controls.Find("PriceElementName", true) as Label[];
+            Label[] priceElementsPrice = control.Controls.Find("PriceElementPrice", true) as Label[];
 
             for (int i = 0; i < product.PriceElements.Count(); i++) {
 
