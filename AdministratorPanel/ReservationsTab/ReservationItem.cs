@@ -93,15 +93,7 @@ namespace AdministratorPanel {
             theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theLeftItems.Controls.Add(new Label { Text = email, Width = 150 });
             theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
-            Console.WriteLine("1");
-            foreach (var item in theRightItems.Controls)
-                Console.WriteLine(item.ToString());
-            Console.WriteLine("2");
-            foreach (var item in theMiddleItems.Controls)
-                Console.WriteLine(item.ToString());
-            Console.WriteLine("3");
-            foreach (var item in theLeftItems.Controls)
-                Console.WriteLine(item.ToString());
+            
         }
 
         private void subscribeController() {
@@ -126,7 +118,7 @@ namespace AdministratorPanel {
             acceptButton.Click += (s, e) => {
                 res.state = Reservation.State.Accepted;
                 update(); //TODO: a little hacky
-                reservationController.updateReservation(res/*,*/ /*res*7*/);
+                reservationController.updateReservation(res);
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };

@@ -18,7 +18,7 @@ namespace AdministratorPanel
             this.calendar = calendar;
             this.reservationController = reservationController;
 
-            calendar.DateSelected += (sender, args) => { makeItems(args.Start);};
+            calendar.DateChanged += (sender, args) => { makeItems(args.Start);};
             makeItems(calendar.SelectionStart);
 
             Dock = DockStyle.Fill;

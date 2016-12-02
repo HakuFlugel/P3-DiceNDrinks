@@ -7,28 +7,67 @@ using Shared;
 namespace AdministratorPanel {
     public class MainWindow : Form {
 
-        List<AdminTabPage> tabs = new List<AdminTabPage>();
+        private List<AdminTabPage> tabs = new List<AdminTabPage>();
 
-        public ReservationController reservationController;
+        private ReservationController reservationController;
 
-        public MainWindow()
-        {
+        private Form progressBar = new Form() {
+            Size = new Size(220, 100),
+            FormBorderStyle = FormBorderStyle.FixedDialog,
+            ControlBox = false,
+            StartPosition = new Point
+        };
 
+        private ProgressBar probar = new ProgressBar() {
+            Style = ProgressBarStyle.Continuous,
+            Dock = DockStyle.Left,
+            Minimum = 0,
+            Step = 1,
+            Maximum = 10,
+            Value = 0,
+            Width = 200
+        };
+
+        private Label probarLoading = new Label() {
+            Text = "Loading",
+            BackColor = Color.Transparent };
+
+        public MainWindow() {
+
+            progressBar.Show();
+            progressBar.Controls.Add(probar);
+
+            probar.Controls.Add(probarLoading);
+            probar.Value++;
+            progressBar.Focus();
             Text = "Dice 'n Drinks";
-
+            
+            
+            probar.Value++;
+            progressBar.Focus();
             AutoScaleMode = AutoScaleMode.Dpi;
-
+            probar.Value++;
+            progressBar.Focus();
             MinimumSize = new Size(960, 540);
             Width = 960;
             Height = 540;
 
+            probar.Value++;
+            progressBar.Focus();
+
+            progressBar.Focus();
+
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
 
+            probar.Value++;
+            
             //cp.AutoSize = true;
-
+            
             reservationController = new ReservationController();
             reservationController.load();
+
+            probar.Value++;
 
             tabs.AddRange(new AdminTabPage[]{
                 new ReservationTab(reservationController),
@@ -37,15 +76,29 @@ namespace AdministratorPanel {
                 new EventsTab()
             });
 
+            probar.Value++;
+
             cp.Controls.AddRange(tabs.ToArray());
+
+            probar.Value++;
+
             Controls.Add(cp);
-            
+
+            probar.Value++;
+
             Activate();
+
+            probar.Value++;
+
+            
             Show();
 
+            probar.Value++;
+
+            progressBar.Close();
         }
 
-        public void Start() {
+        private void Start() {
 
             DoubleBuffered = true;
             Application.Run(this);
@@ -59,7 +112,7 @@ namespace AdministratorPanel {
         }
 
         [STAThread]
-        public static void Main(string[] args) {
+        private static void Main(string[] args) {
 
             //ReservationController reservationController = new ReservationController();
             //reservationController.load();
@@ -69,9 +122,9 @@ namespace AdministratorPanel {
 
 
             MainWindow p = new MainWindow();
-//            {
-//                reservationController = reservationController
-//            };
+            //            {
+            //                reservationController = reservationController
+            //            };
 
 
 

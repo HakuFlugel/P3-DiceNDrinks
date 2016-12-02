@@ -25,6 +25,7 @@ namespace Shared
             //ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
+            checkIfAutoAccept(reservation, findDay(reservation.time));
         }
         //TODO: make sure it is pending if from user
         public void updateReservation(Reservation reservation)
@@ -37,6 +38,8 @@ namespace Shared
             removeFromDay(oldReservation);
 
             addToDay(reservation);
+            if(reservation.time.Date != oldReservation.time.Date)
+                checkIfAutoAccept(reservation, findDay(reservation.time));
 
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
@@ -69,14 +72,11 @@ namespace Shared
         private void addToDay(Reservation reservation) {
 
             CalendarDay resDay = findDay(reservation.time);
-
-            Console.WriteLine("Cunt");
-            checkIfAutoAccept(reservation, resDay);
-
+            
             resDay.reservations.Add(reservation);
             resDay.calculateReservedSeats();
             //resDay.reservedSeats += reservation.numPeople;
-
+            
         }
 
         public CalendarDay findDay(DateTime date) {
@@ -88,7 +88,7 @@ namespace Shared
             return resDay;
         }
         public bool checkIfRemove(CalendarDay day) {
-            if (day.theDay < DateTime.Today || !day.isLocked && day.reservations.Count < 1
+            if (day.theDay < DateTime.Today.AddDays(-1) || !day.isLocked && day.reservations.Count < 1
                  && day.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
                  && day.defaultAcceptPresentage == day.acceptPresentage)
 
@@ -140,38 +140,42 @@ namespace Shared
             saveFile("reservationsCalendar", reservationsCalendar);
             saveFile("rooms", rooms);
         }
-        private void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
-            Console.WriteLine("cunt");
+        public void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
+         
             
-            Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
+            //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
 
             int reservedSeats = 0;
 
             if(resDay != null ) {
                 if (resDay.numSeats == 0)
-                    resDay.calculateReservedSeats();
+                    resDay.calculateSeats(this);
                 foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
                     reservedSeats += item.numPeople;
             }
-               
 
-            if (resDay == null && reservation.numPeople <= 5
-                || !resDay.isLocked
-                && resDay.autoAcceptMaxPeople >= reservation.numPeople
-                && resDay.isAutoaccept //maybe
-                && resDay.acceptPresentage <= (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats
-                && reservation.state == Reservation.State.Pending) {
+            if (resDay != null && resDay.isLocked && reservation.state != Reservation.State.Denied) {
+                reservation.state = Reservation.State.Denied;
+                Console.WriteLine("Denied");
+
+
+            } else if ((resDay == null && reservation.numPeople <= 5
+             || (!resDay.isLocked
+             && resDay.autoAcceptMaxPeople >= reservation.numPeople
+             && resDay.isAutoaccept //maybe
+             && resDay.acceptPresentage >= (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats))
+             && reservation.state != Reservation.State.Accepted) {
 
                 reservation.state = Reservation.State.Accepted;
-
-                updateReservation(reservation, reservation);
-
-            } else if (resDay != null && resDay.isLocked) {
-                reservation.state = Reservation.State.Denied;
-
-                updateReservation(reservation, reservation);
-            }
+                Console.WriteLine("Resevation: " + reservation.name + " Accepted");
                 
+                
+
+            } else 
+                return;
+            updateReservation(reservation);
+
+
 
         }
 
