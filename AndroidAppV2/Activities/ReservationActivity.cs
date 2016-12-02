@@ -36,11 +36,8 @@ namespace AndroidAppV2.Activities
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.ReservationLayout);
-            // Create your application here
-
 
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             _dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
@@ -54,7 +51,7 @@ namespace AndroidAppV2.Activities
             if (_userId == default(int))
                 _state = false;
 
-            //Using Random because we have no server to request from (method implemention)?
+            //Using Random because we have no server to request from (method implemention)? TODO: SERVER maybe useless because of FCM
             if (_userId == 0) {
                 Random random = new Random();
 
@@ -116,22 +113,6 @@ namespace AndroidAppV2.Activities
             sb.SetOnSeekBarChangeListener(this);
         }
 
-        /*private void LoadID() {
-            string input;
-            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
-            if (!File.Exists(path + "/TheUserReservationID.json")) {
-                return;
-            }
-            var filename = Path.Combine(path, "TheUserReservationID.json");
-
-            input = File.ReadAllText(filename);
-
-            if (input != null) {
-                _userID = JsonConvert.DeserializeObject<int>(input);
-            }
-        }*/
-
-
         private void SendData(Reservation res)
         {
             if (res.name == "") {
@@ -183,14 +164,14 @@ namespace AndroidAppV2.Activities
             
 
             //Saving locally instead of server saving
-            var json = JsonConvert.SerializeObject(res);
-            var path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
-            var filename = Path.Combine(path, "VirtualServerReservation.json");
+            string json = JsonConvert.SerializeObject(res);
+            string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+            string filename = Path.Combine(path, "VirtualServerReservation.json");
 
             File.WriteAllText(filename, json);
 
-            var json2 = JsonConvert.SerializeObject(res.id);
-            var filename2 = Path.Combine(path, "TheUserReservationID.json");
+            string json2 = JsonConvert.SerializeObject(res.id);
+            string filename2 = Path.Combine(path, "TheUserReservationID.json");
 
             File.WriteAllText(filename2, json2);
 
@@ -295,7 +276,7 @@ namespace AndroidAppV2.Activities
         public static readonly string TAG = "X:" + typeof(DatePickerFragment).Name.ToUpper();
 
         // Initialize this value to prevent NullReferenceExceptions.
-        Action<DateTime> _dateSelectedHandler = delegate { };
+        private Action<DateTime> _dateSelectedHandler = delegate { };
 
         public static DatePickerFragment NewInstance(Action<DateTime> onDateSelected)
         {
@@ -331,7 +312,7 @@ namespace AndroidAppV2.Activities
         // ReSharper disable once InconsistentNaming
         public static readonly string TAG = "X:" + typeof(TimePickerFragment).Name.ToUpper();
 
-        Action<DateTime> _timeSelectedHandler = delegate { };
+        private Action<DateTime> _timeSelectedHandler = delegate { };
 
         public static TimePickerFragment NewInstance(Action<DateTime> onDateSelected)
         {
@@ -363,7 +344,7 @@ namespace AndroidAppV2.Activities
 
         private static DateTime Round(DateTime dateTime, TimeSpan interval)
         {
-            var halfIntervelTicks = ((interval.Ticks + 1) >> 1);
+            long halfIntervelTicks = ((interval.Ticks + 1) >> 1);
 
             return dateTime.AddTicks(halfIntervelTicks - ((dateTime.Ticks + halfIntervelTicks) % interval.Ticks));
         }

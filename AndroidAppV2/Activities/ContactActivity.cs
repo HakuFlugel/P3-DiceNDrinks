@@ -11,12 +11,8 @@ namespace AndroidAppV2.Activities
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.contactLayout);
-
-            // Create your application here
 
             Button button = FindViewById<Button>(Resource.Id.MapButton);
             TextView phone = FindViewById<TextView>(Resource.Id.AboutUsPhone);
