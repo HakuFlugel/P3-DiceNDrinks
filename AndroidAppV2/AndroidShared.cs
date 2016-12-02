@@ -52,9 +52,7 @@ namespace AndroidAppV2
             };
             // The result will be null because InJustDecodeBounds == true.
 
-            //Stream file = File.Open(Android.OS.Environment.ExternalStorageDirectory.Path + image, FileMode.Open, FileAccess.Read);
-
-            await BitmapFactory.DecodeFileAsync(image, options); //DecodeStreamAsync(file, new Rect(), options);
+            await BitmapFactory.DecodeFileAsync(image, options);
 
             return options;
         }
@@ -67,9 +65,7 @@ namespace AndroidAppV2
             // Decode bitmap with inSampleSize set
             options.InJustDecodeBounds = false;
 
-            //Stream file = File.Open(Android.OS.Environment.ExternalStorageDirectory.Path + image, FileMode.Open, FileAccess.Read);
-
-            return await BitmapFactory.DecodeFileAsync(image, options); //DecodeStreamAsync(file, new Rect(), options);
+            return await BitmapFactory.DecodeFileAsync(image, options);
         }
 
         private static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
