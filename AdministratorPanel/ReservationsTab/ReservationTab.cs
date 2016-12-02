@@ -123,14 +123,15 @@ namespace AdministratorPanel {
             reservationController.rooms.Clear();
             reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
+
+
             foreach (var item in reservationController.reservationsCalendar)
-                if (item.theDay < DateTime.Today)
+                if (reservationController.checkIfRemove(item))
                     toremove.Add(item);
-                else
-                    reservationController.checkIfRemove(item);
 
             foreach (var item in toremove)
                 reservationController.reservationsCalendar.Remove(item);
+
             CalendarDay tempDate = (reservationController.reservationsCalendar.Find(x => x.theDay == DateTime.Today));
             autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPresentage.ToString() : "50" ;
             maxAutoAccept.Text = (tempDate != null) ? tempDate.autoAcceptMaxPeople.ToString() : "5";
@@ -173,6 +174,7 @@ namespace AdministratorPanel {
             subscriberList();
             tooltipController();
             //Hack
+
             updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
         }
 
@@ -197,12 +199,21 @@ namespace AdministratorPanel {
             };
 
             calendar.DateChanged += (s, e) => {
-                Console.WriteLine("DateChanged");
                 CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == e.Start.Date);
-                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + ((day != null) ? "excist" : "dosen't excist") + Environment.NewLine + "lockReservation: " + ((day != null) ? day.isLocked.ToString() : "Nogo") + Environment.NewLine + "autopresentage: " + ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
+
+                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + 
+                                ((day != null) ? "excist" : "dosen't excist") + 
+                                Environment.NewLine + "lockReservation: " + 
+                                ((day != null) ? day.isLocked.ToString() : "Nogo") + 
+                                Environment.NewLine + "autopresentage: " + 
+                                ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
+
                 lockResevations.Checked = (day != null) ? (day.isFullChecked || day.isLocked) : false;
+
                 updateProgressBar(day);
+
                 autoAcceptPresentage.Text = (day != null) ? day.acceptPresentage.ToString() : "50";
+
                 maxAutoAccept.Text = (day != null) ? ((day.autoAcceptMaxPeople == 501) ? "0" : day.autoAcceptMaxPeople.ToString()) : "5";
                     
             };
@@ -233,7 +244,9 @@ namespace AdministratorPanel {
                 
                 day.isLocked = lockResevations.Checked;
 
-                reservationController.checkIfRemove(day);
+                if(reservationController.checkIfRemove(day)) {
+                    reservationController.reservationsCalendar.Remove(day);
+                }
 
             };
 
@@ -364,6 +377,14 @@ namespace AdministratorPanel {
         }
 
         private void testButtonfunc() {
+            
+            topRightTable.Controls.Add(testButton);
+            testButton.Click += (s, e) => {
+                createResevation();
+            };
+        }
+
+        public void createResevation() {
             string[] firstnames = {
                 "Candyce","Leigh",
                 "Carl","Klara","Kristan",
@@ -379,23 +400,31 @@ namespace AdministratorPanel {
                 "Padilla","Ehret","Claxton","Keyes","Staff","Tower",
                 "Backstrom","Oglesby","Stanger","Flansburg"
             };
-            topRightTable.Controls.Add(testButton);
-            testButton.Click += (s, e) => {
-                Random rand = new Random();
-                Reservation res = new Reservation();
-                string fnam = firstnames[rand.Next(0,firstnames.Count())];
-                string lnam = lastnames[rand.Next(0, lastnames.Count())];
-                res.name = fnam + " " + lnam;
-                res.email = fnam + rand.Next(0, 425).ToString() + "@" + "mail.org";
 
-                res.time = (rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, rand.Next(11, 12), rand.Next(1, 30));
-                res.state = Reservation.State.Pending;
-                res.phone = "12345678";
-                res.numPeople = rand.Next(0, 10);
-                res.created = DateTime.Now;
-                reservationController.addReservation(res);
+            string[] emailDomain = {
+                "hotmail.com","hotmail.dk","gmail.com","mail.com","mail.dk",
+                "hidemyass.com","webmail.com","webmail.dk","email.com",
+                "email.dk","computer.dk","jordkanin.dk","hem.dk"
             };
 
+            Random rand = new Random();
+            Reservation res = new Reservation();
+
+            string fnam = firstnames[rand.Next(0, firstnames.Count())];
+            string lnam = lastnames[rand.Next(0, lastnames.Count())];
+            res.name = fnam + " " + lnam;
+            res.email = fnam + rand.Next(0, 425).ToString() + "@" + emailDomain[rand.Next(0,emailDomain.Count())];
+
+            res.time = (rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, 12, rand.Next(1, 30));
+            res.state = Reservation.State.Pending;
+            res.phone = rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
+                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
+                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString();
+
+            res.numPeople = rand.Next(0, 10);
+            res.created = DateTime.Now;
+            reservationController.addReservation(res);
+            Console.WriteLine("Resevation added at: " + res.time.ToString());
         }
     }
 }

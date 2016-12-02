@@ -71,7 +71,7 @@ namespace AdministratorPanel
 
             //SuspendLayout();
             foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => o.state == Reservation.State.Accepted)) {
-                ReservationItem reservationItem = new ReservationItem(reservationController, res);
+                ReservationItem reservationItem = new ReservationItem(reservationController, res);  
 
                 Controls.Add(reservationItem);
             }
