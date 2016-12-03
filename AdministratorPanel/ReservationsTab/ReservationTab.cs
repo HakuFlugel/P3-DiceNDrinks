@@ -16,7 +16,7 @@ namespace AdministratorPanel {
         public int reserveSpaceValue;
         private ReservationController reservationController;
         public bool lockedRes = false;
-
+        private FormProgressBar probar;
         public CheckBox lockResevations = new CheckBox() {
             Text = "Lock Reservations",
         };
@@ -115,15 +115,16 @@ namespace AdministratorPanel {
             AutoSize = true
         };
 
-        public ReservationTab(ReservationController reservationController) {
+        public ReservationTab(ReservationController reservationController, FormProgressBar probar) {
 
             this.reservationController = reservationController;
-
+            this.probar = probar;
+            
             //TODO: temorary debug
             reservationController.rooms.Clear();
             reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
-
+            probar.addToProbar();                               //For progress bar. 1
 
             foreach (var item in reservationController.reservationsCalendar)
                 if (reservationController.checkIfRemove(item))
@@ -132,27 +133,32 @@ namespace AdministratorPanel {
             foreach (var item in toremove)
                 reservationController.reservationsCalendar.Remove(item);
 
+            probar.addToProbar();                               //For progress bar. 2
+
             CalendarDay tempDate = (reservationController.reservationsCalendar.Find(x => x.theDay == DateTime.Today));
             autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPresentage.ToString() : "50" ;
             maxAutoAccept.Text = (tempDate != null) ? tempDate.autoAcceptMaxPeople.ToString() : "5";
-
+            
 
             Text = "Reservations";
 
             Controls.Add(outerTable);
 
-
+            probar.addToProbar();                               //For progress bar. 3
             calendar = new Calendar();
 
 
             pendingReservationList = new PendingReservationList(calendar, this, reservationController);
+            probar.addToProbar();                               //For progress bar. 4
             reservationList = new ReservationList(calendar, reservationController); /*TODO: fix*/
+            probar.addToProbar();                               //For progress bar. 5
+
             // Left side
             outerTable.Controls.Add(leftTable);
             leftTable.Controls.Add(calendar);
             leftTable.Controls.Add(pendingReservationList);
 
-
+            probar.addToProbar();                               //For progress bar. 6
             // Right side
             outerTable.Controls.Add(rightTable);
             rightTable.Controls.Add(topRightTable);
@@ -168,14 +174,17 @@ namespace AdministratorPanel {
             topRightTable.Controls.Add(addReservation);
 
 
-            
+            probar.addToProbar();                               //For progress bar. 7
 
 
             subscriberList();
+            probar.addToProbar();                               //For progress bar. 8
             tooltipController();
+            probar.addToProbar();                               //For progress bar. 9
             //Hack
 
             updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
+            probar.addToProbar();                               //For progress bar. 10
         }
 
         private void subscriberList() {

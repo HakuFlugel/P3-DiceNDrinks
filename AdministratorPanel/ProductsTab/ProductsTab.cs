@@ -13,36 +13,38 @@ namespace AdministratorPanel {
         public List<Product> productList = new List<Product>();
 
         private TabControl tabControl = new TabControl();
-
-        public ProductsTab() {
+        private FormProgressBar probar;
+        public ProductsTab(FormProgressBar probar) {
             Text = "Products";
-
+            this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
             Load();
             //Generate();
             MakeItems();
-
+            probar.addToProbar();                               //For progress bar. 1
 
             TableLayoutPanel flp = new TableLayoutPanel();
             flp.Dock = DockStyle.Fill;
             flp.AutoSize = true;
             flp.RowCount = 2;
             flp.ColumnCount = 1;
-
+            probar.addToProbar();                               //For progress bar. 2
             Button addItemButton = new Button();
             addItemButton.Height = 20;
             addItemButton.Width = 100;
             addItemButton.Dock = DockStyle.Right;
             addItemButton.Text = "Add product";
+            probar.addToProbar();                               //For progress bar. 3
             addItemButton.Click += (s, e) => {
                 ProductPopupBox p = new ProductPopupBox(this);
                 p.Show();
             };
-
+            probar.addToProbar();                               //For progress bar. 4
             flp.Controls.Add(addItemButton);
             flp.Controls.Add(tabControl);
-           
+            probar.addToProbar();                               //For progress bar. 5
             Controls.Add(flp);
+            probar.addToProbar();                               //For progress bar. 6
         }
 
         public Product prmake(string name, string image, string cat, string section, List<PriceElement> pl) {

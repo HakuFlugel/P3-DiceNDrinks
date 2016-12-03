@@ -13,6 +13,7 @@ namespace AdministratorPanel {
         public List<Game> games;
         public GamesList game;
         string seach ="";
+        private FormProgressBar probar;
         
 
         TableLayoutPanel tb = new TableLayoutPanel() {
@@ -44,17 +45,19 @@ namespace AdministratorPanel {
         };
 
         Genres genres = new Genres();
-        public GamesTab() {
-
+        public GamesTab(FormProgressBar probar) {
+            this.probar = probar;
             Load();
+            probar.addToProbar();                               //For progress bar. 1
             if (games.Count < 1)
                 CreateGamesForDebugShit(); // For testing purpose only
+
             game = new GamesList(games,this,genres);
             game.makeItems(seach);
             Text = "Games";
-            //foreach (var item in games)
-            //    Console.WriteLine(item.name);
-            
+            probar.addToProbar();                               //For progress bar. 2
+                                        
+
 
             AutoSize = true;
             Dock = DockStyle.Fill;
@@ -77,10 +80,14 @@ namespace AdministratorPanel {
             };
             
             tb.Controls.Add(game);
+            probar.addToProbar();                               //For progress bar. 3
             Controls.Add(tb);
+            probar.addToProbar();                               //For progress bar. 4
             Controls.Add(tbtb);
             tbtb.Controls.Add(seachBar);
+            probar.addToProbar();                               //For progress bar. 5
             tbtb.Controls.Add(addGameButton);
+            probar.addToProbar();                               //For progress bar. 6
         }
 
         private void update() {

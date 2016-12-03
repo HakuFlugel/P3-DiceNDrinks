@@ -11,91 +11,54 @@ namespace AdministratorPanel {
 
         private ReservationController reservationController;
 
-        private Form progressBar = new Form() {
-            Size = new Size(220, 100),
-            FormBorderStyle = FormBorderStyle.FixedDialog,
-            ControlBox = false,
-            StartPosition = FormStartPosition.CenterScreen,
-        };
 
-        private ProgressBar probar = new ProgressBar() {
-            Style = ProgressBarStyle.Continuous,
-            Dock = DockStyle.Left,
-            Minimum = 0,
-            Step = 1,
-            Maximum = 11,
-            Value = 0,
-            Width = 200
-        };
+        private FormProgressBar probar = new FormProgressBar();
 
-        private Label probarLoading = new Label() {
-            Text = "Loading",
-            BackColor = Color.Transparent };
+        
 
         public MainWindow() {
-
-            progressBar.Show();
-            progressBar.Controls.Add(probar);
-
-            probar.Controls.Add(probarLoading);
-            probar.Value++;
-            progressBar.Focus();
+            probar.setProbarValue(37);                          //For progress bar, set the value. If you add or remove a probar.addToProbar(); then change this number!!!!!!!!!1! IT IS HARDCODED!
+            
             Text = "Dice 'n Drinks";
 
             StartPosition = FormStartPosition.CenterScreen;
-            probar.Value++;
-            progressBar.Focus();
+            
             AutoScaleMode = AutoScaleMode.Dpi;
-            probar.Value++;
-            progressBar.Focus();
+
             MinimumSize = new Size(960, 540);
             Width = 960;
             Height = 540;
-
-            probar.Value++;
-            progressBar.Focus();
-
-            progressBar.Focus();
+            
 
             TabControl cp = new TabControl();
             cp.Dock = DockStyle.Fill;
+            probar.addToProbar();                               //For progress bar. 1
+             //cp.AutoSize = true;
 
-            probar.Value++;
-            
-            //cp.AutoSize = true;
-            
             reservationController = new ReservationController();
             reservationController.load();
 
-            probar.Value++;
-
             tabs.AddRange(new AdminTabPage[]{
-                new ReservationTab(reservationController),
-                new ProductsTab(),
-                new GamesTab(),
-                new EventsTab()
+                new ReservationTab(reservationController,probar),
+                new ProductsTab(probar),
+                new GamesTab(probar),
+                new EventsTab(probar)
             });
-
-            probar.Value++;
+            probar.addToProbar();                               //For progress bar. 2
 
             cp.Controls.AddRange(tabs.ToArray());
-
-            probar.Value++;
+            probar.addToProbar();                               //For progress bar. 3
 
             Controls.Add(cp);
-
-            probar.Value++;
+            probar.addToProbar();                               //For progress bar. 4
 
             Activate();
 
-            probar.Value++;
-
-            
+            probar.addToProbar();
+            probar.addToProbar();                               //For progress bar. 5
             Show();
-
-            probar.Value++;
-
-            progressBar.Close();
+            
+            probar.Close();
         }
 
         private void Start() {
