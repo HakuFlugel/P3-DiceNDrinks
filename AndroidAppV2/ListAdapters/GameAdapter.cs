@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using System.Text;
+
 using Shared;
 
 
@@ -42,7 +44,7 @@ namespace AndroidAppV2.ListAdapters
             }
             sb.Remove(sb.Length - 3, 3);
 
-            view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = sb.ToString(); //chooses the first because genre is a list q.q
+            view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = sb.ToString();
             view.FindViewById<TextView>(Resource.Id.gameNameText).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.gameTimeText).Text = "Time: " + item.minPlayTime + "-" + item.maxPlayTime;
             view.FindViewById<TextView>(Resource.Id.gamePlayerText).Text = "Players: " + item.minPlayers + "-" + item.maxPlayers;
@@ -61,7 +63,6 @@ namespace AndroidAppV2.ListAdapters
             GC.Collect();
         }
 
-        //switches the list between being ascending and descending
         public void SwitchOrder()
         {
             _items.Reverse();
@@ -92,96 +93,33 @@ namespace AndroidAppV2.ListAdapters
                 case "Sværhedsgrad":
                     _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
+                case "Tilføjet":
+                    _items.Sort((a, b) => a.addedDate.CompareTo(b.addedDate));
+                    break;
                 default:
                     throw new KeyNotFoundException($"Could not find key: \"{key}\"");
             }
-            NotifyDataSetChanged();
-            GC.Collect();
+            RemoveGarbage();
         }
 
-        //Gets the game according to the position in the listview
         public Game GetGameByPosition(int pos)
         {
             return _items[pos];
         }
 
-        //search name
         public void NameSearch(string value)
         {
             List<Game> searchList = new List<Game>();
             foreach (Game game in _baseItems.ToList())
             {
-                if (game.name.ToLower().Contains(value.ToLower()) && !searchList.Contains(game))
+                if ((game.name.ToLower().Contains(value.ToLower()) || game.genre.Any(x => x.Contains(value.ToLower()))) && !searchList.Contains(game))
                     searchList.Add(game);
                 else if (searchList.Contains(game))
                     searchList.Remove(game);
             }
             _items = searchList;
             RemoveGarbage();
-            NotifyDataSetChanged();
         }
-
-        //search genre(s) //TODO: Implement more search
-        /*public void AdvancedSearch(string[] value)
-        {
-            foreach (Game game in _baseItems)
-            {
-                if (game.genre.Any(x => value.Any(y => y.ToString() == x)) && !_items.Contains(game))
-                    _items.Add(game);
-                else if (_items.Contains(game))
-                    _items.Remove(game);
-            }
-
-            RemoveGarbage();
-        }
-
-        //search num. of players, difficulty, and playtime 
-        public void AdvancedSearch(string item, int value)
-        {
-            switch (item)
-            {
-                case "MaxPlayers":
-                    foreach (Game game in _items)
-                    {
-                        if (game.maxPlayers > value && !_items.Contains(game))
-                        {
-                            _items.Add(game);
-                        }
-                        else if (_items.Contains(game))
-                        {
-                            _items.Remove(game);
-                        }
-                    }
-                    break;
-                case "MinPlayers":
-                    foreach (Game game in _items)
-                    {
-                        if (game.minPlayers > value && !_items.Contains(game))
-                        {
-                            _items.Add(game);
-                        }
-                        else if (_items.Contains(game))
-                        {
-                            _items.Remove(game);
-                        }
-                    }
-                    break;
-                case "MinDiff":
-                    foreach (Game game in _items)
-                    {
-                        if (game.difficulity > value && !_items.Contains(game))
-                        {
-                            _items.Add(game);
-                        }
-                        else if (_items.Contains(game))
-                        {
-                            _items.Remove(game);
-                        }
-                    }
-                    break;
-            }
-            RemoveGarbage();
-        }*/
 
         public void ResetSearch()
         {

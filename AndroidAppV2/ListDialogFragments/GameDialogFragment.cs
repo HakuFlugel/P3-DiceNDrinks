@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Shared;
 
 using Android.App;
 using Android.OS;
@@ -9,6 +8,8 @@ using Android.Widget;
 using Android.Graphics.Drawables;
 using Android.Graphics;
 
+using Shared;
+
 namespace AndroidAppV2.ListDialogFragments {
     public class GameDialogFragment : DialogFragment {
 
@@ -16,7 +17,7 @@ namespace AndroidAppV2.ListDialogFragments {
         private Game _game;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
-            //NO TITLE
+
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
@@ -29,7 +30,6 @@ namespace AndroidAppV2.ListDialogFragments {
             }
             sb.Remove(sb.Length - 3, 3);
 
-            //Test textssssss
             view.FindViewById<TextView>(Resource.Id.gameNameText).Text = _game.name;
             view.FindViewById<TextView>(Resource.Id.gameDescrText).Text = _game.description;
             view.FindViewById<TextView>(Resource.Id.gamePlayerText).Text = "Players: " + _game.minPlayers + "-" + _game.maxPlayers;
@@ -40,8 +40,6 @@ namespace AndroidAppV2.ListDialogFragments {
                 view.FindViewById<TextView>(Resource.Id.gameHyperText).Text = "Data provided by BoardGameGeek";
             }
             
-
-            //Button test dismiss
             _buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
             _buttonDismiss.Click += Button_Dismiss_Click;
 
@@ -53,10 +51,6 @@ namespace AndroidAppV2.ListDialogFragments {
         
         public override void OnResume() {
 
-            // Auto Size based on content
-            //Dialog.Window.SetLayout(LinearLayout.LayoutParams.WrapContent, LinearLayout.LayoutParams.WrapContent);
-
-            // No background behind the view
             Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DimGray));
 
             base.OnResume();

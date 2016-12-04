@@ -142,9 +142,7 @@
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="AndroidShared.cs" />
     <Compile Include="ListAdapters\ProductExpandAdapter.cs" />
-    <Compile Include="ListAdapters\ReservationAdapter.cs" />
     <Compile Include="ListAdapters\EventAdapter.cs" />
-    <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
     <Compile Include="ListDialogFragments\EventDialogFragment.cs" />
     <Compile Include="ListDialogFragments\ProductDialogFragment.cs" />
@@ -303,6 +301,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\BasicLoad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\F_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

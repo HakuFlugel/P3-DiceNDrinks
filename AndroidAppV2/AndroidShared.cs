@@ -20,13 +20,13 @@ namespace AndroidAppV2
         {
             string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
 
-            var filename = Path.Combine(path, file);
+            string filename = Path.Combine(path, file);
 
             if (!File.Exists(filename))
             {
+                Log.WriteLine(LogPriority.Warn, $"X:{context}", $"Could not find file: {file} on path {filename}, creating new");
                 File.Create(filename);
                 type = default(T);
-                Log.WriteLine(LogPriority.Warn, $"X:{context}", $"Could not find file: {file} on path {filename}, creating new");
                 return;
             }
 
@@ -38,13 +38,13 @@ namespace AndroidAppV2
             }
             catch (Exception) //empty json container
             {
-                Log.WriteLine(LogPriority.Info, $"X:{context}", $"Could not find data in file: {file} on path {filename}. If this happens to any other than reservation then it's fucked");
+                Log.WriteLine(LogPriority.Info, $"X:{context}", $"Could not find data in file: {file} on path {filename}. If this happens to any other file than reservation then it's fucked");
                 type = default(T);
             }
 
         }
 
-        private async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image)
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image)
         {
             BitmapFactory.Options options = new BitmapFactory.Options
             {
@@ -52,14 +52,12 @@ namespace AndroidAppV2
             };
             // The result will be null because InJustDecodeBounds == true.
 
-            //Stream file = File.Open(Android.OS.Environment.ExternalStorageDirectory.Path + image, FileMode.Open, FileAccess.Read);
-
-            await BitmapFactory.DecodeFileAsync(image, options); //DecodeStreamAsync(file, new Rect(), options);
+            await BitmapFactory.DecodeFileAsync(image, options);
 
             return options;
         }
 
-        private async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(string image, BitmapFactory.Options options, int reqWidth, int reqHeight)
+        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(string image, BitmapFactory.Options options, int reqWidth, int reqHeight)
         {
             // Calculate inSampleSize
             options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
@@ -67,9 +65,7 @@ namespace AndroidAppV2
             // Decode bitmap with inSampleSize set
             options.InJustDecodeBounds = false;
 
-            //Stream file = File.Open(Android.OS.Environment.ExternalStorageDirectory.Path + image, FileMode.Open, FileAccess.Read);
-
-            return await BitmapFactory.DecodeFileAsync(image, options); //DecodeStreamAsync(file, new Rect(), options);
+            return await BitmapFactory.DecodeFileAsync(image, options);
         }
 
         private static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)

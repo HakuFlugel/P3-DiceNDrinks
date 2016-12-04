@@ -14,14 +14,11 @@ namespace AndroidAppV2
 
         protected override void OnCreate(Bundle bundle)
         {
-
             base.OnCreate(bundle);
-
             SetContentView(Resource.Layout.Main);
-            //DO NOT WRITE CODE ABOVE THIS LINE
-            GC.Collect();
 
             SetImages();
+            GC.Collect();
 
             FindViewById<ImageButton>(Resource.Id.gameButton).Click += delegate
             {
@@ -57,9 +54,9 @@ namespace AndroidAppV2
         private void SetImages()
         {
             AndroidShared an = new AndroidShared();
-            var metrics = Resources.DisplayMetrics;
-            var widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
-            var heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
+            DisplayMetrics metrics = Resources.DisplayMetrics;
+            int widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
+            int heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
             int[] sizes = {widthInDp/2,heightInDp/2};
 
             an.GetImages(this, "Top_Left_Games.png", FindViewById<ImageButton>(Resource.Id.gameButton), Resource.Id.gameButton, sizes);
@@ -69,9 +66,15 @@ namespace AndroidAppV2
             an.GetImages(this, "IconV3.png", FindViewById<ImageButton>(Resource.Id.centerImageButton1), Resource.Id.centerImageButton1, new [] { widthInDp / 2, widthInDp / 2 });
         }
 
+        public override void OnRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState)
+        {
+            _doubleTapToExit = false;
+            base.OnRestoreInstanceState(savedInstanceState, persistentState);
+        }
+
         private int ConvertPixelsToDp(float pixelValue)
         {
-            var dp = (int)(pixelValue / Resources.DisplayMetrics.Density);
+            int dp = (int)(pixelValue / Resources.DisplayMetrics.Density);
             return dp;
         }
 

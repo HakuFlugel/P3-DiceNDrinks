@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
 using Android.Widget;
+
 using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
@@ -17,17 +19,13 @@ namespace AndroidAppV2.Activities
     public class GameActivity : FragmentActivity
     {
         private bool _ascending = true;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            
             base.OnCreate(savedInstanceState);
-
-
             SetContentView(Resource.Layout.GameLayout);
-            // Create your application here
 
             
-
             ListView listView = FindViewById<ListView>(Resource.Id.gameListView);
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
@@ -52,16 +50,13 @@ namespace AndroidAppV2.Activities
                     Log.WriteLine(LogPriority.Error, $"X:{this}", e.Message);
                 }
 
-                if (!_ascending)
-                {
-                    itemAdapter.SwitchOrder();
-                    _ascending = true;
-                }
+                if (_ascending) return;
+
+                itemAdapter.SwitchOrder();
+                _ascending = true;
             };
 
-            gameSearch.TextChanged += (s, e) => {
-                itemAdapter.NameSearch(gameSearch.Text);
-            };
+            gameSearch.TextChanged += (s, e) => itemAdapter.NameSearch(gameSearch.Text);
 
 
             gameButton.Click += delegate
@@ -74,7 +69,7 @@ namespace AndroidAppV2.Activities
             listView.ItemClick += (s,e) => {
                 Game theGame = itemAdapter.GetGameByPosition(e.Position);
                 
-                var dialog = new GameDialogFragment();
+                GameDialogFragment dialog = new GameDialogFragment();
                 dialog.PassDataToFrag(theGame);
                 dialog.Show(FragmentManager, "Game Dialog");
             };
@@ -95,7 +90,7 @@ namespace AndroidAppV2.Activities
         }
 
 
-        List<Game> GetGames()
+        private List<Game> GetGames()
         {
             List<Game> list;
 
