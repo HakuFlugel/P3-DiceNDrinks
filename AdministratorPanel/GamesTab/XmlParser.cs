@@ -60,8 +60,7 @@ namespace AdministratorPanel {
         private string GetInformationString(string field, XmlNode node) {
             string value;
             try {
-                value = stringFormater(node["description"].InnerText);
-
+                value = stringFormater(node[field].InnerText);
             } catch (Exception) {
                value = "";
             }
