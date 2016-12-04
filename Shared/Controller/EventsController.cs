@@ -6,7 +6,7 @@ namespace Shared
     public class EventsController : ControllerBase
     {
 
-        List<Event> events = new List<Event>();
+        public List<Event> events = new List<Event>();
 
         public EventsController(string path = "data/") : base(path)
         {

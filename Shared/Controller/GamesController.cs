@@ -5,7 +5,7 @@ namespace Shared
 {
     public class GamesController : ControllerBase
     {
-        List<Game> games = new List<Game>();
+        public List<Game> games = new List<Game>();
 
         public GamesController(string path = "data/") : base(path)
         {
