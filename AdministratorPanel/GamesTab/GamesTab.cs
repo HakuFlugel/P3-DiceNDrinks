@@ -45,7 +45,7 @@ namespace AdministratorPanel {
             
 
             game = new GamesList(games,this,genres);
-            game.makeItems(seach);
+            game.makeItems(search);
             Text = "Games";
             probar.addToProbar();                               //For progress bar. 2
                                         

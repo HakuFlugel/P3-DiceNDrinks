@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> Evnts = new List<Event>();
-        EventList lowertlp = new EventList();
+        EventList lowerTable = new EventList();
         private FormProgressBar probar;
 
         public EventsTab(FormProgressBar probar) {
