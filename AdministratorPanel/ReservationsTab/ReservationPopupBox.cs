@@ -9,21 +9,25 @@ using System.Globalization;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
+
         NiceTextBox reservationName = new NiceTextBox() {
             Width = 200,
             waterMark = "Reservation Name",
             Margin = new Padding(4, 10, 20, 10)
         };
+
         NiceTextBox numPeople = new NiceTextBox() {
             Width = 200,
             waterMark = "Number of people",
             Margin = new Padding(4, 0, 20, 10)
         };
+
         NiceTextBox phoneNumber = new NiceTextBox() {
             Width = 200,
             waterMark = "Phone number",
             Margin = new Padding(4, 0, 20, 10)
         };
+
         NiceTextBox email = new NiceTextBox() {
             Width = 200,
             waterMark = "Email",
@@ -34,22 +38,22 @@ namespace AdministratorPanel {
             Dock = DockStyle.Right,
             Margin = new Padding(0, 10, 20, 10)
         };
+
         NiceTextBox timePicker = new NiceTextBox() {
             waterMark = "hh:mm"
         };
-        CheckBox pendingSet = new CheckBox() {
-            Checked = false,
-            Text = "Pending"
-        };
 
+        ComboBox pendingSet = new ComboBox() {
+            Text = "Pending",
+            DropDownStyle = ComboBoxStyle.DropDownList,
+        };
 
         private ReservationController reservationController;
         private Reservation reservation;
 
-        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null)
-        {
+        public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
             Text = "Reservation";
-
+            pendingSet.DataSource = Enum.GetValues(typeof(Reservation.State));
             this.reservationController = reservationController;
             this.reservation = reservation;
             if (reservation != null) {
@@ -63,21 +67,25 @@ namespace AdministratorPanel {
                     if (reservation.email != null) {
                         email.Text = reservation.email;
                     }
+
                     datePicker.Value = reservation.time.Date;
                     timePicker.Text = reservation.time.ToString("HH:mm");
-                    pendingSet.Checked = reservation.pending;
-                }
-                catch (ArgumentOutOfRangeException) {
+                    pendingSet.SelectedItem = reservation.state;
+
+                } catch (ArgumentOutOfRangeException) {
 
                 }
 
-            }
-            else {
+            } else {
+                pendingSet.SelectedItem = Reservation.State.Accepted;
                 Controls.Find("delete", true).First().Enabled = false;
+                pendingSet.SelectedIndexChanged += (s,e) => {
+                    pendingSet.SelectedItem = Reservation.State.Accepted;
+                    MessageBox.Show("Please refer from creating a pending / declined request this way.");
+                    pendingSet.SelectedItem = Reservation.State.Accepted;
+                };
             }
         }
-
-
 
         protected override Control CreateControls() {
 
@@ -119,7 +127,7 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this reservation?", MessageBoxButtons.YesNo)) {
+            if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
 
                 reservationController.removeReservation(reservation);
 
@@ -149,8 +157,7 @@ namespace AdministratorPanel {
             }
             try {
                 emailCheck(email.Text);
-            }
-            catch (Exception en) {
+            } catch (Exception en) {
                 MessageBox.Show(en.Message);
                 return;
             }
@@ -164,31 +171,30 @@ namespace AdministratorPanel {
             /*END OF COPY PASTE*/
 
 
-            ////////////// actual saving
+            // actual saving
 
             Reservation newres = new Reservation();
+            newres.state = (Reservation.State)pendingSet.SelectedValue;
 
-            newres.pending = pendingSet.Checked;
             newres.name = reservationName.Text;
             int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
             newres.phone = phoneNumber.Text;
             newres.email = email.Text;
             newres.time = newDate;
-            //cd.fullness += reservation.numPeople;
+            //cd.fullness += newReservation.numPeople;
 
-            if (reservation == null)
-            {
+            if (reservation == null) {
                 reservationController.addReservation(newres);
             }
             else
             {
-                reservationController.updateReservation(reservation, newres);
+                reservationController.updateReservation(newres);
             }
 
             this.Close();
             //_reservationController.reserveationList.updateCurrentDay(newDate.Date); TODO: these two should be implemented using events at those places
             //_reservationController.pendingReservationList.updateCurrentDay();
-            
+
         }
 
         public void emailCheck(string email) {
