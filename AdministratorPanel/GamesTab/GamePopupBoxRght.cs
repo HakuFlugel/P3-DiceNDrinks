@@ -81,6 +81,9 @@ namespace AdministratorPanel {
             }
             if (games.Count > 0)
                 foreach (var item in games) {
+                    if (item == null) {
+                        Console.WriteLine("Item er null" );
+                    }
                     gameList.Controls.Add(new XmlGameItem(item, gamePopupBox));
                     
                 } else if (seach != "")

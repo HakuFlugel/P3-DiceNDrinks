@@ -12,25 +12,29 @@ namespace AdministratorPanel {
 
         public ImageDownloader(string gddIdIn, string urlIn ) {
             this.gddId = gddIdIn;
-            this.url = urlIn;
+            this.url = "http:" + urlIn;
             DownloadImage();
         }
 
         public void DownloadImage() {
-            using (WebClient client = new WebClient()) {
 
-                byte[] data = client.DownloadData("http:" + url);
-                using (MemoryStream memoryStream = new MemoryStream(data)) {
-                    //System.Console.WriteLine("http:" + url);
-                    using (Image imageIn = Image.FromStream(memoryStream)) {
-                        image = imageIn;
+            try {
+                using (WebClient client = new WebClient()) {
+                    byte[] data = client.DownloadData(url);
+
+                    using (MemoryStream memoryStream = new MemoryStream(data)) {
+                        using (Image imageIn = Image.FromStream(memoryStream)) {
+                            image = imageIn;
+                        }
                     }
                 }
-            }
+            } catch (System.Exception) {
+                image = null;
+            }     
         }
 
-        public void saveImage(Image image) {
-            image.Save("Images/" + gddId + ".Png", ImageFormat.Png);
+        public void saveImage() {
+            image.Save($"Images/{gddId}.png", ImageFormat.Jpeg);
         }
     }
 }

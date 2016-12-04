@@ -28,30 +28,31 @@ namespace AdministratorPanel {
             tableLayoutPanel.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
             tableLayoutPanel.Controls.Add(new Label { Text = game.publishedYear.ToString(), AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
-
+            Console.WriteLine("id = " + game.bggid + "  image = " + game.imageName);
             imageDownloader = new ImageDownloader(game.bggid,game.imageName);
 
-            /*
             if (imageDownloader.image == null) {
                 Console.WriteLine("Image not found ");
             }
-            */
 
             Panel pn = new Panel();
             pn.Dock = DockStyle.Left;
             pn.Name = "Image";
             pn.Height = 86;
             pn.Width =  86;
+            pn.BackColor = Color.Black;
+            pn.BackgroundImage = Image.FromFile("images/Red.Png");
+            /*
             try {
                 pn.BackgroundImage = imageDownloader.image;
             } catch (Exception) {
                 pn.BackgroundImage = null;
             }
-
+            */
             //pn.BackgroundImageLayout = ImageLayout.Zoom;
-            pn.BackColor = Color.Black;
-            Controls.Add(pn);
 
+
+            Controls.Add(pn);
             Controls.Add(tableLayoutPanel);
         }
 
