@@ -34,6 +34,7 @@ namespace Shared
         }
 
         public int id;
+        public DateTime timestamp;
         public string bggid;
 
         public string name;

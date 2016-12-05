@@ -166,6 +166,7 @@ namespace AdministratorPanel {
                 gameDifficulty.Value = game.difficulity;
 
                 foreach(ListViewItem item in genreItems )
+                    //TODO: add non existant genre to list
                     item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
 
             } else {
@@ -213,7 +214,7 @@ namespace AdministratorPanel {
                 
             };
 
-            genreBox.ItemCheck += new ItemCheckEventHandler(memeberChecked);
+            genreBox.ItemCheck += memeberChecked;
 
             imageText.Click += OpenFileOpener;
 

@@ -6,8 +6,10 @@ namespace Shared
 {
     public class CalendarDay
     {
+        public DateTime timestamp;
         public List<Reservation> reservations = new List<Reservation>();
         public int reservedSeats;
+        public int reservedSeatsPending;
         public int numSeats;
         public bool isLocked = false;
         public bool isAutoaccept = true;
@@ -43,7 +45,8 @@ namespace Shared
 
         public void calculateReservedSeats()
         {
-            reservedSeats = reservations.Sum(r => r.numPeople);
+            reservedSeats = reservations.Where(r => r.state == Reservation.State.Accepted).Sum(r => r.numPeople);
+            reservedSeatsPending = reservations.Where(r => r.state == Reservation.State.Pending).Sum(r => r.numPeople);
         }
     }
 }

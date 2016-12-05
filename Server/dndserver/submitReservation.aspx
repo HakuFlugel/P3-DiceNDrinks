@@ -23,10 +23,12 @@
     }
     else if (action == "add")
     {
+        reservation.timestamp = DateTime.UtcNow;
         diceServer.reservationController.addReservation(reservation);
     }
     else if (action == "update")
     {
+        reservation.timestamp = DateTime.UtcNow;
         diceServer.reservationController.updateReservation(reservation);
     }
     Application.UnLock();

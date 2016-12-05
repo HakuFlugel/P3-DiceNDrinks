@@ -88,6 +88,15 @@ namespace AdministratorPanel {
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         };
 
+        private Label remainingSeats = new Label()
+        {
+            Text = "0",
+            Font = new Font(DefaultFont.FontFamily, 16),
+            TextAlign = ContentAlignment.MiddleCenter,
+            AutoSize = true,
+            //TODO:tooltipbelow
+        };
+
         // Left Side
         TableLayoutPanel leftTable = new TableLayoutPanel() {
             Dock = DockStyle.Left,
@@ -106,7 +115,7 @@ namespace AdministratorPanel {
             Dock = DockStyle.Top,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            ColumnCount = 6,
+            ColumnCount = 7,
         };
 
         Button roomsButton = new Button() {
@@ -171,7 +180,9 @@ namespace AdministratorPanel {
             topRightTable.Controls.Add(progressbars);
             progressbars.Controls.Add(reserveSpaceWithPending);
             progressbars.Controls.Add(reserveSpaceWithoutPending);
-            //TODO: label remaining seats
+
+            topRightTable.Controls.Add(remainingSeats);
+
             topRightTable.Controls.Add(lockResevations);
             topRightTable.Controls.Add(autoAcceptPresentage);
             topRightTable.Controls.Add(maxAutoAccept);
@@ -323,14 +334,12 @@ namespace AdministratorPanel {
         }
 
         private void tooltipController() {
-            tooltip.SetToolTip(autoAcceptPresentage, "Percent of room filled to stop auto accept" + Environment.NewLine + 
-                                                     "0 for no auto accept, 100 for acceptance of every valid resevations untill filled.");
-            tooltip.SetToolTip(lockResevations, "If checked all resevations will get auto declined, as no more resevations can occure for said day.");
-            tooltip.SetToolTip(addReservation, "Manually add a resevation");
-            tooltip.SetToolTip(maxAutoAccept, "What is the maximum number of people that the program should auto accept." + Environment.NewLine + "0 for allow all sizes.");
-            
+            tooltip.SetToolTip(autoAcceptPresentage, "Percent of available seats that will be autoaccepted" + Environment.NewLine +
+                                                     "0 to disable auto accept, 100 to accept until all seats are filled.");
+            tooltip.SetToolTip(lockResevations, "If checked all pending reservations will be declined, and no more reservations can be made");
+            //tooltip.SetToolTip(addReservation, "Manually add a resevation");
+            tooltip.SetToolTip(maxAutoAccept, "The largest reservation that should be auto accepted" + Environment.NewLine + "0 to allow all sizes.");
         }
-        
 
         private void updateCheck(CalendarDay day) {
             List<Reservation> temp = new List<Reservation>();
@@ -348,29 +357,32 @@ namespace AdministratorPanel {
         public void updateProgressBar(CalendarDay day) {
             try {
                 
-                int reservedSpace = 0;
-                int reservedSpaceWpending = 0;
-                if (day != null) {
-                    foreach (var item in day.reservations.Where(x => x.state == Reservation.State.Accepted))
-                        reservedSpace += item.numPeople;
-                    foreach (var item in day.reservations.Where(x => x.state != Reservation.State.Denied))
-                        reservedSpaceWpending += item.numPeople;
-                }
+//                int reservedSpace = 0;
+//                int reservedSpaceWpending = 0;
+//                if (day != null) {
+//                    foreach (var item in day.reservations.Where(x => x.state == Reservation.State.Accepted))
+//                        reservedSpace += item.numPeople;
+//                    foreach (var item in day.reservations.Where(x => x.state != Reservation.State.Denied))
+//                        reservedSpaceWpending += item.numPeople;
+//                }
                 // Prevent exception from Value>Maximum
                 reserveSpaceWithPending.Value = 0;
                 reserveSpaceWithoutPending.Value = 0;
 
                 reserveSpaceWithPending.Maximum = day?.numSeats ?? 1;
-                reserveSpaceWithPending.Value = reservedSpaceWpending;
+                reserveSpaceWithPending.Value = day.reservedSeats + day.reservedSeatsPending;
                 
                 reserveSpaceWithoutPending.Maximum = day?.numSeats ?? 1;
-                reserveSpaceWithoutPending.Value = reservedSpace;
+                reserveSpaceWithoutPending.Value = day.reservedSeats;
 
-                tooltip.SetToolTip(reserveSpaceWithoutPending, "The status of seats left, not counting the not accepted resevations." + ((day != null)? Environment.NewLine +
-                                         "Status: " + reserveSpaceWithoutPending.Value.ToString() + " out of " + reserveSpaceWithoutPending.Maximum.ToString() : ""));
+                tooltip.SetToolTip(reserveSpaceWithoutPending, "Fullness counting only accepted reservations." + ((day != null)? Environment.NewLine +
+                                         $"{reserveSpaceWithoutPending.Value} / {reserveSpaceWithoutPending.Maximum}" : ""));
 
-                tooltip.SetToolTip(reserveSpaceWithPending, "The status of seats left, including the pending resevations." + ((day != null)? Environment.NewLine + 
-                                         "Status: " + reserveSpaceWithPending.Value.ToString() + " out of " + reserveSpaceWithPending.Maximum.ToString() : ""));
+                tooltip.SetToolTip(reserveSpaceWithPending, "Fulness, including the pending resevations." + ((day != null)? Environment.NewLine +
+                                         $"{reserveSpaceWithPending.Value} / {reserveSpaceWithPending.Maximum}" : ""));
+
+                remainingSeats.Text = $"{day.numSeats - day.reservedSeats}";
+                tooltip.SetToolTip(remainingSeats, $"Remaining seats {day.numSeats - day.reservedSeats} / {day.numSeats}");
 
             } catch (Exception e ) {
                 MessageBox.Show(e.Message,"FATAL ERROR");
