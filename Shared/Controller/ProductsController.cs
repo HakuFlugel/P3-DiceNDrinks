@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft;
 
 namespace Shared
@@ -14,46 +15,41 @@ namespace Shared
         {
         }
 
-        public event EventHandler<UpdateGameEventArgs> GameUpdated;
-        public class UpdateGameEventArgs
-        {
-            public Product newProduct;
-            public Product oldProduct;
+        public event EventHandler ProductUpdated;
 
-            public UpdateGameEventArgs(Product oldProduct, Product newProduct)
-            {
-                this.oldProduct = oldProduct;
-                this.newProduct = newProduct;
-            }
-        }
 //TODO: cut+pasta category+section stuff from producttab(popup)
-        public void addGame(Product newProduct)
+        public void addProduct(Product newProduct)
         {
             newProduct.id = new Random().Next(); // TODO: unique id
 
             products.Add(newProduct);
 
-            GameUpdated?.Invoke(this, new UpdateGameEventArgs(null, newProduct));
+            ProductUpdated?.Invoke(this, EventArgs.Empty);
         }
 
 
-        public void updateGame(Product oldProduct, Product newProduct)
+        public void updateProduct(Product newProduct)
         {
-            //newProduct.created = oldProduct.created;
-            newProduct.id = oldProduct.id; // TODO: needed?
+
+            Product oldProduct = products.First(p => p.id == newProduct.id);
+
+            if (oldProduct == null)
+            {
+                return;
+            }
 
             products[products.FindIndex(e => e == oldProduct)] = newProduct;
 
-            GameUpdated?.Invoke(this, new UpdateGameEventArgs(oldProduct, newProduct));
+            ProductUpdated?.Invoke(this, EventArgs.Empty);
 
         }
 
-        public void removeGame(Product oldProduct)
+        public void removeProduct(Product oldProduct)
         {
 
             products.Remove(oldProduct); //TODO: make sure this uses id to compare
 
-            GameUpdated?.Invoke(this, new UpdateGameEventArgs(oldProduct, null));
+            ProductUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         public override void save()

@@ -3,16 +3,6 @@
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
 
-    //string adminKey = Request.Form["AdminKey"];
-    //bool isAdmin = adminKey != null && diceServer.authentication.authenticate(adminKey);
-    //    if (!diceServer.authentication.authenticate())
-    //    {
-    //        //throw new HttpException(404, "Not Found");
-    //        Response.Clear();
-    //        Response.StatusCode = 403;
-    //        Response.End();
-    //    }
-
     string action = Request.Form["Action"];
     string reservationString = Request.Form["Reservation"] ?? "null";
 
@@ -48,7 +38,6 @@
             {
                 Response.Write("failed");
             }
-            diceServer.reservationController.updateReservation(reservation);
             break;
         default:
             Response.Write("invalid action");

@@ -51,6 +51,9 @@
     <Content Include="dndserver\get.aspx" />
     <Content Include="dndserver\global.asax" />
     <Content Include="dndserver\index.aspx" />
+    <Content Include="dndserver\submitEvent.aspx" />
+    <Content Include="dndserver\submitGame.aspx" />
+    <Content Include="dndserver\submitProduct.aspx" />
     <Content Include="dndserver\submitReservation.aspx" />
     <Content Include="packages.config" />
   </ItemGroup>

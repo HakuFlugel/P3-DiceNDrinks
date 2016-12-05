@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Shared
 {
@@ -11,18 +12,7 @@ namespace Shared
         {
         }
 
-        public event EventHandler<UpdateGameEventArgs> GameUpdated;
-        public class UpdateGameEventArgs
-        {
-            public Game newGame;
-            public Game oldGame;
-
-            public UpdateGameEventArgs(Game oldGame, Game newGame)
-            {
-                this.oldGame = oldGame;
-                this.newGame = newGame;
-            }
-        }
+        public event EventHandler GameUpdated;
 
         public void addGame(Game newGame)
         {
@@ -30,18 +20,22 @@ namespace Shared
 
             games.Add(newGame);
 
-            GameUpdated?.Invoke(this, new UpdateGameEventArgs(null, newGame));
+            GameUpdated?.Invoke(this, EventArgs.Empty);
         }
 
 
-        public void updateGame(Game oldGame, Game newGame)
+        public void updateGame(Game newGame)
         {
-            //newProduct.created = oldProduct.created;
-            newGame.id = oldGame.id; // TODO: needed?
+            Game oldGame = games.First(g => g.id == newGame.id);
+
+            if (oldGame == null)
+            {
+                return;
+            }
 
             games[games.FindIndex(e => e == oldGame)] = newGame;
 
-            GameUpdated?.Invoke(this, new UpdateGameEventArgs(oldGame, newGame));
+            GameUpdated?.Invoke(this, EventArgs.Empty);
 
         }
 
@@ -50,7 +44,7 @@ namespace Shared
 
             games.Remove(oldGame); //TODO: make sure this uses id to compare
 
-            GameUpdated?.Invoke(this, new UpdateGameEventArgs(oldGame, null));
+            GameUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         public override void save()
