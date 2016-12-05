@@ -12,10 +12,12 @@ namespace NUnitTest {
     [TestFixture]
     public class ProductItemTest {
         Product product = new Product();
-        ProductsTab productTab = new ProductsTab();
+        FormProgressBar probar = new FormProgressBar();
+        ProductsTab productTab;
         ProductItem productItem;
 
         public ProductItemTest() {
+            productTab = new ProductsTab(probar);
             product.name = "Name";
             product.image = "Red.png";
             product.category = "Food";

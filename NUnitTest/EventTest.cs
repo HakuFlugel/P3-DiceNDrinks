@@ -12,7 +12,8 @@ namespace NUnitTest {
     [TestFixture]
     public class EventTest {
         Event testEvent = new Event();
-        EventsTab eventsTap = new EventsTab();
+        FormProgressBar probar = new FormProgressBar();
+        EventsTab eventsTap;
         EventItem eventItem;
 
         public EventTest() {
@@ -26,6 +27,7 @@ namespace NUnitTest {
 
         [Test]
         public void EventItemCreationTest() {
+            eventsTap = new EventsTab(probar);
             eventItem = new EventItem(eventsTap, testEvent);
             Assert.True(eventItem.name == testEvent.name
                         && eventItem.description == testEvent.description);
