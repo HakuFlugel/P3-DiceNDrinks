@@ -116,19 +116,11 @@ namespace AndroidAppV2.Activities
         private void SendData(Reservation res)
         {
             if (res.name == "") {
-                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
-                errorEmailPhone.SetMessage("Venligst angiv et navn.");
-                errorEmailPhone.SetTitle("Error");
-                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
-                errorEmailPhone.Show();
+                ErrorDialog("Venligst angiv et navn.");
                 return;
             }
             if (res.phone == "" && res.email == "") {
-                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
-                errorEmailPhone.SetMessage("Du skal angive et telefon nummer og/eller email.");
-                errorEmailPhone.SetTitle("Error");
-                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
-                errorEmailPhone.Show();
+                ErrorDialog("Du skal angive et telefon nummer og/eller email.");
                 return;
             }
             if (res.email != "") {
@@ -136,29 +128,17 @@ namespace AndroidAppV2.Activities
                     EmailCheck(res.email);
                 }
                 catch (Java.Lang.Exception en) {
-                    AlertDialog.Builder typoEmail = new AlertDialog.Builder(this);
-                    typoEmail.SetMessage(en.Message);
-                    typoEmail.SetTitle("Typo Error");
-                    typoEmail.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
-                    typoEmail.Show();
+                    ErrorDialog(en.Message);
                     return;
                 }
             }
             int i;
             if (res.phone.Length != 8 || !int.TryParse(res.phone, out i)) {
-                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
-                errorEmailPhone.SetMessage("Et nummer skal indeholde 8 numre. F.eks.: 10203040");
-                errorEmailPhone.SetTitle("Error");
-                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
-                errorEmailPhone.Show();
+                ErrorDialog("Et nummer skal indeholde 8 numre. F.eks.: 12345678");
                 return;
             }
             if (_dateSelectButton.Text == "DATO" || _timeSelectButton.Text == "KLOKKESLÆT") {
-                AlertDialog.Builder errorEmailPhone = new AlertDialog.Builder(this);
-                errorEmailPhone.SetMessage("Angiv en dato og tid for hvornår du vil sætte din reservation.");
-                errorEmailPhone.SetTitle("Error");
-                errorEmailPhone.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
-                errorEmailPhone.Show();
+                ErrorDialog("Angiv en dato og tid for hvornår du vil sætte din reservation.");
                 return;
             }
             
@@ -193,6 +173,15 @@ namespace AndroidAppV2.Activities
             
             Data = true;
 
+        }
+
+        private void ErrorDialog(string message)
+        {
+            AlertDialog.Builder error = new AlertDialog.Builder(this);
+            error.SetMessage(message);
+            error.SetTitle("Error");
+            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
+            error.Show();
         }
 
         private static void EmailCheck(string email) {

@@ -25,7 +25,7 @@ namespace AndroidAppV2.ListDialogFragments
         private TextView _describtiveText;
         private ImageView _fbButton;
         private TextView _fbText;
-        private readonly StringBuilder sb = new StringBuilder();
+        private readonly StringBuilder _sb = new StringBuilder();
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -62,7 +62,7 @@ namespace AndroidAppV2.ListDialogFragments
             }
             else {
                 _fbButton.Click += (s, e) => {
-                    StartActivity(newFacebookIntent(Android.App.Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
+                    StartActivity(NewFacebookIntent(Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
                 };
             }
 
