@@ -11,11 +11,13 @@ using System.Windows.Forms;
 namespace NUnitTest {
     [TestFixture]
     public class EventTest {
+        FormProgressBar probar = new FormProgressBar();
         Event testEvent = new Event();
-        EventsTab eventsTap = new EventsTab();
+        EventsTab eventsTap;
         EventItem eventItem;
 
         public EventTest() {
+            eventsTap = new EventsTab(probar);
             testEvent.id = 1;
             testEvent.name = "Weston Wensday";
             testEvent.description = "Something weston related on wensday";

@@ -28,13 +28,15 @@ namespace AdministratorPanel {
         };
 
         public FormProgressBar() {
+            probar.Maximum = 200;
             Size = new Size(220, 50);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             ControlBox = false;
             StartPosition = FormStartPosition.CenterScreen;
             Controls.Add(probar);
             probar.Controls.Add(probarLoading);
-            Show();     
+            
+              
         }
         public void addToProbar() {
             probar.Value++;
