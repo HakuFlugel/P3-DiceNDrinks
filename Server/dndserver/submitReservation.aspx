@@ -40,27 +40,21 @@
     {
         try
         {
+            reservation.timestamp = DateTime.UtcNow; //TODO: fix merge
             diceServer.reservationController.updateReservation(reservation);
             Response.Write("updated");
         }
-        catch (ArgumentNullException)
+        catch (Exception)
         {
             Response.Write("failed");
         }
-        reservation.timestamp = DateTime.UtcNow; //TODO: fix merge
         diceServer.reservationController.updateReservation(reservation);
     }
     Application.UnLock();
 
 
 
-    if (reservation == null)
-    {
 
-        Response.Write("<p>No reservation provided</p>");
-
-
-    }
     else
     {
         Response.Write("<p>invalid action</p>");
