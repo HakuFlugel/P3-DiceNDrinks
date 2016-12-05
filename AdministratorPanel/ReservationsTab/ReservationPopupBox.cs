@@ -79,11 +79,6 @@ namespace AdministratorPanel {
             } else {
                 pendingSet.SelectedItem = Reservation.State.Accepted;
                 Controls.Find("delete", true).First().Enabled = false;
-                pendingSet.SelectedIndexChanged += (s,e) => {
-                    pendingSet.SelectedItem = Reservation.State.Accepted;
-                    MessageBox.Show("Please refer from creating a pending / declined request this way.");
-                    pendingSet.SelectedItem = Reservation.State.Accepted;
-                };
             }
         }
 

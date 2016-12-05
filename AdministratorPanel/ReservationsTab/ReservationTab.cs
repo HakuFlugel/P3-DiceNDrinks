@@ -46,18 +46,22 @@ namespace AdministratorPanel {
 
         public ProgressBar reserveSpaceWithPending = new ProgressBar() {
             Style = ProgressBarStyle.Continuous,
-            Dock = DockStyle.Left,
+            //Dock = DockStyle.Left,
             Minimum = 0,
             Step = 1,
-            Width = 200
+            Width = 192,
+            Height = 12,
+            Margin = Padding.Empty
         };
 
         public ProgressBar reserveSpaceWithoutPending = new ProgressBar() {
             Style = ProgressBarStyle.Continuous,
-            Dock = DockStyle.Left,
+            //Dock = DockStyle.Left,
             Minimum = 0,
             Step = 1,
-            Width = 200
+            Width = 192,
+            Height = 12,
+            Margin = Padding.Empty
         };
 
         Button addReservation = new Button() {
@@ -78,7 +82,7 @@ namespace AdministratorPanel {
 
         TableLayoutPanel progressbars = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
-            Height = 60,
+            Height = 16,
             RowCount = 2,
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
@@ -165,13 +169,15 @@ namespace AdministratorPanel {
             rightTable.Controls.Add(reservationList);
             topRightTable.Controls.Add(roomsButton);
             topRightTable.Controls.Add(progressbars);
-            testButtonfunc();
             progressbars.Controls.Add(reserveSpaceWithPending);
             progressbars.Controls.Add(reserveSpaceWithoutPending);
+            //TODO: label remaining seats
             topRightTable.Controls.Add(lockResevations);
             topRightTable.Controls.Add(autoAcceptPresentage);
             topRightTable.Controls.Add(maxAutoAccept);
             topRightTable.Controls.Add(addReservation);
+
+            testButtonfunc(); //TODO: remove in final
 
 
             probar.addToProbar();                               //For progress bar. 7
@@ -350,8 +356,10 @@ namespace AdministratorPanel {
                     foreach (var item in day.reservations.Where(x => x.state != Reservation.State.Denied))
                         reservedSpaceWpending += item.numPeople;
                 }
+                // Prevent exception from Value>Maximum
                 reserveSpaceWithPending.Value = 0;
                 reserveSpaceWithoutPending.Value = 0;
+
                 reserveSpaceWithPending.Maximum = day?.numSeats ?? 1;
                 reserveSpaceWithPending.Value = reservedSpaceWpending;
                 
