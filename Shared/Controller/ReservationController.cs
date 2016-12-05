@@ -34,11 +34,6 @@ namespace Shared
             Reservation oldReservation =
                 reservationsCalendar.SelectMany(cd => cd.reservations).First(r => r.id == reservation.id);
 
-            if (oldReservation == null)
-            {
-                return;
-            }
-
             reservation.created = oldReservation.created;
 
             removeFromDay(oldReservation);
