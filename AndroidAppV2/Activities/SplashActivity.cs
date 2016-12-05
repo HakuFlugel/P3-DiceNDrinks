@@ -1,13 +1,15 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Icu.Text;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Util;
-
+using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 
 
@@ -34,9 +36,9 @@ namespace AndroidAppV2.Activities
             {
                 if (!System.IO.File.Exists(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD")))
                     FirstTimeSetup();
-                else if (CheckForUpdate())
+                else
                 {
-                    DownloadUpdate();
+                    Update();
                 }
 
             });
@@ -54,19 +56,74 @@ namespace AndroidAppV2.Activities
         {
             File folder = new File(Environment.ExternalStorageDirectory.Path + "/DnD/images");
             folder.Mkdirs();
+            File timestap = new File(Environment.ExternalStorageDirectory.Path + "/DnD/timestamp.txt");
+            timestap.CreateNewFile();
+            using (
+                StreamWriter sw =
+                    new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt")))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    sw.WriteLine(DateTime.Today.ToLongDateString());
+                }
+            }
+
         }
 
-        private bool CheckForUpdate()
+        private void Update()
         {
-            bool update = false;
-            //TODO: ask server for update
-            return update;
+            string[] items = {"games","products","events"};
+            DateTime[] loadedDateTimes = new DateTime[4];
+            using (
+                StreamReader sr =
+                    new StreamReader(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt"))
+            )
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    loadedDateTimes[i] = DateTime.Parse(sr.ReadLine());
+                }
+            }
+
+
+            DateTime[] downloadedDateTimes = AskServer();
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks)
+                    DownloadUpdate(items[i]);
+            }
+            SaveNewDate(downloadedDateTimes);
+
         }
 
-        private void DownloadUpdate()
+        private void SaveNewDate(DateTime[] upDatedDateTime)
         {
-            //TODO: Download games/menu here
+            using (
+    StreamWriter sw =
+        new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt")))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    sw.WriteLine(upDatedDateTime[i].ToLongDateString());
+                }
 
+            }
+        }
+
+        private void DownloadUpdate(string location)
+        {
+            string item;
+            //TODO: DOWNLOAD
+
+        }
+
+        private DateTime[] AskServer()
+        {
+            DateTime[] newDateTimes = new DateTime[3];
+            //TODO: ask server
+            return newDateTimes;
         }
 
     }
