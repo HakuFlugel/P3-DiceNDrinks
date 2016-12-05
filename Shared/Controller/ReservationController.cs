@@ -9,6 +9,7 @@ namespace Shared
     public class ReservationController : ControllerBase
     {
 
+        public int totalSeats;
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
@@ -110,21 +111,29 @@ namespace Shared
 
         public void addRoom(Room room) {
             rooms.Add(room);
+            calculateSeats();
+
+            foreach (var day in reservationsCalendar)
+            {
+                day.calculateSeats(this);
+            }
         }
 
         public void removeRoom(Room room)
         {
             rooms.Remove(room);
+            calculateSeats();
+
             foreach (var day in reservationsCalendar) {
                 day.unreserveRoom(this, room);
                 //day.roomsReserved.Remove(room);
                 //day.calculateSeats(this);
             }
-
         }
 
         public void changeRoom(Room oldroom, Room room) {
             rooms[rooms.IndexOf(oldroom)] = room;
+            calculateSeats();
 
             foreach (var day in reservationsCalendar) {
                 int roomindex = day.roomsReserved.IndexOf(oldroom);
@@ -133,6 +142,11 @@ namespace Shared
                 day.roomsReserved[roomindex] = room;
                 day.calculateSeats(this);
             }
+        }
+
+        private void calculateSeats()
+        {
+            totalSeats = rooms.Sum(r => r.seats);
         }
 
         public override void save()
@@ -150,8 +164,9 @@ namespace Shared
             if(resDay != null ) {
                 if (resDay.numSeats == 0)
                     resDay.calculateSeats(this);
-                foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
-                    reservedSeats += item.numPeople;
+                    resDay.calculateReservedSeats();
+//                foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
+//                    reservedSeats += item.numPeople;
             }
 
             if (resDay != null && resDay.isLocked && reservation.state != Reservation.State.Denied) {
