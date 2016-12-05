@@ -18,7 +18,7 @@ namespace AdministratorPanel
             this.calendar = calendar;
             this.reservationController = reservationController;
 
-            calendar.DateSelected += (sender, args) => { makeItems(args.Start);};
+            calendar.DateChanged += (sender, args) => { makeItems(args.Start);};
             makeItems(calendar.SelectionStart);
 
             Dock = DockStyle.Fill;
@@ -71,7 +71,7 @@ namespace AdministratorPanel
 
             //SuspendLayout();
             foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => o.state == Reservation.State.Accepted)) {
-                ReservationItem reservationItem = new ReservationItem(reservationController, res);
+                ReservationItem reservationItem = new ReservationItem(reservationController, res);  
 
                 Controls.Add(reservationItem);
             }

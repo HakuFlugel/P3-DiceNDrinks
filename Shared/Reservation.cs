@@ -13,6 +13,7 @@ namespace Shared
         }
 
         public int id;
+        public DateTime timestamp;
         public string name;
         public string email;
         public string phone;

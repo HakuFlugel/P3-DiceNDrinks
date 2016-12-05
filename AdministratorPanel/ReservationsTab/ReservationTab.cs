@@ -16,7 +16,7 @@ namespace AdministratorPanel {
         public int reserveSpaceValue;
         private ReservationController reservationController;
         public bool lockedRes = false;
-
+        private FormProgressBar probar;
         public CheckBox lockResevations = new CheckBox() {
             Text = "Lock Reservations",
         };
@@ -46,18 +46,22 @@ namespace AdministratorPanel {
 
         public ProgressBar reserveSpaceWithPending = new ProgressBar() {
             Style = ProgressBarStyle.Continuous,
-            Dock = DockStyle.Left,
+            //Dock = DockStyle.Left,
             Minimum = 0,
             Step = 1,
-            Width = 200
+            Width = 192,
+            Height = 12,
+            Margin = Padding.Empty
         };
 
         public ProgressBar reserveSpaceWithoutPending = new ProgressBar() {
             Style = ProgressBarStyle.Continuous,
-            Dock = DockStyle.Left,
+            //Dock = DockStyle.Left,
             Minimum = 0,
             Step = 1,
-            Width = 200
+            Width = 192,
+            Height = 12,
+            Margin = Padding.Empty
         };
 
         Button addReservation = new Button() {
@@ -78,10 +82,19 @@ namespace AdministratorPanel {
 
         TableLayoutPanel progressbars = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
-            Height = 60,
+            Height = 16,
             RowCount = 2,
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+
+        private Label remainingSeats = new Label()
+        {
+            Text = "0",
+            Font = new Font(DefaultFont.FontFamily, 16),
+            TextAlign = ContentAlignment.MiddleCenter,
+            AutoSize = true,
+            //TODO:tooltipbelow
         };
 
         // Left Side
@@ -102,7 +115,7 @@ namespace AdministratorPanel {
             Dock = DockStyle.Top,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            ColumnCount = 6,
+            ColumnCount = 7,
         };
 
         Button roomsButton = new Button() {
@@ -115,65 +128,80 @@ namespace AdministratorPanel {
             AutoSize = true
         };
 
-        public ReservationTab(ReservationController reservationController) {
+        public ReservationTab(ReservationController reservationController, FormProgressBar probar) {
 
             this.reservationController = reservationController;
-
+            this.probar = probar;
+            
             //TODO: temorary debug
             reservationController.rooms.Clear();
             reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
+            probar.addToProbar();                               //For progress bar. 1
+
             foreach (var item in reservationController.reservationsCalendar)
-                if (item.theDay < DateTime.Today)
+                if (reservationController.checkIfRemove(item))
                     toremove.Add(item);
-                else
-                    reservationController.checkIfRemove(item);
 
             foreach (var item in toremove)
                 reservationController.reservationsCalendar.Remove(item);
+
+            probar.addToProbar();                               //For progress bar. 2
+
             CalendarDay tempDate = (reservationController.reservationsCalendar.Find(x => x.theDay == DateTime.Today));
             autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPresentage.ToString() : "50" ;
             maxAutoAccept.Text = (tempDate != null) ? tempDate.autoAcceptMaxPeople.ToString() : "5";
-
+            
 
             Text = "Reservations";
 
             Controls.Add(outerTable);
 
-
+            probar.addToProbar();                               //For progress bar. 3
             calendar = new Calendar();
 
 
             pendingReservationList = new PendingReservationList(calendar, this, reservationController);
+            probar.addToProbar();                               //For progress bar. 4
             reservationList = new ReservationList(calendar, reservationController); /*TODO: fix*/
+            probar.addToProbar();                               //For progress bar. 5
+
             // Left side
             outerTable.Controls.Add(leftTable);
             leftTable.Controls.Add(calendar);
             leftTable.Controls.Add(pendingReservationList);
 
-
+            probar.addToProbar();                               //For progress bar. 6
             // Right side
             outerTable.Controls.Add(rightTable);
             rightTable.Controls.Add(topRightTable);
             rightTable.Controls.Add(reservationList);
             topRightTable.Controls.Add(roomsButton);
             topRightTable.Controls.Add(progressbars);
-            testButtonfunc();
             progressbars.Controls.Add(reserveSpaceWithPending);
             progressbars.Controls.Add(reserveSpaceWithoutPending);
+
+            topRightTable.Controls.Add(remainingSeats);
+
             topRightTable.Controls.Add(lockResevations);
             topRightTable.Controls.Add(autoAcceptPresentage);
             topRightTable.Controls.Add(maxAutoAccept);
             topRightTable.Controls.Add(addReservation);
 
+            testButtonfunc(); //TODO: remove in final
 
-            
+
+            probar.addToProbar();                               //For progress bar. 7
 
 
             subscriberList();
+            probar.addToProbar();                               //For progress bar. 8
             tooltipController();
+            probar.addToProbar();                               //For progress bar. 9
             //Hack
+
             updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
+            probar.addToProbar();                               //For progress bar. 10
         }
 
         private void subscriberList() {
@@ -185,12 +213,21 @@ namespace AdministratorPanel {
             };
 
             calendar.DateChanged += (s, e) => {
-                Console.WriteLine("DateChanged");
                 CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == e.Start.Date);
-                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + ((day != null) ? "excist" : "dosen't excist") + Environment.NewLine + "lockReservation: " + ((day != null) ? day.isLocked.ToString() : "Nogo") + Environment.NewLine + "autopresentage: " + ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
+
+                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + 
+                                ((day != null) ? "excist" : "dosen't excist") + 
+                                Environment.NewLine + "lockReservation: " + 
+                                ((day != null) ? day.isLocked.ToString() : "Nogo") + 
+                                Environment.NewLine + "autopresentage: " + 
+                                ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
+
                 lockResevations.Checked = (day != null) ? (day.isFullChecked || day.isLocked) : false;
+
                 updateProgressBar(day);
+
                 autoAcceptPresentage.Text = (day != null) ? day.acceptPresentage.ToString() : "50";
+
                 maxAutoAccept.Text = (day != null) ? ((day.autoAcceptMaxPeople == 501) ? "0" : day.autoAcceptMaxPeople.ToString()) : "5";
                     
             };
@@ -221,7 +258,12 @@ namespace AdministratorPanel {
                 
                 day.isLocked = lockResevations.Checked;
 
-                reservationController.checkIfRemove(day);
+                if(reservationController.checkIfRemove(day)) 
+                    reservationController.reservationsCalendar.Remove(day);
+
+                updateCheck(day);
+
+                updateProgressBar(day);
 
             };
 
@@ -261,6 +303,7 @@ namespace AdministratorPanel {
 
             }
             day.acceptPresentage = tempNr;
+            updateCheck(day);
         }
 
         private void maxAutoAcceptBox() {
@@ -287,50 +330,55 @@ namespace AdministratorPanel {
 
             }
             day.autoAcceptMaxPeople = tempNr;
+            updateCheck(day);
         }
 
         private void tooltipController() {
-            tooltip.SetToolTip(autoAcceptPresentage, "Percent of room filled to stop auto accept" + Environment.NewLine + 
-                                                     "0 for no auto accept, 100 for acceptance of every valid resevations untill filled.");
-            tooltip.SetToolTip(lockResevations, "If checked all resevations will get auto declined, as no more resevations can occure for said day.");
-            tooltip.SetToolTip(addReservation, "Manually add a resevation");
-            tooltip.SetToolTip(maxAutoAccept, "What is the maximum number of people that the program should auto accept." + Environment.NewLine + "0 for allow all sizes.");
-            
+            tooltip.SetToolTip(autoAcceptPresentage, "Percent of available seats that will be autoaccepted" + Environment.NewLine +
+                                                     "0 to disable auto accept, 100 to accept until all seats are filled.");
+            tooltip.SetToolTip(lockResevations, "If checked all pending reservations will be declined, and no more reservations can be made");
+            //tooltip.SetToolTip(addReservation, "Manually add a resevation");
+            tooltip.SetToolTip(maxAutoAccept, "The largest reservation that should be auto accepted" + Environment.NewLine + "0 to allow all sizes.");
         }
 
-        public void updateProgressBar(CalendarDay day) {
-            try {
+        private void updateCheck(CalendarDay day) {
+            List<Reservation> temp = new List<Reservation>();
 
-                day?.calculateSeats(reservationController); // TODO: we are not doing this elsewere right now
-                
-                
-                int reservedSpace = 0;
-                int reservedSpaceWpending = 0;
-                if (day != null) {
-                    foreach (var item in day.reservations.Where(x => x.state == Reservation.State.Accepted))
-                        reservedSpace += item.numPeople;
-                    foreach (var item in day.reservations.Where(x => x.state != Reservation.State.Denied))
-                        reservedSpaceWpending += item.numPeople;
-                }
+            if (day.reservations.Count > 0) {
 
-                reserveSpaceWithPending.Maximum = day?.numSeats ?? 1;
-                reserveSpaceWithPending.Value = reservedSpaceWpending;
-                reserveSpaceWithoutPending.Value = reservedSpace;
-                reserveSpaceWithoutPending.Maximum = day?.numSeats ?? 1;
+                foreach (var item in day.reservations) 
+                    temp.Add(item);
 
-                tooltip.SetToolTip(reserveSpaceWithoutPending, "The status of seats left, not counting the not accepted resevations." + ((day != null)? Environment.NewLine +
-                                         "Status: " + reserveSpaceWithoutPending.Value.ToString() + " out of " + reserveSpaceWithoutPending.Maximum.ToString() : ""));
-
-                tooltip.SetToolTip(reserveSpaceWithPending, "The status of seats left, including the pending resevations." + ((day != null)? Environment.NewLine + 
-                                         "Status: " + reserveSpaceWithPending.Value.ToString() + " out of " + reserveSpaceWithPending.Maximum.ToString() : ""));
-
-            } catch (Exception) {
-                // We don't care too much about this
-                reserveSpaceWithPending.Maximum = 1;
-                reserveSpaceWithPending.Value = 1;
-                reserveSpaceWithoutPending.Maximum = 1;
-                reserveSpaceWithoutPending.Value = 1;
+                foreach(var item in temp) 
+                    reservationController.checkIfAutoAccept(item, day);
             }
+        }
+
+        public void updateProgressBar(CalendarDay day)
+        {
+
+            int totalSeats = day?.numSeats ?? reservationController.totalSeats;
+            int reservedSeats = day?.reservedSeats ?? 0;
+            int pendingSeats = day?.reservedSeatsPending ?? 0;
+
+            // Prevent exception from Value>Maximum
+            reserveSpaceWithPending.Value = 0;
+            reserveSpaceWithoutPending.Value = 0;
+
+            reserveSpaceWithPending.Maximum = totalSeats;
+            reserveSpaceWithPending.Value = Math.Min(reserveSpaceWithPending.Maximum, reservedSeats + pendingSeats);
+
+            reserveSpaceWithoutPending.Maximum = totalSeats;
+            reserveSpaceWithoutPending.Value = Math.Min(reserveSpaceWithoutPending.Maximum, day?.reservedSeats ?? 0);
+
+            tooltip.SetToolTip(reserveSpaceWithoutPending, "Fullness counting only accepted reservations." + ((day != null)? Environment.NewLine +
+                                     $"{reserveSpaceWithoutPending.Value} / {reserveSpaceWithoutPending.Maximum}" : ""));
+
+            tooltip.SetToolTip(reserveSpaceWithPending, "Fulness, including the pending resevations." + ((day != null)? Environment.NewLine +
+                                     $"{reserveSpaceWithPending.Value} / {reserveSpaceWithPending.Maximum}" : ""));
+
+            remainingSeats.Text = $"{totalSeats - reservedSeats}";
+            tooltip.SetToolTip(remainingSeats, $"Remaining seats {totalSeats - reservedSeats} / {totalSeats}");
         }
 
         // TODO: functions...
@@ -352,6 +400,14 @@ namespace AdministratorPanel {
         }
 
         private void testButtonfunc() {
+            
+            topRightTable.Controls.Add(testButton);
+            testButton.Click += (s, e) => {
+                createResevation();
+            };
+        }
+
+        public void createResevation() {
             string[] firstnames = {
                 "Candyce","Leigh",
                 "Carl","Klara","Kristan",
@@ -367,23 +423,31 @@ namespace AdministratorPanel {
                 "Padilla","Ehret","Claxton","Keyes","Staff","Tower",
                 "Backstrom","Oglesby","Stanger","Flansburg"
             };
-            topRightTable.Controls.Add(testButton);
-            testButton.Click += (s, e) => {
-                Random rand = new Random();
-                Reservation res = new Reservation();
-                string fnam = firstnames[rand.Next(0,firstnames.Count())];
-                string lnam = lastnames[rand.Next(0, lastnames.Count())];
-                res.name = fnam + " " + lnam;
-                res.email = fnam + rand.Next(0, 425).ToString() + "@" + "mail.org";
 
-                res.time = (rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, rand.Next(11, 12), rand.Next(1, 30));
-                res.state = Reservation.State.Pending;
-                res.phone = "12345678";
-                res.numPeople = rand.Next(0, 10);
-                res.created = DateTime.Now;
-                reservationController.addReservation(res);
+            string[] emailDomain = {
+                "hotmail.com","hotmail.dk","gmail.com","mail.com","mail.dk",
+                "hidemyass.com","webmail.com","webmail.dk","email.com",
+                "email.dk","computer.dk","jordkanin.dk","hem.dk"
             };
 
+            Random rand = new Random();
+            Reservation res = new Reservation();
+
+            string fnam = firstnames[rand.Next(0, firstnames.Count())];
+            string lnam = lastnames[rand.Next(0, lastnames.Count())];
+            res.name = fnam + " " + lnam;
+            res.email = fnam + rand.Next(0, 425).ToString() + "@" + emailDomain[rand.Next(0,emailDomain.Count())];
+
+            res.time = calendar.SelectionStart;//(rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, 12, 2 /*rand.Next(1, 30)*/);
+            res.state = Reservation.State.Pending;
+            res.phone = rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
+                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
+                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString();
+
+            res.numPeople = rand.Next(1, 10);
+            res.created = DateTime.Now;
+            reservationController.addReservation(res);
+            Console.WriteLine("Resevation added at: " + res.time.ToString());
         }
     }
 }

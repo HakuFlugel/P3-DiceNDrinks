@@ -32,6 +32,7 @@
     }
     else if (action == "add")
     {
+        reservation.timestamp = DateTime.UtcNow;
         diceServer.reservationController.addReservation(reservation);
         Response.Write("added " +reservation.id);
     }
@@ -46,6 +47,19 @@
         {
             Response.Write("failed");
         }
+        reservation.timestamp = DateTime.UtcNow; //TODO: fix merge
+        diceServer.reservationController.updateReservation(reservation);
+    }
+    Application.UnLock();
+
+
+
+    if (reservation == null)
+    {
+
+        Response.Write("<p>No reservation provided</p>");
+
+
     }
     else
     {
