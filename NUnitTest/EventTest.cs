@@ -11,8 +11,8 @@ using System.Windows.Forms;
 namespace NUnitTest {
     [TestFixture]
     public class EventTest {
-        FormProgressBar probar = new FormProgressBar();
         Event testEvent = new Event();
+        FormProgressBar probar = new FormProgressBar();
         EventsTab eventsTap;
         EventItem eventItem;
 

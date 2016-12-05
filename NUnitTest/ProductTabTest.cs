@@ -10,11 +10,13 @@ using AdministratorPanel;
 namespace NUnitTest {
     [TestFixture]
     public class ProductTabTest {
+
         FormProgressBar probar = new FormProgressBar();
         ProductsTab productTab;
         List <ProductItem> productItems = new List<ProductItem>();
 
         public ProductTabTest() {
+
             productTab = new ProductsTab(probar);
             ProductItem pi = productItemMaker("Name1", "Red.png", "Food", "Burger");
             pi.Name = "TestOfProductItem";
