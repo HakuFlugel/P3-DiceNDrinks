@@ -10,12 +10,12 @@
       p1:orientation="horizontal"
       p1:minWidth="25px"
       p1:minHeight="25px"
+      p1:layout_margin="8dp"
       p1:layout_width="wrap_content"
       p1:layout_height="wrap_content" 
       p1:layout_gravity="center_horizontal"
       p1:elevation="@dimen/abc_action_bar_subtitle_bottom_margin_material"
-      p1:background="#5a595b"
-      p1:padding="8dp">
+      p1:background="#5a595b" >
     <Spinner
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
