@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Shared;
 using AdministratorPanel;
 
@@ -24,39 +25,48 @@ namespace NUnitTest {
             resevationTest = new ReservationTab(resControl,probar);
             
             testres.name = name; testres.email = email; testres.phone = phone; testres.numPeople = numPeople; testres.time = time;
-            resControl.addReservation(testres);
+          
         }
 
         [Test]
         public void ReservationGetsAddedCorrectly() {
-            
-
-            
+            resControl.addReservation(testres);
             Assert.True(resControl.findDay(time).reservations.Any(x => x.name == name && x.email == email && x.phone == phone && x.name == name && x.numPeople == numPeople));
         }
         [Test]
         public void ResevationGetsDeletedCorrectly() {
+            resControl.addReservation(testres);
             resControl.removeReservation(testres);
             Assert.False(resControl.findDay(time).reservations.Any(x => x.name == name && x.email == email && x.phone == phone && x.name == name && x.numPeople == numPeople));
         }
         [Test]
         public void CheckIfDayGetsDeleted() {
+
             resControl.removeReservation(testres);
-            Assert.False(resControl.reservationsCalendar.Contains(new CalendarDay() { theDay = time }));
+
+            CalendarDay day = resControl.findDay(DateTime.Today);
+
+            resControl.checkIfRemove(day);
+
+            Assert.False(resControl.reservationsCalendar.Contains(day));
         }
         [Test]
         public void CheckIfDayIsCreatedWhenLockingADay() {
-            
             resevationTest.lockResevations.Checked = true;
-            Assert.True(resControl.reservationsCalendar.Contains(new CalendarDay() { theDay = DateTime.Today }));
+            resevationTest.CheckedChanged();
+            
+
+            Assert.True(resControl.reservationsCalendar.Contains(resControl.findDay(DateTime.Today)));
         }
+
+        
         [Test]
         public void CheckIfDayDeletedWhenUnLockingADay() {
             resevationTest.lockResevations.Checked = true;
 
             resevationTest.lockResevations.Checked = false;
 
-            Assert.False(resControl.reservationsCalendar.Contains(new CalendarDay() { theDay = DateTime.Today }));
+            Assert.False(resControl.reservationsCalendar.Contains(resControl.findDay(DateTime.Today)));
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace AdministratorPanel {
     public class ReservationTab : AdminTabPage {
-        private Calendar calendar;
+        public Calendar calendar;
 
         public ReservationList reservationList;
         public PendingReservationList pendingReservationList;
@@ -229,18 +229,7 @@ namespace AdministratorPanel {
             };
 
             lockResevations.CheckedChanged += (s, e) => {
-                
-                CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-                
-                day.isLocked = lockResevations.Checked;
-
-                if(reservationController.checkIfRemove(day)) 
-                    reservationController.reservationsCalendar.Remove(day);
-
-                updateCheck(day);
-
-                updateProgressBar(day);
-
+                CheckedChanged();
             };
 
             maxAutoAccept.LostFocus += (s, e) => {
@@ -307,6 +296,19 @@ namespace AdministratorPanel {
             }
             day.autoAcceptMaxPeople = tempNr;
             updateCheck(day);
+        }
+
+        public void CheckedChanged() {
+            CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
+
+            day.isLocked = lockResevations.Checked;
+
+            if (reservationController.checkIfRemove(day))
+                reservationController.reservationsCalendar.Remove(day);
+
+            updateCheck(day);
+
+            updateProgressBar(day);
         }
 
         private void tooltipController() {
