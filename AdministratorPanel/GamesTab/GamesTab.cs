@@ -95,6 +95,7 @@ namespace AdministratorPanel {
                     input = streamReader.ReadToEnd();
                     streamReader.Close();
                 }
+
                 if (input != null) {
                     games = JsonConvert.DeserializeObject<List<Game>>(input);
 

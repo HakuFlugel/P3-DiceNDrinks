@@ -17,7 +17,7 @@ namespace Shared
         public string name;
         public string description;
         public List<string> genre = new List<string>();
-        public int difficulity;             // 0 - 100 hvor 100 er svært og 0 er nemt.
+        public int difficulity;             // 1 - 10 hvor 10 er svært og 1 er nemt.
         public int publishedYear;
 
         public int minPlayers, maxPlayers;
@@ -26,6 +26,7 @@ namespace Shared
         public string imageName;
 
         public Game() { }
+
         public Game(Game game) { //Copy constructor
             if (game != null) {
                 bggid = game.bggid;

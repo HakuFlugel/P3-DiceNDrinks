@@ -6,6 +6,7 @@ using Shared;
 namespace AdministratorPanel {
     public class GamesItem : NiceButton {
         Game game;
+
         public GamesItem(Game game) {
             RowCount = 1;
             this.game = game;
@@ -17,7 +18,6 @@ namespace AdministratorPanel {
             Margin = new Padding(4, 4, 20, 4);
 
             
-
             TableLayoutPanel x1 = new TableLayoutPanel();
             x1.ColumnCount = 1;
             x1.RowCount = 2;
@@ -44,9 +44,6 @@ namespace AdministratorPanel {
             Controls.Add(x3);
 
             Controls.Add(new PictureBox { BackColor = Color.Black, Dock = DockStyle.Right });
-            
-            
-
         }
     }
 }
