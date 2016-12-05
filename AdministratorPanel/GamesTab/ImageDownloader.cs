@@ -8,28 +8,33 @@ namespace AdministratorPanel {
 
         private string gddId;
         private string url;
+        public Image image { get; private set; }
 
         public ImageDownloader(string gddIdIn, string urlIn ) {
             this.gddId = gddIdIn;
-            this.url = urlIn;
+            this.url = "http:" + urlIn;
+            DownloadImage();
         }
 
-        public Image DownloadImage() {
-            using (WebClient client = new WebClient()) {
+        public void DownloadImage() {
 
-                byte[] data = client.DownloadData("http://"+url);
+            try {
+                using (WebClient client = new WebClient()) {
+                    byte[] data = client.DownloadData(url);
 
-                using (MemoryStream memoryStream = new MemoryStream(data)) {
-
-                    using (Image image = Image.FromStream(memoryStream)) {
-                        return image;
+                    using (MemoryStream memoryStream = new MemoryStream(data)) {
+                        using (Image imageIn = Image.FromStream(memoryStream)) {
+                            image = imageIn;
+                        }
                     }
                 }
-            }
+            } catch (System.Exception) {
+                image = null;
+            }     
         }
 
-        public void saveImage(Image image) {
-            image.Save("Images/" + gddId + ".Png", ImageFormat.Png);
+        public void saveImage() {
+            image.Save($"Images/{gddId}.png", ImageFormat.Jpeg);
         }
     }
 }
