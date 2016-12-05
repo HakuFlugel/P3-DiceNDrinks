@@ -3,7 +3,9 @@
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
 
-    //    if (!diceServer.authentication.authenticate(Request.Form["AdminKey"]))
+    //string adminKey = Request.Form["AdminKey"];
+    //bool isAdmin = adminKey != null && diceServer.authentication.authenticate(adminKey);
+    //    if (!diceServer.authentication.authenticate())
     //    {
     //        //throw new HttpException(404, "Not Found");
     //        Response.Clear();
@@ -14,50 +16,43 @@
     string action = Request.Form["Action"];
     string reservationString = Request.Form["Reservation"] ?? "null";
 
-
     Shared.Reservation reservation = Newtonsoft.Json.JsonConvert.DeserializeObject<Shared.Reservation>(reservationString);
 
     if (reservation == null || action == null)
     {
-        Response.Write("<p>No reservation provided</p>");
+        Response.Write("No reservation provided");
         return;
     }
 
     //TODO: make sure it handles both correct and incorrect input...
     Application.Lock();
-    if (action == "delete")
+    switch (action)
     {
-        diceServer.reservationController.removeReservation(reservation);
-        Response.Write("deleted");
-    }
-    else if (action == "add")
-    {
-        reservation.timestamp = DateTime.UtcNow;
-        diceServer.reservationController.addReservation(reservation);
-        Response.Write("added " +reservation.id);
-    }
-    else if (action == "update")
-    {
-        try
-        {
-            reservation.timestamp = DateTime.UtcNow; //TODO: fix merge
+        case "delete":
+            diceServer.reservationController.removeReservation(reservation);
+            Response.Write("deleted");
+            break;
+        case "add":
+            reservation.timestamp = DateTime.UtcNow;
+            diceServer.reservationController.addReservation(reservation);
+            Response.Write("added " + reservation.id);
+            break;
+        case "update":
+            try
+            {
+                reservation.timestamp = DateTime.UtcNow; //TODO: fix merge
+                diceServer.reservationController.updateReservation(reservation);
+                Response.Write("updated");
+            }
+            catch (Exception)
+            {
+                Response.Write("failed");
+            }
             diceServer.reservationController.updateReservation(reservation);
-            Response.Write("updated");
-        }
-        catch (Exception)
-        {
-            Response.Write("failed");
-        }
-        diceServer.reservationController.updateReservation(reservation);
-    }
-    Application.UnLock();
-
-
-
-
-    else
-    {
-        Response.Write("<p>invalid action</p>");
+            break;
+        default:
+            Response.Write("invalid action");
+            break;
     }
     Application.UnLock();
 

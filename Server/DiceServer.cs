@@ -12,7 +12,7 @@ namespace Server
 
         private string path;
 
-        //public Authentication authentication;
+        public Authentication authentication;
 
         public ReservationController reservationController;
         public EventsController eventsController;
