@@ -18,7 +18,8 @@ namespace AdministratorPanel {
 
         public MainWindow() {
             probar.setProbarValue(37);                          //For progress bar, set the value. If you add or remove a probar.addToProbar(); then change this number!!!!!!!!!1! IT IS HARDCODED!
-            
+            probar.Show();
+
             Text = "Dice 'n Drinks";
 
             StartPosition = FormStartPosition.CenterScreen;

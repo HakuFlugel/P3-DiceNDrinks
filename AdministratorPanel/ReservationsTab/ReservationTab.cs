@@ -198,13 +198,6 @@ namespace AdministratorPanel {
             calendar.DateChanged += (s, e) => {
                 CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == e.Start.Date);
 
-                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + 
-                                ((day != null) ? "excist" : "dosen't excist") + 
-                                Environment.NewLine + "lockReservation: " + 
-                                ((day != null) ? day.isLocked.ToString() : "Nogo") + 
-                                Environment.NewLine + "autopresentage: " + 
-                                ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
-
                 lockResevations.Checked = (day != null) ? (day.isFullChecked || day.isLocked) : false;
 
                 updateProgressBar(day);

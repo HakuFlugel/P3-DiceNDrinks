@@ -17,6 +17,7 @@ namespace NUnitTest {
         EventItem eventItem;
 
         public EventTest() {
+            eventsTap = new EventsTab(probar);
             testEvent.id = 1;
             testEvent.name = "Weston Wensday";
             testEvent.description = "Something weston related on wensday";
@@ -27,7 +28,6 @@ namespace NUnitTest {
 
         [Test]
         public void EventItemCreationTest() {
-            eventsTap = new EventsTab(probar);
             eventItem = new EventItem(eventsTap, testEvent);
             Assert.True(eventItem.name == testEvent.name
                         && eventItem.description == testEvent.description);
