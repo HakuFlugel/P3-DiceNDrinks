@@ -12,14 +12,18 @@ namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> Evnts = new List<Event>();
         EventList lowerTable = new EventList();
+        private FormProgressBar probar;
 
-        public EventsTab() {
+        public EventsTab(FormProgressBar probar) {
+            this.probar = probar;
+
             Load();
-
+            probar.addToProbar();                               //For progress bar. 1
             Text = "Events";
 
             TableLayoutPanel headTable = new TableLayoutPanel();
             headTable.Dock = DockStyle.Fill;
+            probar.addToProbar();                               //For progress bar. 2
             headTable.RowCount = 2;
             headTable.ColumnCount = 1;
 
@@ -28,23 +32,29 @@ namespace AdministratorPanel {
             topFlowPanel.FlowDirection = FlowDirection.RightToLeft;
             topFlowPanel.AutoSize = true;
 
-            makeItems();
+            probar.addToProbar();                               //For progress bar. 3
 
+            makeItems();
+            probar.addToProbar();                               //For progress bar. 4
             Button addEventButton = new Button();
             addEventButton.Height = 20;
             addEventButton.Width = 100;
             addEventButton.Text = "Add Event";
+            probar.addToProbar();                               //For progress bar. 5
             addEventButton.Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(this);
                 p.Show();
             };
 
-            topFlowPanel.Controls.Add(addEventButton);           
+            topFlowPanel.Controls.Add(addEventButton);
+            probar.addToProbar();                               //For progress bar. 6          
             headTable.Controls.Add(topFlowPanel);
+            probar.addToProbar();                               //For progress bar. 7
             headTable.Controls.Add(lowerTable);
+            probar.addToProbar();                               //For progress bar. 8
 
             Controls.Add(headTable);
-            
+            probar.addToProbar();                               //For progress bar. 9
         }
 
         public void makeItems() {

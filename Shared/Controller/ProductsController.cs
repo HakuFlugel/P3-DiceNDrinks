@@ -1,69 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
+using Newtonsoft;
 
 namespace Shared
 {
-    public class ProductsController
+    public class ProductsController : ControllerBase
     {
+        List<Product> products = new List<Product>();
+        List<ProductCategory> categories = new List<ProductCategory>(); //TODO: make stuff
+
+        public ProductsController(string path = "data/") : base(path)
+        {
+        }
+
+        public event EventHandler<UpdateGameEventArgs> GameUpdated;
+        public class UpdateGameEventArgs
+        {
+            public Product newProduct;
+            public Product oldProduct;
+
+            public UpdateGameEventArgs(Product oldProduct, Product newProduct)
+            {
+                this.oldProduct = oldProduct;
+                this.newProduct = newProduct;
+            }
+        }
+//TODO: cut+pasta category+section stuff from producttab(popup)
+        public void addGame(Product newProduct)
+        {
+            newProduct.id = new Random().Next(); // TODO: unique id
+
+            products.Add(newProduct);
+
+            GameUpdated?.Invoke(this, new UpdateGameEventArgs(null, newProduct));
+        }
 
 
-//
-//        public override void save()
-//        {
-//            Directory.CreateDirectory("data");
-//
-//            using (StreamWriter streamWriter = new StreamWriter("data/reservationsCalendar.json"))
-//            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
-//            {
-//                jsonSerializer.Serialize(jsonTextWriter, reservationsCalendar);
-//            }
-//            using (StreamWriter streamWriter = new StreamWriter("data/rooms.json"))
-//            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
-//            {
-//                jsonSerializer.Serialize(jsonTextWriter, rooms);
-//            }
-//        }
-//
-//
-//
-//        public override void load()
-//        {
-//            //TODO: create a function for these(consider Entity System thing)
-//            Directory.CreateDirectory("data");
-//            try
-//            {
-//                using (StreamReader streamReader = new StreamReader("data/reservationsCalendar.json"))
-//                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
-//                {
-//                    reservationsCalendar = jsonSerializer.Deserialize<List<CalendarDay>>(jsonTextReader);
-//
-//                }
-//                using (StreamReader streamReader = new StreamReader("data/rooms.json"))
-//                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
-//                {
-//                    rooms = jsonSerializer.Deserialize<List<Room>>(jsonTextReader);
-//
-//                }
-//            }
-//            catch (FileNotFoundException)
-//            {
-//                Console.WriteLine("reservationsCalendar.json or rooms.json not found"); // TODO: put this stuff inside some function
-//            }
-//
-//            if (reservationsCalendar == null)
-//            {
-//                Console.WriteLine("reservationsCalendar was null after loading... setting it to new list");
-//                reservationsCalendar = new List<CalendarDay>();
-//            }
-//
-//            if (rooms == null)
-//            {
-//                Console.WriteLine("rooms was null after loading... setting it to new list");
-//                rooms = new List<Room>();
-//            }
-//
-//        }
+        public void updateGame(Product oldProduct, Product newProduct)
+        {
+            //newProduct.created = oldProduct.created;
+            newProduct.id = oldProduct.id; // TODO: needed?
+
+            products[products.FindIndex(e => e == oldProduct)] = newProduct;
+
+            GameUpdated?.Invoke(this, new UpdateGameEventArgs(oldProduct, newProduct));
+
+        }
+
+        public void removeGame(Product oldProduct)
+        {
+
+            products.Remove(oldProduct); //TODO: make sure this uses id to compare
+
+            GameUpdated?.Invoke(this, new UpdateGameEventArgs(oldProduct, null));
+        }
+
+        public override void save()
+        {
+            saveFile("products", products);
+        }
+
+        public override void load()
+        {
+            products = loadFile<Product>("products");
+        }
+
+
+
     }
 }

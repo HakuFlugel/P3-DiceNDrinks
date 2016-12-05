@@ -12,35 +12,39 @@ namespace AdministratorPanel {
         public List<Product> productList = new List<Product>();
 
         private TabControl tabControl = new TabControl();
-
-        public ProductsTab() {
-            //name for the tab
+        private FormProgressBar probar;
+        public ProductsTab(FormProgressBar probar) {
             Text = "Products";
-
+            this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
             Load();
             MakeItems();
+            probar.addToProbar();                               //For progress bar. 1
 
             TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.Dock = DockStyle.Fill;
             tableLayoutPanel.AutoSize = true;
             tableLayoutPanel.RowCount = 2;
             tableLayoutPanel.ColumnCount = 1;
+            probar.addToProbar();
 
             Button addItemButton = new Button();
             addItemButton.Height = 20;
             addItemButton.Width = 100;
             addItemButton.Dock = DockStyle.Right;
             addItemButton.Text = "Add product";
+            probar.addToProbar();                               //For progress bar. 3
             addItemButton.Click += (s, e) => {
                 ProductPopupBox p = new ProductPopupBox(this);
                 p.Show();
             };
-
+            
             tableLayoutPanel.Controls.Add(addItemButton);
+            probar.addToProbar();                               //For progress bar. 4
             tableLayoutPanel.Controls.Add(tabControl);
-           
+            probar.addToProbar();                               //For progress bar. 5
             Controls.Add(tableLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 6
         }
 
         public void MakeItems() {

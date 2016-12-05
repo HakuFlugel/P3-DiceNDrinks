@@ -8,12 +8,13 @@ namespace AdministratorPanel {
     public class XmlGameItem : NiceButton {
         Game game;
         GamePopupBox gamePopupbox;
+        ImageDownloader imageDownloader;
 
         public XmlGameItem(Game game, GamePopupBox gamePopupbox) {
             RowCount = 1;
             this.gamePopupbox = gamePopupbox;
             this.game = game;
-            ColumnCount = 1;
+            ColumnCount = 2;
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;
             AutoSize = true;
@@ -25,26 +26,33 @@ namespace AdministratorPanel {
             tableLayoutPanel.ColumnCount = 1;
             tableLayoutPanel.RowCount = 2;
             tableLayoutPanel.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-            tableLayoutPanel.Controls.Add(new Label { Text = game.bggid, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
+            tableLayoutPanel.Controls.Add(new Label { Text = game.publishedYear.ToString(), AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
-            ImageDownloader imageDownloader = new ImageDownloader(game.bggid,game.imageName);
+            Console.WriteLine("id = " + game.bggid + "  image = " + game.imageName);
+            imageDownloader = new ImageDownloader(game.bggid,game.imageName);
 
-            Panel pn = new Panel();
-            pn.Name = "Image";
-            pn.Height = 86;
-            pn.Width = ClientSize.Width;
-            try {
-                pn.BackgroundImage = imageDownloader.DownloadImage();
-            } catch (Exception) {
-
-                throw;
+            if (imageDownloader.image == null) {
+                Console.WriteLine("Image not found ");
             }
 
-           
-            pn.BackgroundImageLayout = ImageLayout.Zoom;
+            Panel pn = new Panel();
+            pn.Dock = DockStyle.Left;
+            pn.Name = "Image";
+            pn.Height = 86;
+            pn.Width =  86;
             pn.BackColor = Color.Black;
-            Controls.Add(pn);
+            pn.BackgroundImage = Image.FromFile("images/Red.Png");
+            /*
+            try {
+                pn.BackgroundImage = imageDownloader.image;
+            } catch (Exception) {
+                pn.BackgroundImage = null;
+            }
+            */
+            //pn.BackgroundImageLayout = ImageLayout.Zoom;
 
+
+            Controls.Add(pn);
             Controls.Add(tableLayoutPanel);
         }
 
@@ -65,7 +73,7 @@ namespace AdministratorPanel {
                 gamePopupbox.gameDescription.Text = game.description;
                 gamePopupbox.time.Text = game.minPlayTime.ToString() + "/" + game.maxPlayTime.ToString();
                 gamePopupbox.players.Text = game.minPlayers.ToString() + "/" + game.maxPlayTime.ToString();
-
+                gamePopupbox.gameImage.BackgroundImage = imageDownloader.image;
                 gamePopupbox.gameDifficulty.Value = game.difficulity;
                 
                 gamePopupbox.hasBeenChanged = true;

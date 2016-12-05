@@ -22,14 +22,6 @@ namespace AdministratorPanel {
             VScroll = true;
 
             //TODO: is this implementation too hacky? maybe do it in item as mentioned in another todo
-            reservationController.ReservationAdded += (sender, args) =>
-            {
-                makeItems();
-            };
-            reservationController.ReservationRemoved += (sender, args) =>
-            {
-                makeItems();
-            };
             reservationController.ReservationUpdated += (sender, args) =>
             {
                 makeItems();
@@ -40,7 +32,7 @@ namespace AdministratorPanel {
         public void makeItems() {
             Controls.Clear();
             foreach (var item in reservationController.reservationsCalendar.OrderBy(o => o.theDay.Date)) {
-                if (item.reservations.Exists(o => o.pending)) {
+                if (item.reservations.Exists(o => o.state == Reservation.State.Pending)) {
                     PendingReservationItem pendingReservationItem = new PendingReservationItem(cal, calTab, item.theDay, item.reservations);
                     Controls.Add(pendingReservationItem);
                 }

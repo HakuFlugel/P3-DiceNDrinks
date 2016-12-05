@@ -12,7 +12,7 @@ namespace AdministratorPanel {
         public GamesList game;
         private Genres genres = new Genres();
         private string search = "";
-
+        private FormProgressBar probar;
         private TableLayoutPanel outerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
             RowCount = 2,
@@ -37,14 +37,19 @@ namespace AdministratorPanel {
             clearable = true,
             MinimumSize = new Size(200, 0),
         };
-
-        public GamesTab() {
-            //set tab name
-            Text = "Games";
+        
+        public GamesTab(FormProgressBar probar) {
+            this.probar = probar;
             Load();
+            probar.addToProbar();                               //For progress bar. 1
+            
 
-            game = new GamesList(games, this, genres);
+            game = new GamesList(games,this,genres);
             game.makeItems(search);
+            Text = "Games";
+            probar.addToProbar();                               //For progress bar. 2
+                                        
+
 
             AutoSize = true;
             Dock = DockStyle.Fill;
@@ -64,10 +69,14 @@ namespace AdministratorPanel {
             };
 
             outerTableLayoutPanel.Controls.Add(game);
+            probar.addToProbar();                               //For progress bar. 3
             Controls.Add(outerTableLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 4
             Controls.Add(innerTableLayoutPanel);
             innerTableLayoutPanel.Controls.Add(seachBar);
+            probar.addToProbar();                               //For progress bar. 5
             innerTableLayoutPanel.Controls.Add(addGameButton);
+            probar.addToProbar();                               //For progress bar. 6
         }
 
         private void update() {
