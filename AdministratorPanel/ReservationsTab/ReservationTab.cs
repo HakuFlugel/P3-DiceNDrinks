@@ -354,44 +354,31 @@ namespace AdministratorPanel {
             }
         }
 
-        public void updateProgressBar(CalendarDay day) {
-            try {
-                
-//                int reservedSpace = 0;
-//                int reservedSpaceWpending = 0;
-//                if (day != null) {
-//                    foreach (var item in day.reservations.Where(x => x.state == Reservation.State.Accepted))
-//                        reservedSpace += item.numPeople;
-//                    foreach (var item in day.reservations.Where(x => x.state != Reservation.State.Denied))
-//                        reservedSpaceWpending += item.numPeople;
-//                }
-                // Prevent exception from Value>Maximum
-                reserveSpaceWithPending.Value = 0;
-                reserveSpaceWithoutPending.Value = 0;
+        public void updateProgressBar(CalendarDay day)
+        {
 
-                reserveSpaceWithPending.Maximum = day?.numSeats ?? 1;
-                reserveSpaceWithPending.Value = day.reservedSeats + day.reservedSeatsPending;
-                
-                reserveSpaceWithoutPending.Maximum = day?.numSeats ?? 1;
-                reserveSpaceWithoutPending.Value = day.reservedSeats;
+            int totalSeats = day?.numSeats ?? reservationController.totalSeats;
+            int reservedSeats = day?.reservedSeats ?? 0;
+            int pendingSeats = day?.reservedSeatsPending ?? 0;
 
-                tooltip.SetToolTip(reserveSpaceWithoutPending, "Fullness counting only accepted reservations." + ((day != null)? Environment.NewLine +
-                                         $"{reserveSpaceWithoutPending.Value} / {reserveSpaceWithoutPending.Maximum}" : ""));
+            // Prevent exception from Value>Maximum
+            reserveSpaceWithPending.Value = 0;
+            reserveSpaceWithoutPending.Value = 0;
 
-                tooltip.SetToolTip(reserveSpaceWithPending, "Fulness, including the pending resevations." + ((day != null)? Environment.NewLine +
-                                         $"{reserveSpaceWithPending.Value} / {reserveSpaceWithPending.Maximum}" : ""));
+            reserveSpaceWithPending.Maximum = totalSeats;
+            reserveSpaceWithPending.Value = Math.Min(reserveSpaceWithPending.Maximum, reservedSeats + pendingSeats);
 
-                remainingSeats.Text = $"{day.numSeats - day.reservedSeats}";
-                tooltip.SetToolTip(remainingSeats, $"Remaining seats {day.numSeats - day.reservedSeats} / {day.numSeats}");
+            reserveSpaceWithoutPending.Maximum = totalSeats;
+            reserveSpaceWithoutPending.Value = Math.Min(reserveSpaceWithoutPending.Maximum, day?.reservedSeats ?? 0);
 
-            } catch (Exception e ) {
-                MessageBox.Show(e.Message,"FATAL ERROR");
-                // We don't care too much about this
-                reserveSpaceWithPending.Maximum = 1;
-                reserveSpaceWithPending.Value = 1;
-                reserveSpaceWithoutPending.Maximum = 1;
-                reserveSpaceWithoutPending.Value = 1;
-            }
+            tooltip.SetToolTip(reserveSpaceWithoutPending, "Fullness counting only accepted reservations." + ((day != null)? Environment.NewLine +
+                                     $"{reserveSpaceWithoutPending.Value} / {reserveSpaceWithoutPending.Maximum}" : ""));
+
+            tooltip.SetToolTip(reserveSpaceWithPending, "Fulness, including the pending resevations." + ((day != null)? Environment.NewLine +
+                                     $"{reserveSpaceWithPending.Value} / {reserveSpaceWithPending.Maximum}" : ""));
+
+            remainingSeats.Text = $"{totalSeats - reservedSeats}";
+            tooltip.SetToolTip(remainingSeats, $"Remaining seats {totalSeats - reservedSeats} / {totalSeats}");
         }
 
         // TODO: functions...
@@ -451,7 +438,7 @@ namespace AdministratorPanel {
             res.name = fnam + " " + lnam;
             res.email = fnam + rand.Next(0, 425).ToString() + "@" + emailDomain[rand.Next(0,emailDomain.Count())];
 
-            res.time = (rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, 12, 2 /*rand.Next(1, 30)*/);
+            res.time = calendar.SelectionStart;//(rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, 12, 2 /*rand.Next(1, 30)*/);
             res.state = Reservation.State.Pending;
             res.phone = rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
                         rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 

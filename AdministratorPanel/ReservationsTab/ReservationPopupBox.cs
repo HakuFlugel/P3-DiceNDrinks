@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
@@ -162,13 +159,16 @@ namespace AdministratorPanel {
 
             /*COPY PASTE(SOME OF IT!!)*/
             DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
-                                       CultureInfo.InvariantCulture);
+                                       CultureInfo.InvariantCulture); // TODO: why are we even parsing this???
             /*END OF COPY PASTE*/
 
 
             // actual saving
 
             Reservation newres = new Reservation();
+            newres.id = reservation.id;
+            newres.timestamp = DateTime.UtcNow;
+
             newres.state = (Reservation.State)pendingSet.SelectedValue;
 
             newres.name = reservationName.Text;
@@ -187,6 +187,8 @@ namespace AdministratorPanel {
             }
 
             this.Close();
+
+
             //_reservationController.reserveationList.updateCurrentDay(newDate.Date); TODO: these two should be implemented using events at those places
             //_reservationController.pendingReservationList.updateCurrentDay();
 
