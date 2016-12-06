@@ -52,7 +52,7 @@ namespace AndroidAppV2.Activities
 
                 ProductDialogFragment dialog = new ProductDialogFragment();
                 dialog.PassDataToFrag(theProduct, this);
-                dialog.Show(FragmentManager, "Produkt Dialog");
+                dialog.Show(FragmentManager, "Product Dialog");
                 GC.Collect();
             };
 

@@ -6,7 +6,7 @@ using Android.Widget;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Label = "Kontakt Information", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Contact Information", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ContactActivity : Activity
     {
         protected override void OnCreate(Bundle savedInstanceState)

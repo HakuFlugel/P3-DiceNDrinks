@@ -59,7 +59,7 @@
         p1:id="@+id/seekBar1"
         p1:layout_below="@id/numPplText" />
     <TextView
-        p1:text="1 Person(er)"
+        p1:text="1 People"
         p1:textAppearance="?android:attr/textAppearanceSmall"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
@@ -90,7 +90,7 @@
         p1:id="@+id/acceptButton"
         p1:layout_gravity="center_horizontal" />
     <TextView
-        p1:text="Reservations stadie: Ingen reservation"
+        p1:text="Reservation state: No Reservation"
         p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"

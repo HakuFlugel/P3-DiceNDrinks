@@ -12,7 +12,7 @@ using Android.Content.PM;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Label = "Reservationer", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Reservations", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
     {
         private bool _state = true; //checks if the user has made any changes
@@ -30,7 +30,7 @@ namespace AndroidAppV2.Activities
             {
                 _data = value;
                 Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
-                acceptingButton.Text = "Ændrer Reservation";
+                acceptingButton.Text = "Change Reservation";
             }
         }
 
@@ -73,7 +73,7 @@ namespace AndroidAppV2.Activities
                 FindViewById<EditText>(Resource.Id.nameEdit).Text = _res.name;
                 FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = _res.phone;
                 FindViewById<EditText>(Resource.Id.emailEdit).Text = _res.email;
-                FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations stadie: Afventer svar";
+                FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
             }
             _dateSelectButton.Click += delegate
             {
@@ -116,11 +116,11 @@ namespace AndroidAppV2.Activities
         private void SendData(Reservation res)
         {
             if (res.name == "") {
-                ErrorDialog("Venligst angiv et navn.");
+                ErrorDialog("Please write a name");
                 return;
             }
             if (res.phone == "" && res.email == "") {
-                ErrorDialog("Du skal angive et telefon nummer og/eller email.");
+                ErrorDialog("You have to specify either a phonenumber or an email");
                 return;
             }
             if (res.email != "") {
@@ -134,11 +134,11 @@ namespace AndroidAppV2.Activities
             }
             int i;
             if (res.phone.Length != 8 || !int.TryParse(res.phone, out i)) {
-                ErrorDialog("Et nummer skal indeholde 8 numre. F.eks.: 12345678");
+                ErrorDialog("a phone number has to be eight digits: e.g. 12345678");
                 return;
             }
-            if (_dateSelectButton.Text == "DATO" || _timeSelectButton.Text == "KLOKKESLÆT") {
-                ErrorDialog("Angiv en dato og tid for hvornår du vil sætte din reservation.");
+            if (_dateSelectButton.Text == "DATE" || _timeSelectButton.Text == "TIME") {
+                ErrorDialog("Specify a date and time you want to place your reservation");
                 return;
             }
             
@@ -158,18 +158,18 @@ namespace AndroidAppV2.Activities
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
             if (Data)
             {
-                resSucces.SetMessage("Din reservation er blevet opdateret! Og venter nu på at blive godkendt!");
-                resSucces.SetTitle("Reservation opdateret");
+                resSucces.SetMessage("Your reservation has been updated, and are awating a answer!");
+                resSucces.SetTitle("Reservation updated");
             }
             else
             {
-                resSucces.SetMessage("Din reservation er blevet sendt! Og venter nu på at blive godkendt!");
-                resSucces.SetTitle("Reservation sendt");
+                resSucces.SetMessage("Your reservation has been created, and are awating a answer!");
+                resSucces.SetTitle("Reservation sent");
             }
             _state = true;
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
             resSucces.Show();
-            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations stadie: Afventer svar";
+            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
             
             Data = true;
 
@@ -243,7 +243,7 @@ namespace AndroidAppV2.Activities
         {
             if (fromUser)
             {
-                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress + 1} Person(er)";
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress + 1} people";
             }
         }
 

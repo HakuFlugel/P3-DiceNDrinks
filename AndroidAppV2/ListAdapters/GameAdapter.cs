@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 
 using Android.App;
@@ -23,7 +24,7 @@ namespace AndroidAppV2.ListAdapters
         {
             _context = context;
             _baseItems = _items = items;
-            Sort("Alfabetisk");
+            Sort(1);
         }
 
         public override long GetItemId(int position)
@@ -71,29 +72,29 @@ namespace AndroidAppV2.ListAdapters
         }
 
         //Spinner sorter
-        public void Sort(string key)
+        public void Sort(int key)
         {
             switch (key)
             {
-                case "Alfabetisk":
+                case 1:
                     _items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
                     break;
-                case "Max. Spillere":
+                case 2:
                     _items.Sort((a,b) => b.maxPlayers.CompareTo(a.maxPlayers));
                     break;
-                case "Min. Spillere":
+                case 3:
                     _items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
                     break;
-                case "Max. Spilletid":
+                case 4:
                     _items.Sort((a, b) => b.maxPlayTime.CompareTo(a.maxPlayTime));
                     break;
-                case "Min. Spilletid":
+                case 5:
                     _items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));
                     break;
-                case "Sværhedsgrad":
+                case 6:
                     _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
                     break;
-                case "Tilføjet":
+                case 7:
                     _items.Sort((a, b) => a.addedDate.CompareTo(b.addedDate));
                     break;
                 default:

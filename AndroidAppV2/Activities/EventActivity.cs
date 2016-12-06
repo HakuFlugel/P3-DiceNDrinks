@@ -12,7 +12,7 @@ using AndroidAppV2.ListDialogFragments;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Label = "Begivenheder", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Events", ScreenOrientation = ScreenOrientation.Portrait)]
     public class EventActivity : FragmentActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -30,7 +30,7 @@ namespace AndroidAppV2.Activities
             listView.ItemClick += (s, e) =>
             { 
                 EventDialogFragment dialog = new EventDialogFragment(list[e.Position]);
-                dialog.Show(FragmentManager, "dialog");
+                dialog.Show(FragmentManager, "Dialog");
             };
         }
 

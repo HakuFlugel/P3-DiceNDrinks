@@ -84,7 +84,7 @@ namespace AndroidAppV2
                 base.OnBackPressed();
 
             _doubleTapToExit = true;
-            Toast.MakeText(this, "Tryk venligst tilbage igen for at lukke applikationen",ToastLength.Long).Show();
+            Toast.MakeText(this, Resource.String.exit,ToastLength.Long).Show();
         }
     }
 }

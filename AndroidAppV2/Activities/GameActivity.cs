@@ -15,7 +15,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities
 {
-    [Activity(Label = "Spil", ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
     public class GameActivity : FragmentActivity
     {
         private bool _ascending = true;
@@ -43,7 +43,7 @@ namespace AndroidAppV2.Activities
             {
                 try
                 {
-                    itemAdapter.Sort((string)gameSpinner.SelectedItem);
+                    itemAdapter.Sort(gameSpinner.SelectedItemPosition);
                 }
                 catch (KeyNotFoundException e)
                 {
