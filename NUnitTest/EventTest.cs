@@ -12,10 +12,12 @@ namespace NUnitTest {
     [TestFixture]
     public class EventTest {
         Event testEvent = new Event();
-        EventsTab eventsTap = new EventsTab();
+        FormProgressBar probar = new FormProgressBar();
+        EventsTab eventsTap;
         EventItem eventItem;
 
         public EventTest() {
+            eventsTap = new EventsTab(probar);
             testEvent.id = 1;
             testEvent.name = "Weston Wensday";
             testEvent.description = "Something weston related on wensday";
