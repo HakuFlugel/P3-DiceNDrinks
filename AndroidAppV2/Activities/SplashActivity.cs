@@ -1,11 +1,11 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Icu.Text;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Util;
@@ -112,12 +112,12 @@ namespace AndroidAppV2.Activities
             }
         }
 
-        private void DownloadUpdate(string location)
+        private /*async*/ void DownloadUpdate(string location) //TODO: Maybe async?
         {
             string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, location);
             string item = "";
-            //TODO: DOWNLOAD
-            
+            MultipartFormDataContent content = new MultipartFormDataContent();
+            //TODO: Make request for data
             System.IO.File.WriteAllText(saveLocation, item);
 
         }
