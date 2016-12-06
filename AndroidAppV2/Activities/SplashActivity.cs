@@ -92,7 +92,7 @@ namespace AndroidAppV2.Activities
             for (int i = 0; i < 3; i++)
             {
                 if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks)
-                    DownloadUpdate(items[i]);
+                    DownloadUpdate(items[i] + ".json");
             }
             SaveNewDate(downloadedDateTimes);
 
@@ -101,8 +101,8 @@ namespace AndroidAppV2.Activities
         private void SaveNewDate(DateTime[] upDatedDateTime)
         {
             using (
-    StreamWriter sw =
-        new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt")))
+                StreamWriter sw =
+                new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt")))
             {
                 for (int i = 0; i < 3; i++)
                 {
@@ -114,8 +114,11 @@ namespace AndroidAppV2.Activities
 
         private void DownloadUpdate(string location)
         {
-            string item;
+            string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, location);
+            string item = "";
             //TODO: DOWNLOAD
+            
+            System.IO.File.WriteAllText(saveLocation, item);
 
         }
 

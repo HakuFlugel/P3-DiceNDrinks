@@ -71,13 +71,13 @@
         p1:layout_height="wrap_content"
         p1:layout_width="match_parent">
         <Button
-            p1:text="Dato"
+            p1:text="Date"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/dateButton"
             p1:layout_weight="50" />
         <Button
-            p1:text="Klokkeslæt"
+            p1:text="Time"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/timeButton"
