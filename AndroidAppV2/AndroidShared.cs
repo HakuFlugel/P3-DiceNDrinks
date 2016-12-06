@@ -19,7 +19,7 @@ namespace AndroidAppV2
     {
         public static void LoadData<T>(Context context, string file, out T type)
         {
-            string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+            string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "DnD");
 
             string filename = Path.Combine(path, file);
 
@@ -43,7 +43,6 @@ namespace AndroidAppV2
                 Log.WriteLine(LogPriority.Warn, $"X:{context}", $"Could not find data in file: {file} on path {filename} of type {typeof(T)}.");
                 type = default(T);
             }
-
         }
 
         private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image)
