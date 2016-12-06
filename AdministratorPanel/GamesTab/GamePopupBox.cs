@@ -138,13 +138,13 @@ namespace AdministratorPanel
 
 
         GamePopupBoxRght rght;
-        //private List<ListViewItem> genreItems = new List<ListViewItem>(); //TODO: move
+        private List<ListViewItem> genreItems = new List<ListViewItem>();
         private GamesController gamesController;
         public Game game;
         private Image image;
 
 
-        public GamePopupBox(GamesController gamesController, Game game, Genres genres)
+        public GamePopupBox(GamesController gamesController, Game game)
         {
 
             Text = "Game";
@@ -154,10 +154,10 @@ namespace AdministratorPanel
             //this.genres = genres;
             this.gamesController = gamesController;
 
-            //genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left); //TODO: MOVE
-//            foreach (var item in genres.differentGenres)
-//                            genreItems.Add(new ListViewItem { Name = item, Text = item});
-//            genreBox.Items.AddRange(genreItems.ToArray());
+            genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left); //TODO: MOVE
+            foreach (var item in gamesController.genres)
+                            genreItems.Add(new ListViewItem { Name = item, Text = item});
+            genreBox.Items.AddRange(genreItems.ToArray());
 
             this.game = game;
 
@@ -169,12 +169,12 @@ namespace AdministratorPanel
                 yearPublished.Text = this.game.publishedYear.ToString();
                 time.Text = $"{game.minPlayers} - {game.maxPlayers}";
                 players.Text = $"{game.minPlayTime} - {game.maxPlayTime}";
-                //gameImage.BackgroundImage = Image.FromFile(this.game.thumbnail); TODO: look at
+                //gameImage.BackgroundImage = Image.FromFile(this.gamesList.thumbnail); TODO: look at
                 gameDifficulty.Value = game.difficulity;
 
-//                foreach(ListViewItem item in genreItems )
-//                    //TODO: add non existant genre to list
-//                    item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
+                foreach(ListViewItem item in genreItems )
+                    //TODO: add non existant genres to list
+                    item.Checked = game.genres.Any(x => x == item.Text);
 
             }
             else
@@ -191,19 +191,19 @@ namespace AdministratorPanel
         private void SubscriptionList()
         {
 
-            //genreBox.ItemCheck += memeberChecked;
+            genreBox.ItemCheck += memeberChecked;
 
             imageText.Click += OpenFileOpener;
 
             gameDifficulty.Scroll += (s, e) => {
-
-                toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 10");
+                toolTip.SetToolTip(gameDifficulty, $"{gameDifficulty.Value} / {gameDifficulty.Maximum}");
+                toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of {game}");
 
             };
 
-//            editGenre.Click += (s, e) => {
-//                EditGenrePopupbox bob = new EditGenrePopupbox(genres);
-//            }; //TODO: look at
+            editGenre.Click += (s, e) => {
+                EditGenrePopupbox bob = new EditGenrePopupbox(gamesController);
+            }; //TODO: look at
 
 
         }
@@ -241,8 +241,9 @@ namespace AdministratorPanel
 
             lft.Controls.Add(generalInformaiton);
             lft.Controls.Add(genreBox);
-            genreBox.Controls.Add(editGenre);
-
+            //genreBox.Controls.Add(editGenre);
+            lft.Controls.Add(editGenre);
+            
             TableLayoutPanel imageSeachTable = new TableLayoutPanel();
             imageSeachTable.ColumnCount = 2;
             imageSeachTable.RowCount = 1;
@@ -266,8 +267,6 @@ namespace AdministratorPanel
 
         protected override void save(object sender, EventArgs e)
         {
-
-            //genres.Save(); TODO: do
 
             //TODO: parse yearpublished
 
@@ -373,21 +372,18 @@ namespace AdministratorPanel
             Close();
         }
 
-//        private void memeberChecked(object sender, ItemCheckEventArgs e) {
-//
-//            if (e.CurrentValue != CheckState.Checked) {
-//                string temp = genreBox.Items[e.Index].Text;
-//                game.genre.Add(temp);
-//                if (!genres.differentGenres.Contains(temp))
-//                    genres.add(temp);
-//            }
-//
-//
-//            else
-//                game.genre.Remove(genreBox.Items[e.Index].Text);
-//
-//            hasBeenChanged = true;
-//        } //TODO: fix
+        private void memeberChecked(object sender, ItemCheckEventArgs e) {
+
+            if (e.CurrentValue != CheckState.Checked) {
+                string genre = genreBox.Items[e.Index].Text;
+                game.genres.Add(genre);
+                if (!gamesController.genres.Contains(genre))
+                    gamesController.addGenre(genre);
+            }
+            else
+                game.genres.Remove(genreBox.Items[e.Index].Text);
+
+        }
 
         private void OpenFileOpener(object sender, EventArgs e) {
             OpenFileDialog ofd = new OpenFileDialog();

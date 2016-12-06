@@ -110,7 +110,7 @@ namespace AdministratorPanel {
                 }
                 thisWasHere.Add("Image", boolHolder);
                 bool textBoxNeeded = false;
-                string whatIsMissing = "These things could not be found in game with ID: " + game.bggid +  " from the API: " + Environment.NewLine + Environment.NewLine;
+                string whatIsMissing = "These things could not be found in gamesList with ID: " + game.bggid +  " from the API: " + Environment.NewLine + Environment.NewLine;
                 foreach (var item in thisWasHere.Where(x => x.Value.Equals(false))) {
                     whatIsMissing += "  * " + item.Key + Environment.NewLine;
                     textBoxNeeded = true;

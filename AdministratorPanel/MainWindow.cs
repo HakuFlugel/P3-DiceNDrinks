@@ -10,11 +10,10 @@ namespace AdministratorPanel {
         private List<AdminTabPage> tabs = new List<AdminTabPage>();
 
         private ReservationController reservationController;
-
+        private GamesController gamesController;
 
         private FormProgressBar probar = new FormProgressBar();
 
-        
 
         public MainWindow() {
             probar.setProbarValue(37);                          //For progress bar, set the value. If you add or remove a probar.addToProbar(); then change this number!!!!!!!!!1! IT IS HARDCODED!
@@ -37,11 +36,13 @@ namespace AdministratorPanel {
 
             reservationController = new ReservationController();
             reservationController.load();
+            gamesController = new GamesController();
+            gamesController.load();
 
             tabs.AddRange(new AdminTabPage[]{
                 new ReservationTab(reservationController,probar),
                 new ProductsTab(probar),
-                new GamesTab(probar),
+                new GamesTab(gamesController, probar),
                 new EventsTab(probar)
             });
             probar.addToProbar();                               //For progress bar. 2

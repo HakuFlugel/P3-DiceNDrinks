@@ -36,31 +36,31 @@ namespace AdministratorPanel {
             Text = "Add",
         };
 
+        private GamesController gamesController;
 
 
-        private Genres genre;
-        public EditGenrePopupbox(Genres genre) {
-            this.genre = genre;
+        public EditGenrePopupbox(GamesController gamesController) {
+            this.gamesController = gamesController;
             Size = new Size(276, 288);
 
             Controls.Add(head);
             head.Controls.Add(genreList);
             head.Controls.Add(Add);
             Add.Click += (s, e) => {
-                genre.add("AA New genre");
-                UpdateGenres();
+                gamesController.addGenre("new");
+                makeItems();
             };
             Show();
             Focus();
-            UpdateGenres();
+            makeItems();
 
         }
 
-        public void UpdateGenres() {
+        public void makeItems() {
             genreList.Controls.Clear();
-            foreach (var item in genre.differentGenres.OrderBy(x => x)) {
+            foreach (var item in gamesController.genres.OrderBy(x => x)) {
                 
-                genreList.Controls.Add(new GenreItem(genre,item,this));
+                genreList.Controls.Add(new GenreItem(gamesController,item,this));
 
             }
         }

@@ -19,15 +19,15 @@ namespace AdministratorPanel {
             Text = "Save",
 
         };
-        public GenreItem(Genres genre, string item, EditGenrePopupbox popbox) {
+        public GenreItem(GamesController gamesController, string item, EditGenrePopupbox popbox) {
             Save.Click += (s, e) => {
-                genre.rename(item, genreItemTextBox.Text);
-                popbox.UpdateGenres();
+                gamesController.renameGenre(item, genreItemTextBox.Text);
+                popbox.makeItems();
             };
 
             Remove.Click += (s, e) => {
-                genre.remove(item);
-                popbox.UpdateGenres();
+                gamesController.removeGenre(item);
+                popbox.makeItems();
             };
 
             genreItemTextBox.Text = item;

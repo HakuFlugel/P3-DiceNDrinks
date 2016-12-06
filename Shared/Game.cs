@@ -18,9 +18,9 @@ namespace Shared
                 bggid = game.bggid;
                 name = game.name;
                 description = game.description;
-                if(game.genre != null)
-                foreach (var item in game.genre)
-                    genre.Add(item);
+                if(game.genres != null)
+                foreach (var item in game.genres)
+                    genres.Add(item);
                 difficulity = game.difficulity;
                 publishedYear = game.publishedYear;
                 minPlayers = game.minPlayers;
@@ -39,7 +39,7 @@ namespace Shared
 
         public string name;
         public string description;
-        public List<string> genre = new List<string>();  
+        public List<string> genres = new List<string>();  
         public int difficulity;             // 0 - 100 hvor 100 er svært og 0 er nemt.
         public int publishedYear;
 
@@ -67,9 +67,9 @@ namespace Shared
             sb.AppendLine("difficulity = " + difficulity.ToString());
             sb.AppendLine();
 
-            sb.AppendLine("genre");
-            if(genre != null)
-                foreach (var item in genre) {
+            sb.AppendLine("genres");
+            if(genres != null)
+                foreach (var item in genres) {
                     sb.AppendLine(item);
                 }
             sb.AppendLine();

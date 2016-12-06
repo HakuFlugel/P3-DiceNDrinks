@@ -10,10 +10,11 @@ namespace AdministratorPanel {
     public class GamesTab : AdminTabPage {
 
         
-        public List<Game> games;
-        public GamesList game;
+        //public List<Game> games;
+        public GamesList gamesList;
         string seach ="";
         private FormProgressBar probar;
+        public GamesController gamesController;
         
 
         TableLayoutPanel tb = new TableLayoutPanel() {
@@ -44,16 +45,17 @@ namespace AdministratorPanel {
             //Margin = new Padding(20, 5, 20, 5),
         };
 
-        Genres genres = new Genres();
-        public GamesTab(FormProgressBar probar) {
+        public GamesTab(GamesController gamesController, FormProgressBar probar)
+        {
+            this.gamesController = gamesController;
             this.probar = probar;
             Load();
             probar.addToProbar();                               //For progress bar. 1
-            if (games.Count < 1)
+            if (gamesController.games.Count < 1)
                 CreateGamesForDebugShit(); // For testing purpose only
 
-            game = new GamesList(games,this,genres);
-            game.makeItems(seach);
+            gamesList = new GamesList(gamesController);
+            gamesList.makeItems(seach);
             Text = "Games";
             probar.addToProbar();                               //For progress bar. 2
                                         
@@ -76,10 +78,10 @@ namespace AdministratorPanel {
 
 
             addGameButton.Click += (e, s) => {
-                GamePopupBox gameBox = new GamePopupBox(this, null, genres);
+                GamePopupBox gameBox = new GamePopupBox(gamesController, null);
             };
             
-            tb.Controls.Add(game);
+            tb.Controls.Add(gamesList);
             probar.addToProbar();                               //For progress bar. 3
             Controls.Add(tb);
             probar.addToProbar();                               //For progress bar. 4
@@ -94,58 +96,66 @@ namespace AdministratorPanel {
 
             seachBar.Text = (seachBar.Text == "") ? seachBar.waterMark : seach;
 
-            game.makeItems(seach);
+            gamesList.makeItems(seach);
         }
 
 
-             
+
         public override void Save()
         {
-            genres.Save();
-            Directory.CreateDirectory("Sources");
-            var json = JsonConvert.SerializeObject(games);
-            Directory.CreateDirectory("Sources");
-
-            using (StreamWriter textWriter = new StreamWriter(@"Sources/Games.json")) {
-                foreach (var item in json) {
-                    textWriter.Write(item.ToString());
-                }
-            }
         }
 
-        public override void Load() {
-            string input;
-            if (File.Exists(@"Sources/Games.json")) {
-                using (StreamReader streamReader = new StreamReader(@"Sources/Games.json")) {
-                    input = streamReader.ReadToEnd();
-                    streamReader.Close();
-                }
-                if (input != null) {
-                    games = JsonConvert.DeserializeObject<List<Game>>(input);
-                    
-                }
-            }
-
-            //TODO: do this for all tabs?
-            if (games == null)
-            {
-                games = new List<Game>();
-            }
+//        {
+//            genres.Save();
+//            Directory.CreateDirectory("Sources");
+//            var json = JsonConvert.SerializeObject(games);
+//            Directory.CreateDirectory("Sources");
+//
+//            using (StreamWriter textWriter = new StreamWriter(@"Sources/Games.json")) {
+//                foreach (var item in json) {
+//                    textWriter.Write(item.ToString());
+//                }
+//            }
+//        }
+//
+        public override void Load()
+        {
         }
 
+//            string input;
+//            if (File.Exists(@"Sources/Games.json")) {
+//                using (StreamReader streamReader = new StreamReader(@"Sources/Games.json")) {
+//                    input = streamReader.ReadToEnd();
+//                    streamReader.Close();
+//                }
+//                if (input != null) {
+//                    games = JsonConvert.DeserializeObject<List<Game>>(input);
+//
+//                }
+//            }
+//
+//            //TODO: do this for all tabs?
+//            if (games == null)
+//            {
+//                games = new List<Game>();
+//            }
+//        }
 
 
 
 
-        private void CreateGamesForDebugShit() {
-            games = new List<Game>();
+
+        private void CreateGamesForDebugShit()
+        {
+            var games = gamesController.games;
 
             games.Add(new Game {
+                id = 0,
                 bggid = "AHZ2xB",
                 name = "Secret Hitler",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
-                difficulity = 75,
+                difficulity = 10,
                 minPlayers = 5,
                 maxPlayers = 10,
                 minPlayTime = 30,
@@ -153,69 +163,75 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 1,
                 bggid = "AHO2xB",
-                name = "Killer game",
-                description = "A game about gaming",
+                name = "Killer gamesList",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 20,
+                difficulity = 7,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 2,
                 bggid = "ABZ2xB",
                 name = "Vertical",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 30,
+                difficulity = 10,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 3,
                 bggid = "PHZ2xB",
                 name = "Shit Storm",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 100,
+                difficulity = 3,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 4,
                 bggid = "5ExgGS",
                 name = "Small Worlds",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 56,
+                difficulity = 5,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 5,
                 bggid = "AHZ2xB",
                 name = "Dominion",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 32,
+                difficulity = 6,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 6,
                 bggid = "TYE3sj",
                 name = "Enter The Gundion",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
                 maxPlayers = 10,
@@ -224,24 +240,26 @@ namespace AdministratorPanel {
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 7,
                 bggid = "TYE3Kj",
                 name = "Risk",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 13,
+                difficulity = 4,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,
                 imageName = "TosetPictureInFuture"
             });
             games.Add(new Game {
+                id = 8,
                 bggid = "TSE3sj",
                 name = "Settelers",
-                description = "A game about gaming",
+                description = "A gamesList about gaming",
                 publishedYear = 2014,
                 minPlayers = 5,
-                difficulity = 85,
+                difficulity = 2,
                 maxPlayers = 10,
                 minPlayTime = 30,
                 maxPlayTime = 60,

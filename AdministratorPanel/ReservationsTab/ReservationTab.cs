@@ -94,7 +94,6 @@ namespace AdministratorPanel {
             Font = new Font(DefaultFont.FontFamily, 16),
             TextAlign = ContentAlignment.MiddleCenter,
             AutoSize = true,
-            //TODO:tooltipbelow
         };
 
         // Left Side
@@ -372,10 +371,10 @@ namespace AdministratorPanel {
             reserveSpaceWithoutPending.Value = Math.Min(reserveSpaceWithoutPending.Maximum, day?.reservedSeats ?? 0);
 
             tooltip.SetToolTip(reserveSpaceWithoutPending, "Fullness counting only accepted reservations." + ((day != null)? Environment.NewLine +
-                                     $"{reserveSpaceWithoutPending.Value} / {reserveSpaceWithoutPending.Maximum}" : ""));
+                                     $"{reservedSeats} / {totalSeats}" : ""));
 
             tooltip.SetToolTip(reserveSpaceWithPending, "Fulness, including the pending resevations." + ((day != null)? Environment.NewLine +
-                                     $"{reserveSpaceWithPending.Value} / {reserveSpaceWithPending.Maximum}" : ""));
+                                     $"{reservedSeats+pendingSeats} / {totalSeats}" : ""));
 
             remainingSeats.Text = $"{totalSeats - reservedSeats}";
             tooltip.SetToolTip(remainingSeats, $"Remaining seats {totalSeats - reservedSeats} / {totalSeats}");
