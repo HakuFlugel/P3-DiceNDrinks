@@ -9,6 +9,7 @@ using Android.Views;
 using Android.Widget;
 
 using Newtonsoft.Json;
+using Shared;
 using File = System.IO.File;
 using Path = System.IO.Path;
 
@@ -32,13 +33,14 @@ namespace AndroidAppV2
 
 
             string input = File.ReadAllText(filename);
+
             try
             {
                 type = JsonConvert.DeserializeObject<T>(input);
             }
             catch (Exception) //empty json container
             {
-                Log.WriteLine(LogPriority.Info, $"X:{context}", $"Could not find data in file: {file} on path {filename}. If this happens to any other file than reservation then it's fucked");
+                Log.WriteLine(LogPriority.Warn, $"X:{context}", $"Could not find data in file: {file} on path {filename} of type {typeof(T)}.");
                 type = default(T);
             }
 
