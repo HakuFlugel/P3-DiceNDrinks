@@ -165,7 +165,7 @@ namespace AdministratorPanel {
             rightTable.Controls.Add(reservationList);
             topRightTable.Controls.Add(roomsButton);
             topRightTable.Controls.Add(progressbars);
-            testButtonfunc();
+            //testButtonfunc();
             progressbars.Controls.Add(reserveSpaceWithPending);
             progressbars.Controls.Add(reserveSpaceWithoutPending);
             topRightTable.Controls.Add(lockResevations);
