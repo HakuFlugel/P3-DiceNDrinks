@@ -62,7 +62,8 @@ namespace AndroidAppV2.ListDialogFragments
             }
             else {
                 _fbButton.Click += (s, e) => {
-                    StartActivity(NewFacebookIntent(Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
+                    StartActivity(NewFacebook
+                        (Application.Context.PackageManager, "https://www.facebook.com/events/" + _item.facebookID));
                 };
             }
 
