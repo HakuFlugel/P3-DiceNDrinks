@@ -60,6 +60,7 @@
     <Compile Include="GamesTab\GenreItem.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GamesTab\ImageDownloader.cs" />
     <Compile Include="GamesTab\XmlGameItem.cs">
       <SubType>Component</SubType>
     </Compile>

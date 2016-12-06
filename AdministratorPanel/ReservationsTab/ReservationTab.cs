@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace AdministratorPanel {
     public class ReservationTab : AdminTabPage {
-        private Calendar calendar;
+        public Calendar calendar;
 
         public ReservationList reservationList;
         public PendingReservationList pendingReservationList;
@@ -215,13 +215,6 @@ namespace AdministratorPanel {
             calendar.DateChanged += (s, e) => {
                 CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == e.Start.Date);
 
-                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + 
-                                ((day != null) ? "excist" : "dosen't excist") + 
-                                Environment.NewLine + "lockReservation: " + 
-                                ((day != null) ? day.isLocked.ToString() : "Nogo") + 
-                                Environment.NewLine + "autopresentage: " + 
-                                ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
-
                 lockResevations.Checked = (day != null) ? (day.isFullChecked || day.isLocked) : false;
 
                 updateProgressBar(day);
@@ -253,18 +246,7 @@ namespace AdministratorPanel {
             };
 
             lockResevations.CheckedChanged += (s, e) => {
-                
-                CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-                
-                day.isLocked = lockResevations.Checked;
-
-                if(reservationController.checkIfRemove(day)) 
-                    reservationController.reservationsCalendar.Remove(day);
-
-                updateCheck(day);
-
-                updateProgressBar(day);
-
+                CheckedChanged();
             };
 
             maxAutoAccept.LostFocus += (s, e) => {
@@ -333,6 +315,19 @@ namespace AdministratorPanel {
             updateCheck(day);
         }
 
+        public void CheckedChanged() {
+            CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
+
+            day.isLocked = lockResevations.Checked;
+
+            if (reservationController.checkIfRemove(day))
+                reservationController.reservationsCalendar.Remove(day);
+
+            updateCheck(day);
+
+            updateProgressBar(day);
+        }
+
         private void tooltipController() {
             tooltip.SetToolTip(autoAcceptPresentage, "Percent of available seats that will be autoaccepted" + Environment.NewLine +
                                                      "0 to disable auto accept, 100 to accept until all seats are filled.");
@@ -397,6 +392,8 @@ namespace AdministratorPanel {
             //                }
             //                catch (Exception) { }
             //            }
+
+            
         }
 
         private void testButtonfunc() {

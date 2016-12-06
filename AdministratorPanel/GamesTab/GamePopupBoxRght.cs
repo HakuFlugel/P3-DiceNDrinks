@@ -8,44 +8,34 @@ using System.Net;
 namespace AdministratorPanel {
     public class GamePopupBoxRght : TableLayoutPanel {
         
-        TableLayoutPanel gameList = new TableLayoutPanel() {
-            Dock = DockStyle.Fill, //TODO: FAFSAJFASDQWHFBQKFHQWIFQWHFAWISFHAIFHWQIF
-
+        private TableLayoutPanel gameLisLayoutPanelt = new TableLayoutPanel() {
+            Dock = DockStyle.Fill, 
             BorderStyle = BorderStyle.Fixed3D,
             ColumnCount = 1,
-
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            //MinimumSize = new Size(200, 440),
-
-            //AutoSize = true,
             AutoScroll = true
-            
         };
 
-        NiceTextBox seachBar = new NiceTextBox() {
-
-            waterMark = "Type something to seach..",
+        private NiceTextBox seachBar = new NiceTextBox() {
+            waterMark = "Type to search for a game",
             clearable = true,
-            MinimumSize = new Size(200, 0),
-
-            //Margin = new Padding(5, 5, 20, 5),
+            MinimumSize = new Size(384, 0),
         };
 
         private XmlParser api = new XmlParser();
-        List<Game> games;
-        string seach = "";
+        private List<Game> games;
+        private string searchWord = "";
         private GamePopupBox gamePopupBox;
 
         public GamePopupBoxRght(GamePopupBox gamePopupBox) {
             this.gamePopupBox = gamePopupBox;
             Controls.Add(seachBar);
-            Controls.Add(gameList);
+            Controls.Add(gameLisLayoutPanelt);
 
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             Dock = DockStyle.Right;
             AutoSize = true;
-
 
             seachBar.KeyPress += (s,e) => {
                 if (e.KeyChar != (char)Keys.Enter)
@@ -57,40 +47,34 @@ namespace AdministratorPanel {
             };
         }
             
-        
         private void seachApi() {
-            seach = seachBar.Text;
+            searchWord = seachBar.Text;
             update();
-            seachBar.Text = seach;
+            seachBar.Text = searchWord;
         }
-    
 
         private void update() {
-            gameList.Controls.Clear();
+            gameLisLayoutPanelt.Controls.Clear();
             try {
-                using (var client = new WebClient()) {
-                    using (var stream = client.OpenRead("http://www.google.com")) { }
-                }
-                games = api.getGames(seach);
+                games = api.getGames(searchWord);
 
-            } catch (WebException) {
+            } catch (WebException e) {
                 //TODO: put message in result box instead
-                MessageBox.Show("Do hast nich interneten, please connect to an internet source to use this AMAZEBALLZ thingy!", "No internetious");
+                MessageBox.Show(e.Message, "Connection Error");
             } catch (Exception e) {
-                MessageBox.Show(e.Message.ToString());
+                MessageBox.Show(e.Message);
             }
-            if (games.Count > 0)
+            if (games.Count > 0) {
                 foreach (var item in games) {
-                    gameList.Controls.Add(new XmlGameItem(item, gamePopupBox));
-                    
-                } else if (seach != "")
+                    gameLisLayoutPanelt.Controls.Add(new XmlGameItem(item, gamePopupBox));
+                }
+            }
+            else if (searchWord != "")
                 MessageBox.Show(
-                    "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
-                    "1. " + seach + " is not a valid BoardGame name " + Environment.NewLine +
-                    "2. There is no information on " + seach + " in the API.",
-                    "Could not find anything on this" + seach);
-
-
+                "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
+                "1. " + searchWord + " is not a valid BoardGame name " + Environment.NewLine +
+                "2. There is no information on " + searchWord + " in the API.",
+                "Could not find anything on this" + searchWord);
         }
     }
 }

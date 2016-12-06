@@ -5,7 +5,7 @@ using Shared;
 
 namespace AdministratorPanel {
     public class GamesItem : NiceButton {
-        Game game;
+        private Game game;
         public GamesItem(Game game) {
             RowCount = 1;
             this.game = game;
@@ -15,8 +15,6 @@ namespace AdministratorPanel {
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
-
-            
 
             TableLayoutPanel x1 = new TableLayoutPanel();
             x1.ColumnCount = 1;
@@ -42,8 +40,12 @@ namespace AdministratorPanel {
 
             
             Controls.Add(x3);
+            try {
+                Controls.Add(new Panel() { Dock = DockStyle.Right, Size = new Size(128, 128), BackgroundImage = Image.FromFile($"images/{game.imageName}"), BackgroundImageLayout = ImageLayout.Zoom, BackColor = Color.Gray, });
 
-            Controls.Add(new PictureBox { BackColor = Color.Black, Dock = DockStyle.Right });
+            } catch (Exception e) {
+
+            }
             
             
 
