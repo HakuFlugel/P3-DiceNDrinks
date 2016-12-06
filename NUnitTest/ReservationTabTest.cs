@@ -33,23 +33,7 @@ namespace NUnitTest {
             resControl.addReservation(testres);
             Assert.True(resControl.findDay(time).reservations.Any(x => x.name == name && x.email == email && x.phone == phone && x.name == name && x.numPeople == numPeople));
         }
-        [Test]
-        public void ResevationGetsDeletedCorrectly() {
-            resControl.addReservation(testres);
-            resControl.removeReservation(testres);
-            Assert.False(resControl.findDay(time).reservations.Any(x => x.name == name && x.email == email && x.phone == phone && x.name == name && x.numPeople == numPeople));
-        }
-        [Test]
-        public void CheckIfDayGetsDeleted() {
-
-            resControl.removeReservation(testres);
-
-            CalendarDay day = resControl.findDay(DateTime.Today);
-
-            resControl.checkIfRemove(day);
-
-            Assert.False(resControl.reservationsCalendar.Contains(day));
-        }
+        
         [Test]
         public void CheckIfDayIsCreatedWhenLockingADay() {
             resevationTest.lockResevations.Checked = true;
@@ -60,13 +44,5 @@ namespace NUnitTest {
         }
 
         
-        [Test]
-        public void CheckIfDayDeletedWhenUnLockingADay() {
-            resevationTest.lockResevations.Checked = true;
-
-            resevationTest.lockResevations.Checked = false;
-
-            Assert.False(resControl.reservationsCalendar.Contains(resControl.findDay(DateTime.Today)));
-        }
     }
 }
