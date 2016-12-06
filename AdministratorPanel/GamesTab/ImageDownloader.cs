@@ -2,6 +2,7 @@
 using System.Net;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System;
 
 namespace AdministratorPanel {
     public class ImageDownloader {
@@ -9,6 +10,7 @@ namespace AdministratorPanel {
         private string gddId;
         private string url;
         public Image image { get; private set; }
+        public string ImagePath = "";
 
         public ImageDownloader(string gddIdIn, string urlIn ) {
             this.gddId = gddIdIn;
@@ -18,23 +20,18 @@ namespace AdministratorPanel {
 
         public void DownloadImage() {
 
-            try {
-                using (WebClient client = new WebClient()) {
-                    byte[] data = client.DownloadData(url);
-
-                    using (MemoryStream memoryStream = new MemoryStream(data)) {
-                        using (Image imageIn = Image.FromStream(memoryStream)) {
-                            image = imageIn;
-                        }
-                    }
-                }
-            } catch (System.Exception) {
-                image = null;
-            }     
+            if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) {
+                WebRequest request = WebRequest.Create(url);
+                WebResponse response = request.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                Bitmap bitmap2 = new Bitmap(responseStream);
+                image = (Image)bitmap2;
+            }
         }
 
         public void saveImage() {
-            image.Save($"Images/{gddId}.png", ImageFormat.Jpeg);
+            ImagePath = $"{gddId}.png";
+            image.Save($"Images/{ImagePath}", ImageFormat.Jpeg);
         }
     }
 }

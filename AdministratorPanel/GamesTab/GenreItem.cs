@@ -6,13 +6,13 @@ using System.Text;
 
 namespace AdministratorPanel {
     public class GenreItem : NiceButton {
-        Button Remove = new Button() {
+        private Button Remove = new Button() {
             MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
             Text = "Delete"
         };
 
-        TextBox genreItemTextBox = new TextBox();
+        private TextBox genreItemTextBox = new TextBox();
         Button Save = new Button() {
             MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
@@ -34,8 +34,6 @@ namespace AdministratorPanel {
             Controls.Add(genreItemTextBox);
             Controls.Add(Save);
             Controls.Add(Remove);
-            
-
 
             RowCount = 1;
             ColumnCount = 3;

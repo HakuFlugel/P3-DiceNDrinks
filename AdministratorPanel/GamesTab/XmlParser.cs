@@ -7,8 +7,8 @@ using Shared;
 
 namespace AdministratorPanel {
     class XmlParser {
-        string searchPre = "http://geekdo.com/xmlapi/search?search=";
-        string searchSuf = "&exact=1";
+        private string searchPre = "http://geekdo.com/xmlapi/search?search=";
+        private string searchSuf = "&exact=1";
         private XmlDocument xmlDocument = new XmlDocument();
 
         public List<Game> gameSearchResult = new List<Game>();
@@ -19,7 +19,6 @@ namespace AdministratorPanel {
             xmlDocument.Load(searchPre + searchWord + searchSuf);
             gameSearchResult = PreLoadListOfGames();
             gameSearchResult = ExpandToFullList(gameSearchResult);
-
             return gameSearchResult;
         }
 
@@ -87,7 +86,6 @@ namespace AdministratorPanel {
             input = Regex.Replace(input, @"&quot;", "\"");
             input = Regex.Replace(input, @"&mdash;", String.Empty);
             input = Regex.Replace(input, @"&times;", "*");
-
             return input;
         }
     }

@@ -20,7 +20,7 @@ namespace AdministratorPanel {
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(5, 4, 20, 5);
-            MaximumSize = new Size(190, 60);
+            MinimumSize = new Size(256, 128);
 
             TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.ColumnCount = 1;
@@ -38,18 +38,11 @@ namespace AdministratorPanel {
             Panel pn = new Panel();
             pn.Dock = DockStyle.Left;
             pn.Name = "Image";
-            pn.Height = 86;
-            pn.Width =  86;
+            pn.Height = 128;
+            pn.Width =  128;
             pn.BackColor = Color.Black;
-            pn.BackgroundImage = Image.FromFile("images/Red.Png");
-            /*
-            try {
-                pn.BackgroundImage = imageDownloader.image;
-            } catch (Exception) {
-                pn.BackgroundImage = null;
-            }
-            */
-            //pn.BackgroundImageLayout = ImageLayout.Zoom;
+            pn.BackgroundImage = imageDownloader.image;
+            pn.BackgroundImageLayout = ImageLayout.Zoom;
 
 
             Controls.Add(pn);
@@ -69,14 +62,19 @@ namespace AdministratorPanel {
             if (MessageBox.Show(sb.ToString(),game.name,MessageBoxButtons.YesNo) == DialogResult.Yes) {
 
                 gamePopupbox.gameName.Text = game.name;
-                gamePopupbox.game.bggid = game.bggid;
                 gamePopupbox.gameDescription.Text = game.description;
                 gamePopupbox.time.Text = game.minPlayTime.ToString() + "/" + game.maxPlayTime.ToString();
                 gamePopupbox.players.Text = game.minPlayers.ToString() + "/" + game.maxPlayTime.ToString();
                 gamePopupbox.gameImage.BackgroundImage = imageDownloader.image;
+                gamePopupbox.imagePath = imageDownloader.ImagePath;
                 gamePopupbox.gameDifficulty.Value = game.difficulity;
-                
+
+                imageDownloader.saveImage();
                 gamePopupbox.hasBeenChanged = true;
+
+                gamePopupbox.game = game;
+                game.imageName = imageDownloader.ImagePath;
+
             }
             base.OnClick(e);
         }
