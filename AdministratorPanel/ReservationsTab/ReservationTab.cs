@@ -237,6 +237,9 @@ namespace AdministratorPanel {
             };
 
             roomsButton.Click += (sender, args) => {
+
+                //TODO:DODODODODODODODODODOODODODOdodododDDODODODOdodododododo
+
                 MessageBox.Show("Not implemented");
             };
 
@@ -277,7 +280,7 @@ namespace AdministratorPanel {
                     if (tempNr > 100 || tempNr < 0)
                         throw new Exception();
                 } catch (Exception) {
-                    MessageBox.Show("Please input a valid integer, that is minimum 0 or maximum 100");
+                    MessageBox.Show("Please input a valid integer, that is between 0 and 100");
                     tempNr = day.acceptPresentage;
                     autoAcceptPresentage.Text = tempNr.ToString();
                 }
