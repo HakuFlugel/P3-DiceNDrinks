@@ -10,42 +10,62 @@ using System.Globalization;
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
 
-        NiceTextBox reservationName = new NiceTextBox() {
+        private NiceTextBox reservationName = new NiceTextBox() {
             Width = 200,
             waterMark = "Reservation Name",
             Margin = new Padding(4, 10, 20, 10)
         };
 
-        NiceTextBox numPeople = new NiceTextBox() {
+        private NiceTextBox numPeople = new NiceTextBox() {
             Width = 200,
             waterMark = "Number of people",
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        NiceTextBox phoneNumber = new NiceTextBox() {
+        private NiceTextBox phoneNumber = new NiceTextBox() {
             Width = 200,
             waterMark = "Phone number",
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        NiceTextBox email = new NiceTextBox() {
+        private NiceTextBox email = new NiceTextBox() {
             Width = 200,
             waterMark = "Email",
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        DateTimePicker datePicker = new DateTimePicker() {
+        private DateTimePicker datePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
             Margin = new Padding(0, 10, 20, 10)
         };
 
-        NiceTextBox timePicker = new NiceTextBox() {
+        private NiceTextBox timePicker = new NiceTextBox() {
             waterMark = "hh:mm"
         };
 
-        ComboBox pendingSet = new ComboBox() {
+        private ComboBox pendingSet = new ComboBox() {
             Text = "Pending",
             DropDownStyle = ComboBoxStyle.DropDownList,
+        };
+
+        private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
+            RowCount = 1,
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+
+        private TableLayoutPanel innerRigntTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
+        };
+
+        private TableLayoutPanel innerLeftTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
         };
 
         private ReservationController reservationController;
@@ -89,41 +109,20 @@ namespace AdministratorPanel {
 
         protected override Control CreateControls() {
 
-            TableLayoutPanel header = new TableLayoutPanel();
-            header.RowCount = 1;
-            header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
-            header.AutoSize = true;
-            header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Controls.Add(headerTableLayoutPanel);
 
-            Controls.Add(header);
+            innerRigntTableLayoutPanel.Controls.Add(reservationName);
+            innerRigntTableLayoutPanel.Controls.Add(numPeople);
+            innerRigntTableLayoutPanel.Controls.Add(phoneNumber);
+            innerRigntTableLayoutPanel.Controls.Add(email);
+            
+            innerLeftTableLayoutPanel.Controls.Add(datePicker);
+            innerLeftTableLayoutPanel.Controls.Add(timePicker);
+            innerLeftTableLayoutPanel.Controls.Add(pendingSet);
 
-            TableLayoutPanel rght = new TableLayoutPanel();
-            rght.ColumnCount = 1;
-            rght.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //rght.Dock = DockStyle.Fill;
-            rght.AutoSize = true;
-
-
-            rght.Controls.Add(reservationName);
-            rght.Controls.Add(numPeople);
-            rght.Controls.Add(phoneNumber);
-            rght.Controls.Add(email);
-
-            TableLayoutPanel lft = new TableLayoutPanel();
-            lft.ColumnCount = 1;
-            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //lft.Dock = DockStyle.Fill;
-            lft.AutoSize = true;
-
-            lft.Controls.Add(datePicker);
-            lft.Controls.Add(timePicker);
-            lft.Controls.Add(pendingSet);
-
-
-            header.Controls.Add(rght);
-            header.Controls.Add(lft);
-            return header;
+            headerTableLayoutPanel.Controls.Add(innerRigntTableLayoutPanel);
+            headerTableLayoutPanel.Controls.Add(innerLeftTableLayoutPanel);
+            return headerTableLayoutPanel;
         }
 
         protected override void delete(object sender, EventArgs e) {
@@ -148,7 +147,7 @@ namespace AdministratorPanel {
                 return;
             }
             if ((reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark)) {
-                MessageBox.Show("You need to input a name AND a number of people");
+                MessageBox.Show("You need to input a name and a number of people");
                 return;
             }
             if (phoneNumber.Text == phoneNumber.waterMark && email.Text == email.waterMark) {
@@ -162,47 +161,40 @@ namespace AdministratorPanel {
                 return;
             }
 
-            string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
-            string tempTime = timePicker.Text;
+            //string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
+            //string tempTime = timePicker.Text;
 
-            /*COPY PASTE(SOME OF IT!!)*/
-            DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
-                                       CultureInfo.InvariantCulture);
-            /*END OF COPY PASTE*/
+            DateTime dt = datePicker.Value.Add(expectedDate.TimeOfDay);
 
+            //DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
+            //                           CultureInfo.InvariantCulture);
 
             // actual saving
 
-            Reservation newres = new Reservation();
-            newres.state = (Reservation.State)pendingSet.SelectedValue;
+            Reservation newReservation = new Reservation();
+            newReservation.state = (Reservation.State)pendingSet.SelectedValue;
 
-            newres.name = reservationName.Text;
-            int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
-            newres.phone = phoneNumber.Text;
-            newres.email = email.Text;
-            newres.time = newDate;
+            newReservation.name = reservationName.Text;
+            int.TryParse(numPeople.Text, out newReservation.numPeople); // TODO: not handling invalid value here
+            newReservation.phone = phoneNumber.Text;
+            newReservation.email = email.Text;
+            newReservation.time = dt;
             //cd.fullness += newReservation.numPeople;
 
             if (reservation == null) {
-                reservationController.addReservation(newres);
+                reservationController.addReservation(newReservation);
             }
-            else
-            {
-                reservationController.updateReservation(newres);
+            else {
+                reservationController.updateReservation(newReservation);
             }
 
             this.Close();
-            //_reservationController.reserveationList.updateCurrentDay(newDate.Date); TODO: these two should be implemented using events at those places
-            //_reservationController.pendingReservationList.updateCurrentDay();
-
         }
 
         public void emailCheck(string email) {
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
-
-
 
             string[] emailParts = email.Split('@');
 

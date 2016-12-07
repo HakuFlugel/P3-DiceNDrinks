@@ -11,23 +11,23 @@ using System.IO;
 
 namespace AdministratorPanel {
      public class ProductPopupBox : FancyPopupBox {
-        NiceTextBox productName = new NiceTextBox() {
+        private NiceTextBox productNameBox = new NiceTextBox() {
             Width = 200,
             waterMark = "Product Name",
         };
 
-        ComboBox categoryName = new ComboBox() {
+        private ComboBox categoryNameDropDownBoxx = new ComboBox() {
             Width = 200,
             Text = "Category Name",
             Name = "Category Name",
         };
 
-        ComboBox sectionName = new ComboBox() {
+        private ComboBox sectionNameDropDownBox = new ComboBox() {
             Width = 200,
             Text = "Section Name",
         };
 
-        Panel productImage = new Panel() {
+        private Panel productImagePanel = new Panel() {
             Width = 150,
             Height = 150,
             BackgroundImage = Image.FromFile("images/_default.png"),
@@ -35,25 +35,46 @@ namespace AdministratorPanel {
             BackgroundImageLayout = ImageLayout.Zoom,
         };
 
-        DataGridView priceElements = new DataGridView() {
+        private DataGridView priceElements = new DataGridView() {
             Dock = DockStyle.Fill,
             Height = 280,
             RowHeadersVisible = false,
             ScrollBars = ScrollBars.Vertical,
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
+            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells, 
+        };
+
+        TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
+            RowCount = 1,
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+
+        TableLayoutPanel innerRightTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
+        };
+
+        TableLayoutPanel innerLeftTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
         };
 
         private ProductsTab productTab;
         private ProductItem productItem;
-        private DataTable dataTable = new DataTable();
+        private DataTable dataTable = new DataTable();  // source for priceElement box
         private Image image;
-        private string imageName = "_default.png";
+        private string imageName = "_default.png";      // default image
 
         public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
+            //tab name
+            Text = "Product";
 
             Focus();
-            Text = "Product";
 
             this.productTab = productTab;
             this.productItem = productItem;
@@ -64,9 +85,9 @@ namespace AdministratorPanel {
             dataTable.Columns.Add("Price", typeof(decimal));
 
             if (this.productItem != null) {
-                productName.Text = this.productItem.product.name;
-                categoryName.Text = this.productItem.product.category;
-                sectionName.Text = this.productItem.product.section;
+                productNameBox.Text = this.productItem.product.name;
+                categoryNameDropDownBoxx.Text = this.productItem.product.category;
+                sectionNameDropDownBox.Text = this.productItem.product.section;
                 imageName = this.productItem.product.image;
 
                 loadPriceElements(productItem.product.PriceElements);
@@ -74,7 +95,7 @@ namespace AdministratorPanel {
                 if (productItem.product.image != null) {
                     try {
                         image = Image.FromFile("images/" + productItem.product.image);
-                        productImage.BackgroundImage = image;
+                        productImagePanel.BackgroundImage = image;
 
                     } catch (Exception e) {
                         MessageBox.Show(e.Message);
@@ -88,55 +109,34 @@ namespace AdministratorPanel {
             update();
         }
 
-
         private void update() {
-            categoryName.Items.Clear();
-            // update dropdown category
+            categoryNameDropDownBoxx.Items.Clear();
+            // update dropdowns
             foreach (ProductCategory item in productTab.productCategories) {
-                categoryName.Items.Add(item.name);
+                categoryNameDropDownBoxx.Items.Add(item.name);
             }
 
-            categoryName.SelectedValueChanged += (s, e) => {
-                sectionName.Items.Clear();
-                if (categoryName.Text != "Category Name" && categoryName.Text != "") {
-                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
-                    sectionName.Items.AddRange(cat.sections.ToArray());
-                    sectionName.Text = "Section Name";
-                }  
+            categoryNameDropDownBoxx.SelectedValueChanged += (s, e) => {
+                sectionNameDropDownBox.Items.Clear();
+                if (categoryNameDropDownBoxx.Text != "Category Name" && categoryNameDropDownBoxx.Text != "") {
+                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryNameDropDownBoxx.Text);
+                    sectionNameDropDownBox.Items.AddRange(cat.sections.ToArray());
+                    sectionNameDropDownBox.Text = "Section Name";
+                } 
             };
         }
 
         protected override Control CreateControls() {
 
-            // outer panel
-            TableLayoutPanel header = new TableLayoutPanel();
-            header.RowCount = 1;
-            header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
-            header.AutoSize = true;
-            header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
-
-            Controls.Add(header);
-
-            // inner panels
-            TableLayoutPanel rightPanel = new TableLayoutPanel();
-            rightPanel.ColumnCount = 1;
-            rightPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            rightPanel.AutoSize = true;
-
-            TableLayoutPanel leftPanel = new TableLayoutPanel();
-            leftPanel.ColumnCount = 1;
-            leftPanel.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            leftPanel.AutoSize = true;
+            Controls.Add(headerTableLayoutPanel);
 
             // priceElements list display                 
             priceElements.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             
             // Add button click event
-            productImage.Click += (s, e) => {
-                //TODO: might be wr0ng
+            productImagePanel.Click += (s, e) => {
 
-                // open file dialog for image selection
+                // Open file dialog for image selection
                 OpenFileDialog ofd = new OpenFileDialog();
                 var imageCodeInfo = ImageCodecInfo.GetImageDecoders();
                 StringBuilder sB = new StringBuilder();
@@ -158,7 +158,7 @@ namespace AdministratorPanel {
                     try {
                         imageName =  ofd.SafeFileName; // name
                         image = Image.FromFile( ofd.FileName); // path + name
-                        productImage.BackgroundImage = image; 
+                        productImagePanel.BackgroundImage = image; 
                         
                     } catch (Exception ex) {
                         MessageBox.Show(ex.Message);
@@ -166,19 +166,18 @@ namespace AdministratorPanel {
                 }
             };
 
-            leftPanel.Controls.Add(productName);
-            leftPanel.Controls.Add(categoryName);
-            leftPanel.Controls.Add(sectionName);
-            leftPanel.Controls.Add(productImage);
+            innerLeftTableLayoutPanel.Controls.Add(productNameBox);
+            innerLeftTableLayoutPanel.Controls.Add(categoryNameDropDownBoxx);
+            innerLeftTableLayoutPanel.Controls.Add(sectionNameDropDownBox);
+            innerLeftTableLayoutPanel.Controls.Add(productImagePanel);
 
-            rightPanel.Controls.Add(priceElements);
+            innerRightTableLayoutPanel.Controls.Add(priceElements);
 
-            header.Controls.Add(leftPanel);
-            header.Controls.Add(rightPanel);
+            headerTableLayoutPanel.Controls.Add(innerLeftTableLayoutPanel);
+            headerTableLayoutPanel.Controls.Add(innerRightTableLayoutPanel);
             
-            return header;
+            return headerTableLayoutPanel;
         }
-
 
         private void loadPriceElements(List<PriceElement> priceElements) {
             
@@ -191,7 +190,7 @@ namespace AdministratorPanel {
         }
         
         private List<PriceElement> SavePriceElemets() {
-            List<PriceElement> pr = new List<PriceElement>();
+            List<PriceElement> priceElementList = new List<PriceElement>();
 
             int index = dataTable.Rows.Count;
 
@@ -206,13 +205,35 @@ namespace AdministratorPanel {
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
                 priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
-                pr.Add(priceElement);
+                priceElementList.Add(priceElement);
             }
-            return pr;
+            return priceElementList;
         }
 
         protected override void delete(object sender, EventArgs e) {
+            ProductCategoryTab categoryTab;
+            ProductSectionItem productSection;
+
+            var categoryFound = productTab.tabControl.Controls.Find(productItem.product.category, true);
+            categoryTab = categoryFound.First() as ProductCategoryTab;
+
+            var sectionFound = categoryTab.table.Controls.Find(productItem.product.section, false);
+            productSection = sectionFound.First() as ProductSectionItem;
+
             productTab.productList.Remove(productItem.product);
+
+            ProductCategory productCategory = productTab.productCategories.Where(x => x.name == productItem.product.category).First();
+
+            if (productSection.Controls.Count <= 2) {
+                productCategory.sections.Remove(productItem.product.section);
+                productTab.Controls.Remove(sectionFound.First());
+            }
+
+            if (categoryTab.table.Controls.Count <= 2) {
+                productTab.productCategories.Remove(productCategory);
+                productTab.tabControl.Controls.Remove(categoryTab);
+            }
+            Close();
         }
 
         protected override void save(object sender, EventArgs e) {
@@ -223,17 +244,15 @@ namespace AdministratorPanel {
                 if (DialogResult.OK != MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
                     return;
                 }
-
-                image = productImage.BackgroundImage;
+                image = productImagePanel.BackgroundImage;
             } else {
-                Console.WriteLine(imageName);
                 if (!File.Exists("images/" + imageName)) {
                     image.Save("images/" + imageName);
                 }
             }
             // convert priceelements to saves
-            List<PriceElement> lp = SavePriceElemets();
-            if (lp == null) {
+            List<PriceElement> listOfpriceElements = SavePriceElemets();
+            if (listOfpriceElements == null) {
                 MessageBox.Show("No price set");
                 return;
             }
@@ -241,10 +260,10 @@ namespace AdministratorPanel {
             if (productItem == null) {
                 Product product = new Product();
 
-                product.name = productName.Text;
-                product.PriceElements = lp;
-                product.category = categoryName.Text;
-                product.section = sectionName.Text;
+                product.name = productNameBox.Text;
+                product.PriceElements = listOfpriceElements;
+                product.category = categoryNameDropDownBoxx.Text;
+                product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
 
                 productItem = new ProductItem(product, productTab);
@@ -256,15 +275,15 @@ namespace AdministratorPanel {
                 return;
 
             } // override a product
-            else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
+            else if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section) {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
             } 
             // save content
-            productItem.product.name = productName.Text;
-            productItem.product.PriceElements = lp;
-            productItem.product.category = categoryName.Text;
-            productItem.product.section = sectionName.Text;
+            productItem.product.name = productNameBox.Text;
+            productItem.product.PriceElements = listOfpriceElements;
+            productItem.product.category = categoryNameDropDownBoxx.Text;
+            productItem.product.section = sectionNameDropDownBox.Text;
             productItem.product.image = imageName;
 
             // updates producttab elements

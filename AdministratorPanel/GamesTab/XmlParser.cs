@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Text.RegularExpressions;
-using System.Linq;
 using Shared;
 
 namespace AdministratorPanel {
@@ -34,9 +33,17 @@ namespace AdministratorPanel {
 
                 game.maxPlayers = GetInformationInt("maxplayers", node);
 
+                if (game.maxPlayers == 0) {
+                    game.maxPlayers = game.minPlayers;
+                }
+
                 game.minPlayTime = GetInformationInt("minplaytime", node);
 
                 game.maxPlayTime = GetInformationInt("Maximum playtime", node);
+
+                if (game.maxPlayTime == 0) {
+                    game.maxPlayTime = game.minPlayTime;
+                }
 
                 game.description = GetInformationString("description", node);
 
@@ -68,7 +75,6 @@ namespace AdministratorPanel {
 
         private List<Game> PreLoadListOfGames() {
             List<Game> temp = new List<Game>();
-            int amount = xmlDocument.ChildNodes.Count;
 
             foreach (XmlNode item in xmlDocument.FirstChild.ChildNodes) {
                 Game game = new Game();

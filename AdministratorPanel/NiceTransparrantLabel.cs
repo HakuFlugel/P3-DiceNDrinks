@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace AdministratorPanel
-{
+namespace AdministratorPanel {
     public class NiceTransparentLabel : Label {
+
         public void TransparentLabel() {
             this.SetStyle(ControlStyles.Opaque, true);
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
         }
+
         protected override CreateParams CreateParams {
             get {
                 CreateParams parms = base.CreateParams;

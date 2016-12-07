@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
@@ -19,6 +12,7 @@ namespace AdministratorPanel {
             Value = 0,
             Width = 200,
        };
+
         private NiceTransparentLabel probarLoading = new NiceTransparentLabel() {
             Text = "Loading",
             Font = new Font("Arial", 12, FontStyle.Regular),
@@ -34,14 +28,13 @@ namespace AdministratorPanel {
             ControlBox = false;
             StartPosition = FormStartPosition.CenterScreen;
             Controls.Add(probar);
-            probar.Controls.Add(probarLoading);
-            
-              
+            probar.Controls.Add(probarLoading); 
         }
+
         public void addToProbar() {
             probar.Value++;
-
         }
+
         public void setProbarValue(int value) {
             probar.Maximum = value;
         }

@@ -15,13 +15,11 @@ namespace AdministratorPanel {
         private ReservationController reservationController;
         private Reservation res;
 
-
         Button declineButton = new Button() {
             Text = "Decline",
         };
         Button acceptButton = new Button() {
             Text = "Accept",
-
         };
 
         TableLayoutPanel theLeftItems = new TableLayoutPanel() {
@@ -42,7 +40,6 @@ namespace AdministratorPanel {
             AutoSize = true,
         };
 
-
         public ReservationItem(ReservationController reservationController, Reservation res) {
             this.reservationController = reservationController;
             this.res = res;
@@ -60,7 +57,6 @@ namespace AdministratorPanel {
             time = res.time;
             created = res.created;
             pending = res.state;
-
 
             RowCount = 1;
             ColumnCount = 3;
@@ -93,7 +89,6 @@ namespace AdministratorPanel {
             theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theLeftItems.Controls.Add(new Label { Text = email, Width = 150 });
             theMiddleItems.Controls.Add(new Label { Text = phone, AutoSize = true });
-            
         }
 
         private void subscribeController() {
@@ -122,19 +117,14 @@ namespace AdministratorPanel {
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };
-
         }
 
-
-
         public void update() {
-
             if (res.state == Reservation.State.Pending) {
                 theRightItems.Controls.Add(twoButtons);
             }
             else if(theRightItems.Controls.Contains(twoButtons))
                 theRightItems.Controls.Remove(twoButtons);
-
         }
     }
 }

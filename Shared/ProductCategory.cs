@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Shared
-{
-    public class ProductCategory
-    {
+namespace Shared {
+    public class ProductCategory {
         public string name;
 
         public List<string> sections = new List<string>();

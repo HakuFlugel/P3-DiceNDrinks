@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Xml;
-using System.Xml.Serialization;
 using System.Collections.Generic;
-
-using System.Text.RegularExpressions;
-using System.Media;
 using System.Text;
 
-namespace Shared
-{
-    [Serializable]
+namespace Shared {
     public class Game {
         public int id;
         public string bggid;

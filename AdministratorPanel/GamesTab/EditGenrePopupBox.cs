@@ -8,26 +8,26 @@ using System.Linq;
 
 namespace AdministratorPanel {
     public class EditGenrePopupbox : Form {
-        private TableLayoutPanel head = new TableLayoutPanel() {
+        private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
             RowCount = 2,
-            Dock = DockStyle.Fill,
+            Dock = DockStyle.Fill
         };
 
-        private TableLayoutPanel genreList = new TableLayoutPanel() {
+        private TableLayoutPanel genreTableLayoutPanel = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             BorderStyle = BorderStyle.Fixed3D,
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
             MinimumSize = new Size(200, 200),
             AutoSize = false,
-            AutoScroll = true,
+            AutoScroll = true
         };
 
-        private Button Add = new Button() {
+        private Button addGenreButton = new Button() {
             MaximumSize = new Size(50, 40),
             Dock = DockStyle.Right,
-            Text = "Add",
+            Text = "Add"
         };
 
         private Genres genre;
@@ -36,22 +36,24 @@ namespace AdministratorPanel {
             this.genre = genre;
             Size = new Size(276, 288);
 
-            Controls.Add(head);
-            head.Controls.Add(genreList);
-            head.Controls.Add(Add);
-            Add.Click += (s, e) => {
+            Controls.Add(headerTableLayoutPanel);
+            headerTableLayoutPanel.Controls.Add(genreTableLayoutPanel);
+            headerTableLayoutPanel.Controls.Add(addGenreButton);
+
+            addGenreButton.Click += (s, e) => {
                 genre.add("New Genre");
                 UpdateGenres();
             };
+
             Show();
             Focus();
             UpdateGenres();
         }
 
         public void UpdateGenres() {
-            genreList.Controls.Clear();
+            genreTableLayoutPanel.Controls.Clear();
             foreach (var item in genre.differentGenres.OrderBy(x => x)) {
-                genreList.Controls.Add(new GenreItem(genre,item,this));
+                genreTableLayoutPanel.Controls.Add(new GenreItem(genre,item,this));
             }
         }
     }

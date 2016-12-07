@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
-namespace Shared
-{
-    public class Product
-    {
+namespace Shared {
+    public class Product {
         public int id;
         public string name;
         public string image;

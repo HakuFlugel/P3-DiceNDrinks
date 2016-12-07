@@ -13,14 +13,15 @@ namespace AdministratorPanel {
         };
 
         private TextBox genreItemTextBox = new TextBox();
-        Button Save = new Button() {
+
+        private Button saveButtom = new Button() {
             MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
-            Text = "Save",
-
+            Text = "Save"
         };
+
         public GenreItem(Genres genre, string item, EditGenrePopupbox popbox) {
-            Save.Click += (s, e) => {
+            saveButtom.Click += (s, e) => {
                 genre.rename(item, genreItemTextBox.Text);
                 popbox.UpdateGenres();
             };
@@ -32,7 +33,7 @@ namespace AdministratorPanel {
 
             genreItemTextBox.Text = item;
             Controls.Add(genreItemTextBox);
-            Controls.Add(Save);
+            Controls.Add(saveButtom);
             Controls.Add(Remove);
 
             RowCount = 1;
@@ -43,7 +44,5 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
         }
-
-       
     }
 }

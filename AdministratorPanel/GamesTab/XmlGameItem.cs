@@ -6,9 +6,23 @@ using System.Text;
 
 namespace AdministratorPanel {
     public class XmlGameItem : NiceButton {
-        Game game;
-        GamePopupBox gamePopupbox;
-        ImageDownloader imageDownloader;
+        private Game game;
+        private GamePopupBox gamePopupbox;
+        private ImageDownloader imageDownloader;
+
+        private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            RowCount = 2
+        };
+
+        private Panel ImagePanel = new Panel() {
+            Dock = DockStyle.Left,
+            Name = "Image",
+            Height = 128,
+            Width =  128,
+            BackColor = Color.Black,
+            BackgroundImageLayout = ImageLayout.Zoom
+        };
 
         public XmlGameItem(Game game, GamePopupBox gamePopupbox) {
             RowCount = 1;
@@ -21,31 +35,16 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(5, 4, 20, 5);
             MinimumSize = new Size(256, 128);
-
-            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
-            tableLayoutPanel.ColumnCount = 1;
-            tableLayoutPanel.RowCount = 2;
+         
             tableLayoutPanel.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
             tableLayoutPanel.Controls.Add(new Label { Text = game.publishedYear.ToString(), AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
-            Console.WriteLine("id = " + game.bggid + "  image = " + game.imageName);
+
             imageDownloader = new ImageDownloader(game.bggid,game.imageName);
-
-            if (imageDownloader.image == null) {
-                Console.WriteLine("Image not found ");
-            }
-
-            Panel pn = new Panel();
-            pn.Dock = DockStyle.Left;
-            pn.Name = "Image";
-            pn.Height = 128;
-            pn.Width =  128;
-            pn.BackColor = Color.Black;
-            pn.BackgroundImage = imageDownloader.image;
-            pn.BackgroundImageLayout = ImageLayout.Zoom;
+            ImagePanel.BackgroundImage = imageDownloader.image;
 
 
-            Controls.Add(pn);
+            Controls.Add(ImagePanel);
             Controls.Add(tableLayoutPanel);
         }
 
@@ -63,11 +62,11 @@ namespace AdministratorPanel {
 
                 gamePopupbox.gameName.Text = game.name;
                 gamePopupbox.gameDescription.Text = game.description;
-                gamePopupbox.time.Text = game.minPlayTime.ToString() + "/" + game.maxPlayTime.ToString();
-                gamePopupbox.players.Text = game.minPlayers.ToString() + "/" + game.maxPlayTime.ToString();
+                gamePopupbox.timeBox.Text = game.minPlayTime.ToString() + "/" + game.maxPlayTime.ToString();
+                gamePopupbox.playerBox.Text = game.minPlayers.ToString() + "/" + game.maxPlayTime.ToString();
                 gamePopupbox.gameImage.BackgroundImage = imageDownloader.image;
                 gamePopupbox.imagePath = imageDownloader.ImagePath;
-                gamePopupbox.gameDifficulty.Value = game.difficulity;
+                gamePopupbox.gameDifficultyBar.Value = game.difficulity;
 
                 imageDownloader.saveImage();
                 gamePopupbox.hasBeenChanged = true;

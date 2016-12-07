@@ -10,7 +10,6 @@ namespace Shared {
     public class Genres {
         public List<string> differentGenres = new List<string>();
 
-
         public Genres() {
             Load();
             
@@ -25,7 +24,6 @@ namespace Shared {
                 }
                 if (input != null) {
                     differentGenres = JsonConvert.DeserializeObject<List<string>>(input);
-
                 } 
             } else
                 addtemplates();

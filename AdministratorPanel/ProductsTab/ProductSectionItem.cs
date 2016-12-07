@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
-using Shared;
+﻿using System.Windows.Forms;
 
 namespace AdministratorPanel {
     class ProductSectionItem : TableLayoutPanel{
-        private FlowLayoutPanel flowPanel = new FlowLayoutPanel();
-
+        public FlowLayoutPanel flowPlayoutPanel = new FlowLayoutPanel();
 
         public ProductSectionItem(string section) {
             Name = section;
@@ -26,14 +23,14 @@ namespace AdministratorPanel {
             Controls.Add(title);
 
             // section content
-            flowPanel.Dock = DockStyle.Fill;
-            flowPanel.AutoSize = true;
-            flowPanel.FlowDirection = FlowDirection.LeftToRight;
-            Controls.Add(flowPanel);
+            flowPlayoutPanel.Dock = DockStyle.Fill;
+            flowPlayoutPanel.AutoSize = true;
+            flowPlayoutPanel.FlowDirection = FlowDirection.LeftToRight;
+            Controls.Add(flowPlayoutPanel);
         }
 
         public void AddItem(Control ctr) {
-            flowPanel.Controls.Add(ctr);
+            flowPlayoutPanel.Controls.Add(ctr);
         }
     }
 }

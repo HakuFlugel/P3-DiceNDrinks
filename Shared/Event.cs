@@ -1,10 +1,8 @@
 ﻿using System;
 
-namespace Shared
-{
+namespace Shared {
     [Serializable]
-    public class Event
-    {
+    public class Event {
         public int id;
         public string name;
         public string description;

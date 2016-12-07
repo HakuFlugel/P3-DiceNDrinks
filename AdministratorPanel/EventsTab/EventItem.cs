@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using Shared;
@@ -15,6 +11,13 @@ namespace AdministratorPanel {
         public DateTime startDate;
         public DateTime endDate;
 
+        private TableLayoutPanel leftTableLayoutPanel = new TableLayoutPanel() {
+            Dock = DockStyle.Top,
+            RowCount = 1,
+            ColumnCount = 2,
+            AutoSize = true
+        };
+
         public EventItem(EventsTab evntTab, Event evnt) {
             this.name = evnt.name;
             Name = "EventItem";
@@ -24,28 +27,23 @@ namespace AdministratorPanel {
             
             RowCount = 1;
             ColumnCount = 2;
-            bgColor = Color.LightGray;
             Dock = DockStyle.Top;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            bgColor = Color.LightGray;
             Margin = new Padding(4, 4, 20, 4);
+
             Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(evntTab, evnt);
                 p.Show();
             };
-
-            TableLayoutPanel left = new TableLayoutPanel();
-            left.Dock = DockStyle.Top;
-            left.RowCount = 2;
-            left.ColumnCount = 1;
-            left.AutoSize = true;
             
-            left.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
-            left.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
+            leftTableLayoutPanel.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
+            leftTableLayoutPanel.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 625 });
 
-            Controls.Add(left);
-            Controls.Add(new Label { Text = "\n Start date: " + startDate.ToString("ddddd, dd. MMMM, yyyy HH:mm") + 
-                                    "\n\n End date: " + endDate.ToString("ddddd, dd. MMMM, yyyy HH:mm"), Dock = DockStyle.Left, AutoSize = true });
+            Controls.Add(leftTableLayoutPanel);
+            Controls.Add(new Label { Text = $"\n Start date: {startDate.ToString("ddddd, dd. MMMM, yyyy HH:mm")} \n\n End date: {endDate.ToString("ddddd, dd. MMMM, yyyy HH:mm")}",
+                                     Dock = DockStyle.Left, AutoSize = true });
         }
     }
 }

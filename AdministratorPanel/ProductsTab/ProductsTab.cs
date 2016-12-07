@@ -7,44 +7,46 @@ using System.Linq;
 
 namespace AdministratorPanel {
     public class ProductsTab : AdminTabPage {
+
+        private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel() {
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            RowCount = 2,
+            ColumnCount = 1
+        };
+
+        private Button addItemButton = new Button() {
+            Height = 20,
+            Width = 100,
+            Dock = DockStyle.Right,
+            Text = "Add product"
+        };
+
         public List<ProductCategory> productCategories = new List<ProductCategory>();
-
         public List<Product> productList = new List<Product>();
-
-        private TabControl tabControl = new TabControl();
+        public TabControl tabControl = new TabControl();
         private FormProgressBar probar;
+
         public ProductsTab(FormProgressBar probar) {
             Text = "Products";
             this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
+
             Load();
             MakeItems();
             probar.addToProbar();                               //For progress bar. 1
 
-            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
-            tableLayoutPanel.Dock = DockStyle.Fill;
-            tableLayoutPanel.AutoSize = true;
-            tableLayoutPanel.RowCount = 2;
-            tableLayoutPanel.ColumnCount = 1;
-            probar.addToProbar();
-
-            Button addItemButton = new Button();
-            addItemButton.Height = 20;
-            addItemButton.Width = 100;
-            addItemButton.Dock = DockStyle.Right;
-            addItemButton.Text = "Add product";
-            probar.addToProbar();                               //For progress bar. 3
             addItemButton.Click += (s, e) => {
                 ProductPopupBox p = new ProductPopupBox(this);
                 p.Show();
             };
             
             tableLayoutPanel.Controls.Add(addItemButton);
-            probar.addToProbar();                               //For progress bar. 4
+            probar.addToProbar();                               //For progress bar. 2
             tableLayoutPanel.Controls.Add(tabControl);
-            probar.addToProbar();                               //For progress bar. 5
+            probar.addToProbar();                               //For progress bar. 3
             Controls.Add(tableLayoutPanel);
-            probar.addToProbar();                               //For progress bar. 6
+            probar.addToProbar();                               //For progress bar. 4
         }
 
         public void MakeItems() {
@@ -91,14 +93,6 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            var jsonCategory = JsonConvert.SerializeObject(productCategories);
-            Directory.CreateDirectory("Sources");
-            using (StreamWriter textWriter = new StreamWriter(@"Sources/Category.json")) {
-                foreach (var item in jsonCategory) {
-                    textWriter.Write(item.ToString());
-                }
-            }
-
             var jsonProducts = JsonConvert.SerializeObject(productList);
             using (StreamWriter textWriter = new StreamWriter(@"Sources/Products.json")) {
                 foreach (var item in jsonProducts) {
@@ -108,18 +102,6 @@ namespace AdministratorPanel {
         }
 
         public override void Load() {
-            string loadStringCategory;
-            if (File.Exists(@"Sources/Category.json")) {
-                using (StreamReader streamReader = new StreamReader(@"Sources/Category.json")) {
-                    loadStringCategory = streamReader.ReadToEnd();
-                    streamReader.Close();
-                }
-                
-                if (loadStringCategory != null) {
-                    productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(loadStringCategory);
-                }
-            }
-
             string loadStringProducts;
 
             if (File.Exists(@"Sources/Products.json")) {
@@ -136,7 +118,6 @@ namespace AdministratorPanel {
             if (productList == null) {
                 productList = new List<Product>();
             }
-
         }
     }
 }

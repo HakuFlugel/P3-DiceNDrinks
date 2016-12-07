@@ -2,67 +2,57 @@
 using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    public class NiceTextBox : TextBox
-    {
+    public class NiceTextBox : TextBox {
         //TODO: override text getter or similar to prevent getting watermark
         private bool waterMarkActive = true;
         private string _waterMark = "";
-        public string waterMark
-        {
+        public string waterMark {
             get { return _waterMark; }
-            set
-            {
+            set {
                 _waterMark = value;
                 Text = value;
             }
         }
 
         protected override void OnGotFocus(EventArgs e) {
-            if(Text == waterMark && waterMarkActive) {
+            if (Text == waterMark && waterMarkActive) {
                 Text = "";
             }
             base.OnGotFocus(e);
         }
+
         protected override void OnLostFocus(EventArgs e) {
-            if(Text == "") {
+            if (Text == "") {
                 Text = waterMark;
                 waterMarkActive = true;
-            }
-            else
-            {
+            } else {
                 waterMarkActive = false;
             }
 
             base.OnLostFocus(e);
         }
 
-
         // TODO: Untested, WIP
         private bool _clearable = false;
         private Button clearButton;
 
-        public bool clearable
-        {
+        public bool clearable {
             get { return _clearable; }
-            set
-            {
+            set {
                 _clearable = value;
-                if (value && clearButton == null)
-                {
+                if (value && clearButton == null) {
                     clearButton = new Button();
                     clearButton.Width = clearButton.Height;
                     clearButton.Text = "X";
                     clearButton.Dock = DockStyle.Right;
 
-                    clearButton.Click += (sender, ev) =>
-                    {
+                    clearButton.Click += (sender, ev) => {
                         Text = Focused ? "" : waterMark;
                         waterMarkActive = true;
                     };
 
                     Controls.Add(clearButton);
-                } else if (!value && clearButton != null)
-                {
+                } else if (!value && clearButton != null) {
                     Controls.Remove(clearButton);
                     clearButton = null;
                 }
@@ -76,9 +66,9 @@ namespace AdministratorPanel {
             get { return _userCanWrite; }
             set {
                 _userCanWrite = value;
-                if(value) 
+                if (value)
                     DropDownStyle = ComboBoxStyle.DropDownList;
-                else 
+                else
                     DropDownStyle = ComboBoxStyle.DropDown;
             }
         }
@@ -98,7 +88,6 @@ namespace AdministratorPanel {
         public NiceDropDownBox() {
             DrawMode = DrawMode.Normal;
             DropDownWidth = 250;
-
         }
     }
 }
