@@ -60,7 +60,7 @@ namespace AdministratorPanel
                 catch (Exception ex)
                 {
                     Console.WriteLine("saveroom " + ex.Message);
-                    MessageBox.Show("Error on row " + (i+1) + "\n" + ex.Message);
+                    NiceMessageBox.Show("Error on row " + (i+1) + "\n" + ex.Message);
                     return;
                 }
             }
@@ -122,7 +122,7 @@ namespace AdministratorPanel
         protected override void delete(object sender, EventArgs e)
         {
 
-            MessageBox.Show(this, "The delete button is not supposed to be here");
+            NiceMessageBox.Show(this, "The delete button is not supposed to be here");
         }
 
 

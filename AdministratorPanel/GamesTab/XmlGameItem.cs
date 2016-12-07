@@ -59,7 +59,7 @@ namespace AdministratorPanel {
             sb.AppendLine("Time:           " + game.minPlayTime + "/" + game.maxPlayTime);
             sb.AppendLine("Description:    " + game.description);
 
-            if (MessageBox.Show(sb.ToString(),game.name,MessageBoxButtons.YesNo) == DialogResult.Yes) {
+            if (NiceMessageBox.Show(sb.ToString(),game.name,MessageBoxButtons.YesNo) == DialogResult.Yes) {
 
                 gamePopupbox.gameName.Text = game.name;
                 gamePopupbox.gameDescription.Text = game.description;

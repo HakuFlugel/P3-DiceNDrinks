@@ -63,7 +63,7 @@ namespace AdministratorPanel
 //            }
 //            else {
 //                calTab.reserveSpace.Value = 100;
-//                MessageBox.Show("The newReservation max count is exceeded!");
+//                NiceMessageBox.Show("The newReservation max count is exceeded!");
 //            }
 //            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
 

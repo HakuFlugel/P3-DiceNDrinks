@@ -43,7 +43,7 @@ namespace AdministratorPanel {
             try {
                 Controls.Add(new Panel() { Dock = DockStyle.Right, Size = new Size(128, 128), BackgroundImage = Image.FromFile($"images/{game.imageName}"), BackgroundImageLayout = ImageLayout.Zoom, BackColor = Color.Gray, });
 
-            } catch (Exception e) {
+            } catch (Exception) {
 
             }
             

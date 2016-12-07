@@ -78,7 +78,7 @@ namespace AdministratorPanel {
                         productImage.BackgroundImage = image;
 
                     } catch (Exception e) {
-                        MessageBox.Show(e.Message);
+                        NiceMessageBox.Show(e.Message);
                     }
                 }
 
@@ -154,7 +154,7 @@ namespace AdministratorPanel {
                 if (ofd.ShowDialog() == DialogResult.OK) {
 
                     if (File.Exists("images/" + ofd.SafeFileName)) {
-                        MessageBox.Show("imagename already exist");
+                        NiceMessageBox.Show("imagename already exist");
                     }
 
                     try {
@@ -163,7 +163,7 @@ namespace AdministratorPanel {
                         productImage.BackgroundImage = image; 
                         
                     } catch (Exception ex) {
-                        MessageBox.Show(ex.Message);
+                        NiceMessageBox.Show(ex.Message);
                     }
                 }
             };
@@ -208,7 +208,7 @@ namespace AdministratorPanel {
                 }
 
                 if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
-                    MessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
+                    NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
                 } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
                     continue;
@@ -232,7 +232,7 @@ namespace AdministratorPanel {
             Directory.CreateDirectory("images");
 
             if (image == null) {
-                if (DialogResult.OK != MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
+                if (DialogResult.OK != NiceMessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
                     return;
                 }
 

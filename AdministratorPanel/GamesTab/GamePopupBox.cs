@@ -199,7 +199,7 @@ namespace AdministratorPanel {
              * Checks if there has been any changes in the game, if there is any changes,
              * and they are different from what the game looked before (if it is not a new game) then set hasBeenChanged to true,
              * hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed,
-             * if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
+             * if true, there will be a NiceMessageBox that asks if the user is sure it will close b4 saving.
              */
             yearPublished.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((beforeEditing.publishedYear.ToString() != yearPublished.Text) ? true : false) : true; };
             gameName.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((beforeEditing.name != gameName.Text) ? true : false) : true; };
@@ -214,7 +214,7 @@ namespace AdministratorPanel {
 
             genreBox.ItemCheck += memeberChecked;
 
-            imageSeach.Click += OpenFileOpener;  //Så det ikke er textboxen som skal kligges på.
+            imageSeach.Click += OpenFileOpener;  //Så det ikke er textboxen som skal 
 
             imageText.KeyPress += (s, e) => {
                 if (e.KeyChar != (char)Keys.Enter)
@@ -296,7 +296,7 @@ namespace AdministratorPanel {
                 try {
                     game.publishedYear = Int32.Parse(yearPublished.Text);
                 } catch (Exception) {
-                    MessageBox.Show("Published year is not a valid number", "Year invalid");
+                    NiceMessageBox.Show("Published year is not a valid number", "Year invalid");
                 }
             } else {
                 game.publishedYear = 0;
@@ -389,7 +389,7 @@ namespace AdministratorPanel {
                     imageText.Text = openFileDialog.FileName;
 
                 } catch (Exception ex) {
-                    MessageBox.Show(ex.Message);
+                    NiceMessageBox.Show(ex.Message);
                 }
             }
         }

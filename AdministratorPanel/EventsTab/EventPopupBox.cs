@@ -118,7 +118,7 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
+            if (DialogResult.Yes == NiceMessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
                 eventsTab.Evnts.Remove(evnt);
                 eventsTab.makeItems();
             }
@@ -131,13 +131,13 @@ namespace AdministratorPanel {
             DateTime expectedDate;
             if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate) ||
                 !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
-                SystemSounds.Hand.Play();
-                MessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+               
+                NiceMessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
             if (eventName.Text == null || eventDescription.Text == null) {
-                SystemSounds.Hand.Play();
-                MessageBox.Show("You need to input a name and description");
+               
+                NiceMessageBox.Show("You need to input a name and description");
                 return;
             }
             if (evnt == null) {

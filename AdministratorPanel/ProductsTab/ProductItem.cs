@@ -98,7 +98,7 @@ namespace AdministratorPanel {
                 image = Image.FromFile(fileToLoad);
             } catch (Exception) {
                 if (product.image != null) {
-                    MessageBox.Show($"image : {product.image} not found");
+                    NiceMessageBox.Show($"image : {product.image} not found");
 
                     product.image = null;
                     Update(product);

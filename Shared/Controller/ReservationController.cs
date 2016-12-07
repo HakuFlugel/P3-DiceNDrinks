@@ -168,8 +168,7 @@ namespace Shared
          
             
             //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
-
-            int reservedSeats = 0;
+            
 
             if(resDay != null ) {
                 if (resDay.numSeats == 0)

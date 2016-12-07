@@ -80,7 +80,7 @@ namespace AdministratorPanel {
         }
 
         private void update() {
-            seachBar.Text = (seachBar.Text == "") ? seachBar.waterMark : search;
+            seachBar.Text = (seachBar.Text == "" && !seachBar.Focused) ? seachBar.waterMark : search;
             game.makeItems(search);
         }
 

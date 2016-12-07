@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
+using System.Media;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
@@ -119,7 +120,8 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
+            SystemSounds.Hand.Play();
+            if (DialogResult.Yes == NiceMessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
 
                 reservationController.removeReservation(reservation);
 
@@ -135,22 +137,24 @@ namespace AdministratorPanel {
             //TODO: use a proper control for things such as time, so that we don't have to implement these checks all over the program...
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
-
-                MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+                SystemSounds.Hand.Play();
+                NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
             if ((reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark)) {
-                MessageBox.Show("You need to input a name AND a number of people");
+                SystemSounds.Hand.Play();
+                NiceMessageBox.Show("You need to input a name AND a number of people");
                 return;
             }
             if (phoneNumber.Text == phoneNumber.waterMark && email.Text == email.waterMark) {
-                MessageBox.Show("You need to input a phone number or a email");
+                SystemSounds.Hand.Play();
+                NiceMessageBox.Show("You need to input a phone number or a email");
                 return;
             }
             try {
                 emailCheck(email.Text);
             } catch (Exception en) {
-                MessageBox.Show(en.Message);
+                NiceMessageBox.Show(en.Message);
                 return;
             }
 
@@ -172,8 +176,15 @@ namespace AdministratorPanel {
             newres.state = (Reservation.State)pendingSet.SelectedValue;
 
             newres.name = reservationName.Text;
-            int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
+            if (!int.TryParse(numPeople.Text, out newres.numPeople) || newres.numPeople <= 0) {
+                NiceMessageBox.Show("Error in number of people. Please input valid integer");
+                return;                 // TODO: not handling invalid value here
+                
+            }
             newres.phone = phoneNumber.Text;
+
+
+
             newres.email = email.Text;
             newres.time = newDate;
             //cd.fullness += newReservation.numPeople;

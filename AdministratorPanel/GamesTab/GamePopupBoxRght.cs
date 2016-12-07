@@ -60,9 +60,9 @@ namespace AdministratorPanel {
 
             } catch (WebException e) {
                 //TODO: put message in result box instead
-                MessageBox.Show(e.Message, "Connection Error");
+                NiceMessageBox.Show(e.Message, "Connection Error");
             } catch (Exception e) {
-                MessageBox.Show(e.Message);
+                NiceMessageBox.Show(e.Message);
             }
             if (games.Count > 0) {
                 foreach (var item in games) {
@@ -70,7 +70,7 @@ namespace AdministratorPanel {
                 }
             }
             else if (searchWord != "")
-                MessageBox.Show(
+                NiceMessageBox.Show(
                 "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
                 "1. " + searchWord + " is not a valid BoardGame name " + Environment.NewLine +
                 "2. There is no information on " + searchWord + " in the API.",
