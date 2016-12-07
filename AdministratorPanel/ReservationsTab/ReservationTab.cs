@@ -104,6 +104,7 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
 
         };
+        
 
         TableLayoutPanel rightTable = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
@@ -152,7 +153,7 @@ namespace AdministratorPanel {
             autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPresentage.ToString() : "50" ;
             maxAutoAccept.Text = (tempDate != null) ? tempDate.autoAcceptMaxPeople.ToString() : "5";
             
-
+            
             Text = "Reservations";
 
             Controls.Add(outerTable);
@@ -226,10 +227,12 @@ namespace AdministratorPanel {
             };
             
             autoAcceptPresentage.LostFocus += (s, e) => {
-                autoAcceptBox();
+                
+                 autoAcceptBox();
             };
 
             autoAcceptPresentage.KeyPress += (s, e) => {
+                
                 if (e.KeyChar != (char)Keys.Enter)
                     return;
                 autoAcceptBox();
@@ -262,9 +265,15 @@ namespace AdministratorPanel {
 
         private void autoAcceptBox() {
             CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-            
+
+            if (autoAcceptPresentage.Text == day.acceptPresentage.ToString()) {
+                return;
+            }
+                
+
             int tempNr;
             string tempstr = autoAcceptPresentage.Text;
+
             if (tempstr == "0") {
                 day.isAutoaccept = false;
                 Console.WriteLine("auto accept is false");
@@ -273,16 +282,13 @@ namespace AdministratorPanel {
                 day.isAutoaccept = true;
 
                 try {
-                    int.TryParse(tempstr, out tempNr);
+                    tempNr = Int32.Parse(tempstr);
                     if (tempNr > 100 || tempNr < 0)
-                        throw new Exception();
-                } catch (Exception) {
-                    MessageBox.Show("Please input a valid integer, that is minimum 0 or maximum 100");
-                    tempNr = day.acceptPresentage;
-                    autoAcceptPresentage.Text = tempNr.ToString();
+                        throw new FormatException();
+                } catch (FormatException) {
+                    autoAcceptPresentage.Text = day.acceptPresentage.ToString();
+                    return;
                 }
-
-
             }
             day.acceptPresentage = tempNr;
             updateCheck(day);
@@ -290,8 +296,11 @@ namespace AdministratorPanel {
 
         private void maxAutoAcceptBox() {
             CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-            
-
+            if (maxAutoAccept.Text == day.autoAcceptMaxPeople.ToString()) {
+                
+                return;
+            }
+                
             int tempNr;
             string tempstr = maxAutoAccept.Text;
             if (tempstr == "0") {
@@ -300,16 +309,13 @@ namespace AdministratorPanel {
                 day.isAutoaccept = true;
 
                 try {
-                    int.TryParse(tempstr, out tempNr);
-                    if (tempNr > 100 || tempNr < 0)
-                        throw new Exception();
-                } catch (Exception) {
-                    MessageBox.Show("Please input a valid integer. ");
-                    tempNr = day.acceptPresentage;
-                    autoAcceptPresentage.Text = tempNr.ToString();
+                    tempNr = Int32.Parse(tempstr);
+                    if (tempNr > 100 || tempNr < 0 )
+                        throw new FormatException();
+                } catch (FormatException) {
+                    maxAutoAccept.Text = day.autoAcceptMaxPeople.ToString();
+                    return;
                 }
-                    
-
             }
             day.autoAcceptMaxPeople = tempNr;
             updateCheck(day);

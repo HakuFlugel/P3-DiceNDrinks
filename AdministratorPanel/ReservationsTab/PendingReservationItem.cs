@@ -19,6 +19,7 @@ namespace AdministratorPanel {
                 cal.SelectionStart = calDay.Date;
                 calTab.reservationList.makeItems(calDay.Date);
             };
+            Cursor = Cursors.Hand;
 
             Controls.Add(new Label { Text = calDay.Date.ToString("dd. MMMMM yyyy"), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Top, Font = new Font("Arial", 12) });
             foreach (var res in resList.FindAll((Reservation reserv) => reserv.state == Reservation.State.Pending)) {
