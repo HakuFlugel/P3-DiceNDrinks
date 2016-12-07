@@ -49,12 +49,13 @@ namespace AndroidAppV2 {
             int widthInDp = ConvertPixelsToDp(metrics.WidthPixels);
             int heightInDp = ConvertPixelsToDp(metrics.HeightPixels);
             int[] sizes = { widthInDp / 2, heightInDp / 2 };
-
-            an.GetImagesFromResources(this, Resources, Resource.Drawable.Top_Left_Games, FindViewById<ImageButton>(Resource.Id.gameButton), Resource.Id.gameButton, sizes);
-            an.GetImagesFromResources(this, Resources, Resource.Drawable.Top_Right_Menu, FindViewById<ImageButton>(Resource.Id.foodmenuButton), Resource.Id.foodmenuButton, sizes);
-            an.GetImagesFromResources(this, Resources, Resource.Drawable.Bottom_Left_Reservation, FindViewById<ImageButton>(Resource.Id.reservationButton), Resource.Id.reservationButton, sizes);
-            an.GetImagesFromResources(this, Resources, Resource.Drawable.Bottom_Right_Events, FindViewById<ImageButton>(Resource.Id.eventButton), Resource.Id.eventButton, sizes);
-            an.GetImagesFromResources(this, Resources, Resource.Drawable.Iconv3, FindViewById<ImageButton>(Resource.Id.centerImageButton1), Resource.Id.centerImageButton1, new[] { widthInDp / 2, widthInDp / 2 });
+            
+            an.GetImagesFromAssets(this, "Top_Left_Games.png", FindViewById<ImageButton>(Resource.Id.gameButton), Resource.Id.gameButton, sizes);
+            an.GetImagesFromAssets(this, "Top_Right_Menu.png", FindViewById<ImageButton>(Resource.Id.foodmenuButton), Resource.Id.foodmenuButton, sizes);
+            an.GetImagesFromAssets(this, "Bottom_Left_Reservation.png", FindViewById<ImageButton>(Resource.Id.reservationButton), Resource.Id.reservationButton, sizes);
+            an.GetImagesFromAssets(this, "Bottom_Right_Events.png", FindViewById<ImageButton>(Resource.Id.eventButton), Resource.Id.eventButton, sizes);
+            an.GetImagesFromAssets(this, "Iconv3.png", FindViewById<ImageButton>(Resource.Id.centerImageButton1), Resource.Id.centerImageButton1, new[] { widthInDp / 2, widthInDp / 2 });
+            
         }
 
         public override void OnRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
