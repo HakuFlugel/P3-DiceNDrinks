@@ -51,8 +51,7 @@ namespace AndroidAppV2.Activities {
             string timeStampPath = _basePath + "/timestamp.txt";
             File timestap = new File(timeStampPath);
             timestap.CreateNewFile();
-            WriteDate(timeStampPath);
-            SaveImagesToFolder(_basePath + "/images/");  
+            WriteDate(timeStampPath); 
         }
 
         private void WriteDate(string path)
@@ -64,19 +63,6 @@ namespace AndroidAppV2.Activities {
                     sw.WriteLine(DateTime.MinValue + "\r\n");
                 }
             }
-        }
-            //TODO: ino this is stupid, så i'm going to make a GetImages which gets them from resources so we don't need to do this ;) -Lighdek
-        private void SaveImagesToFolder(string path) {
-            SaveImage(path, "Top_Left_Games.png", OpenImage(Resource.Drawable.Top_Left_Games));
-            SaveImage(path, "Top_Right_Menu.png", OpenImage(Resource.Drawable.Top_Right_Menu));
-            SaveImage(path, "Bottom_Left_Reservation.png", OpenImage(Resource.Drawable.Bottom_Left_Reservation));
-            SaveImage(path, "Bottom_Right_Events.png", OpenImage(Resource.Drawable.Bottom_Right_Events));
-            SaveImage(path, "IconV3.png", OpenImage(Resource.Drawable.Iconv3));
-        }
-
-        private Bitmap OpenImage(int id)
-        {
-            return BitmapFactory.DecodeResource(Resources, id);
         }
 
         public void SaveImage(string directory, string fileName, Bitmap bitmap) {
@@ -116,8 +102,8 @@ namespace AndroidAppV2.Activities {
                 }
             }
         }
-        //TODO: Maybe async?
-        private /*async*/ void DownloadUpdate(string location) { 
+
+        private void DownloadUpdate(string location) { 
             string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, location);
             string item = "";
             MultipartFormDataContent content = new MultipartFormDataContent();
