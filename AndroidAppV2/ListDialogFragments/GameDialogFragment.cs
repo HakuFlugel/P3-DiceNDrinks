@@ -51,7 +51,7 @@ namespace AndroidAppV2.ListDialogFragments {
 
         public override void OnResume() {
 
-            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DimGray));
+            Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DarkGray));
 
             base.OnResume();
         }
