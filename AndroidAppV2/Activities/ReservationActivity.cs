@@ -46,7 +46,7 @@ namespace AndroidAppV2.Activities {
             if (_userId == default(int))
                 _state = false;
 
-            //Using Random because we have no server to request from (method implemention)? TODO: SERVER maybe useless because of FCM
+            //Using Random because we have no server to request from (method implemention)? TODO: SERVER
             if (_userId == 0) {
                 Random random = new Random();
 
@@ -153,7 +153,7 @@ namespace AndroidAppV2.Activities {
                 resSucces.SetTitle("Reservation sent");
             }
             _state = true;
-            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Scratch Ass*/ });
+            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Do Nothing*/ });
             resSucces.Show();
             FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
 
@@ -165,7 +165,7 @@ namespace AndroidAppV2.Activities {
             AlertDialog.Builder error = new AlertDialog.Builder(this);
             error.SetMessage(message);
             error.SetTitle("Error");
-            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Scratch Ass*/ });
+            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Do Nothing*/ });
             error.Show();
         }
 
@@ -209,7 +209,7 @@ namespace AndroidAppV2.Activities {
                 AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
                 exitApp.SetMessage(Resource.String.exitReservation);
                 exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
-                exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Scratch Ass*/ });
+                exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Do Nothing*/ });
 
                 Dialog exit = exitApp.Create();
 

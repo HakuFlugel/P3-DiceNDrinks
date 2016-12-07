@@ -6,7 +6,7 @@ using Android.Util;
 using AndroidAppV2.Activities;
 
 namespace AndroidAppV2 {
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Dice 'n Drinks", /*MainLauncher = true,*/ Icon = "@drawable/icon")]
+    [Activity(Theme = "@style/Theme.NoTitle", Label = "Dice 'n Drinks", Icon = "@drawable/icon")]
     public class MainActivity : Activity {
         private bool _doubleTapToExit;
 

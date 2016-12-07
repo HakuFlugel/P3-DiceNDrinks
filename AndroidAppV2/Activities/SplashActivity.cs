@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Util;
 using Environment = Android.OS.Environment;
 using File = Java.IO.File;
+using Path = System.IO.Path;
 
 
 namespace AndroidAppV2.Activities {
@@ -19,6 +21,7 @@ namespace AndroidAppV2.Activities {
     public class SplashActivity : AppCompatActivity {
         // ReSharper disable once InconsistentNaming
         private static readonly string TAG = "X:" + typeof(SplashActivity).Name;
+        private readonly string _basePath = Environment.ExternalStorageDirectory.Path + "/DnD";
 
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
             base.OnCreate(savedInstanceState, persistentState);
@@ -29,12 +32,9 @@ namespace AndroidAppV2.Activities {
             base.OnResume();
 
             Task startupWork = new Task(() => {
-                if (!System.IO.File.Exists(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD")))
+                if (!System.IO.File.Exists(_basePath + "/timestamp.txt"))
                     FirstTimeSetup();
-                else {
                     Update();
-                }
-
             });
 
             startupWork.ContinueWith(t => {
@@ -45,19 +45,45 @@ namespace AndroidAppV2.Activities {
             startupWork.Start();
         }
 
-        private static void FirstTimeSetup() {
-            File folder = new File(Environment.ExternalStorageDirectory.Path + "DnD/images");
+        private void FirstTimeSetup() {
+            File folder = new File(_basePath + "/images");
             folder.Mkdirs();
-            File timestap = new File(Environment.ExternalStorageDirectory.Path + "DnD/timestamp.txt");
+            string timeStampPath = _basePath + "/timestamp.txt";
+            File timestap = new File(timeStampPath);
             timestap.CreateNewFile();
+            WriteDate(timeStampPath);
+            SaveImagesToFolder(_basePath + "/images/");  
+        }
+
+        private void WriteDate(string path)
+        {
             using (
-                StreamWriter sw =
-                    new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD/timestamp.txt"))) {
+            StreamWriter sw =
+            new StreamWriter(path)) {
                 for (int i = 0; i < 3; i++) {
-                    sw.WriteLine(DateTime.Today.ToLongDateString());
+                    sw.WriteLine(DateTime.MinValue + "\r\n");
                 }
             }
+        }
+            //TODO: ino this is stupid, så i'm going to make a GetImages which gets them from resources so we don't need to do this ;) -Lighdek
+        private void SaveImagesToFolder(string path) {
+            SaveImage(path, "Top_Left_Games.png", OpenImage(Resource.Drawable.Top_Left_Games));
+            SaveImage(path, "Top_Right_Menu.png", OpenImage(Resource.Drawable.Top_Right_Menu));
+            SaveImage(path, "Bottom_Left_Reservation.png", OpenImage(Resource.Drawable.Bottom_Left_Reservation));
+            SaveImage(path, "Bottom_Right_Events.png", OpenImage(Resource.Drawable.Bottom_Right_Events));
+            SaveImage(path, "IconV3.png", OpenImage(Resource.Drawable.Iconv3));
+        }
 
+        private Bitmap OpenImage(int id)
+        {
+            return BitmapFactory.DecodeResource(Resources, id);
+        }
+
+        public void SaveImage(string directory, string fileName, Bitmap bitmap) {
+            string saveLocation = directory + fileName;
+            using (FileStream os = new FileStream(saveLocation, FileMode.CreateNew)) {
+                bitmap.Compress(Bitmap.CompressFormat.Png, 50, os);
+            }
         }
 
         private void Update() {
@@ -65,38 +91,33 @@ namespace AndroidAppV2.Activities {
             DateTime[] loadedDateTimes = new DateTime[4];
             using (
                 StreamReader sr =
-                    new StreamReader(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD/timestamp.txt"))
+                    new StreamReader(_basePath + "/timestamp.txt")
             ) {
                 for (int i = 0; i < 3; i++) {
                     loadedDateTimes[i] = DateTime.Parse(sr.ReadLine());
                 }
             }
 
-
             DateTime[] downloadedDateTimes = AskServer();
-
 
             for (int i = 0; i < 3; i++) {
                 if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks)
                     DownloadUpdate(items[i] + ".json");
             }
             SaveNewDate(downloadedDateTimes);
-
         }
 
         private void SaveNewDate(DateTime[] upDatedDateTime) {
             using (
                 StreamWriter sw =
-                new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD/timestamp.txt"))) {
+                new StreamWriter(_basePath + "/timestamp.txt")) {
                 for (int i = 0; i < 3; i++) {
-                    sw.WriteLine(upDatedDateTime[i].ToLongDateString());
+                    sw.WriteLine(upDatedDateTime[i]);
                 }
-
             }
         }
-
-        private /*async*/ void DownloadUpdate(string location) //TODO: Maybe async?
-        {
+        //TODO: Maybe async?
+        private /*async*/ void DownloadUpdate(string location) { 
             string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, location);
             string item = "";
             MultipartFormDataContent content = new MultipartFormDataContent();
@@ -110,6 +131,5 @@ namespace AndroidAppV2.Activities {
             //TODO: ask server
             return newDateTimes;
         }
-
     }
 }

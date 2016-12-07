@@ -64,14 +64,10 @@ namespace AndroidAppV2.Activities {
 
         private static List<string> GetGroups(List<Product> productList, string category) {
             List<Product> tempList = productList.FindAll(o => o.category == category);
-            List<string> list = tempList.Select(o => o.section).Distinct().ToList();
-
-            return list;
+            return tempList.Select(o => o.section).Distinct().ToList();
         }
         private static List<string> GetCategories(List<Product> productlist) {
-            List<string> list = productlist.Select(o => o.category).Distinct().ToList();
-
-            return list;
+            return productlist.Select(o => o.category).Distinct().ToList();
         }
     }
 }

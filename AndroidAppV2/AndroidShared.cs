@@ -9,12 +9,12 @@ using Android.Views;
 using Android.Widget;
 
 using Newtonsoft.Json;
-using Shared;
 using File = System.IO.File;
 using Path = System.IO.Path;
 
 namespace AndroidAppV2 {
     public class AndroidShared {
+
         public static void LoadData<T>(Context context, string file, out T type) {
             string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "DnD");
 
