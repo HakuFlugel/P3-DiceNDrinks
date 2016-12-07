@@ -60,7 +60,7 @@ namespace AdministratorPanel
                 catch (Exception ex)
                 {
                     Console.WriteLine("saveroom " + ex.Message);
-                    MessageBox.Show("Error on row " + i+1 + "\n" + ex.Message);
+                    MessageBox.Show("Error on row " + (i+1) + "\n" + ex.Message);
                     return;
                 }
             }
