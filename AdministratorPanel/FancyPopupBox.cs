@@ -9,12 +9,10 @@ using Shared;
 using System.ComponentModel;
 using System.Media;
 
-namespace AdministratorPanel
-{
+namespace AdministratorPanel {
     /*abstract*/
 
-    public abstract class FancyPopupBox : Form
-    {
+    public abstract class FancyPopupBox : Form {
         protected Padding labelPadding = new Padding(5, 0, 5, 0);
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
         public bool hasBeenChanged = false;
@@ -94,44 +92,38 @@ namespace AdministratorPanel
         protected abstract Control CreateControls();
 
         protected virtual void save(object sender, EventArgs e) {
-            
+
             hasBeenChanged = false;
             Close();
         }
 
         protected abstract void delete(object sender, EventArgs e);
 
-        private void cancel(object sender, EventArgs e)
-        {
+        private void cancel(object sender, EventArgs e) {
             Close();
         }
     }
 
-    class TestPopupbox : FancyPopupBox
-    {
+    class TestPopupbox : FancyPopupBox {
         //for products
         protected Product product;
 
-        public TestPopupbox(Product product)
-        {
+        public TestPopupbox(Product product) {
 
             this.product = product;
 
 
         }
 
-        protected override void delete(object sender, EventArgs e)
-        {
+        protected override void delete(object sender, EventArgs e) {
             throw new NotImplementedException();
         }
 
-        protected override void save(object sender, EventArgs e)
-        {
+        protected override void save(object sender, EventArgs e) {
             throw new NotImplementedException();
         }
 
-        protected override Control CreateControls()
-        {
+        protected override Control CreateControls() {
 
 
             TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
@@ -142,16 +134,14 @@ namespace AdministratorPanel
             tableLayoutPanel.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             Controls.Add(tableLayoutPanel);
 
-            for (int ppp = 0; ppp < 2; ppp++)
-            {
+            for (int ppp = 0; ppp < 2; ppp++) {
                 TableLayoutPanel tp = new TableLayoutPanel();
                 tp.ColumnCount = 1;
                 tp.Dock = DockStyle.Fill;
                 tp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
                 tp.AutoSize = true;
                 tableLayoutPanel.Controls.Add(tp);
-                for (int i = 0; i < 20; i++)
-                {
+                for (int i = 0; i < 20; i++) {
                     NiceTextBox tb = new NiceTextBox();
                     //tb.Dock = DockStyle.Fill;
                     tb.waterMark = i.ToString();

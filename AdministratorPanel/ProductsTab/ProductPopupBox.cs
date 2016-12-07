@@ -36,6 +36,7 @@ namespace AdministratorPanel {
         };
 
         DataGridView priceElements = new DataGridView() {
+            
             Dock = DockStyle.Fill,
             Height = 280,
             RowHeadersVisible = false,
@@ -43,6 +44,7 @@ namespace AdministratorPanel {
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
             AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
         };
+        
 
         private ProductsTab productTab;
         private ProductItem productItem;
@@ -58,10 +60,9 @@ namespace AdministratorPanel {
             this.productTab = productTab;
             this.productItem = productItem;
 
-            Focus();
 
             dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(decimal));
+            dataTable.Columns.Add("Price", typeof(string));
 
             if (this.productItem != null) {
                 productName.Text = this.productItem.product.name;
@@ -86,9 +87,10 @@ namespace AdministratorPanel {
             }
             priceElements.DataSource = dataTable;
             update();
+
         }
 
-
+        
         private void update() {
             categoryName.Items.Clear();
             // update dropdown category
@@ -177,6 +179,7 @@ namespace AdministratorPanel {
             header.Controls.Add(rightPanel);
             
             return header;
+
         }
 
 
@@ -185,7 +188,7 @@ namespace AdministratorPanel {
             if (priceElements.Count > 0) {
                 foreach (var item in priceElements) {
 
-                    dataTable.Rows.Add(item.name, item.price);
+                    dataTable.Rows.Add(item.name, item.price.ToString());
                 }
             }
         }
@@ -196,7 +199,15 @@ namespace AdministratorPanel {
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                if (dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
+                bool justReturn = false;
+                decimal bob = 0;
+                try {
+                    bob = decimal.Parse(dataTable.Rows[row][1].ToString());
+                } catch (Exception) {
+                    justReturn = true;
+                }
+
+                if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
                     MessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
                 } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
@@ -205,7 +216,8 @@ namespace AdministratorPanel {
                 
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
-                priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
+
+                priceElement.price = bob; // decimal(price)
                 pr.Add(priceElement);
             }
             return pr;
@@ -232,9 +244,8 @@ namespace AdministratorPanel {
                 }
             }
             // convert priceelements to saves
-            List<PriceElement> lp = SavePriceElemets();
-            if (lp == null) {
-                MessageBox.Show("No price set");
+            List<PriceElement> listOfPriceElements = SavePriceElemets();
+            if (listOfPriceElements == null) {
                 return;
             }
             //make new productSave
@@ -242,7 +253,7 @@ namespace AdministratorPanel {
                 Product product = new Product();
 
                 product.name = productName.Text;
-                product.PriceElements = lp;
+                product.PriceElements = listOfPriceElements;
                 product.category = categoryName.Text;
                 product.section = sectionName.Text;
                 product.image = imageName;
@@ -262,12 +273,13 @@ namespace AdministratorPanel {
             } 
             // save content
             productItem.product.name = productName.Text;
-            productItem.product.PriceElements = lp;
+            productItem.product.PriceElements = listOfPriceElements;
             productItem.product.category = categoryName.Text;
             productItem.product.section = sectionName.Text;
             productItem.product.image = imageName;
 
             // updates producttab elements
+            
             productTab.MakeItems();
 
             Close();
