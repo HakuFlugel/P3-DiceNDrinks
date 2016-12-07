@@ -64,7 +64,7 @@
                 p1:id="@+id/linearLayout4" />
         </LinearLayout>
         <EditText
-            p1:hint="Søg..."
+            p1:hint="Search..."
             p1:layout_width="match_parent"
             p1:layout_height="match_parent"
             p1:id="@+id/gameSearchEdit"

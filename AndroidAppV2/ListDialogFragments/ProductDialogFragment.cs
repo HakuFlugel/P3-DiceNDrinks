@@ -10,15 +10,12 @@ using Java.Lang;
 
 using Shared;
 
-namespace AndroidAppV2.ListDialogFragments
-{
-    internal class ProductDialogFragment : DialogFragment
-    {
+namespace AndroidAppV2.ListDialogFragments {
+    internal class ProductDialogFragment : DialogFragment {
         private Product _product;
         private Context _context;
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle)
-        {
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             //Create view
@@ -31,20 +28,18 @@ namespace AndroidAppV2.ListDialogFragments
             }
             AndroidShared an = new AndroidShared();
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
-            int[] sizes = {150, 150}; //placeholder as we do not have larger images
-            an.GetImages(_context, $"{_product.image}.png",view, Resource.Id.productImage,sizes);
+            int[] sizes = { 150, 150 }; //placeholder as we do not have larger images
+            an.GetImages(_context, $"{_product.image}.png", view, Resource.Id.productImage, sizes);
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
-            
+
             return view;
         }
-        public void PassDataToFrag(Product product, Context context)
-        {
+        public void PassDataToFrag(Product product, Context context) {
             _product = product;
             _context = context;
         }
 
-        public override void OnResume()
-        {
+        public override void OnResume() {
 
             // Auto Size based on content
             Dialog.Window.SetLayout(ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent);

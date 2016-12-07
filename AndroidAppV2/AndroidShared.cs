@@ -13,18 +13,14 @@ using Shared;
 using File = System.IO.File;
 using Path = System.IO.Path;
 
-namespace AndroidAppV2
-{
-    public class AndroidShared
-    {
-        public static void LoadData<T>(Context context, string file, out T type)
-        {
-            string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+namespace AndroidAppV2 {
+    public class AndroidShared {
+        public static void LoadData<T>(Context context, string file, out T type) {
+            string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "DnD");
 
             string filename = Path.Combine(path, file);
 
-            if (!File.Exists(filename))
-            {
+            if (!File.Exists(filename)) {
                 Log.WriteLine(LogPriority.Warn, $"X:{context}", $"Could not find file: {file} on path {filename}, creating new");
                 File.Create(filename);
                 type = default(T);
@@ -34,8 +30,7 @@ namespace AndroidAppV2
 
             string input = File.ReadAllText(filename);
 
-            try
-            {
+            try {
                 type = JsonConvert.DeserializeObject<T>(input);
             }
             catch (Exception) //empty json container
@@ -43,13 +38,10 @@ namespace AndroidAppV2
                 Log.WriteLine(LogPriority.Warn, $"X:{context}", $"Could not find data in file: {file} on path {filename} of type {typeof(T)}.");
                 type = default(T);
             }
-
         }
 
-        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image)
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options
-            {
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image) {
+            BitmapFactory.Options options = new BitmapFactory.Options {
                 InJustDecodeBounds = true
             };
             // The result will be null because InJustDecodeBounds == true.
@@ -59,8 +51,7 @@ namespace AndroidAppV2
             return options;
         }
 
-        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(string image, BitmapFactory.Options options, int reqWidth, int reqHeight)
-        {
+        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(string image, BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Calculate inSampleSize
             options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
 
@@ -70,21 +61,18 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeFileAsync(image, options);
         }
 
-        private static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
-        {
+        private static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Raw height and width of image
             float height = options.OutHeight;
             float width = options.OutWidth;
             double inSampleSize = 1D;
 
-            if (height > reqHeight || width > reqWidth)
-            {
+            if (height > reqHeight || width > reqWidth) {
                 int halfHeight = (int)(height / 2);
                 int halfWidth = (int)(width / 2);
 
                 // Calculate a inSampleSize that is a power of 2 - the decoder will use a value that is a power of two anyway.
-                while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth)
-                {
+                while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
                     inSampleSize *= 2;
                 }
             }
@@ -92,14 +80,12 @@ namespace AndroidAppV2
             return (int)inSampleSize;
         }
 
-        public async void GetImages(Context contex, string image, View view, int id, int[] sizes)
-        {
+        public async void GetImages(Context contex, string image, View view, int id, int[] sizes) {
             //sizes[0] is reqWidth sizes[1] is reqHeight
 
             string filename = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, $"DnD/images/{image}");
 
-            if (File.Exists(filename))
-            {
+            if (File.Exists(filename)) {
                 BitmapFactory.Options options = await GetBitmapOptionsOfImage(filename);
 
                 Bitmap bitmapToDisplay =
@@ -107,8 +93,7 @@ namespace AndroidAppV2
 
                 view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
             }
-            else
-            {
+            else {
                 Stream stream = contex.Assets.Open("nopic.jpg");
 
                 BitmapFactory.Options fileNotFound = new BitmapFactory.Options();
@@ -116,7 +101,7 @@ namespace AndroidAppV2
                 Bitmap bitmapFileNotFound = await BitmapFactory.DecodeStreamAsync(stream, new Rect(), fileNotFound);
 
                 view.FindViewById<ImageView>(id).SetImageBitmap(bitmapFileNotFound);
-                
+
             }
         }
 

@@ -22,7 +22,7 @@ namespace AndroidAppV2.ListDialogFragments {
 
             //Create view
             var view = inflater.Inflate(Resource.Layout.GameDialogView, container, true);
-            
+
             StringBuilder sb = new StringBuilder();
 
             foreach (string item in _game.genre) {
@@ -35,11 +35,11 @@ namespace AndroidAppV2.ListDialogFragments {
             view.FindViewById<TextView>(Resource.Id.gamePlayerText).Text = "Players: " + _game.minPlayers + "-" + _game.maxPlayers;
             view.FindViewById<TextView>(Resource.Id.gamePlayTimeText).Text = "Time: " + _game.minPlayTime + "-" + _game.maxPlayTime + " min";
             view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = "Genres: " + sb;
-            view.FindViewById<TextView>(Resource.Id.gameDiffText).Text = "Diffuclity: " + _game.difficulity + "/10";
+            view.FindViewById<TextView>(Resource.Id.gameDiffText).Text = "Difficulty: " + _game.difficulity + "/10";
             if (_game.bggid != null) {
                 view.FindViewById<TextView>(Resource.Id.gameHyperText).Text = "Data provided by BoardGameGeek";
             }
-            
+
             _buttonDismiss = view.FindViewById<Button>(Resource.Id.Button_Dismiss);
             _buttonDismiss.Click += Button_Dismiss_Click;
 
@@ -48,7 +48,7 @@ namespace AndroidAppV2.ListDialogFragments {
         public void PassDataToFrag(Game game) {
             _game = game;
         }
-        
+
         public override void OnResume() {
 
             Dialog.Window.SetBackgroundDrawable(new ColorDrawable(Color.DarkGray));
@@ -61,7 +61,7 @@ namespace AndroidAppV2.ListDialogFragments {
 
         protected override void Dispose(bool disposing) {
             base.Dispose(disposing);
-            
+
             if (disposing) {
                 _buttonDismiss.Click -= Button_Dismiss_Click;
             }

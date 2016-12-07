@@ -18,7 +18,7 @@
         android:id="@+id/linearLayout1"
         android:gravity="right">
         <TextView
-            android:text="Se begivenheden på facebook"
+            android:text="Find events on Facebook"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewDescription" />
     <Button
-        android:text="Mere info"
+        android:text="More info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/expandButton" />

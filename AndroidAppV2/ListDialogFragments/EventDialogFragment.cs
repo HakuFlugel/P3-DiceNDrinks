@@ -11,14 +11,11 @@ using Android.Widget;
 using Shared;
 
 
-namespace AndroidAppV2.ListDialogFragments
-{
-    public class EventDialogFragment : DialogFragment
-    {
+namespace AndroidAppV2.ListDialogFragments {
+    public class EventDialogFragment : DialogFragment {
         private readonly Event _item;
 
-        public EventDialogFragment(Event item)
-        {
+        public EventDialogFragment(Event item) {
             _item = item;
         }
         private Button _expandButton;
@@ -27,15 +24,14 @@ namespace AndroidAppV2.ListDialogFragments
         private TextView _fbText;
         private readonly StringBuilder _sb = new StringBuilder();
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-        {
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             Dialog.Window.RequestFeature(WindowFeatures.NoTitle);
 
             var view = inflater.Inflate(Resource.Layout.eventDialogView, container, true);
 
             view.FindViewById<TextView>(Resource.Id.textViewTitle).Text = _item.name;
             view.FindViewById<TextView>(Resource.Id.textViewDateTime).Text = _item.startDate.ToShortDateString() + " " + _item.startDate.ToShortTimeString() + " - " + _item.endDate.ToShortTimeString();
-            
+
 
             _expandButton = view.FindViewById<Button>(Resource.Id.expandButton);
             _describtiveText = view.FindViewById<TextView>(Resource.Id.textViewDescription);
@@ -45,7 +41,7 @@ namespace AndroidAppV2.ListDialogFragments
             for (int i = 0; i < 100 && i < _item.description.Length; i++) {
                 _sb.Append(_item.description[i]);
             }
-            
+
             if (_item.description.Length < 100) {
                 _expandButton.Visibility = ViewStates.Gone;
             }
