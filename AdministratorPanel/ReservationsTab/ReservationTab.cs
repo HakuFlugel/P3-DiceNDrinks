@@ -134,8 +134,8 @@ namespace AdministratorPanel {
             this.probar = probar;
             
             //TODO: temorary debug
-            reservationController.rooms.Clear();
-            reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
+            //reservationController.rooms.Clear();
+            //reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
             probar.addToProbar();                               //For progress bar. 1
 
@@ -238,9 +238,8 @@ namespace AdministratorPanel {
 
             roomsButton.Click += (sender, args) => {
 
-                //TODO:DODODODODODODODODODOODODODOdodododDDODODODOdodododododo
-
-                MessageBox.Show("Not implemented");
+                RoomPopup rp = new RoomPopup(reservationController);
+                rp.Show();
             };
 
             addReservation.Click += (s, e) => {

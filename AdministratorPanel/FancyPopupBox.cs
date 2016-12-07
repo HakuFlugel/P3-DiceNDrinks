@@ -19,7 +19,7 @@ namespace AdministratorPanel
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
         public bool hasBeenChanged = false;
 
-        public FancyPopupBox()
+        public FancyPopupBox(bool canDelete = true)
         {
             MaximizeBox = false;
             //MinimumSize = new Size(800, 600);
@@ -47,12 +47,15 @@ namespace AdministratorPanel
             p.Padding = new Padding(8);
             container.Controls.Add(p);
 
-            Button delete = new Button();
-            delete.Text = "Delete";
-            delete.Name = "delete";
-            delete.Dock = DockStyle.Left;
-            delete.Click += this.delete;
-            p.Controls.Add(delete);
+            if (canDelete)
+            {
+                Button delete = new Button();
+                delete.Text = "Delete";
+                delete.Name = "delete";
+                delete.Dock = DockStyle.Left;
+                delete.Click += this.delete;
+                p.Controls.Add(delete);
+            }
 
             Button cancel = new Button();
             cancel.Text = "Cancel";

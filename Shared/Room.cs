@@ -2,6 +2,7 @@
 {
     public class Room
     {
+        public int id;
         public string name;
         public int seats;
 

@@ -117,6 +117,8 @@ namespace Shared
             {
                 day.calculateSeats(this);
             }
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         public void removeRoom(Room room)
@@ -129,9 +131,15 @@ namespace Shared
                 //day.roomsReserved.Remove(room);
                 //day.calculateSeats(this);
             }
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        public void changeRoom(Room oldroom, Room room) {
+        public void changeRoom(Room room)
+        {
+
+            Room oldroom = rooms.First(r => r.id == room.id);
+
             rooms[rooms.IndexOf(oldroom)] = room;
             calculateSeats();
 
@@ -142,6 +150,8 @@ namespace Shared
                 day.roomsReserved[roomindex] = room;
                 day.calculateSeats(this);
             }
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         private void calculateSeats()
@@ -199,6 +209,8 @@ namespace Shared
         {
             reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
             rooms = loadFile<Room>("rooms");
+
+            calculateSeats();
         }
 
     }
