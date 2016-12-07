@@ -65,13 +65,21 @@ namespace AdministratorPanel
                 }
             }
 
+            //TODO: maybe not edit
+            List<Room> toremove = new List<Room>();
             foreach (var existingroom in reservationController.rooms)
             {
                 if (!rooms.Any(r => r.id == existingroom.id))
                 {
-                    reservationController.removeRoom(existingroom);
+                    toremove.Add(existingroom);
+                    //reservationController.removeRoom(existingroom);
                 }
             }
+            foreach (var room in toremove)
+            {
+                reservationController.removeRoom(room);
+            }
+
 
             foreach (var room in rooms)
             {
@@ -85,6 +93,18 @@ namespace AdministratorPanel
                     reservationController.addRoom(room);
                 }
             }
+
+//            foreach (var room in reservationController.rooms)
+//            {
+//                if (!rooms.Any(r => r.id == room.id))
+//                {
+//                    foreach (var day in reservationController.reservationsCalendar) {
+//                        day.unreserveRoom(this, room);
+//                        //day.roomsReserved.Remove(room);
+//                        //day.calculateSeats(this);
+//                    }
+//                }
+//            }
 
             //reservationController.rooms = rooms;
 
