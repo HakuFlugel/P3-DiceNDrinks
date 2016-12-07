@@ -174,8 +174,8 @@ namespace AdministratorPanel {
                 yearPublished.Text = this.game.publishedYear.ToString();
                 time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
-                string curFile = $"images/{this.game.imageName}";
-                gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");
+                string curFile = $"images/{this.game.imageName}";                                                        //Ellers crasher den når der ikke er blevet gemt et billed. 
+                gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");      //Kunne være at hvis der ikke var et billed at den så skulle gemmes med default png.
                 gameDifficulty.Value = game.difficulity;
                 imagePath = beforeEditing.imageName;
 
@@ -214,7 +214,19 @@ namespace AdministratorPanel {
 
             genreBox.ItemCheck += memeberChecked;
 
-            imageText.Click += OpenFileOpener;
+            imageSeach.Click += OpenFileOpener;  //Så det ikke er textboxen som skal kligges på.
+
+            imageText.KeyPress += (s, e) => {
+                if (e.KeyChar != (char)Keys.Enter)
+                    return;
+                Image img;
+                try {
+                    img = Image.FromFile(imageText.Text);
+                } catch (Exception) {
+                    img = Image.FromFile($"images/_default.png");
+                }
+                gameImage.BackgroundImage = img;
+            };  //Gør så man kan smide en path til et billed ind, unden at skulle trykke på search kanppen
 
             gameDifficulty.Scroll += (s, e) => {
                 toolTip.SetToolTip(gameDifficulty, $"Current value: {gameDifficulty.Value} out of {gameDifficulty.Maximum}");
@@ -294,11 +306,15 @@ namespace AdministratorPanel {
             try {
                 game.minPlayTime = Int32.Parse(timePeriode[0]);
                 game.maxPlayTime = Int32.Parse(timePeriode[1]);
-
+                if (game.minPlayTime > game.maxPlayTime) {
+                    game.maxPlayTime = game.minPlayTime;
+                    time.Text = game.minPlayTime + "/" + game.maxPlayTime;
+                }
+                    
             } catch (Exception) {
                 SystemSounds.Hand.Play();
                 time.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : time.waterMark;
-                Console.WriteLine("Time was wrong. Please refer from showing ");
+                
                 return;
             }
 
@@ -307,6 +323,11 @@ namespace AdministratorPanel {
             try {
                 game.minPlayers = Int32.Parse(playerRange[0]);
                 game.maxPlayers = Int32.Parse(playerRange[1]);
+                if (game.minPlayers > game.maxPlayers) {
+                    game.maxPlayers = game.minPlayers;
+                    players.Text = game.minPlayers + "/" + game.maxPlayers;
+                }
+                    
             } catch (Exception) {
                 SystemSounds.Hand.Play();
                 players.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : players.waterMark;
@@ -315,14 +336,16 @@ namespace AdministratorPanel {
             //image
             game.imageName = imagePath;
             if (beforeEditing != null) {
-                gametab.games.Remove(beforeEditing);
+                
                 beforeEditing = game;
+                Console.WriteLine("FUK");
             }
             else {
                 gametab.games.Add(game);
-                gametab.game.makeItems("");
+                
+                Console.WriteLine("Bob");
             }
-            
+            gametab.game.makeItems("");
             base.save(sender, e);
         }
 
@@ -346,7 +369,7 @@ namespace AdministratorPanel {
         }
 
         private void OpenFileOpener(object sender, EventArgs e) {
-            OpenFileDialog ofd = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
             var pnis = ImageCodecInfo.GetImageDecoders();
             StringBuilder sb = new StringBuilder();
 
@@ -355,15 +378,16 @@ namespace AdministratorPanel {
                 sb.Append(";");
             }
 
-            ofd.Title = "Open Image";
-            ofd.Filter = "Image Files | " + sb.ToString();
+            openFileDialog.Title = "Open Image";
+            openFileDialog.Filter = "Image Files | " + sb.ToString();
 
-            if (ofd.ShowDialog() == DialogResult.OK) {
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 try {
-                    game.imageName = ofd.SafeFileName; // name
-                    image = Image.FromFile(ofd.FileName); // path + name
+                    game.imageName = openFileDialog.SafeFileName; // name
+                    image = Image.FromFile(openFileDialog.FileName); // path + name
                     gameImage.BackgroundImage = image;
-                    imageSeach.Text = ofd.FileName;
+                    imageText.Text = openFileDialog.FileName;
+
                 } catch (Exception ex) {
                     MessageBox.Show(ex.Message);
                 }
