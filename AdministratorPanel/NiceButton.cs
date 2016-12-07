@@ -27,7 +27,7 @@ namespace AdministratorPanel
         private void makeClickable(Control c)
         {
             if (c is Button || c is NiceButton) return;
-
+            Cursor = Cursors.Hand;
             EventHandler onClick = (s, e)    => { this.OnClick(e); };
             EventHandler mouseEnter = (s, e) => { this.OnMouseEnter(e); };
             EventHandler mouseLeave = (s, e) => { this.OnMouseLeave(e); };

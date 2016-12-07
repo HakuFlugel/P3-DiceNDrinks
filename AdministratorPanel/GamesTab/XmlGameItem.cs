@@ -21,7 +21,7 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(5, 4, 20, 5);
             MinimumSize = new Size(256, 128);
-
+            
             TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
             tableLayoutPanel.ColumnCount = 1;
             tableLayoutPanel.RowCount = 2;

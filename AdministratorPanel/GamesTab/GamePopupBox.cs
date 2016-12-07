@@ -7,6 +7,7 @@ using System;
 using Shared;
 using System.Drawing.Imaging;
 using System.Media;
+using System.IO;
 
 namespace AdministratorPanel {
 
@@ -165,7 +166,6 @@ namespace AdministratorPanel {
             genreBox.Items.AddRange(genreItems.ToArray());
 
             if (game != null) {
-                Console.WriteLine("iamge path" + game.imageName);
                 beforeEditing = game;
                 this.game = new Game(game);
 
@@ -174,7 +174,8 @@ namespace AdministratorPanel {
                 yearPublished.Text = this.game.publishedYear.ToString();
                 time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
-                gameImage.BackgroundImage = Image.FromFile($"images/{this.game.imageName}");
+                string curFile = $"images/{this.game.imageName}";
+                gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");
                 gameDifficulty.Value = game.difficulity;
                 imagePath = beforeEditing.imageName;
 
@@ -271,59 +272,57 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
-           
             genres.Save();
+            //name
+            game.name = (gameName.Text != null && gameName.Text != gameName.waterMark && gameName.Text != "") ? gameName.Text : "Unnamed game";
+            //decription
+            game.description = (gameDescription.Text != null && gameDescription.Text != gameDescription.waterMark && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
+            //difficulty
+            game.difficulity = gameDifficulty.Value;
+            //year
+            if (yearPublished.Text != null && yearPublished.Text != "" && yearPublished.Text != yearPublished.waterMark) {
+                try {
+                    game.publishedYear = Int32.Parse(yearPublished.Text);
+                } catch (Exception) {
+                    MessageBox.Show("Published year is not a valid number", "Year invalid");
+                }
+            } else {
+                game.publishedYear = 0;
+            }
+            //time
+            string[] timePeriode = time.Text.Split('/');
+            try {
+                game.minPlayTime = Int32.Parse(timePeriode[0]);
+                game.maxPlayTime = Int32.Parse(timePeriode[1]);
 
+            } catch (Exception) {
+                SystemSounds.Hand.Play();
+                time.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : time.waterMark;
+                Console.WriteLine("Time was wrong. Please refer from showing ");
+                return;
+            }
+
+            //players
+            string[] playerRange = players.Text.Split('/');
+            try {
+                game.minPlayers = Int32.Parse(playerRange[0]);
+                game.maxPlayers = Int32.Parse(playerRange[1]);
+            } catch (Exception) {
+                SystemSounds.Hand.Play();
+                players.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : players.waterMark;
+                return;
+            }
+            //image
+            game.imageName = imagePath;
             if (beforeEditing != null) {
-                //name
-                    game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";
-                //decription
-                    game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
-                //difficulty
-                    game.difficulity = gameDifficulty.Value;
-                //year
-                    if (yearPublished.Text != null && yearPublished.Text != "") {
-                        try {
-                        game.publishedYear = Int32.Parse(yearPublished.Text);
-                        } catch (Exception) {
-                            MessageBox.Show("Published year is not a valid number", "Year invalid");
-                        }
-                    } else {
-                        game.publishedYear = 0;
-                    }
-                //time
-                    string messageboxText = "Please only use whole integers" + Environment.NewLine + "In this format INTEGER/INTEGER";
-                    string[] timePeriode = time.Text.Split('/');
-                    try {
-                        game.minPlayTime = Int32.Parse(timePeriode[0]);
-                        game.maxPlayTime = Int32.Parse(timePeriode[1]);
-
-                    } catch (Exception) {
-                        SystemSounds.Hand.Play();
-                        time.Text = time.waterMark;
-                        MessageBox.Show(messageboxText, " Error in time");
-                    }
-
-                //players
-                    string[] playerRange = players.Text.Split('/');
-                    try {
-                        game.minPlayers = Int32.Parse(playerRange[0]);
-                        game.maxPlayers = Int32.Parse(playerRange[1]);
-                    } catch (Exception) {
-                        SystemSounds.Hand.Play();
-                        players.Text = players.waterMark;
-                        MessageBox.Show(messageboxText, "Error in players");
-                    }
-                //image
-                game.imageName = imagePath;
-
                 gametab.games.Remove(beforeEditing);
                 beforeEditing = game;
             }
-
-            Console.WriteLine("iamge name before save"+game.imageName);
-            gametab.games.Add(game);
-            gametab.game.makeItems("");
+            else {
+                gametab.games.Add(game);
+                gametab.game.makeItems("");
+            }
+            
             base.save(sender, e);
         }
 
