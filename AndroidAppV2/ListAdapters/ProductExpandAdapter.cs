@@ -11,8 +11,7 @@ namespace AndroidAppV2.ListAdapters {
     public class ExpandableDataAdapter : BaseExpandableListAdapter {
 
         readonly Activity _context;
-        public ExpandableDataAdapter(Activity newContext, List<Product> newList, List<string> newGrpList)
-        {
+        public ExpandableDataAdapter(Activity newContext, List<Product> newList, List<string> newGrpList) {
             _context = newContext;
             ProductList = newList;
             GroupList = newGrpList;
@@ -20,7 +19,7 @@ namespace AndroidAppV2.ListAdapters {
 
         protected List<Product> ProductList { get; set; }
         protected List<string> GroupList { get; set; }
-        
+
 
         public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent) {
             View header = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.productListGroup, null);
@@ -28,7 +27,7 @@ namespace AndroidAppV2.ListAdapters {
 
             return header;
         }
-        
+
         public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent) {
             View row = convertView;
             AndroidShared androidshared = new AndroidShared();
@@ -39,8 +38,8 @@ namespace AndroidAppV2.ListAdapters {
             GetChildViewHelper(groupPosition, childPosition, out name, out price, out image);
             row.FindViewById<TextView>(Resource.Id.Text1).Text = name;
             row.FindViewById<TextView>(Resource.Id.Text2).Text = price;
-            int[] sizes = {75, 75};
-            androidshared.GetImages(_context, $"{image}.png", row, Resource.Id.Image,sizes);
+            int[] sizes = { 75, 75 };
+            androidshared.GetImages(_context, $"{image}.png", row, Resource.Id.Image, sizes);
 
             return row;
         }
@@ -56,13 +55,12 @@ namespace AndroidAppV2.ListAdapters {
             List<Product> results = ProductList.FindAll(obj => obj.section == GroupList[groupPosition]);
             name = results[childPosition].name;
             image = results[childPosition].image;
-            switch (results[childPosition].PriceElements.Count)
-            {
+            switch (results[childPosition].PriceElements.Count) {
                 case 1:
                     price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr.";
                     break;
                 case 2:
-                    price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr." + Environment.NewLine 
+                    price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr." + Environment.NewLine
                             + $"{results[childPosition].PriceElements[1].name} for {results[childPosition].PriceElements[1].price} kr.";
                     break;
                 default:

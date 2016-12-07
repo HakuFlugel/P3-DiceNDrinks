@@ -11,15 +11,12 @@ using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
 
-namespace AndroidAppV2.Activities
-{
+namespace AndroidAppV2.Activities {
     [Activity(Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ProductActivity : Activity
-    {
+    public class ProductActivity : Activity {
         private List<Product> _list;
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.productLayout);
 
@@ -28,11 +25,11 @@ namespace AndroidAppV2.Activities
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
             ExpandableListView expListView = FindViewById<ExpandableListView>(Resource.Id.list);
 
-            ArrayAdapter categorySpinnerAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem,GetCategories(_list));
+            ArrayAdapter categorySpinnerAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, GetCategories(_list));
 
             categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             categorySpinner.Adapter = categorySpinnerAdapter;
-            
+
             ExpandableDataAdapter adapter = new ExpandableDataAdapter(this, _list, GetGroups(_list, (string)categorySpinner.SelectedItem));
 
             expListView.SetAdapter(adapter);
@@ -58,14 +55,13 @@ namespace AndroidAppV2.Activities
 
         }
 
-        private List<Product> GetProducts()
-        {
+        private List<Product> GetProducts() {
             List<Product> list;
-            AndroidShared.LoadData(this,"products.json", out list);
+            AndroidShared.LoadData(this, "products.json", out list);
 
             return list;
         }
-        
+
         private static List<string> GetGroups(List<Product> productList, string category) {
             List<Product> tempList = productList.FindAll(o => o.category == category);
             List<string> list = tempList.Select(o => o.section).Distinct().ToList();
@@ -76,6 +72,6 @@ namespace AndroidAppV2.Activities
             List<string> list = productlist.Select(o => o.category).Distinct().ToList();
 
             return list;
-        } 
+        }
     }
 }

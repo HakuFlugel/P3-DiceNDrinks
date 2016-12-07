@@ -11,29 +11,24 @@ using Android.Widget;
 using Shared;
 
 
-namespace AndroidAppV2.ListAdapters
-{
-    internal class GameAdapter : BaseAdapter<Game>
-    {
+namespace AndroidAppV2.ListAdapters {
+    internal class GameAdapter : BaseAdapter<Game> {
         private List<Game> _items;
         private readonly List<Game> _baseItems;
         private readonly Activity _context;
 
 
-        public GameAdapter(Activity context, List<Game> items)
-        {
+        public GameAdapter(Activity context, List<Game> items) {
             _context = context;
             _baseItems = _items = items;
             Sort(1);
         }
 
-        public override long GetItemId(int position)
-        {
+        public override long GetItemId(int position) {
             return position;
         }
 
-        public override View GetView(int position, View convertView, ViewGroup parent)
-        {
+        public override View GetView(int position, View convertView, ViewGroup parent) {
             Game item = _items[position];
             //sets the view as convertView unless convertView is null
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.gameItemView, null);
@@ -58,29 +53,25 @@ namespace AndroidAppV2.ListAdapters
         public override Game this[int position] => _items[position];
 
         //collects garbage and updates the listview
-        private void RemoveGarbage()
-        {
+        private void RemoveGarbage() {
             NotifyDataSetChanged();
             GC.Collect();
         }
 
-        public void SwitchOrder()
-        {
+        public void SwitchOrder() {
             _items.Reverse();
             NotifyDataSetChanged();
             GC.Collect();
         }
 
         //Spinner sorter
-        public void Sort(int key)
-        {
-            switch (key)
-            {
+        public void Sort(int key) {
+            switch (key) {
                 case 1:
                     _items.Sort((a, b) => string.Compare(a.name, b.name, StringComparison.Ordinal));
                     break;
                 case 2:
-                    _items.Sort((a,b) => b.maxPlayers.CompareTo(a.maxPlayers));
+                    _items.Sort((a, b) => b.maxPlayers.CompareTo(a.maxPlayers));
                     break;
                 case 3:
                     _items.Sort((a, b) => a.minPlayers.CompareTo(b.minPlayers));
@@ -92,7 +83,7 @@ namespace AndroidAppV2.ListAdapters
                     _items.Sort((a, b) => a.minPlayTime.CompareTo(b.minPlayTime));
                     break;
                 case 6:
-                    _items.Sort((a,b) => a.difficulity.CompareTo(b.difficulity));
+                    _items.Sort((a, b) => a.difficulity.CompareTo(b.difficulity));
                     break;
                 case 7:
                     _items.Sort((a, b) => a.addedDate.CompareTo(b.addedDate));
@@ -103,16 +94,13 @@ namespace AndroidAppV2.ListAdapters
             RemoveGarbage();
         }
 
-        public Game GetGameByPosition(int pos)
-        {
+        public Game GetGameByPosition(int pos) {
             return _items[pos];
         }
 
-        public void NameSearch(string value)
-        {
+        public void NameSearch(string value) {
             List<Game> searchList = new List<Game>();
-            foreach (Game game in _baseItems.ToList())
-            {
+            foreach (Game game in _baseItems.ToList()) {
                 if ((game.name.ToLower().Contains(value.ToLower()) || game.genre.Any(x => x.Contains(value.ToLower()))) && !searchList.Contains(game))
                     searchList.Add(game);
                 else if (searchList.Contains(game))
@@ -122,8 +110,7 @@ namespace AndroidAppV2.ListAdapters
             RemoveGarbage();
         }
 
-        public void ResetSearch()
-        {
+        public void ResetSearch() {
             _items = _baseItems;
             RemoveGarbage();
         }

@@ -13,38 +13,31 @@ using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 
 
-namespace AndroidAppV2.Activities
-{
+namespace AndroidAppV2.Activities {
     [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
          ScreenOrientation = ScreenOrientation.Portrait)]
-    public class SplashActivity : AppCompatActivity
-    {
+    public class SplashActivity : AppCompatActivity {
         // ReSharper disable once InconsistentNaming
         private static readonly string TAG = "X:" + typeof(SplashActivity).Name;
 
-        public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
-        {
+        public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
             base.OnCreate(savedInstanceState, persistentState);
             Log.Debug(TAG, "SplashActivity.OnCreate");
         }
 
-        protected override void OnResume()
-        {
+        protected override void OnResume() {
             base.OnResume();
 
-            Task startupWork = new Task(() =>
-            {
+            Task startupWork = new Task(() => {
                 if (!System.IO.File.Exists(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD")))
                     FirstTimeSetup();
-                else
-                {
+                else {
                     Update();
                 }
 
             });
 
-            startupWork.ContinueWith(t =>
-            {
+            startupWork.ContinueWith(t => {
                 Log.Debug(TAG, "Work is finished - start MainActivity");
                 StartActivity(new Intent(Application.Context, typeof(MainActivity)));
             }, TaskScheduler.FromCurrentSynchronizationContext());
@@ -52,35 +45,29 @@ namespace AndroidAppV2.Activities
             startupWork.Start();
         }
 
-        private static void FirstTimeSetup()
-        {
-            File folder = new File(Environment.ExternalStorageDirectory.Path + "/DnD/images");
+        private static void FirstTimeSetup() {
+            File folder = new File(Environment.ExternalStorageDirectory.Path + "DnD/images");
             folder.Mkdirs();
-            File timestap = new File(Environment.ExternalStorageDirectory.Path + "/DnD/timestamp.txt");
+            File timestap = new File(Environment.ExternalStorageDirectory.Path + "DnD/timestamp.txt");
             timestap.CreateNewFile();
             using (
                 StreamWriter sw =
-                    new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt")))
-            {
-                for (int i = 0; i < 3; i++)
-                {
+                    new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD/timestamp.txt"))) {
+                for (int i = 0; i < 3; i++) {
                     sw.WriteLine(DateTime.Today.ToLongDateString());
                 }
             }
 
         }
 
-        private void Update()
-        {
-            string[] items = {"games","products","events"};
+        private void Update() {
+            string[] items = { "games", "products", "events" };
             DateTime[] loadedDateTimes = new DateTime[4];
             using (
                 StreamReader sr =
-                    new StreamReader(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt"))
-            )
-            {
-                for (int i = 0; i < 3; i++)
-                {
+                    new StreamReader(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD/timestamp.txt"))
+            ) {
+                for (int i = 0; i < 3; i++) {
                     loadedDateTimes[i] = DateTime.Parse(sr.ReadLine());
                 }
             }
@@ -89,8 +76,7 @@ namespace AndroidAppV2.Activities
             DateTime[] downloadedDateTimes = AskServer();
 
 
-            for (int i = 0; i < 3; i++)
-            {
+            for (int i = 0; i < 3; i++) {
                 if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks)
                     DownloadUpdate(items[i] + ".json");
             }
@@ -98,14 +84,11 @@ namespace AndroidAppV2.Activities
 
         }
 
-        private void SaveNewDate(DateTime[] upDatedDateTime)
-        {
+        private void SaveNewDate(DateTime[] upDatedDateTime) {
             using (
                 StreamWriter sw =
-                new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "/DnD/timestamp.txt")))
-            {
-                for (int i = 0; i < 3; i++)
-                {
+                new StreamWriter(Path.Combine(Environment.ExternalStorageDirectory.Path, "DnD/timestamp.txt"))) {
+                for (int i = 0; i < 3; i++) {
                     sw.WriteLine(upDatedDateTime[i].ToLongDateString());
                 }
 
@@ -122,8 +105,7 @@ namespace AndroidAppV2.Activities
 
         }
 
-        private DateTime[] AskServer()
-        {
+        private DateTime[] AskServer() {
             DateTime[] newDateTimes = new DateTime[3];
             //TODO: ask server
             return newDateTimes;

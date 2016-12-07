@@ -4,13 +4,10 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 
-namespace AndroidAppV2.Activities
-{
+namespace AndroidAppV2.Activities {
     [Activity(Label = "Contact Information", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ContactActivity : Activity
-    {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
+    public class ContactActivity : Activity {
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.contactLayout);
 
@@ -26,21 +23,18 @@ namespace AndroidAppV2.Activities
             Intent phoneIntent = new Intent(Intent.ActionDial, phoneUri);
 
             Intent mailIntent = new Intent(Intent.ActionSend);
-            mailIntent.PutExtra(Intent.ExtraEmail, new[] {"info@dicendrinks.com"});
+            mailIntent.PutExtra(Intent.ExtraEmail, new[] { "info@dicendrinks.com" });
             mailIntent.SetType("message/rfc822");
 
-            phone.Click += delegate
-            {
+            phone.Click += delegate {
                 StartActivity(phoneIntent);
             };
 
-            button.Click += delegate
-            {
+            button.Click += delegate {
                 StartActivity(mapIntent);
             };
 
-            mail.Click += delegate
-            {
+            mail.Click += delegate {
                 StartActivity(mailIntent);
             };
         }
