@@ -46,7 +46,7 @@ namespace AdministratorPanel
             {
                 try
                 {
-                    if (roomTable.Rows[i]["room"] == DBNull.Value && roomTable.Rows[i]["seats"] == DBNull.Value)
+                    if (roomTable.Rows[i]["room"].ToString() == "" && roomTable.Rows[i]["seats"].ToString() == "")
                     {
                         continue;
                     }
@@ -60,7 +60,7 @@ namespace AdministratorPanel
                 catch (Exception ex)
                 {
                     Console.WriteLine("saveroom " + ex.Message);
-                    MessageBox.Show("Failed to parse a row" + ex.Message);
+                    MessageBox.Show("Error on row " + i+1 + "\n" + ex.Message);
                     return;
                 }
             }
