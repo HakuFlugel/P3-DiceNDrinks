@@ -312,7 +312,7 @@ namespace AdministratorPanel {
                 }
                     
             } catch (Exception) {
-                SystemSounds.Hand.Play();
+                
                 time.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : time.waterMark;
                 
                 return;
@@ -329,7 +329,6 @@ namespace AdministratorPanel {
                 }
                     
             } catch (Exception) {
-                SystemSounds.Hand.Play();
                 players.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : players.waterMark;
                 return;
             }

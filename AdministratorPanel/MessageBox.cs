@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows;
+using System.Media;
 
 namespace AdministratorPanel {
     public static class NiceMessageBox {
@@ -25,6 +27,7 @@ namespace AdministratorPanel {
         }
 
         public static DialogResult Show(IWin32Window owner, string BreadText, string Caption, MessageBoxButtons messageBoxButtons, MessageBoxIcon Icon) {
+            SystemSounds.Hand.Play();
             return MessageBox.Show(owner, BreadText, Caption, messageBoxButtons, Icon);
         }
 
@@ -41,6 +44,7 @@ namespace AdministratorPanel {
         }
 
         public static DialogResult Show(string BreadText, string Caption, MessageBoxButtons messageBoxButtons, MessageBoxIcon icon) {
+            SystemSounds.Hand.Play();
             return MessageBox.Show(BreadText, Caption, messageBoxButtons, icon);
         }
         
