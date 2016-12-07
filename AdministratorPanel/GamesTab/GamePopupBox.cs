@@ -1,43 +1,64 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System;
 using Shared;
-using System.IO;
-using System.Data;
 using System.Drawing.Imaging;
-using System.Text.RegularExpressions;
 using System.Media;
+using System.IO;
 
 namespace AdministratorPanel {
 
     public class GamePopupBox : FancyPopupBox {
-        protected TableLayoutPanel lft = new TableLayoutPanel() {
-            ColumnCount = 1,
-            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            //Dock = DockStyle.Fill
-            AutoSize = true
-        };
-
-        protected TableLayoutPanel header = new TableLayoutPanel() {
+        protected TableLayoutPanel mainLayoutPanel = new TableLayoutPanel() {
             RowCount = 1,
             ColumnCount = 2,
-            //Dock = DockStyle.Fill,
             AutoSize = true,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize
         };
-        
+
+        protected TableLayoutPanel leftTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
+        };
+
+        private TableLayoutPanel LeftButtomPanel = new TableLayoutPanel() {
+            RowCount = 1,
+            ColumnCount = 2,
+            AutoSize = true,
+        };
+
+        private TableLayoutPanel LeftButtomPanelLeft = new TableLayoutPanel() {
+            Dock = DockStyle.Left,
+            AutoSize = true,
+        };
+
+        private TableLayoutPanel LeftButtomPanelRight = new TableLayoutPanel() {
+            Dock = DockStyle.Top,
+            AutoSize = true,
+        };
+
+        private TableLayoutPanel generalInformaiton = new TableLayoutPanel() {
+            ColumnCount = 2,
+            RowCount = 1,
+            Dock = DockStyle.Top,
+        };
+
+        private TableLayoutPanel imageSeachTable = new TableLayoutPanel() {
+            ColumnCount = 2,
+            RowCount = 1,
+        };
+            
         public NiceTextBox gameName = new NiceTextBox() {
-            Width = 200,
+            Width = 400,
             waterMark = "Game name",
             Margin = new Padding(5, 10, 20, 10)
         };
 
         private Button editGenre = new Button() {
-            
             Text = "Edit",
             Dock = DockStyle.Right,
             MaximumSize = new Size(50, 17),
@@ -48,12 +69,11 @@ namespace AdministratorPanel {
             InitialDelay = 100,
             ReshowDelay = 500,
             ShowAlways = true
-
         };
 
         public NiceTextBox gameDescription = new NiceTextBox() {
-            Width = 200,
-            Height = 100,
+            Width = 400,
+            Height = 250,
             waterMark = "Game Description",
             Multiline = true,
             Margin = new Padding(5, 0, 20, 10)
@@ -72,6 +92,7 @@ namespace AdministratorPanel {
             Width = 50,
             Margin = new Padding(5, 0, 0, 20),
         };
+
         public NiceTextBox yearPublished = new NiceTextBox() {
             Width = 200,
             waterMark = "Year published",
@@ -107,8 +128,9 @@ namespace AdministratorPanel {
             CheckBoxes = true,
             FullRowSelect = true,
             GridLines = true,
+            Dock = DockStyle.Left,
             Sorting = SortOrder.Ascending,
-            Size = new Size(200, 100)
+            Width = 200,
         };
 
         public TrackBar gameDifficulty = new TrackBar() {
@@ -119,21 +141,18 @@ namespace AdministratorPanel {
             SmallChange = 1
         };
 
-
-        GamePopupBoxRght rght;
+        private GamePopupBoxRght rightBox;
         private List<ListViewItem> genreItems = new List<ListViewItem>();
         private Genres genres;
         private GamesTab gametab;
         public Game game;
-        private Game b4EditingGame;
+        private Game beforeEditing;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
         private Image image;
         public List<Game> games;
-        
+        public string imagePath = "";
 
-        public GamePopupBox(GamesTab gametab, Game game, Genres genres)
-        {
-
+        public GamePopupBox(GamesTab gametab, Game game, Genres genres) {
             Text = "Game";
 
             Size = new Size(500,640);
@@ -141,20 +160,13 @@ namespace AdministratorPanel {
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
             
-
             foreach (var item in genres.differentGenres) 
                 genreItems.Add(new ListViewItem { Name = item, Text = item});
             
-
-
             genreBox.Items.AddRange(genreItems.ToArray());
 
-            
             if (game != null) {
-                
-
-
-                b4EditingGame = game;
+                beforeEditing = game;
                 this.game = new Game(game);
 
                 gameName.Text = this.game.name;
@@ -162,8 +174,10 @@ namespace AdministratorPanel {
                 yearPublished.Text = this.game.publishedYear.ToString();
                 time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
-                //gameImage.BackgroundImage = Image.FromFile(this.game.thumbnail);
+                string curFile = $"images/{this.game.imageName}";
+                gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");
                 gameDifficulty.Value = game.difficulity;
+                imagePath = beforeEditing.imageName;
 
                 foreach(ListViewItem item in genreItems )
                     //TODO: add non existant genre to list
@@ -173,19 +187,13 @@ namespace AdministratorPanel {
                 this.game = new Game();
                 Controls.Find("delete", true).First().Enabled = false;
             }
-            
-
-            
-
-
             Show();
             SubscriptionList();
             toolTipControl();
         }
-
         
         private void SubscriptionList() {
-            bool isNewGame = (b4EditingGame != null) ? true : false;
+            bool isNewGame = (beforeEditing != null) ? true : false;
            
             /* 
              * Checks if there has been any changes in the game, if there is any changes,
@@ -193,25 +201,15 @@ namespace AdministratorPanel {
              * hasBeenChanged is located in FancyPopupBox and is a bool to keep track of if something is changed,
              * if true, there will be a messagebox that asks if the user is sure it will close b4 saving.
              */
-            yearPublished.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.publishedYear.ToString() != yearPublished.Text) ? true : false) : true; };
-            gameName.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.name != gameName.Text) ? true : false) : true; };
+            yearPublished.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((beforeEditing.publishedYear.ToString() != yearPublished.Text) ? true : false) : true; };
+            gameName.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((beforeEditing.name != gameName.Text) ? true : false) : true; };
 
-            gameDescription.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((b4EditingGame.description != gameDescription.Text) ? true : false) : true; };
+            gameDescription.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? ((beforeEditing.description != gameDescription.Text) ? true : false) : true; };
 
-            players.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? (!((b4EditingGame.minPlayers.ToString() + "/" + b4EditingGame.maxPlayers.ToString()).Equals(players.Text)) ? true : false) : false; };
+            players.TextChanged += (s, e) => { hasBeenChanged = (isNewGame) ? (!((beforeEditing.minPlayers.ToString() + "/" + beforeEditing.maxPlayers.ToString()).Equals(players.Text)) ? true : false) : false; };
 
             time.TextChanged += (s, e) => {
-                hasBeenChanged = (isNewGame) ? (!((b4EditingGame.minPlayTime.ToString() + "/" + b4EditingGame.maxPlayTime.ToString()).Equals(time.Text)) ? true : false) : false;
-            };
-
-            time.LostFocus += (s, e) => {
-
-                
-            };
-
-            players.LostFocus += (s, e) => {
-                
-                
+                hasBeenChanged = (isNewGame) ? (!((beforeEditing.minPlayTime.ToString() + "/" + beforeEditing.maxPlayTime.ToString()).Equals(time.Text)) ? true : false) : false;
             };
 
             genreBox.ItemCheck += memeberChecked;
@@ -219,17 +217,13 @@ namespace AdministratorPanel {
             imageText.Click += OpenFileOpener;
 
             gameDifficulty.Scroll += (s, e) => {
-
-                toolTip.SetToolTip(gameDifficulty, "Current value: " + gameDifficulty.Value.ToString() + " out of 100");
-                hasBeenChanged = (isNewGame) ? ((b4EditingGame.difficulity != gameDifficulty.Value) ? true : false) : true;
-
+                toolTip.SetToolTip(gameDifficulty, $"Current value: {gameDifficulty.Value} out of {gameDifficulty.Maximum}");
+                hasBeenChanged = (isNewGame) ? ((beforeEditing.difficulity != gameDifficulty.Value) ? true : false) : true;
             };
 
             editGenre.Click += (s, e) => {
                 EditGenrePopupbox bob = new EditGenrePopupbox(genres);
             };
-
-
         }
 
         private void toolTipControl() {
@@ -241,107 +235,99 @@ namespace AdministratorPanel {
 
         protected override Control CreateControls() {
 
-            rght = new GamePopupBoxRght(this);
-            Controls.Add(header);
+            rightBox = new GamePopupBoxRght(this);
+            Controls.Add(mainLayoutPanel);
 
-            lft.ColumnCount = 1;
-            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //lft.Dock = DockStyle.Fill;
-
-            lft.Controls.Add(gameName);
-            lft.Controls.Add(gameDescription);
-
-            TableLayoutPanel generalInformaiton = new TableLayoutPanel();
-            generalInformaiton.ColumnCount = 2;
-            generalInformaiton.RowCount = 1;
+            leftTableLayoutPanel.Controls.Add(gameName);
+            leftTableLayoutPanel.Controls.Add(gameDescription);
 
             generalInformaiton.Height = time.Height;
             generalInformaiton.Controls.Add(time);
             generalInformaiton.Controls.Add(players);
 
-            lft.Controls.Add(gameDifficulty);
+            LeftButtomPanelRight.Controls.Add(gameDifficulty); 
 
-            lft.Controls.Add(generalInformaiton);
-            lft.Controls.Add(genreBox);
+            LeftButtomPanelRight.Controls.Add(generalInformaiton);
+            
             genreBox.Controls.Add(editGenre);
 
-            TableLayoutPanel imageSeachTable = new TableLayoutPanel();
-            imageSeachTable.ColumnCount = 2;
-            imageSeachTable.RowCount = 1;
+            LeftButtomPanelLeft.Controls.Add(genreBox);
+
             imageSeach.Height = imageSeach.Height;
             imageSeachTable.Height = imageSeach.Height;
             imageSeachTable.Controls.Add(imageText);
             imageSeachTable.Controls.Add(imageSeach);
 
-            lft.Controls.Add(imageSeachTable);
+            LeftButtomPanelRight.Controls.Add(imageSeachTable);
+            LeftButtomPanelRight.Controls.Add(gameImage);
 
-            lft.Controls.Add(gameImage);
+            LeftButtomPanel.Controls.Add(LeftButtomPanelLeft);
+            LeftButtomPanel.Controls.Add(LeftButtomPanelRight);
 
-            
+            leftTableLayoutPanel.Controls.Add(LeftButtomPanel);
 
-            
-            
-            header.Controls.Add(lft);
-            header.Controls.Add(rght);
-            return header;
+            mainLayoutPanel.Controls.Add(leftTableLayoutPanel);
+            mainLayoutPanel.Controls.Add(rightBox);
+            return mainLayoutPanel;
         }
 
-        protected override void save(object sender, EventArgs e)    {
-
+        protected override void save(object sender, EventArgs e) {
             genres.Save();
-
-            if (b4EditingGame != null) {
-                game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
-                game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";
-                game.difficulity = gameDifficulty.Value;
-                if (yearPublished.Text != null && yearPublished.Text != "") {
-                    try {
-                        Int32.TryParse(yearPublished.Text, out game.publishedYear);
-                    } catch (Exception) {
-                        MessageBox.Show("Published year is not a valid number", "Year invalid");
-                    }
-                } else {
-                    game.publishedYear = 1337;
-                }
-                string messageboxText = "Please only use whole integers" + Environment.NewLine + "In this format INTEGER/INTEGER";
-
-                string[] timeWOS = time.Text.Split('/');
+            //name
+            game.name = (gameName.Text != null && gameName.Text != gameName.waterMark && gameName.Text != "") ? gameName.Text : "Unnamed game";
+            //decription
+            game.description = (gameDescription.Text != null && gameDescription.Text != gameDescription.waterMark && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
+            //difficulty
+            game.difficulity = gameDifficulty.Value;
+            //year
+            if (yearPublished.Text != null && yearPublished.Text != "" && yearPublished.Text != yearPublished.waterMark) {
                 try {
-                    Int32.TryParse(timeWOS[0], out game.minPlayTime);
-                    Int32.TryParse(timeWOS[1], out game.maxPlayTime);
-
+                    game.publishedYear = Int32.Parse(yearPublished.Text);
                 } catch (Exception) {
-                    SystemSounds.Hand.Play();
-                    time.Text = time.waterMark;
-                    MessageBox.Show(messageboxText, "FATAL ERROR IN TIME");
+                    MessageBox.Show("Published year is not a valid number", "Year invalid");
                 }
+            } else {
+                game.publishedYear = 0;
+            }
+            //time
+            string[] timePeriode = time.Text.Split('/');
+            try {
+                game.minPlayTime = Int32.Parse(timePeriode[0]);
+                game.maxPlayTime = Int32.Parse(timePeriode[1]);
 
-                string[] playersWOS = players.Text.Split('/');
-                try {
-                    Int32.TryParse(playersWOS[0], out game.minPlayers);
-                    Int32.TryParse(playersWOS[1], out game.maxPlayers);
-                } catch (Exception) {
-                    SystemSounds.Hand.Play();
-                    players.Text = players.waterMark;
-                    MessageBox.Show(messageboxText, "FATAL ERROR IN PLAYERS");
-                }
-
-
-
-                gametab.games.Remove(b4EditingGame);
-                
-                b4EditingGame = game;
-                
+            } catch (Exception) {
+                SystemSounds.Hand.Play();
+                time.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : time.waterMark;
+                Console.WriteLine("Time was wrong. Please refer from showing ");
+                return;
             }
 
-            //create game.
-            gametab.games.Add(game);
-            gametab.game.makeItems("");
+            //players
+            string[] playerRange = players.Text.Split('/');
+            try {
+                game.minPlayers = Int32.Parse(playerRange[0]);
+                game.maxPlayers = Int32.Parse(playerRange[1]);
+            } catch (Exception) {
+                SystemSounds.Hand.Play();
+                players.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : players.waterMark;
+                return;
+            }
+            //image
+            game.imageName = imagePath;
+            if (beforeEditing != null) {
+                gametab.games.Remove(beforeEditing);
+                beforeEditing = game;
+            }
+            else {
+                gametab.games.Add(game);
+                gametab.game.makeItems("");
+            }
+            
             base.save(sender, e);
         }
 
         protected override void delete(object sender, EventArgs e) {
-            gametab.games.Remove(b4EditingGame);
+            gametab.games.Remove(beforeEditing);
             gametab.game.makeItems("");
             Close();
         }
@@ -354,12 +340,9 @@ namespace AdministratorPanel {
                 if (!genres.differentGenres.Contains(temp))
                     genres.add(temp);
             }
-                       
-             
             else 
                 game.genre.Remove(genreBox.Items[e.Index].Text);
-            
-            hasBeenChanged = true;
+                hasBeenChanged = true;
         }
 
         private void OpenFileOpener(object sender, EventArgs e) {

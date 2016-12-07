@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> Evnts = new List<Event>();
-        EventList lowertlp = new EventList();
+        EventList lowerTable = new EventList();
         private FormProgressBar probar;
 
         public EventsTab(FormProgressBar probar) {
@@ -21,47 +21,47 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 1
             Text = "Events";
 
-            TableLayoutPanel headtlp = new TableLayoutPanel();
-            headtlp.Dock = DockStyle.Fill;
+            TableLayoutPanel headTable = new TableLayoutPanel();
+            headTable.Dock = DockStyle.Fill;
             probar.addToProbar();                               //For progress bar. 2
-            //headtlp.BackColor = Color.Transparent;
-            headtlp.RowCount = 2;
-            headtlp.ColumnCount = 1;
+            headTable.RowCount = 2;
+            headTable.ColumnCount = 1;
 
-            FlowLayoutPanel topflp = new FlowLayoutPanel();
-            topflp.Dock = DockStyle.Top;
-            topflp.FlowDirection = FlowDirection.RightToLeft;
-            topflp.AutoSize = true;
+            FlowLayoutPanel topFlowPanel = new FlowLayoutPanel();
+            topFlowPanel.Dock = DockStyle.Top;
+            topFlowPanel.FlowDirection = FlowDirection.RightToLeft;
+            topFlowPanel.AutoSize = true;
+
             probar.addToProbar();                               //For progress bar. 3
+
             makeItems();
             probar.addToProbar();                               //For progress bar. 4
-            Button addEvent = new Button();
-            addEvent.Height = 20;
-            addEvent.Width = 100;
-            addEvent.Text = "Add Event";
+            Button addEventButton = new Button();
+            addEventButton.Height = 20;
+            addEventButton.Width = 100;
+            addEventButton.Text = "Add Event";
             probar.addToProbar();                               //For progress bar. 5
-            addEvent.Click += (s, e) => {
+            addEventButton.Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(this);
                 p.Show();
             };
 
-            topflp.Controls.Add(addEvent);
-            probar.addToProbar();                               //For progress bar. 6         
-            headtlp.Controls.Add(topflp);
+            topFlowPanel.Controls.Add(addEventButton);
+            probar.addToProbar();                               //For progress bar. 6          
+            headTable.Controls.Add(topFlowPanel);
             probar.addToProbar();                               //For progress bar. 7
-            headtlp.Controls.Add(lowertlp);
+            headTable.Controls.Add(lowerTable);
             probar.addToProbar();                               //For progress bar. 8
 
-            Controls.Add(headtlp);
+            Controls.Add(headTable);
             probar.addToProbar();                               //For progress bar. 9
-
         }
 
         public void makeItems() {
-            lowertlp.Controls.Clear();
+            lowerTable.Controls.Clear();
 
             foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
-                lowertlp.Controls.Add(new EventItem(this, item));
+                lowerTable.Controls.Add(new EventItem(this, item));
             }
         }
 
@@ -76,13 +76,19 @@ namespace AdministratorPanel {
         public override void Load() {
             //XmlDeclaration deserializer = new XmlDeclaration();
             XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (FileStream fileReader = new FileStream(@"fix.xml", FileMode.OpenOrCreate)) {
-                try {
+            try
+            {
+                using (FileStream fileReader = new FileStream(@"fix.xml", FileMode.OpenOrCreate)) {
+                
                     Evnts = deserializer.Deserialize(fileReader) as List<Event>;
 
                 }
-                catch (Exception) { }
-            }   
+            }
+            catch (Exception) { }
+
+            if (Evnts == null) {
+                Evnts = new List<Event>();
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace AdministratorPanel {
     public class ReservationTab : AdminTabPage {
-        private Calendar calendar;
+        public Calendar calendar;
 
         public ReservationList reservationList;
         public PendingReservationList pendingReservationList;
@@ -134,8 +134,8 @@ namespace AdministratorPanel {
             this.probar = probar;
             
             //TODO: temorary debug
-            reservationController.rooms.Clear();
-            reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
+            //reservationController.rooms.Clear();
+            //reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
             probar.addToProbar();                               //For progress bar. 1
 
@@ -215,13 +215,6 @@ namespace AdministratorPanel {
             calendar.DateChanged += (s, e) => {
                 CalendarDay day = reservationController.reservationsCalendar.Find(o => o.theDay.Date == e.Start.Date);
 
-                Console.WriteLine("Debug:" + Environment.NewLine + "Day: " + 
-                                ((day != null) ? "excist" : "dosen't excist") + 
-                                Environment.NewLine + "lockReservation: " + 
-                                ((day != null) ? day.isLocked.ToString() : "Nogo") + 
-                                Environment.NewLine + "autopresentage: " + 
-                                ((day != null) ? day.acceptPresentage.ToString() : "Nogo"));
-
                 lockResevations.Checked = (day != null) ? (day.isFullChecked || day.isLocked) : false;
 
                 updateProgressBar(day);
@@ -244,7 +237,9 @@ namespace AdministratorPanel {
             };
 
             roomsButton.Click += (sender, args) => {
-                MessageBox.Show("Not implemented");
+
+                RoomPopup rp = new RoomPopup(reservationController);
+                rp.Show();
             };
 
             addReservation.Click += (s, e) => {
@@ -253,18 +248,7 @@ namespace AdministratorPanel {
             };
 
             lockResevations.CheckedChanged += (s, e) => {
-                
-                CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-                
-                day.isLocked = lockResevations.Checked;
-
-                if(reservationController.checkIfRemove(day)) 
-                    reservationController.reservationsCalendar.Remove(day);
-
-                updateCheck(day);
-
-                updateProgressBar(day);
-
+                CheckedChanged();
             };
 
             maxAutoAccept.LostFocus += (s, e) => {
@@ -280,9 +264,15 @@ namespace AdministratorPanel {
 
         private void autoAcceptBox() {
             CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-            
+
+            if (autoAcceptPresentage.Text == day.acceptPresentage.ToString()) {
+                return;
+            }
+
+
             int tempNr;
             string tempstr = autoAcceptPresentage.Text;
+
             if (tempstr == "0") {
                 day.isAutoaccept = false;
                 Console.WriteLine("auto accept is false");
@@ -291,16 +281,13 @@ namespace AdministratorPanel {
                 day.isAutoaccept = true;
 
                 try {
-                    int.TryParse(tempstr, out tempNr);
+                    tempNr = Int32.Parse(tempstr);
                     if (tempNr > 100 || tempNr < 0)
-                        throw new Exception();
-                } catch (Exception) {
-                    MessageBox.Show("Please input a valid integer, that is minimum 0 or maximum 100");
-                    tempNr = day.acceptPresentage;
-                    autoAcceptPresentage.Text = tempNr.ToString();
+                        throw new FormatException();
+                } catch (FormatException) {
+                    autoAcceptPresentage.Text = day.acceptPresentage.ToString();
+                    return;
                 }
-
-
             }
             day.acceptPresentage = tempNr;
             updateCheck(day);
@@ -308,7 +295,10 @@ namespace AdministratorPanel {
 
         private void maxAutoAcceptBox() {
             CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
-            
+            if (maxAutoAccept.Text == day.autoAcceptMaxPeople.ToString()) {
+
+                return;
+            }
 
             int tempNr;
             string tempstr = maxAutoAccept.Text;
@@ -318,19 +308,29 @@ namespace AdministratorPanel {
                 day.isAutoaccept = true;
 
                 try {
-                    int.TryParse(tempstr, out tempNr);
-                    if (tempNr > 100 || tempNr < 0)
-                        throw new Exception();
-                } catch (Exception) {
-                    MessageBox.Show("Please input a valid integer. ");
-                    tempNr = day.acceptPresentage;
-                    autoAcceptPresentage.Text = tempNr.ToString();
+                    tempNr = Int32.Parse(tempstr);
+                    if (tempNr > 100 || tempNr < 0 )
+                        throw new FormatException();
+                } catch (FormatException) {
+                    maxAutoAccept.Text = day.autoAcceptMaxPeople.ToString();
+                    return;
                 }
-                    
-
             }
             day.autoAcceptMaxPeople = tempNr;
             updateCheck(day);
+        }
+
+        public void CheckedChanged() {
+            CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
+
+            day.isLocked = lockResevations.Checked;
+
+            if (reservationController.checkIfRemove(day))
+                reservationController.reservationsCalendar.Remove(day);
+
+            updateCheck(day);
+
+            updateProgressBar(day);
         }
 
         private void tooltipController() {
@@ -397,6 +397,8 @@ namespace AdministratorPanel {
             //                }
             //                catch (Exception) { }
             //            }
+
+            
         }
 
         private void testButtonfunc() {

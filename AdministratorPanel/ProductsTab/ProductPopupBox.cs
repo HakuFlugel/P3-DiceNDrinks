@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
-using System.Globalization;
 using System.Drawing;
 using System.Data;
 using System.Drawing.Imaging;
 using System.IO;
 
 namespace AdministratorPanel {
-    class ProductPopupBox : FancyPopupBox {
+     public class ProductPopupBox : FancyPopupBox {
         NiceTextBox productName = new NiceTextBox() {
             Width = 200,
             waterMark = "Product Name",
@@ -38,6 +36,7 @@ namespace AdministratorPanel {
         };
 
         DataGridView priceElements = new DataGridView() {
+            
             Dock = DockStyle.Fill,
             Height = 280,
             RowHeadersVisible = false,
@@ -53,18 +52,17 @@ namespace AdministratorPanel {
         private Image image;
         private string imageName = "_default.png";
 
-        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null)
-        {
+        public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
 
+            Focus();
             Text = "Product";
 
             this.productTab = productTab;
             this.productItem = productItem;
 
-            Focus();
 
             dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(decimal));
+            dataTable.Columns.Add("Price", typeof(string));
 
             if (this.productItem != null) {
                 productName.Text = this.productItem.product.name;
@@ -89,9 +87,10 @@ namespace AdministratorPanel {
             }
             priceElements.DataSource = dataTable;
             update();
+
         }
 
-
+        
         private void update() {
             categoryName.Items.Clear();
             // update dropdown category
@@ -105,18 +104,8 @@ namespace AdministratorPanel {
                     ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
                     sectionName.Items.AddRange(cat.sections.ToArray());
                     sectionName.Text = "Section Name";
-                    //test
-                    Console.WriteLine("sections");
-                    foreach (var item in cat.sections) {
-                        Console.WriteLine(item);
-                    }
-                }
-                Console.WriteLine("catname = " + categoryName.Text);
+                }  
             };
-            // update dropdown section
-
-            
-
         }
 
         protected override Control CreateControls() {
@@ -152,15 +141,15 @@ namespace AdministratorPanel {
                 // open file dialog for image selection
                 OpenFileDialog ofd = new OpenFileDialog();
                 var imageCodeInfo = ImageCodecInfo.GetImageDecoders();
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sB = new StringBuilder();
 
                 foreach (ImageCodecInfo item in imageCodeInfo) {
-                    sb.Append(item.FilenameExtension);
-                    sb.Append(";");
+                    sB.Append(item.FilenameExtension);
+                    sB.Append(";");
                 }
 
                 ofd.Title = "Open Image";
-                ofd.Filter = "Image Files | " + sb.ToString() ;
+                ofd.Filter = "Image Files | " + sB.ToString() ;
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
 
@@ -190,16 +179,16 @@ namespace AdministratorPanel {
             header.Controls.Add(rightPanel);
             
             return header;
+
         }
 
 
         private void loadPriceElements(List<PriceElement> priceElements) {
             
             if (priceElements.Count > 0) {
-
                 foreach (var item in priceElements) {
 
-                    dataTable.Rows.Add(item.name, item.price);
+                    dataTable.Rows.Add(item.name, item.price.ToString());
                 }
             }
         }
@@ -210,7 +199,15 @@ namespace AdministratorPanel {
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                if (dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
+                bool justReturn = false;
+                decimal bob = 0;
+                try {
+                    bob = decimal.Parse(dataTable.Rows[row][1].ToString());
+                } catch (Exception) {
+                    justReturn = true;
+                }
+
+                if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
                     MessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
                 } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
@@ -219,10 +216,10 @@ namespace AdministratorPanel {
                 
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
-                priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
+
+                priceElement.price = bob; // decimal(price)
                 pr.Add(priceElement);
             }
-
             return pr;
         }
 
@@ -231,17 +228,12 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
-
-            List<PriceElement> lp = SavePriceElemets();
-            if (lp == null) {
-                return;
-            }
-
+            // Image save
             Directory.CreateDirectory("images");
 
             if (image == null) {
-                if (DialogResult.OK == MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
-
+                if (DialogResult.OK != MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
+                    return;
                 }
 
                 image = productImage.BackgroundImage;
@@ -251,13 +243,17 @@ namespace AdministratorPanel {
                     image.Save("images/" + imageName);
                 }
             }
-
-
+            // convert priceelements to saves
+            List<PriceElement> listOfPriceElements = SavePriceElemets();
+            if (listOfPriceElements == null) {
+                return;
+            }
+            //make new productSave
             if (productItem == null) {
                 Product product = new Product();
 
                 product.name = productName.Text;
-                product.PriceElements = lp;
+                product.PriceElements = listOfPriceElements;
                 product.category = categoryName.Text;
                 product.section = sectionName.Text;
                 product.image = imageName;
@@ -270,17 +266,20 @@ namespace AdministratorPanel {
                 Close();
                 return;
 
-            } else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
+            } // override a product
+            else if (categoryName.Text != productItem.product.category || sectionName.Text != productItem.product.section) {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
             } 
-
+            // save content
             productItem.product.name = productName.Text;
-            productItem.product.PriceElements = lp;
+            productItem.product.PriceElements = listOfPriceElements;
             productItem.product.category = categoryName.Text;
             productItem.product.section = sectionName.Text;
             productItem.product.image = imageName;
 
+            // updates producttab elements
+            
             productTab.MakeItems();
 
             Close();
