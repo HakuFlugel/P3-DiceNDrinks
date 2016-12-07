@@ -78,6 +78,17 @@ namespace AdministratorPanel {
                 pendingSet.SelectedItem = Reservation.State.Accepted;
                 Controls.Find("delete", true).First().Enabled = false;
             }
+
+            SubscriptionController();
+        }
+
+        private void SubscriptionController() {
+            reservationName.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.name != reservationName.Text ? true : false : true; };
+            numPeople.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.numPeople.ToString() != numPeople.Text ? true : false : true; };
+            phoneNumber.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.phone != phoneNumber.Text ? true : false : true; };
+            email.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.email != email.Text ? true : false : true; };
+            timePicker.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.time.ToString("HH:mm") != timePicker.Text ? true : false : true; };
+            pendingSet.SelectedIndexChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.state != (Reservation.State)Enum.Parse(typeof(Reservation.State), pendingSet.Text) ? true : false : true; };
         }
 
         protected override Control CreateControls() {

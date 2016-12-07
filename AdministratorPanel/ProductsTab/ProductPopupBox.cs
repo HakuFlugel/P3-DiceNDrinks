@@ -86,10 +86,28 @@ namespace AdministratorPanel {
                 Controls.Find("delete", true).First().Enabled = false;
             }
             priceElements.DataSource = dataTable;
+            SubscriptionController();
             update();
 
         }
 
+        private void SubscriptionController() {
+            categoryName.SelectedValueChanged += (s, e) => {
+                sectionName.Items.Clear();
+                if (categoryName.Text != "Category Name" && categoryName.Text != "") {
+                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
+                    sectionName.Items.AddRange(cat.sections.ToArray());
+                    sectionName.Text = "Section Name";
+                }
+                hasBeenChanged = (productItem != null) ? productItem.product.category != categoryName.Text ? true : false : true;
+            };
+            priceElements.CellValueChanged += (s, e) => { hasBeenChanged = true; };
+            productName.TextChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.name != productName.Text ? true : false : true; };
+            sectionName.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionName.Text ? true : false : true; };
+            productImage.BackgroundImageChanged += (s, e) => {hasBeenChanged = (productItem != null) ? Image.FromFile("images/" + productItem.product.image) != productItem.BackgroundImage };
+
+
+        }
         
         private void update() {
             categoryName.Items.Clear();
@@ -98,14 +116,7 @@ namespace AdministratorPanel {
                 categoryName.Items.Add(item.name);
             }
 
-            categoryName.SelectedValueChanged += (s, e) => {
-                sectionName.Items.Clear();
-                if (categoryName.Text != "Category Name" && categoryName.Text != "") {
-                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
-                    sectionName.Items.AddRange(cat.sections.ToArray());
-                    sectionName.Text = "Section Name";
-                }  
-            };
+            
         }
 
         protected override Control CreateControls() {
