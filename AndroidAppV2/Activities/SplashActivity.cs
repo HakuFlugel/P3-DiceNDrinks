@@ -87,7 +87,7 @@ namespace AndroidAppV2.Activities {
             DateTime[] downloadedDateTimes = AskServer();
 
             for (int i = 0; i < 3; i++) {
-                if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks)
+                //if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks) TODO: enable when we can get timestamp for updates
                     DownloadUpdate(items[i]);
             }
             SaveNewDate(downloadedDateTimes);
