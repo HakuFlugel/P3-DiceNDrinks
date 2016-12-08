@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
+using System.Net;
 
 using Android.Content;
 using Android.Graphics;
@@ -12,6 +14,7 @@ using Newtonsoft.Json;
 using Shared;
 using File = System.IO.File;
 using Path = System.IO.Path;
+using System.Collections.Generic;
 
 namespace AndroidAppV2 {
     public class AndroidShared {
@@ -104,6 +107,22 @@ namespace AndroidAppV2 {
 
             }
         }
+        //JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>()
+        /*string --> deserialize json(som Tuple ligesom _values) --> tag product list ud af tuple --> product objecter*/
+        public List<Product> DownloadProducts() {
+        List<Product> _newlist;
+        Tuple<List<ProductCategory>, List<Product>> _values;
 
+        WebClient client = new WebClient();
+            var resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection() {
+                    {"Products", "lel"}});
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+            _values = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
+
+            _newlist = _values.Item2;
+
+            return _newlist;
+        }
     }
 }

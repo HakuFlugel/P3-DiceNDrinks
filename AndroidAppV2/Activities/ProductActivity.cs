@@ -11,16 +11,19 @@ using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
 
+
 namespace AndroidAppV2.Activities {
     [Activity(Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
     public class ProductActivity : Activity {
         private List<Product> _list;
 
+
         protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.productLayout);
 
-            _list = GetProducts();
+            AndroidShared ans = new AndroidShared();
+            _list = ans.DownloadProducts();
 
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
             ExpandableListView expListView = FindViewById<ExpandableListView>(Resource.Id.list);
