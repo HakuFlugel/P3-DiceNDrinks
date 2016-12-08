@@ -189,23 +189,7 @@ namespace AndroidAppV2
 
             return options;
         }
-        //JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>()
-        /*string --> deserialize json(som Tuple ligesom _values) --> tag product list ud af tuple --> product objecter*/
-        public List<Product> DownloadProducts() {
-        List<Product> _newlist;
-        Tuple<List<ProductCategory>, List<Product>> _values;
 
-        WebClient client = new WebClient();
-            var resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
-                new NameValueCollection() {
-                    {"Products", "lel"}});
-            string result = System.Text.Encoding.UTF8.GetString(resp);
-            _values = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
-
-            _newlist = _values.Item2;
-
-            return _newlist;
-        }
         private static async Task<Bitmap> LoadScaledDownBitmapForDisplayFromAssetsAsync(Context context, string path, 
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Calculate inSampleSize
@@ -217,6 +201,20 @@ namespace AndroidAppV2
             Stream file = context.Assets.Open(path);
 
             return await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
+        }
+
+        /*string --> deserialize json(som Tuple ligesom _values) --> tag product list ud af tuple --> product objecter*/
+        public List<Product> DownloadProducts() {
+            WebClient client = new WebClient();
+            var resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection {
+                    {"Type", "Products"}});
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+            Tuple<List<ProductCategory>, List<Product>> values = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
+
+            List<Product> newlist = values.Item2;
+
+            return newlist;
         }
     }
 }
