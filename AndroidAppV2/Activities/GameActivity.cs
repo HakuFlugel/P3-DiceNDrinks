@@ -1,32 +1,27 @@
 ﻿using System.Collections.Generic;
+
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.V4.App;
 using Android.Util;
 using Android.Widget;
+
 using AndroidAppV2.ListAdapters;
 using AndroidAppV2.ListDialogFragments;
 using Shared;
 
 
 
-namespace AndroidAppV2.Activities
-{
-    [Activity(Label = "Spil", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class GameActivity : FragmentActivity
-    {
+namespace AndroidAppV2.Activities {
+    [Activity(Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
+    public class GameActivity : FragmentActivity {
         private bool _ascending = true;
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            
+
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
-
-
             SetContentView(Resource.Layout.GameLayout);
-            // Create your application here
 
-            
 
             ListView listView = FindViewById<ListView>(Resource.Id.gameListView);
             Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
@@ -41,51 +36,43 @@ namespace AndroidAppV2.Activities
             adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             gameSpinner.Adapter = adapter;
 
-            gameSpinner.ItemSelected += delegate
-            {
-                try
-                {
-                    itemAdapter.Sort((string)gameSpinner.SelectedItem);
+            gameSpinner.ItemSelected += delegate {
+                try {
+                    itemAdapter.Sort(gameSpinner.SelectedItemPosition);
                 }
-                catch (KeyNotFoundException e)
-                {
+                catch (KeyNotFoundException e) {
                     Log.WriteLine(LogPriority.Error, $"X:{this}", e.Message);
                 }
 
-                if (!_ascending)
-                {
-                    itemAdapter.SwitchOrder();
-                    _ascending = true;
-                }
+                if (_ascending)
+                    return;
+
+                itemAdapter.SwitchOrder();
+                _ascending = true;
             };
 
-            gameSearch.TextChanged += (s, e) => {
-                itemAdapter.NameSearch(gameSearch.Text);
-            };
+            gameSearch.TextChanged += (s, e) => itemAdapter.NameSearch(gameSearch.Text);
 
 
-            gameButton.Click += delegate
-            {
+            gameButton.Click += delegate {
                 itemAdapter.SwitchOrder();
                 SwitchAscending();
             };
 
             listView.Adapter = itemAdapter;
-            listView.ItemClick += (s,e) => {
+            listView.ItemClick += (s, e) => {
                 Game theGame = itemAdapter.GetGameByPosition(e.Position);
-                
-                var dialog = new GameDialogFragment();
+
+                GameDialogFragment dialog = new GameDialogFragment();
                 dialog.PassDataToFrag(theGame);
                 dialog.Show(FragmentManager, "Game Dialog");
             };
         }
 
-        private void SwitchAscending()
-        {
+        private void SwitchAscending() {
             Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
 
-            if (_ascending)
-            {
+            if (_ascending) {
                 _ascending = false;
                 gameButton.Text = "↑";
                 return;
@@ -95,11 +82,10 @@ namespace AndroidAppV2.Activities
         }
 
 
-        List<Game> GetGames()
-        {
+        private List<Game> GetGames() {
             List<Game> list;
 
-            AndroidShared.LoadData(this,"games.json",out list);
+            AndroidShared.LoadData(this, "games.json", out list);
 
             return list;
         }

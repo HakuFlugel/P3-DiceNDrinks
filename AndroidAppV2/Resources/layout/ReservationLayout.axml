@@ -59,7 +59,7 @@
         p1:id="@+id/seekBar1"
         p1:layout_below="@id/numPplText" />
     <TextView
-        p1:text="1 Person(er)"
+        p1:text="1 People"
         p1:textAppearance="?android:attr/textAppearanceSmall"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
@@ -71,13 +71,13 @@
         p1:layout_height="wrap_content"
         p1:layout_width="match_parent">
         <Button
-            p1:text="Dato"
+            p1:text="Date"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/dateButton"
             p1:layout_weight="50" />
         <Button
-            p1:text="Klokkeslæt"
+            p1:text="Time"
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/timeButton"
@@ -90,7 +90,7 @@
         p1:id="@+id/acceptButton"
         p1:layout_gravity="center_horizontal" />
     <TextView
-        p1:text="Reservations stadie: Ingen reservation"
+        p1:text="Reservation state: No Reservation"
         p1:textAppearance="?android:attr/textAppearanceMedium"
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"

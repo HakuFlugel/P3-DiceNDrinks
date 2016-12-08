@@ -4,6 +4,7 @@
   </style>
 
   <style name="MyTheme" parent="MyTheme.Base">
+
   </style>
 
   <style name="MyTheme.Splash" parent ="Theme.AppCompat.Light">

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 using Android.App;
 using Android.Content.PM;
@@ -10,71 +12,64 @@ using AndroidAppV2.ListDialogFragments;
 using Shared;
 
 
-namespace AndroidAppV2.Activities
-{
+namespace AndroidAppV2.Activities {
     [Activity(Label = "Menu", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ProductActivity : Activity
-    {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            
+    public class ProductActivity : Activity {
+        private List<Product> _list;
+
+
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
-            
-            
             SetContentView(Resource.Layout.productLayout);
 
-            // Create your application here
+            _list = GetProducts();
+
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
-            Spinner sectionSpinner = FindViewById<Spinner>(Resource.Id.sectionSpinner);
-            ListView listView = FindViewById<ListView>(Resource.Id.list);
-            //List<Product> list = GenerateProductList();
-            List<Product> list = GetProducts();
-            ProductAdapter adapter = new ProductAdapter(this, list);
-            adapter.SetListType("Alt"); // default view
-            listView.Adapter = adapter;
+            ExpandableListView expListView = FindViewById<ExpandableListView>(Resource.Id.list);
 
-            listView.ItemClick += (s, e) => {
-                Product theProduct = adapter.GetProductByPosition(e.Position);
-
-                var dialog = new ProductDialogFragment();
-                dialog.PassDataToFrag(theProduct, this);
-                dialog.Show(FragmentManager, "Produkt Dialog");
-            };
-
-            var categorySpinnerAdapter = ArrayAdapter.CreateFromResource(
-                this, Resource.Array.categoryspinner, Android.Resource.Layout.SimpleSpinnerItem);
-
-            ArrayAdapter sectionSpinnerAdapter = new ArrayAdapter<string>(this,Android.Resource.Layout.SimpleSpinnerItem, adapter.GetSections());
-
+            ArrayAdapter categorySpinnerAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, GetCategories(_list));
 
             categorySpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
             categorySpinner.Adapter = categorySpinnerAdapter;
-            sectionSpinnerAdapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-            sectionSpinner.Adapter = sectionSpinnerAdapter;
 
-            categorySpinner.ItemSelected += delegate
-            {
-                adapter.SetListType((string)categorySpinner.SelectedItem);  //Sets the category of the list to the chosen item
-                sectionSpinnerAdapter.Clear();                              //Removes all current items from the spinner list
-                sectionSpinnerAdapter.AddAll(adapter.GetSections());        //Adds all item associated with the chosen category
-                sectionSpinner.SetSelection(0);                             //Selects the topmost item (because this isn't normal behavior)
-                if (adapter.GetSections().Count != 0)
-                adapter.SetList(adapter.GetSections()[0]);                  //Sets the list to correspond the chosen section.
+            ExpandableDataAdapter adapter = new ExpandableDataAdapter(this, _list, GetGroups(_list, (string)categorySpinner.SelectedItem));
 
+            expListView.SetAdapter(adapter);
+            for (int i = 0; i < GetGroups(_list, (string)categorySpinner.SelectedItem).Count; i++) {
+                expListView.ExpandGroup(i);
+            }
+            categorySpinner.ItemSelected += delegate {
+                expListView.SetAdapter(adapter = new ExpandableDataAdapter(this, _list, GetGroups(_list, (string)categorySpinner.SelectedItem)));
+                for (int i = 0; i < GetGroups(_list, (string)categorySpinner.SelectedItem).Count; i++) {
+                    expListView.ExpandGroup(i);
+                }
+                GC.Collect();
             };
-            sectionSpinner.ItemSelected += delegate
-            {
-                adapter.SetList((string)sectionSpinner.SelectedItem);
+
+            expListView.ChildClick += (s, e) => {
+                Product theProduct = adapter.GetTheProduct(e.GroupPosition, e.ChildPosition);
+
+                ProductDialogFragment dialog = new ProductDialogFragment();
+                dialog.PassDataToFrag(theProduct, this);
+                dialog.Show(FragmentManager, "Product Dialog");
+                GC.Collect();
             };
 
         }
 
-        private List<Product> GetProducts()
-        {
+        private List<Product> GetProducts() {
             List<Product> list;
-            AndroidShared.LoadData(this,"products.json", out list);
+            AndroidShared.LoadData(this, "products.json", out list);
 
             return list;
-        } 
+        }
+
+        private static List<string> GetGroups(List<Product> productList, string category) {
+            List<Product> tempList = productList.FindAll(o => o.category == category);
+            return tempList.Select(o => o.section).Distinct().ToList();
+        }
+        private static List<string> GetCategories(List<Product> productlist) {
+            return productlist.Select(o => o.category).Distinct().ToList();
+        }
     }
 }

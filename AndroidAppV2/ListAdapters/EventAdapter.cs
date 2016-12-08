@@ -8,26 +8,21 @@ using Android.Widget;
 
 using Shared;
 
-namespace AndroidAppV2.ListAdapters
-{
-    class EventAdapter : BaseAdapter<Event>
-    {
+namespace AndroidAppV2.ListAdapters {
+    internal class EventAdapter : BaseAdapter<Event> {
         private readonly List<Event> _items;
         private readonly Activity _context;
 
-        public EventAdapter(Activity context, List<Event> items)
-        {
+        public EventAdapter(Activity context, List<Event> items) {
             _context = context;
             _items = items;
         }
 
-        public override long GetItemId(int position)
-        {
+        public override long GetItemId(int position) {
             return position;
         }
 
-        public override View GetView(int position, View convertView, ViewGroup parent)
-        {
+        public override View GetView(int position, View convertView, ViewGroup parent) {
             Event item = _items[position];
             //sets the view as convertView unless convertView is null
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.eventListItem, null);

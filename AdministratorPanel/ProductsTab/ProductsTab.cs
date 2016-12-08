@@ -2,112 +2,62 @@
 using System.Collections.Generic;
 using Shared;
 using Newtonsoft.Json;
-using System;
 using System.IO;
 using System.Linq;
 
 namespace AdministratorPanel {
     public class ProductsTab : AdminTabPage {
+
+        private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel() {
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            RowCount = 2,
+            ColumnCount = 1
+        };
+
+        private Button addItemButton = new Button() {
+            Height = 20,
+            Width = 100,
+            Dock = DockStyle.Right,
+            Text = "Add product"
+        };
+
         public List<ProductCategory> productCategories = new List<ProductCategory>();
-
         public List<Product> productList = new List<Product>();
+        public TabControl tabControl = new TabControl();
+        private FormProgressBar probar;
 
-        private TabControl tabControl = new TabControl();
-
-        public ProductsTab() {
+        public ProductsTab(FormProgressBar probar) {
             Text = "Products";
-
+            this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
-            //Load();
-            Generate();
+
+            Load();
             MakeItems();
+            probar.addToProbar();                               //For progress bar. 1
 
-
-            TableLayoutPanel flp = new TableLayoutPanel();
-            flp.Dock = DockStyle.Fill;
-            flp.AutoSize = true;
-            flp.RowCount = 2;
-            flp.ColumnCount = 1;
-
-            Button addItemButton = new Button();
-            addItemButton.Height = 20;
-            addItemButton.Width = 100;
-            addItemButton.Dock = DockStyle.Right;
-            addItemButton.Text = "Add product";
             addItemButton.Click += (s, e) => {
                 ProductPopupBox p = new ProductPopupBox(this);
-                p.Show();
             };
-
-            flp.Controls.Add(addItemButton);
-            flp.Controls.Add(tabControl);
-           
-            Controls.Add(flp);
+            
+            tableLayoutPanel.Controls.Add(addItemButton);
+            probar.addToProbar();                               //For progress bar. 2
+            tableLayoutPanel.Controls.Add(tabControl);
+            probar.addToProbar();                               //For progress bar. 3
+            Controls.Add(tableLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 4
         }
 
-        public Product prmake(string name, string image, string cat, string section, List<PriceElement> pl) {
-            Product pr = new Product();
-            pr.name = name;
-            pr.image = image;
-            pr.category = cat;
-            pr.section = section;
-            pr.PriceElements = pl;
-
-            return pr;
-        }
-
-        public void Generate() {
-            PriceElement priceElementLittle = new PriceElement();
-
-            priceElementLittle.name = "Little drink";
-            priceElementLittle.price = 11;
-
-            PriceElement priceElementBig = new PriceElement();
-            priceElementBig.name = "Big drink";
-            priceElementBig.price = 69;
-
-            List<PriceElement> pricelist = new List<PriceElement>();
-            pricelist.Add(priceElementLittle);
-            pricelist.Add(priceElementBig);
-
-
-            // food
-            productList.Add(prmake("Asger","Red.png","Food","Meat", pricelist));
-            productList.Add(prmake("shano", "_default.png", "Food", "Meat", pricelist));
-            productList.Add(prmake("matias", "Red.png", "Food", "derp", pricelist));
-
-
-            //drinks
-            productList.Add(prmake("1", "Red.png", "drinks", "cola 1", pricelist));
-            productList.Add(prmake("2", "Red.png", "drinks", "coffe 2", pricelist));
-            productList.Add(prmake("3", "Red.png", "drinks", "stuff", pricelist));
-            productList.Add(prmake("4", "Red.png", "drinks", "other", pricelist));
-
-            // mics
-
-            productList.Add(prmake("1", "Red.png", "mics", "1", pricelist));
-            productList.Add(prmake("2", "Red.png", "mics", "2", pricelist));
-            productList.Add(prmake("3", "Red.png", "mics", "3", pricelist));
-            productList.Add(prmake("4", "Red.png", "mics", "4", pricelist));
-
-        }
-        
-        public void Update() {
-            MakeItems();
-        }
-
-        private void MakeItems() {
+        public void MakeItems() {
             tabControl.Controls.Clear();
+
             foreach (var item in productCategories) {
                 ProductCategoryTab category = new ProductCategoryTab(item);
                 tabControl.Controls.Add(category);
             }
 
             foreach (var item in productList) {
-                //category
-                //TODO: put this stuff in a function
                 AddProductItem(new ProductItem(item, this));
-
             }
         }
 
@@ -115,6 +65,7 @@ namespace AdministratorPanel {
             var categoryResult = tabControl.Controls.Find(item.product.category, false);
             ProductCategoryTab categoryTab;
 
+            //category
             if (categoryResult.Count() == 0) {
                 ProductCategory category = new ProductCategory(item.product.category);
                 categoryTab = new ProductCategoryTab(category);
@@ -141,31 +92,31 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
-            //var json = JsonConvert.SerializeObject(productCategories);
-            //if (File.Exists(@"Sources/Category.json"))
-            //    File.Create(@"Sources/Category.json");
-            //using (StreamWriter textWriter = new StreamWriter(@"Sources/Category.json")) {
-            //    foreach (var item in json) {
-            //        textWriter.Write(item.ToString());
-            //    }
-            //}
+            var jsonProducts = JsonConvert.SerializeObject(productList);
+            using (StreamWriter textWriter = new StreamWriter(@"Sources/Products.json")) {
+                foreach (var item in jsonProducts) {
+                    textWriter.Write(item.ToString());
+                }
+            }
         }
 
         public override void Load() {
-            //string input;
-            //if (File.Exists(@"Sources/Category.json")) {
-            //    using (StreamReader streamReader = new StreamReader(@"Sources/Category.json")) {
-            //        input = streamReader.ReadToEnd();
-            //        streamReader.Close();
-            //    }
-                
-            //    if (input != null) {
-            //        productCategories = JsonConvert.DeserializeObject<List<ProductCategory>>(input);
-            //    }
+            string loadStringProducts;
 
+            if (File.Exists(@"Sources/Products.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
+                    loadStringProducts = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
 
-            //}
+                if (loadStringProducts != null) {
+                    productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
+                }
+            }
 
+            if (productList == null) {
+                productList = new List<Product>();
+            }
         }
     }
 }

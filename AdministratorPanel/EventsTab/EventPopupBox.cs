@@ -1,47 +1,92 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
 using System.Media;
 
 namespace AdministratorPanel {
-    class EventPopupBox : FancyPopupBox {
+    public class EventPopupBox : FancyPopupBox {
 
-        NiceTextBox eventName = new NiceTextBox() {
+        private NiceTextBox eventName = new NiceTextBox() {
             Width = 200,
             waterMark = "Event Name",
-            Margin = new Padding(4, 10, 20, 10) };
-        NiceTextBox eventDescription = new NiceTextBox() {
+            Margin = new Padding(4, 10, 20, 10)
+        };
+
+        private NiceTextBox eventDescription = new NiceTextBox() {
             Width = 200,
             Height = 100,
             waterMark = "Event Description",
             Multiline = true,
-            Margin = new Padding(4, 0, 20, 10) };
+            Margin = new Padding(4, 0, 20, 10)
+        };
 
-        DateTimePicker startDatePicker = new DateTimePicker() {
+        private DateTimePicker startDatePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
-            Margin = new Padding(0, 10, 20, 10) };
-        NiceTextBox startTimePicker = new NiceTextBox() {
-            waterMark = "hh:mm" };
+            Margin = new Padding(0, 10, 20, 10)
+        };
 
-        DateTimePicker endDatePicker = new DateTimePicker() {
+        private DateTimePicker endDatePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
-            Margin = new Padding(0, 0, 20, 10) };
-        NiceTextBox endTimePicker = new NiceTextBox() {
-            waterMark = "hh:mm" };
+            Margin = new Padding(0, 0, 20, 10)
+        };
+
+        private NiceTextBox startTimePicker = new NiceTextBox() {
+            waterMark = "hh:mm"
+        };
+
+        private NiceTextBox endTimePicker = new NiceTextBox() {
+            waterMark = "hh:mm"
+        };
+
+        private Label startDate = new Label() {
+            Text = "Start Date"
+        };
+
+        private Label endDate = new Label() {
+            Text = "End Date"
+        };
+
+        private Label timeDate = new Label() {
+            Text = "Time"
+        };
+
+        private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel {
+            RowCount = 1,
+            ColumnCount = 2,
+            AutoSize = true,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+
+        TableLayoutPanel innerLeftTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
+        };
+
+        TableLayoutPanel innerRightTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
+        };
 
         private EventsTab eventsTab;
         private Event evnt;
 
-        public EventPopupBox() { }
-
         public EventPopupBox(EventsTab eventsTab, Event evnt = null) {
+            // name of the popup
+            Text = "Event";
+            Name = evnt != null ? evnt.name : "New event";
+
+            if (Application.OpenForms[Name] as EventPopupBox != null)
+                return;
+            else
+                BringToFront();
+
             this.eventsTab = eventsTab;
             this.evnt = evnt;
+
             if (evnt != null) {
                 try {
                     eventName.Text = evnt.name;
@@ -51,95 +96,103 @@ namespace AdministratorPanel {
                     startTimePicker.Text = evnt.startDate.ToString("HH:mm");
                     endTimePicker.Text = evnt.endDate.ToString("HH:mm");
                 }
-                catch (ArgumentOutOfRangeException) {
-
-                    
+                catch (ArgumentOutOfRangeException) {   
                 }
 
             }
             else {
                 Controls.Find("delete", true).First().Enabled = false;
             }
+            SubscriberController();
+        }
+
+        private void SubscriberController() {
+            eventName.TextChanged += (s, e) => {
+                hasBeenChanged = (evnt != null) ? evnt.name != eventName.Text ? true : false : true;
+            };
+            eventDescription.TextChanged += (s, e) => {
+                hasBeenChanged = (evnt != null) ? evnt.description != eventDescription.Text ? true : false : true;
+            };
+            startDatePicker.ValueChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
+            endDatePicker.ValueChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
+            endTimePicker.TextChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
+            startTimePicker.TextChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
         }
 
         protected override Control CreateControls() {
 
-            TableLayoutPanel header = new TableLayoutPanel();
-            header.RowCount = 1;
-            header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
-            header.AutoSize = true;
-            header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Controls.Add(headerTableLayoutPanel);
 
-            Controls.Add(header);
+            innerLeftTableLayoutPanel.Controls.Add(eventName);
+            innerLeftTableLayoutPanel.Controls.Add(eventDescription);
 
-            TableLayoutPanel rght = new TableLayoutPanel();
-            rght.ColumnCount = 1;
-            rght.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            rght.Dock = DockStyle.Fill;
+            innerRightTableLayoutPanel.Controls.Add(startDate);
+            innerRightTableLayoutPanel.Controls.Add(startDatePicker);
+            innerRightTableLayoutPanel.Controls.Add(endDate);
+            innerRightTableLayoutPanel.Controls.Add(endDatePicker);
+            innerRightTableLayoutPanel.Controls.Add(timeDate);
+            innerRightTableLayoutPanel.Controls.Add(startTimePicker);
+            innerRightTableLayoutPanel.Controls.Add(endTimePicker);
 
-            rght.Controls.Add(eventName);
-            rght.Controls.Add(eventDescription);
-
-            TableLayoutPanel lft = new TableLayoutPanel();
-            lft.ColumnCount = 1;
-            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            lft.Dock = DockStyle.Fill;
-
-            lft.Controls.Add(startDatePicker);
-            lft.Controls.Add(endDatePicker);
-            lft.Controls.Add(startTimePicker);
-            lft.Controls.Add(endTimePicker);
-
-            header.Controls.Add(rght);
-            header.Controls.Add(lft);
-            return header;
+            headerTableLayoutPanel.Controls.Add(innerLeftTableLayoutPanel);
+            headerTableLayoutPanel.Controls.Add(innerRightTableLayoutPanel);
+            return headerTableLayoutPanel;
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
-                eventsTab.Evnts.Remove(evnt);
+            if (DialogResult.Yes == NiceMessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
+                eventsTab.EventList.Remove(evnt);
                 eventsTab.makeItems();
             }
         }
 
+        
+
         protected override void save(object sender, EventArgs e) {
-            
-            DateTime expectedDate;
-            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate) &&
-                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
+
+            DateTime startDate, endDate;
+            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDate) ||
+                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDate)) {
                 SystemSounds.Hand.Play();
-                MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+                MessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
+            startDate =  startDatePicker.Value.Add(startDate.TimeOfDay);
+            endDate =  endDatePicker.Value.Add(startDate.TimeOfDay);
+
             if (eventName.Text == null || eventDescription.Text == null) {
-                SystemSounds.Hand.Play();
-                MessageBox.Show("You need to input a name AND a description");
+               
+                NiceMessageBox.Show("You need to input a name and description");
                 return;
             }
+
             if (evnt == null) {
                 evnt = new Event();
-                eventsTab.Evnts.Add(evnt);
+                eventsTab.EventList.Add(evnt);
             }
+
             evnt.name = eventName.Text;
             evnt.description = eventDescription.Text;
-            string tempDate = startDatePicker.Value.ToString("dd-MM-yyyy");
-            string tempTime = startTimePicker.Text;
 
-            /*COPY PASTE(SOME OF IT!!)*/
-            DateTime newStartDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
-                                       CultureInfo.InvariantCulture);
-            /*END OF COPY PASTE*/
+            if(endDate < startDate) {
+                NiceMessageBox.Show("Take a look at the start time vs the end time, or the start date vs the end date" + 
+                    Environment.NewLine + "There is something wrong here" + Environment.NewLine + "Start date: " + startDate.ToString() + 
+                    Environment.NewLine + "End date: " + endDate.ToString());
+                return;
+            }
 
-            tempDate = endDatePicker.Value.ToString("dd-MM-yyyy");
-            tempTime = endTimePicker.Text;
 
-            DateTime newEndDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
-                           CultureInfo.InvariantCulture);
-
-            evnt.startDate = newStartDate;
-            evnt.endDate = newEndDate;
-
+            evnt.startDate = startDate;
+            evnt.endDate = endDate;
+            base.save(sender,e);
             this.Close();
             eventsTab.makeItems();
         }

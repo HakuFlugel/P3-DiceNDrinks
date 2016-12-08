@@ -4,19 +4,12 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
 
-namespace AndroidAppV2.Activities
-{
-    [Activity(Label = "Kontakt Information", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ContactActivity : Activity
-    {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            
+namespace AndroidAppV2.Activities {
+    [Activity(Label = "About Us", ScreenOrientation = ScreenOrientation.Portrait)]
+    public class ContactActivity : Activity {
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.contactLayout);
-
-            // Create your application here
 
             Button button = FindViewById<Button>(Resource.Id.MapButton);
             TextView phone = FindViewById<TextView>(Resource.Id.AboutUsPhone);
@@ -30,25 +23,18 @@ namespace AndroidAppV2.Activities
             Intent phoneIntent = new Intent(Intent.ActionDial, phoneUri);
 
             Intent mailIntent = new Intent(Intent.ActionSend);
-            mailIntent.PutExtra(Intent.ExtraEmail, "info@dicendrinks.com");
-            //TODO: FIX AT DEN IKKE SENDER EMAIL MED
-            //https://developer.xamarin.com/recipes/android/networking/email/send_an_email/
+            mailIntent.PutExtra(Intent.ExtraEmail, new[] { "info@dicendrinks.com" });
             mailIntent.SetType("message/rfc822");
 
-
-
-            phone.Click += delegate
-            {
+            phone.Click += delegate {
                 StartActivity(phoneIntent);
             };
 
-            button.Click += delegate
-            {
+            button.Click += delegate {
                 StartActivity(mapIntent);
             };
 
-            mail.Click += delegate
-            {
+            mail.Click += delegate {
                 StartActivity(mailIntent);
             };
         }

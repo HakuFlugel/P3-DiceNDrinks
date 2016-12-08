@@ -63,7 +63,6 @@
     <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
     <EnableProguard>False</EnableProguard>
     <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;x86_64;arm64-v8a</AndroidSupportedAbis>
-    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Java.Interop" />
@@ -75,6 +74,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Xamarin.Android.Support.Animated.Vector.Drawable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -142,9 +142,8 @@
     <Compile Include="Activities\ReservationActivity.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="AndroidShared.cs" />
-    <Compile Include="ListAdapters\ReservationAdapter.cs" />
+    <Compile Include="ListAdapters\ProductExpandAdapter.cs" />
     <Compile Include="ListAdapters\EventAdapter.cs" />
-    <Compile Include="ListAdapters\ProductAdapter.cs" />
     <Compile Include="ListAdapters\GameAdapter.cs" />
     <Compile Include="ListDialogFragments\EventDialogFragment.cs" />
     <Compile Include="ListDialogFragments\ProductDialogFragment.cs" />
@@ -175,7 +174,7 @@
     <AndroidResource Include="Resources\layout\ReservationLayout.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\CustomItemView.axml">
+    <AndroidResource Include="Resources\layout\productListItem.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\eventListItem.axml">
@@ -191,6 +190,9 @@
     <AndroidResource Include="Resources\layout\gameItemView.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\productListGroup.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
@@ -199,9 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml">
@@ -215,28 +214,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Top_Left_Games.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Top_Right_Menu.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Bottom_Left_Reservation.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Bottom_Right_Events.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\values\NoTitleTheme.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values-da\Strings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-da\Bottom_Right_Events.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable-da\Top_Left_Games.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Style.xml" />
@@ -293,10 +271,28 @@
     <AndroidAsset Include="Assets\nopic.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Iconv2.png" />
+    <AndroidResource Include="Resources\drawable\BasicLoad.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Iconv3.png" />
+    <AndroidResource Include="Resources\drawable\F_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Bottom_Left_Reservation.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Bottom_Right_Events.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Top_Left_Games.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Top_Right_Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Iconv3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

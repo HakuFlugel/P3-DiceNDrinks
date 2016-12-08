@@ -54,20 +54,34 @@
     <Compile Include="GamesTab\GamePopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="GamesTab\EditGenrePopupBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GamesTab\GenreItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GamesTab\ImageDownloader.cs" />
+    <Compile Include="GamesTab\XmlGameItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GamesTab\GamesItem.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="GamesTab\GamesList.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GamesTab\GamePopupBoxRght.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GamesTab\GamesTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MessageBox.cs" />
+    <Compile Include="NiceTransparrantLabel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NiceTextBox.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProductsTab\PriceElementPopupBox.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ProductsTab\ProductCategoryTab.cs">
       <SubType>Component</SubType>
@@ -84,7 +98,7 @@
     <Compile Include="ProductsTab\ProductsTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Program.cs">
+    <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NiceButton.cs">
@@ -92,6 +106,9 @@
     </Compile>
     <Compile Include="AdminTabPage.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FormProgressBar.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="ReservationsTab\Calendar.cs">
       <SubType>Component</SubType>
@@ -114,7 +131,10 @@
     <Compile Include="ReservationsTab\ReservationPopupBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GamesTab\Xml.cs" />
+    <Compile Include="GamesTab\XmlParser.cs" />
+    <Compile Include="ReservationsTab\RoomPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -127,6 +147,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj">
@@ -143,6 +165,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

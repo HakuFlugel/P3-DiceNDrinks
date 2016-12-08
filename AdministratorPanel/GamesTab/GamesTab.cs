@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Shared;
@@ -9,93 +8,88 @@ using System.IO;
 namespace AdministratorPanel {
     public class GamesTab : AdminTabPage {
 
-        
         public List<Game> games;
-        GamesList game;
-        public Action<string> UserSearchText { get; set; }
-        string seach ="";
-        
+        public GamesList game;
+        private Genres genres = new Genres();
+        private string search = "";
+        private FormProgressBar probar;
 
-        TableLayoutPanel tb = new TableLayoutPanel() {
+        private TableLayoutPanel outerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
             RowCount = 2,
-            Dock = DockStyle.Fill,
-            
+            Dock = DockStyle.Fill
         };
-        TableLayoutPanel tbtb = new TableLayoutPanel() {
+
+        private TableLayoutPanel innerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 2,
             AutoSize = true,
             RowCount = 1,
-            Dock = DockStyle.Top,
-            
+            Dock = DockStyle.Top
         };
 
-        Button addGameButton = new Button() {
+        private Button addGameButton = new Button() {
             Size = new Size(100, 20),
             Dock = DockStyle.Right,
-            Text = "Add Game",
+            Text = "Add Game"
         };
 
-        NiceTextBox seachBar = new NiceTextBox() {
-            
+        private NiceTextBox seachBar = new NiceTextBox() {
             waterMark = "Type something to seach..",
             clearable = true,
-            MinimumSize = new Size(200, 0),
-
-            Margin = new Padding(20, 5, 20, 5),
+            MinimumSize = new Size(200, 0)
         };
         
-        
-        public GamesTab() {
-
-            Load();
-            game = new GamesList(seach, games);
+        public GamesTab(FormProgressBar probar) {
+            //name of the tab
             Text = "Games";
-            //foreach (var item in games)
-            //    Console.WriteLine(item.name);
 
-            //CreateGamesForDebugShit(); // For testing purpose only
+            this.probar = probar;
+            Load();
+            probar.addToProbar();                               //For progress bar. 1
 
+            game = new GamesList(games,this,genres);
+            game.makeItems(search);
+
+            probar.addToProbar();                               //For progress bar. 2
+                                        
             AutoSize = true;
             Dock = DockStyle.Fill;
-            BackColor = Color.AliceBlue;
 
             seachBar.KeyPress += (sender, e) => {
-
                 if (e.KeyChar != (char)13) {
                     return;
                 }
-                
-                seach = seachBar.Text.ToLower();
-                
+
+                search = seachBar.Text.ToLower();
+
                 update();
             };
 
-
             addGameButton.Click += (e, s) => {
-                GamePopupBox gameBox = new GamePopupBox(this, null);
+                GamePopupBox gameBox = new GamePopupBox(this, null, genres);
             };
-            
-            tb.Controls.Add(game);
-            Controls.Add(tb);
-            Controls.Add(tbtb);
-            tbtb.Controls.Add(seachBar);
-            tbtb.Controls.Add(addGameButton);
+
+            outerTableLayoutPanel.Controls.Add(game);
+            probar.addToProbar();                               //For progress bar. 3
+            Controls.Add(outerTableLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 4
+            Controls.Add(innerTableLayoutPanel);
+            innerTableLayoutPanel.Controls.Add(seachBar);
+            probar.addToProbar();                               //For progress bar. 5
+            innerTableLayoutPanel.Controls.Add(addGameButton);
+            probar.addToProbar();                               //For progress bar. 6
         }
 
         private void update() {
-
-            seachBar.Text = seach;
-            game.Controls.Clear();
-            game.makeItems(seach);
+            seachBar.Text = (seachBar.Text == "" && !seachBar.Focused) ? seachBar.waterMark : search;
+            game.makeItems(search);
         }
 
-
-             
         public override void Save() {
+            genres.Save();
+            Directory.CreateDirectory("Sources");
             var json = JsonConvert.SerializeObject(games);
-            if (!File.Exists(@"Sources/Games.json"))
-                File.Create(@"Sources/Games.json");
+            Directory.CreateDirectory("Sources");
 
             using (StreamWriter textWriter = new StreamWriter(@"Sources/Games.json")) {
                 foreach (var item in json) {
@@ -111,137 +105,16 @@ namespace AdministratorPanel {
                     input = streamReader.ReadToEnd();
                     streamReader.Close();
                 }
+
                 if (input != null) {
                     games = JsonConvert.DeserializeObject<List<Game>>(input);
-                    
+
                 }
             }
-        }
 
-
-
-
-
-        private void CreateGamesForDebugShit() {
-            games = new List<Game>();
-
-            games.Add(new Game {
-                bggid = "AHZ2xB",
-                name = "Secret Hitler",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                difficulity = 75,
-                minPlayers = 5,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "AHO2xB",
-                name = "Killer game",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 20,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "ABZ2xB",
-                name = "Vertical",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 30,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "PHZ2xB",
-                name = "Shit Storm",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 100,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "5ExgGS",
-                name = "Small Worlds",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 56,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "AHZ2xB",
-                name = "Dominion",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 32,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "TYE3sj",
-                name = "Enter The Gundion",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "TYE3Kj",
-                name = "Risk",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 13,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
-            games.Add(new Game {
-                bggid = "TSE3sj",
-                name = "Settelers",
-                genre = new List<string> { "Horror", "Lying", "Other stuff" },
-                description = "A game about gaming",
-                publishedYear = 2014,
-                minPlayers = 5,
-                difficulity = 85,
-                maxPlayers = 10,
-                minPlayTime = 30,
-                maxPlayTime = 60,
-                imageName = "TosetPictureInFuture"
-            });
+            if (games == null) {
+                games = new List<Game>();
+            }
         }
     }
-
 }

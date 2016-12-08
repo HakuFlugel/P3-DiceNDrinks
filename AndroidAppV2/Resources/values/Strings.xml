@@ -1,55 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <resources>
-  <string name="button1">Hej Verden!</string>
-  <string name="exit">Vil du virkelig gerne afslutte?</string>
-  <string name="yes">Ja</string>
-  <string name="no">Nej</string>
-  <string name="ok">Ok</string>
-  <string name="foodButton">Mad</string>
-  <string name="drinkButton">Drikkevarer</string>
-  <string name="miscButton">Andet</string>
-  <string name="playerButton">Spillere</string>
-  <string name="difficultyButton">Sværhedsgrad</string>
-  <string name="gametimeButton">Spilletid</string>
-  <string name="mapButton">Find os</string>
-  <string name="sort">Sorter efter...</string>
-  <string name="exitReservation">Vil du virkelig gerne afslutte? \nAlt du har skrevet/ændret vil blive tabt.</string>
-  <string name="phoneNumber">Telefon nummer</string>
-  <string name="writeHere">Skriv her...</string>
-  <string name="numPeople">Antal personer</string>
-  <string name="reservation">Reservation</string>
-  <string name="gameSpinnerPromt">Sorter efter...</string>
-  <string name="aboutUsDescription">Dice \'n Drinks er Aalborgs lokale brætspilscafé. 
-  Vores mål er at tilbyde jer en oplevelse ud over det sædvanlige. Dette vil vi gøre 
-  med vores store brætspilsbibliotek, hvor alle spil står til fri afbenyttelse for 
-  årsmedlemmer, eller til fri afbenyttelse for 20 kroner om dagen. Til spillene 
-  serverer vi fadøl fra Thisted Bryghus, lækker kaffe og te samt chokolade.</string>
-  <string name="aboutUsAdress">Sankelmarksgade 15\n9000 Aalborg\nDenmark</string>
-  <string name="aboutUsPhone">Ring til os på: +45 22 76 76 51</string>
-  <string name="aboutUsEmail">Skriv til os på: info@dicendrinks.com</string>
-  <string name="aboutUsHours">Mandag - Torsdag\n16:00 - 24:00\nFredag - Lørdag\n12:00 - 02:00\nSøndag\n12:00 - 24:00</string>
-  <string-array name="gameSortArray">
-    <item>Alfabetisk</item>
-    <item>Min. Spillere</item>
-    <item>Max. Spillere</item>
-    <item>Min. Spilletid</item>
-    <item>Max. Spilletid</item>
-    <item>Sværhedsgrad</item>
-    <item>Udgivelsesår</item>
-  </string-array>
-  <string-array name="categoryspinner">
-    <item>Alt</item>
-    <item>Mad</item>
-    <item>Drikke</item>
-    <item>Andet</item>
-  </string-array>
-  
-  <!--  <string name="button1">Hello World!</string>
   <string name="exit">Do you really want to exit?</string>
   <string name="yes">Yes</string>
   <string name="no">No</string>
-  <string name="ok">Ok</string>
+  <string name="ok">OK</string>
   <string name="foodButton">Food</string>
   <string name="drinkButton">Drinks</string>
   <string name="miscButton">Misc.</string>
@@ -61,10 +16,11 @@
   <string name="exitReservation">Do you really want to exit? \nAll your progress will be lost.</string>
   <string name="phoneNumber">Phone number</string>
   <string name="writeHere">Write here...</string>
-  <string name="numPeople">Num. of people</string>
+  <string name="numPeople">Number of people</string>
   <string name="reservation">Reservation</string>
   <string name="gameSpinnerPromt">Sort by...</string>
   <string name="advancedSearch">Advanced Search.</string>
+  <string name="resAcceptButton">Advanced Search.</string>
   <string name="aboutUsDescription">Dice \'n Drinks is 
     Aalborg\'s local board game café. Our goal is to offer 
     you an experience beyond the ordinary. This we will 
@@ -83,11 +39,6 @@
     <item>Min. Game Time</item>
     <item>Max. Game Time</item>
     <item>Difficulty</item>
-    <item>Year of Publication</item>
+    <item>Date Added</item>
   </string-array>
-  <string-array name="categoryspinner">
-    <item>Food</item>
-    <item>Drinks</item>
-    <item>Misc</item>
-  </string-array>-->
 </resources>

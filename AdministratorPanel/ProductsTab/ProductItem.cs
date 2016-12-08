@@ -8,11 +8,34 @@ using System;
 namespace AdministratorPanel {
     public class ProductItem : NiceButton {
 
+        private Panel imagePanel = new Panel() {
+            Name = "Image",
+            Height = 86,
+            BackgroundImageLayout = ImageLayout.Zoom,
+            BackColor = Color.Black
+        };
+
+        private Label productName = new Label() {
+            Name = "ProductName",
+            Dock = DockStyle.Fill
+        };
+
+        private TableLayoutPanel priceTable = new TableLayoutPanel() {
+            Name = "PriceTableName",
+            ColumnCount = 2,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Dock = DockStyle.Fill,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows
+        };
+
         private int sizeX = 192;
         private int sizeY = 192;
         private Image image;
         public Product product;
         private ProductsTab productTab;
+
+        public ProductItem() { }
 
         public ProductItem(Product product, ProductsTab productTab) {
             this.productTab = productTab;
@@ -21,43 +44,30 @@ namespace AdministratorPanel {
                 Update(product);
             }
 
-            //BorderStyle = BorderStyle.FixedSingle;
             bgColor = Color.LightGray;
-
-            GrowStyle = TableLayoutPanelGrowStyle.FixedSize; // note skal måske ændres
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize; 
             RowCount = 3;
             ColumnCount = 1;
-            
-            //1
-            Panel pn = new Panel();
-            pn.Height = 64;
-            pn.Width = ClientSize.Width;
-            
-            pn.BackgroundImage = image;
-            pn.BackgroundImageLayout = ImageLayout.Zoom;
-            pn.BackColor = Color.Black;
-            Controls.Add(pn);
 
-            //2
-            Label productName = new Label();
-            productName.Dock = DockStyle.Fill;
+            CreadControls();
+        }
+
+        private void CreadControls() {
+            //Product Image 
+            imagePanel.Width = ClientSize.Width;
+            imagePanel.BackgroundImage = image;
+            Controls.Add(imagePanel);
+
+            //Product Name
             productName.Text = product.name;
             Controls.Add(productName);
 
-            //3
-            TableLayoutPanel priceTable = new TableLayoutPanel();
-            priceTable.AutoSize = true;
-            priceTable.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            priceTable.Dock = DockStyle.Fill;
-            priceTable.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            priceTable.ColumnCount = 2;
+            //Product Prices
 
-            Controls.Add(Information(product,priceTable));
-
+            Controls.Add(priceElementsLoader(product, priceTable));
         }
 
-        private TableLayoutPanel Information(Product product, TableLayoutPanel tb) {
-            
+        private TableLayoutPanel priceElementsLoader(Product product, TableLayoutPanel tableLayOutPanel) {
             List<Label> lList = new List<Label>();
             
             foreach (var item in product.PriceElements) {
@@ -68,36 +78,45 @@ namespace AdministratorPanel {
                 Label priceLabel = new Label();
 
                 prefix.Append(item.name);
+                preLabel.Name = "PriceElementName";
                 preLabel.Text = prefix.ToString();
                 lList.Add(preLabel);
-                
-                price.Append("Price: ");
+               
                 price.Append(item.price);
+
+                priceLabel.Name = "PriceElementPrice";
+                price.Append(" kr.");
                 priceLabel.Text = price.ToString();
                 lList.Add(priceLabel);
             }
-
-            tb.Controls.AddRange(lList.ToArray());
-            return tb;
+            tableLayOutPanel.Controls.AddRange(lList.ToArray());
+            return tableLayOutPanel;
         }
 
         private void Update(Product product){
             try {
-                image = Image.FromFile("images/" + product.image);
+                string path = "images/";
+                string fileToLoad = path + product.image;
+
+                if (product.image == null) {
+                    fileToLoad = path + "_default.png";
+                }
+                image = Image.FromFile(fileToLoad);
             } catch (Exception) {
-                MessageBox.Show("image not found");
+                if (product.image != null) {
+                    NiceMessageBox.Show($"image : {product.image} not found");
+
+                    product.image = null;
+                    Update(product);
+                }
             }
-            
-           
             this.Height = sizeY;
             this.Width = sizeX;
         }
 
         protected override void OnClick(EventArgs e) {
             ProductPopupBox p = new ProductPopupBox(productTab, this);
-            p.Show();
-            base.OnClick(e);
-
+            //base.OnClick(e);
         }
     }
 }
