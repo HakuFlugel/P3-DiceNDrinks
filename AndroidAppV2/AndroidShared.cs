@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using File = System.IO.File;
 using Path = System.IO.Path;
 using System.Collections.Generic;
+using Shared;
 
 namespace AndroidAppV2
 {
