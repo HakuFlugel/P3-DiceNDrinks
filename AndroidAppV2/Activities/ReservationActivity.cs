@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Linq;
 using Shared;
 
@@ -8,6 +9,7 @@ using Android.Util;
 using Android.Widget;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net;
 using Android.Content.PM;
 
 namespace AndroidAppV2.Activities {
@@ -232,8 +234,31 @@ namespace AndroidAppV2.Activities {
         public void OnStopTrackingTouch(SeekBar seekBar) {
 
         }
-    }
 
+        private Reservation DownloadReservation(string id) {
+            WebClient client = new WebClient();
+            if (id != null) {
+                byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                    new NameValueCollection {
+                        {"Type", "Reservation"},
+                        {"ReservationID", id}});
+                string result = System.Text.Encoding.UTF8.GetString(resp);
+
+                return JsonConvert.DeserializeObject<Reservation>(result);
+            }
+            else {
+                byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                    new NameValueCollection {
+                        {"Type", "Reservation"},
+                        {"ReservationID", null}});
+                string result = System.Text.Encoding.UTF8.GetString(resp);
+                //Tuple<List<Room>, List<CalendarDay>> values = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(result);
+
+                //return JsonConvert.DeserializeObject<Reservation>(values); TODO: this needs to be fixed
+                return default(Reservation);
+            }
+        }
+    }
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener {
         // ReSharper disable once InconsistentNaming
