@@ -334,15 +334,15 @@ namespace AdministratorPanel {
             }
             //image
             game.imageName = imagePath;
+
+            image.Save("images/"+ imagePath);
+
             if (beforeEditing != null) {
                 
                 beforeEditing = game;
-                Console.WriteLine("FUK");
             }
             else {
                 gametab.games.Add(game);
-                
-                Console.WriteLine("Bob");
             }
             gametab.game.makeItems("");
             base.save(sender, e);
@@ -383,6 +383,7 @@ namespace AdministratorPanel {
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 try {
                     game.imageName = openFileDialog.SafeFileName; // name
+                    imagePath = openFileDialog.SafeFileName;
                     image = Image.FromFile(openFileDialog.FileName); // path + name
                     gameImage.BackgroundImage = image;
                     imageText.Text = openFileDialog.FileName;

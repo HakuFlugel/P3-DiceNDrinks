@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using Shared;
 
 namespace AdministratorPanel {
-    class XmlParser {
+    public class XmlParser {
         private string searchPre = "http://geekdo.com/xmlapi/search?search=";
         private string searchSuf = "&exact=1";
         private XmlDocument xmlDocument = new XmlDocument();

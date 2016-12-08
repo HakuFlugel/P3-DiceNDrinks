@@ -16,26 +16,32 @@ namespace AdministratorPanel {
             this.gddId = gddIdIn;
             this.url = "http:" + urlIn;
             DownloadImage();
+            ImagePath = $"{gddId}.png";
         }
 
         public void DownloadImage() {
 
             if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) {
+                Console.WriteLine("ich bist url");
                 WebRequest request = WebRequest.Create(url);
                 WebResponse response = request.GetResponse();
                 Stream responseStream = response.GetResponseStream();
                 Bitmap bitmap2 = new Bitmap(responseStream);
                 image = (Image)bitmap2;
+            } else {
+                Console.WriteLine("fuck asger");
+                image = null;
             }
         }
 
         public void saveImage() {
-            ImagePath = $"{gddId}.png";
-
-            if (File.Exists($"Images/{ImagePath}")) {
-                File.Delete($"Images/{ImagePath}");
+            
+            if (image != null) {
+                //if (File.Exists($"Images/{ImagePath}")) {
+                //    File.Delete($"Images/{ImagePath}");
+                //}
+                image.Save($"Images/{ImagePath}", ImageFormat.Png);
             }
-            image.Save($"Images/{ImagePath}", ImageFormat.Jpeg);
         }
     }
 }
