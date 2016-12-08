@@ -22,9 +22,6 @@ namespace AndroidAppV2.Activities {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.productLayout);
 
-            AndroidShared ans = new AndroidShared();
-            _list = ans.DownloadProducts();
-
             Spinner categorySpinner = FindViewById<Spinner>(Resource.Id.categorySpinner);
             ExpandableListView expListView = FindViewById<ExpandableListView>(Resource.Id.list);
 
