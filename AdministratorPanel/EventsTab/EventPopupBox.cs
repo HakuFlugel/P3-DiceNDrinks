@@ -50,7 +50,7 @@ namespace AdministratorPanel {
         private EventsTab eventsTab;
         private Event evnt;
 
-
+        
         public EventPopupBox(EventsTab eventsTab, Event evnt = null)
         {
 
@@ -76,6 +76,28 @@ namespace AdministratorPanel {
             else {
                 Controls.Find("delete", true).First().Enabled = false;
             }
+            SubscriberController();
+        }
+
+        private void SubscriberController() {
+            eventName.TextChanged += (s, e) => {
+                hasBeenChanged = (evnt != null) ? evnt.name != eventName.Text ? true : false : true;
+            };
+            eventDescription.TextChanged += (s, e) => {
+                hasBeenChanged = (evnt != null) ? evnt.description != eventDescription.Text ? true : false : true;
+            };
+            startDatePicker.ValueChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
+            endDatePicker.ValueChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
+            endTimePicker.TextChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
+            startTimePicker.TextChanged += (s, e) => {
+                hasBeenChanged = true;
+            };
         }
 
         protected override Control CreateControls() {
@@ -144,6 +166,7 @@ namespace AdministratorPanel {
                 evnt = new Event();
                 eventsTab.Evnts.Add(evnt);
             }
+            
             evnt.name = eventName.Text;
             evnt.description = eventDescription.Text;
             string tempDate = startDatePicker.Value.ToString("dd-MM-yyyy");
@@ -159,6 +182,14 @@ namespace AdministratorPanel {
 
             DateTime newEndDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
                            CultureInfo.InvariantCulture);
+
+            if(newEndDate < newStartDate) {
+                NiceMessageBox.Show("Take a look at the start time vs the end time, or the start date vs the end date" + 
+                    Environment.NewLine + "There is something wrong here" + Environment.NewLine + "Start date: " + newStartDate.ToString() + 
+                    Environment.NewLine + "End date: " + newEndDate.ToString());
+                return;
+            }
+
 
             evnt.startDate = newStartDate;
             evnt.endDate = newEndDate;
