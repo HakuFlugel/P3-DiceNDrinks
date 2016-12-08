@@ -21,7 +21,11 @@ namespace AdministratorPanel {
             };
             Cursor = Cursors.Hand;
 
-            Controls.Add(new Label { Text = calDay.Date.ToString("dd. MMMMM yyyy"), TextAlign = ContentAlignment.MiddleCenter, Dock = DockStyle.Top, Font = new Font("Arial", 12) });
+            Controls.Add(new Label { Text = calDay.Date.ToString("dd. MMMMM yyyy"),
+                         TextAlign = ContentAlignment.MiddleCenter,
+                         Dock = DockStyle.Top,
+                         Font = new Font("Arial", 12) });
+
             foreach (var res in resList.FindAll((Reservation reserv) => reserv.state == Reservation.State.Pending)) {
                 Controls.Add(new Label { Text = res.name + " | " + res.numPeople, Dock = DockStyle.Top });
             }

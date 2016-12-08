@@ -31,7 +31,11 @@ namespace AdministratorPanel {
 
         public void saveImage() {
             ImagePath = $"{gddId}.png";
-            image.Save($"Images/{ImagePath}", ImageFormat.Png);
+
+            if (File.Exists($"Images/{ImagePath}")) {
+                File.Delete($"Images/{ImagePath}");
+            }
+            image.Save($"Images/{ImagePath}", ImageFormat.Jpeg);
         }
     }
 }

@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Shared
-{
-    public class CalendarDay
-    {
-        public DateTime timestamp;
+namespace Shared {
+    public class CalendarDay {
         public List<Reservation> reservations = new List<Reservation>();
         public int reservedSeats;
         public int reservedSeatsPending;
@@ -25,26 +22,21 @@ namespace Shared
             acceptPresentage = defaultAcceptPresentage;
             autoAcceptMaxPeople = defaultAcceptMaxPeople;
         }
-        public void reserveRoom(ReservationController reservationController, Room room)
-        {
+        public void reserveRoom(ReservationController reservationController, Room room) {
             roomsReserved.Add(room);
             calculateSeats(reservationController);
         }
 
-        public void unreserveRoom(ReservationController reservationController, Room room)
-        {
+        public void unreserveRoom(ReservationController reservationController, Room room) {
             roomsReserved.Remove(room);
             calculateSeats(reservationController);
         }
 
-        public void calculateSeats(ReservationController reservationController)
-        {
-            //numSeats = reservationController.rooms.Sum(r => r.seats);//reservationController.rooms.Where(o => !roomsReserved.Contains(o)).Sum(o => o.seats);
+        public void calculateSeats(ReservationController reservationController) {
             numSeats = reservationController.totalSeats - roomsReserved.Sum(r => r.seats);
         }
 
-        public void calculateReservedSeats()
-        {
+        public void calculateReservedSeats() {
             reservedSeats = reservations.Where(r => r.state == Reservation.State.Accepted).Sum(r => r.numPeople);
             reservedSeatsPending = reservations.Where(r => r.state == Reservation.State.Pending).Sum(r => r.numPeople);
         }

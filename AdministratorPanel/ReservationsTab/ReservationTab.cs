@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Shared;
-using System.Xml.Serialization;
-using System.IO;
 using System.Drawing;
 using System.Linq;
 
@@ -17,11 +15,12 @@ namespace AdministratorPanel {
         private ReservationController reservationController;
         public bool lockedRes = false;
         private FormProgressBar probar;
+
         public CheckBox lockResevations = new CheckBox() {
             Text = "Lock Reservations",
         };
 
-        ToolTip tooltip = new ToolTip() {
+        private ToolTip tooltip = new ToolTip() {
             AutoPopDelay = 5000,
             InitialDelay = 100,
             ReshowDelay = 500,
@@ -41,7 +40,6 @@ namespace AdministratorPanel {
         public Label reserveSpaceText = new Label() {
             Dock = DockStyle.Left,
             Font = new Font("Arial", 16),
-
         };
 
         public ProgressBar reserveSpaceWithPending = new ProgressBar() {
@@ -64,7 +62,7 @@ namespace AdministratorPanel {
             Margin = Padding.Empty
         };
 
-        Button addReservation = new Button() {
+        private Button addReservation = new Button() {
             Height = 20,
             Width = 100,
             Dock = DockStyle.Right,
@@ -72,7 +70,7 @@ namespace AdministratorPanel {
 
         };
 
-        TableLayoutPanel outerTable = new TableLayoutPanel() {
+        private TableLayoutPanel outerTable = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
             RowCount = 1,
@@ -80,7 +78,7 @@ namespace AdministratorPanel {
 
         };
 
-        TableLayoutPanel progressbars = new TableLayoutPanel() {
+        private TableLayoutPanel progressbars = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             Height = 16,
             RowCount = 2,
@@ -98,37 +96,39 @@ namespace AdministratorPanel {
         };
 
         // Left Side
-        TableLayoutPanel leftTable = new TableLayoutPanel() {
+        private TableLayoutPanel leftTable = new TableLayoutPanel() {
             Dock = DockStyle.Left,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
 
         };
 
-        TableLayoutPanel rightTable = new TableLayoutPanel() {
+        private TableLayoutPanel rightTable = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
         };
 
-        TableLayoutPanel topRightTable = new TableLayoutPanel() {
+        private TableLayoutPanel topRightTable = new TableLayoutPanel() {
             Dock = DockStyle.Top,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             ColumnCount = 7,
         };
 
-        Button roomsButton = new Button() {
+        private Button roomsButton = new Button() {
             Text = "Modify Rooms",
             AutoSize = true,
 
         };
-        Button testButton = new Button() {
+        private Button testButton = new Button() {
             Text = "TEST Add res",
             AutoSize = true
         };
 
         public ReservationTab(ReservationController reservationController, FormProgressBar probar) {
+            //tab name
+            Text = "Reservations";
 
             this.reservationController = reservationController;
             this.probar = probar;
@@ -151,15 +151,11 @@ namespace AdministratorPanel {
             CalendarDay tempDate = (reservationController.reservationsCalendar.Find(x => x.theDay == DateTime.Today));
             autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPresentage.ToString() : "50" ;
             maxAutoAccept.Text = (tempDate != null) ? tempDate.autoAcceptMaxPeople.ToString() : "5";
-            
-
-            Text = "Reservations";
 
             Controls.Add(outerTable);
 
             probar.addToProbar();                               //For progress bar. 3
             calendar = new Calendar();
-
 
             pendingReservationList = new PendingReservationList(calendar, this, reservationController);
             probar.addToProbar();                               //For progress bar. 4
@@ -188,17 +184,13 @@ namespace AdministratorPanel {
             topRightTable.Controls.Add(maxAutoAccept);
             topRightTable.Controls.Add(addReservation);
 
-            testButtonfunc(); //TODO: remove in final
-
 
             probar.addToProbar();                               //For progress bar. 7
-
 
             subscriberList();
             probar.addToProbar();                               //For progress bar. 8
             tooltipController();
             probar.addToProbar();                               //For progress bar. 9
-            //Hack
 
             updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
             probar.addToProbar();                               //For progress bar. 10
@@ -302,6 +294,7 @@ namespace AdministratorPanel {
 
             int tempNr;
             string tempstr = maxAutoAccept.Text;
+
             if (tempstr == "0") {
                 tempNr = 501;
             } else {
@@ -397,8 +390,6 @@ namespace AdministratorPanel {
             //                }
             //                catch (Exception) { }
             //            }
-
-            
         }
 
         private void testButtonfunc() {

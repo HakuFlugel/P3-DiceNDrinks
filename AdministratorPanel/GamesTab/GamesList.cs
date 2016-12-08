@@ -7,10 +7,11 @@ using Shared;
 
 namespace AdministratorPanel {
     public class GamesList : TableLayoutPanel {
-        public List<Game> games;
-        public GamesTab gametab;
+        private List<Game> games;
+        private GamesTab gametab;
         private Genres genres;
-        public GamesList(List<Game> games, GamesTab gametab, Genres genres) {
+
+        public GamesList( List<Game> games, GamesTab gametab, Genres genres) {
             this.games = games;
             this.genres = genres;
             this.gametab = gametab;
@@ -30,12 +31,13 @@ namespace AdministratorPanel {
 
         public void makeItems(string seach) {
             Controls.Clear();
-            if (games != null)
+            if (games != null) {
                 foreach (var res in games.Where((Game gam) => (gam.name != null) ? (gam.name.ToLower().Contains(seach)) : (gam.id.ToString().ToLower().Contains(seach))).OrderBy(o => o.name)) {
                     GamesItem gameitem = new GamesItem(res);
                     gameitem.Click += (s, e) => { GamePopupBox popupbox = new GamePopupBox(gametab, res, genres); };
                     Controls.Add(gameitem);
                 }
+            }    
         }
     }
 }

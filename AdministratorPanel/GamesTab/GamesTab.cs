@@ -13,6 +13,7 @@ namespace AdministratorPanel {
         private Genres genres = new Genres();
         private string search = "";
         private FormProgressBar probar;
+
         private TableLayoutPanel outerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
             RowCount = 2,
@@ -29,28 +30,28 @@ namespace AdministratorPanel {
         private Button addGameButton = new Button() {
             Size = new Size(100, 20),
             Dock = DockStyle.Right,
-            Text = "Add Game",
+            Text = "Add Game"
         };
 
         private NiceTextBox seachBar = new NiceTextBox() {
             waterMark = "Type something to seach..",
             clearable = true,
-            MinimumSize = new Size(200, 0),
+            MinimumSize = new Size(200, 0)
         };
         
         public GamesTab(FormProgressBar probar) {
+            //name of the tab
+            Text = "Games";
+
             this.probar = probar;
             Load();
             probar.addToProbar();                               //For progress bar. 1
-            
 
             game = new GamesList(games,this,genres);
             game.makeItems(search);
-            Text = "Games";
+
             probar.addToProbar();                               //For progress bar. 2
                                         
-
-
             AutoSize = true;
             Dock = DockStyle.Fill;
 
@@ -80,7 +81,7 @@ namespace AdministratorPanel {
         }
 
         private void update() {
-            seachBar.Text = (seachBar.Text == "") ? seachBar.waterMark : search;
+            seachBar.Text = (seachBar.Text == "" && !seachBar.Focused) ? seachBar.waterMark : search;
             game.makeItems(search);
         }
 

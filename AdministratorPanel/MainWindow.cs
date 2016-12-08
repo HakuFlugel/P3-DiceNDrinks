@@ -8,19 +8,15 @@ namespace AdministratorPanel {
     public class MainWindow : Form {
 
         private List<AdminTabPage> tabs = new List<AdminTabPage>();
-
         private ReservationController reservationController;
-
-
         private FormProgressBar probar = new FormProgressBar();
-
-        
+        private TabControl tabControl = new TabControl();
 
         public MainWindow() {
-            probar.setProbarValue(37);                          //For progress bar, set the value. If you add or remove a probar.addToProbar(); then change this number!!!!!!!!!1! IT IS HARDCODED!
-            probar.Show();
-
+            //tab name
             Text = "Dice 'n Drinks";
+            probar.setProbarValue(35);                          //For progress bar, set the value. If you add or remove a probar.addToProbar(); then change this number!!!!!!!!!1! IT IS HARDCODED!
+            probar.Show();
 
             StartPosition = FormStartPosition.CenterScreen;
             
@@ -30,11 +26,8 @@ namespace AdministratorPanel {
             Width = 960;
             Height = 540;
             
-
-            TabControl cp = new TabControl();
-            cp.Dock = DockStyle.Fill;
+            tabControl.Dock = DockStyle.Fill;
             probar.addToProbar();                               //For progress bar. 1
-             //cp.AutoSize = true;
 
             reservationController = new ReservationController();
             reservationController.load();
@@ -45,17 +38,17 @@ namespace AdministratorPanel {
                 new GamesTab(probar),
                 new EventsTab(probar)
             });
+
             probar.addToProbar();                               //For progress bar. 2
 
-            cp.Controls.AddRange(tabs.ToArray());
+            tabControl.Controls.AddRange(tabs.ToArray());
             probar.addToProbar();                               //For progress bar. 3
 
-            Controls.Add(cp);
+            Controls.Add(tabControl);
             probar.addToProbar();                               //For progress bar. 4
 
             Activate();
 
-            probar.addToProbar();
             probar.addToProbar();                               //For progress bar. 5
             Show();
             
@@ -63,7 +56,6 @@ namespace AdministratorPanel {
         }
 
         private void Start() {
-
             DoubleBuffered = true;
             Application.Run(this);
         }
@@ -75,7 +67,7 @@ namespace AdministratorPanel {
             reservationController.save();
         }
 
-        [STAThread]
+        [STAThread] // do we still need thisssss.
         private static void Main(string[] args) {
 
             //ReservationController reservationController = new ReservationController();
@@ -89,11 +81,7 @@ namespace AdministratorPanel {
             //            {
             //                reservationController = reservationController
             //            };
-
-
-
             p.Start();
         }
-
     }
 }

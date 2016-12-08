@@ -6,46 +6,67 @@ using Shared;
 using System.Globalization;
 using System.Net;
 using Newtonsoft.Json;
+using System.Media;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
 
-        NiceTextBox reservationName = new NiceTextBox() {
+        private NiceTextBox reservationName = new NiceTextBox() {
             Width = 200,
             waterMark = "Reservation Name",
             Margin = new Padding(4, 10, 20, 10)
         };
 
-        NiceTextBox numPeople = new NiceTextBox() {
+        private NiceTextBox numPeople = new NiceTextBox() {
             Width = 200,
             waterMark = "Number of people",
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        NiceTextBox phoneNumber = new NiceTextBox() {
+        private NiceTextBox phoneNumber = new NiceTextBox() {
             Width = 200,
             waterMark = "Phone number",
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        NiceTextBox email = new NiceTextBox() {
+        private NiceTextBox email = new NiceTextBox() {
             Width = 200,
             waterMark = "Email",
             Margin = new Padding(4, 0, 20, 10)
         };
 
-        DateTimePicker datePicker = new DateTimePicker() {
+        private DateTimePicker datePicker = new DateTimePicker() {
             Dock = DockStyle.Right,
             Margin = new Padding(0, 10, 20, 10)
         };
 
-        NiceTextBox timePicker = new NiceTextBox() {
+        private NiceTextBox timePicker = new NiceTextBox() {
             waterMark = "hh:mm"
         };
 
-        ComboBox pendingSet = new ComboBox() {
+        private ComboBox pendingSet = new ComboBox() {
             Text = "Pending",
             DropDownStyle = ComboBoxStyle.DropDownList,
+        };
+
+        private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
+            RowCount = 1,
+            ColumnCount = 2,
+            Dock = DockStyle.Fill,
+            AutoSize = true,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize
+        };
+
+        private TableLayoutPanel innerRigntTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
+        };
+
+        private TableLayoutPanel innerLeftTableLayoutPanel = new TableLayoutPanel() {
+            ColumnCount = 1,
+            GrowStyle = TableLayoutPanelGrowStyle.AddRows,
+            AutoSize = true
         };
 
         private ReservationController reservationController;
@@ -80,49 +101,40 @@ namespace AdministratorPanel {
                 pendingSet.SelectedItem = Reservation.State.Accepted;
                 Controls.Find("delete", true).First().Enabled = false;
             }
+
+            SubscriptionController();
+        }
+
+        private void SubscriptionController() {
+            reservationName.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.name != reservationName.Text ? true : false : true; };
+            numPeople.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.numPeople.ToString() != numPeople.Text ? true : false : true; };
+            phoneNumber.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.phone != phoneNumber.Text ? true : false : true; };
+            email.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.email != email.Text ? true : false : true; };
+            timePicker.TextChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.time.ToString("HH:mm") != timePicker.Text ? true : false : true; };
+            pendingSet.SelectedIndexChanged += (s, e) => { hasBeenChanged = (reservation != null) ? reservation.state != (Reservation.State)Enum.Parse(typeof(Reservation.State), pendingSet.Text) ? true : false : true; };
         }
 
         protected override Control CreateControls() {
 
-            TableLayoutPanel header = new TableLayoutPanel();
-            header.RowCount = 1;
-            header.ColumnCount = 2;
-            header.Dock = DockStyle.Fill;
-            header.AutoSize = true;
-            header.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Controls.Add(headerTableLayoutPanel);
 
-            Controls.Add(header);
+            innerRigntTableLayoutPanel.Controls.Add(reservationName);
+            innerRigntTableLayoutPanel.Controls.Add(numPeople);
+            innerRigntTableLayoutPanel.Controls.Add(phoneNumber);
+            innerRigntTableLayoutPanel.Controls.Add(email);
 
-            TableLayoutPanel rght = new TableLayoutPanel();
-            rght.ColumnCount = 1;
-            rght.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //rght.Dock = DockStyle.Fill;
-            rght.AutoSize = true;
+            innerLeftTableLayoutPanel.Controls.Add(datePicker);
+            innerLeftTableLayoutPanel.Controls.Add(timePicker);
+            innerLeftTableLayoutPanel.Controls.Add(pendingSet);
 
-
-            rght.Controls.Add(reservationName);
-            rght.Controls.Add(numPeople);
-            rght.Controls.Add(phoneNumber);
-            rght.Controls.Add(email);
-
-            TableLayoutPanel lft = new TableLayoutPanel();
-            lft.ColumnCount = 1;
-            lft.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            //lft.Dock = DockStyle.Fill;
-            lft.AutoSize = true;
-
-            lft.Controls.Add(datePicker);
-            lft.Controls.Add(timePicker);
-            lft.Controls.Add(pendingSet);
-
-
-            header.Controls.Add(rght);
-            header.Controls.Add(lft);
-            return header;
+            headerTableLayoutPanel.Controls.Add(innerRigntTableLayoutPanel);
+            headerTableLayoutPanel.Controls.Add(innerLeftTableLayoutPanel);
+            return headerTableLayoutPanel;
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
+
+            if (DialogResult.Yes == NiceMessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
 
                 WebClient client = new WebClient();
                 var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
@@ -162,45 +174,44 @@ namespace AdministratorPanel {
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
 
-                MessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+                NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
             if ((reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark)) {
-                MessageBox.Show("You need to input a name AND a number of people");
+
+                NiceMessageBox.Show("You need to input a name AND a number of people");
                 return;
             }
             if (phoneNumber.Text == phoneNumber.waterMark && email.Text == email.waterMark) {
-                MessageBox.Show("You need to input a phone number or a email");
+
+                NiceMessageBox.Show("You need to input a phone number or a email");
                 return;
             }
             try {
                 emailCheck(email.Text);
             } catch (Exception en) {
-                MessageBox.Show(en.Message);
+                NiceMessageBox.Show(en.Message);
                 return;
             }
 
-            string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
-            string tempTime = timePicker.Text;
+            //string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
+            //string tempTime = timePicker.Text;
 
-            /*COPY PASTE(SOME OF IT!!)*/
-            DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
-                                       CultureInfo.InvariantCulture); // TODO: why are we even parsing this???
-            /*END OF COPY PASTE*/
+            DateTime dt = datePicker.Value.Add(expectedDate.TimeOfDay);
 
+            //DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
+            //                           CultureInfo.InvariantCulture);
 
             // actual saving
 
-            Reservation newres = new Reservation();
-            newres.timestamp = DateTime.UtcNow;
-
-            newres.state = (Reservation.State)pendingSet.SelectedValue;
-
-            newres.name = reservationName.Text;
-            int.TryParse(numPeople.Text, out newres.numPeople); // TODO: not handling invalid value here
-            newres.phone = phoneNumber.Text;
-            newres.email = email.Text;
-            newres.time = newDate;
+            Reservation newReservation = new Reservation();
+            newReservation.state = (Reservation.State)pendingSet.SelectedValue;
+            newReservation.timestamp = DateTime.UtcNow;
+            newReservation.name = reservationName.Text;
+            int.TryParse(numPeople.Text, out newReservation.numPeople); // TODO: not handling invalid value here
+            newReservation.phone = phoneNumber.Text;
+            newReservation.email = email.Text;
+            newReservation.time = dt;
             //cd.fullness += newReservation.numPeople;
 
 
@@ -208,31 +219,34 @@ namespace AdministratorPanel {
             var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
                 new NameValueCollection() {
                     {"Action", reservation == null ? "add" : "update"},
-                    {"Reservation", JsonConvert.SerializeObject(newres)}
+                    {"Reservation", JsonConvert.SerializeObject(newReservation)}
                 }
             );
             string response = System.Text.Encoding.Default.GetString(resp);
             string[] responsesplit = response.Split(' ');
 
             if (reservation == null) {
+                reservationController.addReservation(newReservation);
 
                 if (responsesplit[0] != "added")
                 {
                     Console.WriteLine("wrong response: " + response);
                 }
 
-                if (!int.TryParse(responsesplit[1], out newres.id))
+                if (!int.TryParse(responsesplit[1], out newReservation.id))
                 {
                     Console.WriteLine("invalid reservation id returned");
                     return;
                 }
 
-                reservationController.addReservation(newres);
+                reservationController.addReservation(newReservation);
             }
-            else
-            {
-                newres.id = reservation.id;
-                reservationController.updateReservation(newres);
+            else {
+                //reservationController.updateReservation(newReservation);
+            //else
+            //{
+                newrReservation.id = reservation.id;
+                reservationController.updateReservation(newReservation);
             }
 //"http://172.25.11.113"
 
@@ -245,19 +259,12 @@ namespace AdministratorPanel {
 //            content.Add();
 
             this.Close();
-
-
-            //_reservationController.reserveationList.updateCurrentDay(newDate.Date); TODO: these two should be implemented using events at those places
-            //_reservationController.pendingReservationList.updateCurrentDay();
-
         }
 
         public void emailCheck(string email) {
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
-
-
 
             string[] emailParts = email.Split('@');
 

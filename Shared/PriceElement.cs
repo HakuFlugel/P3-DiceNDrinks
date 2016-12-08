@@ -1,7 +1,5 @@
-﻿namespace Shared
-{
-    public class PriceElement // dette kunne havde været en Tuple<string,decimal> 
-    {
+﻿namespace Shared {
+    public class PriceElement {
         public string name;
         public decimal price;
     }

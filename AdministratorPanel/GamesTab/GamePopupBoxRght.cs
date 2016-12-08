@@ -16,10 +16,10 @@ namespace AdministratorPanel {
             AutoScroll = true
         };
 
-        private NiceTextBox seachBar = new NiceTextBox() {
+        private NiceTextBox searchBox = new NiceTextBox() {
             waterMark = "Type to search for a game",
             clearable = true,
-            MinimumSize = new Size(384, 0),
+            MinimumSize = new Size(384, 0)
         };
 
         private XmlParser api = new XmlParser();
@@ -29,7 +29,7 @@ namespace AdministratorPanel {
 
         public GamePopupBoxRght(GamePopupBox gamePopupBox) {
             this.gamePopupBox = gamePopupBox;
-            Controls.Add(seachBar);
+            Controls.Add(searchBox);
             Controls.Add(gameLisLayoutPanelt);
 
             ColumnCount = 1;
@@ -37,20 +37,17 @@ namespace AdministratorPanel {
             Dock = DockStyle.Right;
             AutoSize = true;
 
-            seachBar.KeyPress += (s,e) => {
+            searchBox.KeyPress += (s,e) => {
                 if (e.KeyChar != (char)Keys.Enter)
                     return;
-                seachApi();
-            };
-            seachBar.Leave += (s, e) => {
-                seachApi();
+                gameSearchApi();
             };
         }
             
-        private void seachApi() {
-            searchWord = seachBar.Text;
+        private void gameSearchApi() {
+            searchWord = searchBox.Text;
             update();
-            seachBar.Text = searchWord;
+            searchBox.Text = searchWord;
         }
 
         private void update() {
@@ -59,10 +56,16 @@ namespace AdministratorPanel {
                 games = api.getGames(searchWord);
 
             } catch (WebException e) {
-                //TODO: put message in result box instead
-                MessageBox.Show(e.Message, "Connection Error");
+                gameLisLayoutPanelt.Controls.Add(new Label() { Name = "Error Connection",
+                                                               Text = "Connection to Geekdo.com failed, it could be because of no internet or geekdo is down",
+                                                               Size = new Size(384, 100),
+                                                               Font = new Font(SystemFonts.DefaultFont.FontFamily, 24),
+                                                               Dock = DockStyle.Top});
+
+                NiceMessageBox.Show(e.Message, "Connection Error");
+                return;
             } catch (Exception e) {
-                MessageBox.Show(e.Message);
+                NiceMessageBox.Show(e.Message);
             }
             if (games.Count > 0) {
                 foreach (var item in games) {
@@ -70,11 +73,13 @@ namespace AdministratorPanel {
                 }
             }
             else if (searchWord != "")
-                MessageBox.Show(
-                "Could not find anything, there could be two reasons for this:" + Environment.NewLine +
-                "1. " + searchWord + " is not a valid BoardGame name " + Environment.NewLine +
-                "2. There is no information on " + searchWord + " in the API.",
-                "Could not find anything on this" + searchWord);
+                gameLisLayoutPanelt.Controls.Add(new Label() {
+                    Name = "SearchWord Error",
+                    Text = "Could not find a game with that name",
+                    Size = new Size(384, 100),
+                    Font = new Font(SystemFonts.DefaultFont.FontFamily, 24),
+                    Dock = DockStyle.Top
+                });
         }
     }
 }

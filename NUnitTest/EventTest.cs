@@ -22,7 +22,7 @@ namespace NUnitTest {
             testEvent.name = "Weston Wensday";
             testEvent.description = "Something weston related on wensday";
 
-            eventsTap.Evnts.Add(testEvent);
+            eventsTap.EventList.Add(testEvent);
             eventsTap.makeItems();
         }
 

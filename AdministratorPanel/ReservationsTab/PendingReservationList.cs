@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Forms;
 using Shared;
 
@@ -29,6 +28,7 @@ namespace AdministratorPanel {
 
             makeItems();
         }
+
         public void makeItems() {
             Controls.Clear();
             foreach (var item in reservationController.reservationsCalendar.OrderBy(o => o.theDay.Date)) {
