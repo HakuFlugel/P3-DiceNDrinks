@@ -26,7 +26,7 @@ namespace AndroidAppV2.Activities {
             listView.Adapter = itemAdapter;
             listView.ItemClick += (s, e) => {
                 EventDialogFragment dialog = new EventDialogFragment(list[e.Position]);
-                dialog.Show(FragmentManager, "Dialog");
+                dialog.Show(FragmentManager, "Event Dialog");
             };
         }
 
