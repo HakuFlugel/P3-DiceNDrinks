@@ -43,7 +43,8 @@ namespace AdministratorPanel {
         protected Padding otherPadding = new Padding(5, 0, 5, 20);
         public bool hasBeenChanged = false;
 
-        public FancyPopupBox() {
+
+        public FancyPopupBox(bool canDelete = true) {
             MaximizeBox = false;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowAndShrink;
