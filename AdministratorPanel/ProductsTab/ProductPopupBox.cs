@@ -123,7 +123,7 @@ namespace AdministratorPanel {
             priceElements.CellValueChanged += (s, e) => { hasBeenChanged = true; };
             productName.TextChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.name != productName.Text ? true : false : true; };
             sectionName.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionName.Text ? true : false : true; };
-            productImage.BackgroundImageChanged += (s, e) => {hasBeenChanged = (productItem != null) ? Image.FromFile("images/" + productItem.product.image) != productItem.BackgroundImage };
+            productImage.BackgroundImageChanged += (s, e) => { hasBeenChanged = true; };
 
 
         }
