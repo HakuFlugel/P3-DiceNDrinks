@@ -249,6 +249,7 @@ namespace AndroidAppV2
 
             return result;
         }
+
         public class ImageDownloader {
 
             private readonly string _gddId;

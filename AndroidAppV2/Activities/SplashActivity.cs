@@ -50,21 +50,6 @@ namespace AndroidAppV2.Activities {
         private void FirstTimeSetup() {
             File folder = new File(_basePath + "/images");
             folder.Mkdirs();
-            string timeStampPath = _basePath + "/timestamp.txt";
-            File timestap = new File(timeStampPath);
-            timestap.CreateNewFile();
-            WriteDate(timeStampPath); 
-        }
-
-        private void WriteDate(string path)
-        {
-            using (
-            StreamWriter sw =
-            new StreamWriter(path)) {
-                for (int i = 0; i < 3; i++) {
-                    sw.WriteLine(DateTime.MinValue + "\r\n");
-                }
-            }
         }
 
         public void SaveImage(string directory, string fileName, Bitmap bitmap) {
@@ -76,38 +61,16 @@ namespace AndroidAppV2.Activities {
 
         private void Update() {
             string[] items = { "Games", "Products", "Events" };
-            DateTime[] loadedDateTimes = new DateTime[4];
-            using (
-                StreamReader sr =
-                    new StreamReader(_basePath + "/timestamp.txt")
-            ) {
-                for (int i = 0; i < 3; i++) {
-                    loadedDateTimes[i] = DateTime.Parse(sr.ReadLine());
-                }
-            }
-
-            DateTime[] downloadedDateTimes = AskServer();
 
             for (int i = 0; i < 3; i++) {
-                //if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks) TODO: enable when we can get timestamp for updates
+                //TODO: enable when we can get timestamp for updates
                     DownloadUpdate(items[i]);
-            }
-            SaveNewDate(downloadedDateTimes);
-        }
-
-        private void SaveNewDate(DateTime[] upDatedDateTime) {
-            using (
-                StreamWriter sw =
-                new StreamWriter(_basePath + "/timestamp.txt")) {
-                for (int i = 0; i < 3; i++) {
-                    sw.WriteLine(upDatedDateTime[i]);
-                }
             }
         }
 
         private void DownloadUpdate(string location) {
             AndroidShared ans = new AndroidShared(); 
-            string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, $"{location}.json");
+            string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, $"{_basePath}/{location}.json");
             string item;
 
             switch (location)
@@ -127,14 +90,12 @@ namespace AndroidAppV2.Activities {
                     item = "";
                     break;
             }
-
             System.IO.File.WriteAllText(saveLocation, item);
         }
 
         private static void DownloadGameImages(string jsonlist)
         {
             List<Game> list = JsonConvert.DeserializeObject<List<Game>>(jsonlist);
-
 
             foreach (Game item in list)
             {
@@ -145,16 +106,9 @@ namespace AndroidAppV2.Activities {
         private static void DownloadProductImages(string jsonlist) {
             List<Product> list = JsonConvert.DeserializeObject<List<Product>>(jsonlist);
 
-
             foreach (Product item in list) {
                 new AndroidShared.ImageDownloader(item.image, "products");
             }
-        }
-
-        private DateTime[] AskServer() {
-            DateTime[] newDateTimes = new DateTime[3];
-            //TODO: ask server
-            return newDateTimes;
         }
     }
 }
