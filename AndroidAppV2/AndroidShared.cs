@@ -202,11 +202,10 @@ namespace AndroidAppV2
 
             return await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
         }
-
-        /*string --> deserialize json(som Tuple ligesom _values) --> tag product list ud af tuple --> product objecter*/
-        public List<Product> DownloadProducts() {
+        
+        public List<Product> DownloadProductsAsObject() {
             WebClient client = new WebClient();
-            var resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection {
                     {"Type", "Products"}});
             string result = System.Text.Encoding.UTF8.GetString(resp);
@@ -216,5 +215,40 @@ namespace AndroidAppV2
 
             return newlist;
         }
+
+        public List<T> DownloadItemAsObject<T>(string type) {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection {
+                    {"Type", type}});
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+
+            return JsonConvert.DeserializeObject<List<T>>(result);
+        }
+        
+
+        public string DownloadProducts() {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection {
+                    {"Type", "Products"}});
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+            Tuple<List<ProductCategory>, List<Product>> values = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
+
+            result = JsonConvert.SerializeObject(values.Item2);
+
+            return result;
+        }
+
+        public string DownloadItem(string type) {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection {
+                    {"Type", type}});
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+
+            return result;
+        }
+
     }
 }

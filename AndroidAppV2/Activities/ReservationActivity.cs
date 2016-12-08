@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Specialized;
 using System.Linq;
 using Shared;
 
@@ -8,11 +9,14 @@ using Android.Util;
 using Android.Widget;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net;
 using Android.Content.PM;
 
-namespace AndroidAppV2.Activities {
+namespace AndroidAppV2.Activities
+{
     [Activity(Label = "Reservations", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener {
+    public class ReservationActivity : Activity, SeekBar.IOnSeekBarChangeListener
+    {
         private bool _state = true; //checks if the user has made any changes
         private DateTime _chosenDateTime = DateTime.Now;
         private int _userId;
@@ -21,16 +25,19 @@ namespace AndroidAppV2.Activities {
         private Button _dateSelectButton;
         private Button _timeSelectButton;
 
-        private bool Data {
+        private bool Data
+        {
             get { return _data; }
-            set {
+            set
+            {
                 _data = value;
                 Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
                 acceptingButton.Text = "Change Reservation";
             }
         }
 
-        protected override void OnCreate(Bundle savedInstanceState) {
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.ReservationLayout);
 
@@ -39,6 +46,7 @@ namespace AndroidAppV2.Activities {
             _timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
+            //TODO: Set up for download
 
             AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
             AndroidShared.LoadData(this, "VirtualServerReservation.json", out _res);
@@ -47,17 +55,20 @@ namespace AndroidAppV2.Activities {
                 _state = false;
 
             //Using Random because we have no server to request from (method implemention)? TODO: SERVER
-            if (_userId == 0) {
+            if (_userId == 0)
+            {
                 Random random = new Random();
 
                 _userId = random.Next(0, 100);
             }
 
-            if (_res == null) {
+            if (_res == null)
+            {
                 _res = new Reservation();
                 sb.Progress = 0;
             }
-            else {
+            else
+            {
                 Data = true;
                 sb.Progress = _res.numPeople - 1;
                 _chosenDateTime = _res.time;
@@ -69,8 +80,10 @@ namespace AndroidAppV2.Activities {
                 FindViewById<EditText>(Resource.Id.emailEdit).Text = _res.email;
                 FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
             }
-            _dateSelectButton.Click += delegate {
-                DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate (DateTime date) {
+            _dateSelectButton.Click += delegate
+            {
+                DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
+                {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
                     _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
 
@@ -78,15 +91,18 @@ namespace AndroidAppV2.Activities {
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
 
-            _timeSelectButton.Click += delegate {
-                TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate (DateTime time) {
+            _timeSelectButton.Click += delegate
+            {
+                TimePickerFragment tfrag = TimePickerFragment.NewInstance(delegate(DateTime time)
+                {
                     _chosenDateTime = InsertDateTime(_chosenDateTime, time);
                     _timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
                 });
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
 
-            acceptingButton.Click += delegate {
+            acceptingButton.Click += delegate
+            {
                 _res.numPeople = sb.Progress + 1;
                 _res.time = _chosenDateTime;
                 _res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
@@ -102,30 +118,38 @@ namespace AndroidAppV2.Activities {
             sb.SetOnSeekBarChangeListener(this);
         }
 
-        private void SendData(Reservation res) {
-            if (res.name == "") {
+        private void SendData(Reservation res)
+        {
+            if (res.name == "")
+            {
                 ErrorDialog("Please write a name");
                 return;
             }
-            if (res.phone == "" && res.email == "") {
+            if (res.phone == "" && res.email == "")
+            {
                 ErrorDialog("You have to specify either a phonenumber or an email");
                 return;
             }
-            if (res.email != "") {
-                try {
+            if (res.email != "")
+            {
+                try
+                {
                     EmailCheck(res.email);
                 }
-                catch (Java.Lang.Exception en) {
+                catch (Java.Lang.Exception en)
+                {
                     ErrorDialog(en.Message);
                     return;
                 }
             }
             int i;
-            if (res.phone.Length != 8 || !int.TryParse(res.phone, out i)) {
+            if (res.phone.Length != 8 || !int.TryParse(res.phone, out i))
+            {
                 ErrorDialog("a phone number has to be eight digits: e.g. 12345678");
                 return;
             }
-            if (_dateSelectButton.Text == "DATE" || _timeSelectButton.Text == "TIME") {
+            if (_dateSelectButton.Text == "DATE" || _timeSelectButton.Text == "TIME")
+            {
                 ErrorDialog("Specify a date and time you want to place your reservation");
                 return;
             }
@@ -144,16 +168,21 @@ namespace AndroidAppV2.Activities {
             File.WriteAllText(filename2, json2);
 
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
-            if (Data) {
+            if (Data)
+            {
                 resSucces.SetMessage("Your reservation has been updated, and are awating a answer!");
                 resSucces.SetTitle("Reservation updated");
             }
-            else {
+            else
+            {
                 resSucces.SetMessage("Your reservation has been created, and are awating a answer!");
                 resSucces.SetTitle("Reservation sent");
             }
             _state = true;
-            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) => { /*Do Nothing*/ });
+            resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) =>
+            {
+                /*Do Nothing*/
+            });
             resSucces.Show();
             FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
 
@@ -161,18 +190,24 @@ namespace AndroidAppV2.Activities {
 
         }
 
-        private void ErrorDialog(string message) {
+        private void ErrorDialog(string message)
+        {
             AlertDialog.Builder error = new AlertDialog.Builder(this);
             error.SetMessage(message);
             error.SetTitle("Error");
-            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { /*Do Nothing*/ });
+            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) =>
+            {
+                /*Do Nothing*/
+            });
             error.Show();
         }
 
-        private static void EmailCheck(string email) {
+        private static void EmailCheck(string email)
+        {
             // Email typo check stuff
 
-            const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
+            const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~";
+                // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
 
             string[] emailParts = email.Split('@');
@@ -182,7 +217,8 @@ namespace AndroidAppV2.Activities {
             if (emailParts[0].Length == 0 || emailParts[1].Length == 0)
                 throw new Java.Lang.Exception("Email address must contain something on both sides of '@'");
 
-            if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
+            if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' ||
+                emailParts[1][emailParts.Length - 1] == '.')
                 throw new Java.Lang.Exception("Email address local- or domain-part can't start or end with a '.'");
 
             if (!emailParts[1].Contains('.'))
@@ -191,25 +227,36 @@ namespace AndroidAppV2.Activities {
             if (email.Contains(".."))
                 throw new Java.Lang.Exception("Email address may not contain consecutive '.'s, ie. '..'.");
 
-            foreach (char ch in emailParts[0].Where(ch => !char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch))) {
-                throw new Java.Lang.Exception($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validLocalSymbols }\"");
+            foreach (char ch in emailParts[0].Where(ch => !char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch)))
+            {
+                throw new Java.Lang.Exception(
+                    $"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{validLocalSymbols}\"");
             }
 
-            foreach (char ch in emailParts[1].Where(ch => !char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))) {
-                throw new Java.Lang.Exception($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validDomainSymbols }\"");
+            foreach (char ch in emailParts[1].Where(ch => !char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
+            )
+            {
+                throw new Java.Lang.Exception(
+                    $"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{validDomainSymbols}\"");
             }
         }
 
-        private static DateTime InsertDateTime(DateTime date, DateTime time) {
+        private static DateTime InsertDateTime(DateTime date, DateTime time)
+        {
             return new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
         }
 
-        public override void OnBackPressed() {
-            if (!_state) {
+        public override void OnBackPressed()
+        {
+            if (!_state)
+            {
                 AlertDialog.Builder exitApp = new AlertDialog.Builder(this);
                 exitApp.SetMessage(Resource.String.exitReservation);
                 exitApp.SetPositiveButton(Resource.String.yes, (senderAlert, args) => { base.OnBackPressed(); });
-                exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) => { /*Do Nothing*/ });
+                exitApp.SetNegativeButton(Resource.String.no, (senderAlert, args) =>
+                {
+                    /*Do Nothing*/
+                });
 
                 Dialog exit = exitApp.Create();
 
@@ -219,21 +266,79 @@ namespace AndroidAppV2.Activities {
                 base.OnBackPressed();
         }
 
-        public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser) {
-            if (fromUser) {
+        public void OnProgressChanged(SeekBar seekBar, int progress, bool fromUser)
+        {
+            if (fromUser)
+            {
                 FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress + 1} people";
             }
         }
 
-        public void OnStartTrackingTouch(SeekBar seekBar) {
+        public void OnStartTrackingTouch(SeekBar seekBar)
+        {
 
         }
 
-        public void OnStopTrackingTouch(SeekBar seekBar) {
+        public void OnStopTrackingTouch(SeekBar seekBar)
+        {
 
+        }
+
+        private void AddReservation()
+        {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                new NameValueCollection
+                {
+                    {"Action", "add"},
+                    {"Reservation", JsonConvert.SerializeObject(_res)}
+                });
+
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+
+            //TODO: change reservation state text to display result
+
+        }
+
+        private void UpdateReservation()
+        {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                new NameValueCollection
+                {
+                    {"Action", "update"},
+                    {"Reservation", JsonConvert.SerializeObject(_res)}
+                });
+
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+
+            //TODO: change reservation state text to display result 
+        }
+
+        private Reservation GetReservation()
+        {
+            WebClient client = new WebClient();
+            {
+                byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                    new NameValueCollection
+                    {
+                        {"Type", "Reservations"},
+                        {"ReservationID", _userId.ToString()}
+                    });
+
+                string result = System.Text.Encoding.UTF8.GetString(resp);
+                try
+                {
+                    return JsonConvert.DeserializeObject<Reservation>(result);
+                }
+                catch (Exception)
+                {
+                    return default(Reservation);
+                }
+
+            }
         }
     }
-
 
     public class DatePickerFragment : DialogFragment, DatePickerDialog.IOnDateSetListener {
         // ReSharper disable once InconsistentNaming

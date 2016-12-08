@@ -73,7 +73,7 @@ namespace AndroidAppV2.Activities {
         }
 
         private void Update() {
-            string[] items = { "games", "products", "events" };
+            string[] items = { "Games", "Products", "Events" };
             DateTime[] loadedDateTimes = new DateTime[4];
             using (
                 StreamReader sr =
@@ -87,8 +87,8 @@ namespace AndroidAppV2.Activities {
             DateTime[] downloadedDateTimes = AskServer();
 
             for (int i = 0; i < 3; i++) {
-                if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks)
-                    DownloadUpdate(items[i] + ".json");
+                //if (loadedDateTimes[i].Ticks < downloadedDateTimes[i].Ticks) TODO: enable when we can get timestamp for updates
+                    DownloadUpdate(items[i]);
             }
             SaveNewDate(downloadedDateTimes);
         }
@@ -103,11 +103,21 @@ namespace AndroidAppV2.Activities {
             }
         }
 
-        private void DownloadUpdate(string location) { 
-            string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, location);
-            string item = "";
-            MultipartFormDataContent content = new MultipartFormDataContent();
-            //TODO: Make request for data
+        private void DownloadUpdate(string location) {
+            AndroidShared ans = new AndroidShared(); 
+            string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, $"{location}.json");
+            string item;
+
+            switch (location)
+            {
+                case "Products":
+                    item = ans.DownloadProducts();
+                    break;
+                default:
+                    item = ans.DownloadItem(location);
+                    break;
+            }
+
             System.IO.File.WriteAllText(saveLocation, item);
 
         }
