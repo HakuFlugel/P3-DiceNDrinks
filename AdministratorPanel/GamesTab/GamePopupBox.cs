@@ -154,6 +154,13 @@ namespace AdministratorPanel {
 
         public GamePopupBox(GamesTab gametab, Game game, Genres genres) {
             Text = "Game";
+            Name = (game != null) ? game.name : "New Game";
+            if (Application.OpenForms[Name] as GamePopupBox != null) {
+                BringToFront();
+                return;
+            }
+                
+            
 
             Size = new Size(500,640);
             this.genres = genres;
@@ -187,7 +194,6 @@ namespace AdministratorPanel {
                 this.game = new Game();
                 Controls.Find("delete", true).First().Enabled = false;
             }
-            Show();
             SubscriptionList();
             toolTipControl();
         }
@@ -314,7 +320,7 @@ namespace AdministratorPanel {
             } catch (Exception) {
                 
                 timeBox.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : timeBox.waterMark;
-                
+                NiceMessageBox.Show("Integer in min / max time is not withing limited borders.");
                 return;
             }
 
@@ -330,6 +336,7 @@ namespace AdministratorPanel {
                     
             } catch (Exception) {
                 playerBox.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : playerBox.waterMark;
+                NiceMessageBox.Show("Integer in min / max players is not withing limited borders.");
                 return;
             }
             //image

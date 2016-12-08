@@ -73,7 +73,9 @@ namespace AdministratorPanel {
         public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
             //tab name
             Text = "Product";
-
+            Name = (productItem != null) ? productItem.product.name : "New product";
+            Console.WriteLine(Name);
+            
             Focus();
 
             this.productTab = productTab;
@@ -305,7 +307,7 @@ namespace AdministratorPanel {
             // updates producttab elements
             
             productTab.MakeItems();
-
+            base.save(sender, e);
             Close();
         }
     }
