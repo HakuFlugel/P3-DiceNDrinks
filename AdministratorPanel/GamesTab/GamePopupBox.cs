@@ -171,12 +171,12 @@ namespace AdministratorPanel {
 
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
-                yearPublished.Text = this.game.publishedYear.ToString();
-                time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
-                players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
+                yearPublishedBox.Text = this.game.publishedYear.ToString();
+                timeBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
+                playerBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
                 string curFile = $"images/{this.game.imageName}";                                                        //Ellers crasher den når der ikke er blevet gemt et billed. 
                 gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");      //Kunne være at hvis der ikke var et billed at den så skulle gemmes med default png.
-                gameDifficulty.Value = game.difficulity;
+                gameDifficultyBar.Value = game.difficulity;
                 imagePath = beforeEditing.imageName;
 
                 foreach(ListViewItem item in genreItems )
@@ -228,9 +228,9 @@ namespace AdministratorPanel {
                 gameImage.BackgroundImage = img;
             };  //Gør så man kan smide en path til et billed ind, unden at skulle trykke på search kanppen
 
-            gameDifficulty.Scroll += (s, e) => {
-                toolTip.SetToolTip(gameDifficulty, $"Current value: {gameDifficulty.Value} out of {gameDifficulty.Maximum}");
-                hasBeenChanged = (isNewGame) ? ((beforeEditing.difficulity != gameDifficulty.Value) ? true : false) : true;
+            gameDifficultyBar.Scroll += (s, e) => {
+                toolTip.SetToolTip(gameDifficultyBar, $"Current value: {gameDifficultyBar.Value} out of {gameDifficultyBar.Maximum}");
+                hasBeenChanged = (isNewGame) ? ((beforeEditing.difficulity != gameDifficultyBar.Value) ? true : false) : true;
             };
 
             editGenre.Click += (s, e) => {
@@ -290,11 +290,11 @@ namespace AdministratorPanel {
             //decription
             game.description = (gameDescription.Text != null && gameDescription.Text != gameDescription.waterMark && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
             //difficulty
-            game.difficulity = gameDifficulty.Value;
+            game.difficulity = gameDifficultyBar.Value;
             //year
-            if (yearPublished.Text != null && yearPublished.Text != "" && yearPublished.Text != yearPublished.waterMark) {
+            if (yearPublishedBox.Text != null && yearPublishedBox.Text != "" && yearPublishedBox.Text != yearPublishedBox.waterMark) {
                 try {
-                    game.publishedYear = Int32.Parse(yearPublished.Text);
+                    game.publishedYear = Int32.Parse(yearPublishedBox.Text);
                 } catch (Exception) {
                     NiceMessageBox.Show("Published year is not a valid number", "Year invalid");
                 }
@@ -302,34 +302,34 @@ namespace AdministratorPanel {
                 game.publishedYear = 0;
             }
             //time
-            string[] timePeriode = time.Text.Split('/');
+            string[] timePeriode = timeBox.Text.Split('/');
             try {
                 game.minPlayTime = Int32.Parse(timePeriode[0]);
                 game.maxPlayTime = Int32.Parse(timePeriode[1]);
                 if (game.minPlayTime > game.maxPlayTime) {
                     game.maxPlayTime = game.minPlayTime;
-                    time.Text = game.minPlayTime + "/" + game.maxPlayTime;
+                    timeBox.Text = game.minPlayTime + "/" + game.maxPlayTime;
                 }
                     
             } catch (Exception) {
                 
-                time.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : time.waterMark;
+                timeBox.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : timeBox.waterMark;
                 
                 return;
             }
 
             //players
-            string[] playerRange = players.Text.Split('/');
+            string[] playerRange = playerBox.Text.Split('/');
             try {
                 game.minPlayers = Int32.Parse(playerRange[0]);
                 game.maxPlayers = Int32.Parse(playerRange[1]);
                 if (game.minPlayers > game.maxPlayers) {
                     game.maxPlayers = game.minPlayers;
-                    players.Text = game.minPlayers + "/" + game.maxPlayers;
+                    playerBox.Text = game.minPlayers + "/" + game.maxPlayers;
                 }
                     
             } catch (Exception) {
-                players.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : players.waterMark;
+                playerBox.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : playerBox.waterMark;
                 return;
             }
             //image

@@ -143,22 +143,22 @@ namespace AdministratorPanel {
 
         protected override void delete(object sender, EventArgs e) {
             if (DialogResult.Yes == NiceMessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
-                eventsTab.Evnts.Remove(evnt);
+                eventsTab.EventList.Remove(evnt);
                 eventsTab.makeItems();
             }
         }
 
         protected override void save(object sender, EventArgs e) {
 
-            DateTime expectedStartDate, expectedEndDate;
-            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedStartDate) ||
-                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedEndDate)) {
-                
-                NiceMessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+            DateTime startDate, endDate;
+            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDate) ||
+                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDate)) {
+                SystemSounds.Hand.Play();
+                MessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
-            expectedStartDate =  startDatePicker.Value.Add(expectedStartDate.TimeOfDay);
-            expectedStartDate =  endDatePicker.Value.Add(expectedStartDate.TimeOfDay);
+            startDate =  startDatePicker.Value.Add(startDate.TimeOfDay);
+            startDate =  endDatePicker.Value.Add(startDate.TimeOfDay);
 
             if (eventName.Text == null || eventDescription.Text == null) {
                
@@ -174,16 +174,16 @@ namespace AdministratorPanel {
             evnt.name = eventName.Text;
             evnt.description = eventDescription.Text;
 
-            if(newEndDate < newStartDate) {
+            if(endDate < startDate) {
                 NiceMessageBox.Show("Take a look at the start time vs the end time, or the start date vs the end date" + 
-                    Environment.NewLine + "There is something wrong here" + Environment.NewLine + "Start date: " + newStartDate.ToString() + 
-                    Environment.NewLine + "End date: " + newEndDate.ToString());
+                    Environment.NewLine + "There is something wrong here" + Environment.NewLine + "Start date: " + startDate.ToString() + 
+                    Environment.NewLine + "End date: " + endDate.ToString());
                 return;
             }
 
 
-            evnt.startDate = newStartDate;
-            evnt.endDate = newEndDate;
+            evnt.startDate = startDate;
+            evnt.endDate = endDate;
 
             this.Close();
             eventsTab.makeItems();

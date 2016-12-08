@@ -111,21 +111,19 @@ namespace AdministratorPanel {
         }
 
         private void SubscriptionController() {
-            categoryName.SelectedValueChanged += (s, e) => {
-                sectionName.Items.Clear();
-                if (categoryName.Text != "Category Name" && categoryName.Text != "") {
-                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
-                    sectionName.Items.AddRange(cat.sections.ToArray());
-                    sectionName.Text = "Section Name";
+            categoryNameDropDownBoxx.SelectedValueChanged += (s, e) => {
+                sectionNameDropDownBox.Items.Clear();
+                if (categoryNameDropDownBoxx.Text != "Category Name" && categoryNameDropDownBoxx.Text != "") {
+                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryNameDropDownBoxx.Text);
+                    sectionNameDropDownBox.Items.AddRange(cat.sections.ToArray());
+                    sectionNameDropDownBox.Text = "Section Name";
                 }
-                hasBeenChanged = (productItem != null) ? productItem.product.category != categoryName.Text ? true : false : true;
+                hasBeenChanged = (productItem != null) ? productItem.product.category != categoryNameDropDownBoxx.Text ? true : false : true;
             };
             priceElements.CellValueChanged += (s, e) => { hasBeenChanged = true; };
-            productName.TextChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.name != productName.Text ? true : false : true; };
-            sectionName.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionName.Text ? true : false : true; };
-            productImage.BackgroundImageChanged += (s, e) => { hasBeenChanged = true; };
-
-
+            productNameBox.TextChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.name != productNameBox.Text ? true : false : true; };
+            sectionNameDropDownBox.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionNameDropDownBox.Text ? true : false : true; };
+            productImagePanel.BackgroundImageChanged += (s, e) => { hasBeenChanged = true; };
         }
         
         private void update() {
@@ -134,8 +132,6 @@ namespace AdministratorPanel {
             foreach (ProductCategory item in productTab.productCategories) {
                 categoryNameDropDownBoxx.Items.Add(item.name);
             }
-
-            
         }
 
         protected override Control CreateControls() {
@@ -281,7 +277,7 @@ namespace AdministratorPanel {
                 Product product = new Product();
 
                 product.name = productNameBox.Text;
-                product.PriceElements = listOfpriceElements;
+                product.PriceElements = listOfPriceElements;
                 product.category = categoryNameDropDownBoxx.Text;
                 product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
@@ -301,7 +297,7 @@ namespace AdministratorPanel {
             } 
             // save content
             productItem.product.name = productNameBox.Text;
-            productItem.product.PriceElements = listOfpriceElements;
+            productItem.product.PriceElements = listOfPriceElements;
             productItem.product.category = categoryNameDropDownBoxx.Text;
             productItem.product.section = sectionNameDropDownBox.Text;
             productItem.product.image = imageName;
