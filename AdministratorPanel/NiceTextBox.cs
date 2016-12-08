@@ -45,6 +45,12 @@ namespace AdministratorPanel {
                     clearButton.Width = clearButton.Height;
                     clearButton.Text = "X";
                     clearButton.Dock = DockStyle.Right;
+                    clearButton.MouseHover += (s, e) => {
+                        this.Cursor = Cursors.Hand;
+                    };
+                    clearButton.MouseLeave += (s, e) => {
+                        this.Cursor = Cursors.IBeam;
+                    };
 
                     clearButton.Click += (sender, ev) => {
                         Text = Focused ? "" : waterMark;

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Shared {
     public class Product {
         public int id;
+        public DateTime timestamp;
         public string name;
         public string image;
         public string category;

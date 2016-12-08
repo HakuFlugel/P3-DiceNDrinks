@@ -7,6 +7,7 @@ using System;
 using Shared;
 using System.Drawing.Imaging;
 using System.Media;
+using System.IO;
 
 namespace AdministratorPanel {
 
@@ -170,14 +171,16 @@ namespace AdministratorPanel {
 
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
-                yearPublishedBox.Text = this.game.publishedYear.ToString();
-                timeBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
-                playerBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
-                gameImage.BackgroundImage = Image.FromFile($"images/{this.game.imageName}");
-                gameDifficultyBar.Value = game.difficulity;
+                yearPublished.Text = this.game.publishedYear.ToString();
+                time.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
+                players.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
+                string curFile = $"images/{this.game.imageName}";                                                        //Ellers crasher den når der ikke er blevet gemt et billed. 
+                gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");      //Kunne være at hvis der ikke var et billed at den så skulle gemmes med default png.
+                gameDifficulty.Value = game.difficulity;
                 imagePath = beforeEditing.imageName;
 
                 foreach(ListViewItem item in genreItems )
+                    //TODO: add non existant genre to list
                     item.Checked = (game.genre.Any(x => x == item.Text)) ? true : false;
 
             } else {
@@ -209,13 +212,25 @@ namespace AdministratorPanel {
                 hasBeenChanged = (isNewGame) ? (!((beforeEditing.minPlayTime.ToString() + "/" + beforeEditing.maxPlayTime.ToString()).Equals(timeBox.Text)) ? true : false) : false;
             };
 
-            genreBox.ItemCheck += new ItemCheckEventHandler(memeberChecked);
+            genreBox.ItemCheck += memeberChecked;
 
-            imageText.Click += OpenFileOpener;
+            imageSeach.Click += OpenFileOpener;  //Så det ikke er textboxen som skal 
 
-            gameDifficultyBar.Scroll += (s, e) => {
-                toolTip.SetToolTip(gameDifficultyBar, $"Current value: {gameDifficultyBar.Value} out of {gameDifficultyBar.Maximum}");
-                hasBeenChanged = (isNewGame) ? ((beforeEditing.difficulity != gameDifficultyBar.Value) ? true : false) : true;
+            imageText.KeyPress += (s, e) => {
+                if (e.KeyChar != (char)Keys.Enter)
+                    return;
+                Image img;
+                try {
+                    img = Image.FromFile(imageText.Text);
+                } catch (Exception) {
+                    img = Image.FromFile($"images/_default.png");
+                }
+                gameImage.BackgroundImage = img;
+            };  //Gør så man kan smide en path til et billed ind, unden at skulle trykke på search kanppen
+
+            gameDifficulty.Scroll += (s, e) => {
+                toolTip.SetToolTip(gameDifficulty, $"Current value: {gameDifficulty.Value} out of {gameDifficulty.Maximum}");
+                hasBeenChanged = (isNewGame) ? ((beforeEditing.difficulity != gameDifficulty.Value) ? true : false) : true;
             };
 
             editGenre.Click += (s, e) => {
@@ -269,58 +284,66 @@ namespace AdministratorPanel {
         }
 
         protected override void save(object sender, EventArgs e) {
-           
             genres.Save();
-
-            if (beforeEditing != null) {
-                //name
-                    game.name = (gameName.Text != null && gameName.Text != "") ? gameName.Text : "Unnamed game";
-                //decription
-                    game.description = (gameDescription.Text != null && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
-                //difficulty
-                    game.difficulity = gameDifficultyBar.Value;
-                //year
-                    if (yearPublishedBox.Text != null && yearPublishedBox.Text != "") {
-                        try {
-                        game.publishedYear = Int32.Parse(yearPublishedBox.Text);
-                        } catch (Exception) {
-                            MessageBox.Show("Published year is not a valid number", "Year invalid");
-                        }
-                    } else {
-                        game.publishedYear = 0;
-                    }
-                //time
-                    string messageboxText = "Please only use whole integers" + Environment.NewLine + "In this format INTEGER/INTEGER";
-                    string[] timePeriode = timeBox.Text.Split('/');
-                    try {
-                        game.minPlayTime = Int32.Parse(timePeriode[0]);
-                        game.maxPlayTime = Int32.Parse(timePeriode[1]);
-
-                    } catch (Exception) {
-                        SystemSounds.Hand.Play();
-                        timeBox.Text = timeBox.waterMark;
-                        MessageBox.Show(messageboxText, " Error in time");
-                    }
-
-                //players
-                    string[] playerRange = playerBox.Text.Split('/');
-                    try {
-                        game.minPlayers = Int32.Parse(playerRange[0]);
-                        game.maxPlayers = Int32.Parse(playerRange[1]);
-                    } catch (Exception) {
-                        SystemSounds.Hand.Play();
-                        playerBox.Text = playerBox.waterMark;
-                        MessageBox.Show(messageboxText, "Error in players");
-                    }
-                //image
-                game.imageName = imagePath;
-
-                gametab.games.Remove(beforeEditing);
-                beforeEditing = game;
+            //name
+            game.name = (gameName.Text != null && gameName.Text != gameName.waterMark && gameName.Text != "") ? gameName.Text : "Unnamed game";
+            //decription
+            game.description = (gameDescription.Text != null && gameDescription.Text != gameDescription.waterMark && gameDescription.Text != "") ? gameDescription.Text : "Undescriped game";
+            //difficulty
+            game.difficulity = gameDifficulty.Value;
+            //year
+            if (yearPublished.Text != null && yearPublished.Text != "" && yearPublished.Text != yearPublished.waterMark) {
+                try {
+                    game.publishedYear = Int32.Parse(yearPublished.Text);
+                } catch (Exception) {
+                    NiceMessageBox.Show("Published year is not a valid number", "Year invalid");
+                }
+            } else {
+                game.publishedYear = 0;
+            }
+            //time
+            string[] timePeriode = time.Text.Split('/');
+            try {
+                game.minPlayTime = Int32.Parse(timePeriode[0]);
+                game.maxPlayTime = Int32.Parse(timePeriode[1]);
+                if (game.minPlayTime > game.maxPlayTime) {
+                    game.maxPlayTime = game.minPlayTime;
+                    time.Text = game.minPlayTime + "/" + game.maxPlayTime;
+                }
+                    
+            } catch (Exception) {
+                
+                time.Text = (beforeEditing != null) ? beforeEditing.maxPlayTime + "/"+ beforeEditing.minPlayTime : time.waterMark;
+                
+                return;
             }
 
-            Console.WriteLine("iamge name before save"+game.imageName);
-            gametab.games.Add(game);
+            //players
+            string[] playerRange = players.Text.Split('/');
+            try {
+                game.minPlayers = Int32.Parse(playerRange[0]);
+                game.maxPlayers = Int32.Parse(playerRange[1]);
+                if (game.minPlayers > game.maxPlayers) {
+                    game.maxPlayers = game.minPlayers;
+                    players.Text = game.minPlayers + "/" + game.maxPlayers;
+                }
+                    
+            } catch (Exception) {
+                players.Text = (beforeEditing != null) ? beforeEditing.maxPlayers + "/" + beforeEditing.minPlayers : players.waterMark;
+                return;
+            }
+            //image
+            game.imageName = imagePath;
+            if (beforeEditing != null) {
+                
+                beforeEditing = game;
+                Console.WriteLine("FUK");
+            }
+            else {
+                gametab.games.Add(game);
+                
+                Console.WriteLine("Bob");
+            }
             gametab.game.makeItems("");
             base.save(sender, e);
         }
@@ -345,7 +368,7 @@ namespace AdministratorPanel {
         }
 
         private void OpenFileOpener(object sender, EventArgs e) {
-            OpenFileDialog ofd = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
             var pnis = ImageCodecInfo.GetImageDecoders();
             StringBuilder sb = new StringBuilder();
 
@@ -354,17 +377,18 @@ namespace AdministratorPanel {
                 sb.Append(";");
             }
 
-            ofd.Title = "Open Image";
-            ofd.Filter = "Image Files | " + sb.ToString();
+            openFileDialog.Title = "Open Image";
+            openFileDialog.Filter = "Image Files | " + sb.ToString();
 
-            if (ofd.ShowDialog() == DialogResult.OK) {
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 try {
-                    game.imageName = ofd.SafeFileName; // name
-                    image = Image.FromFile(ofd.FileName); // path + name
+                    game.imageName = openFileDialog.SafeFileName; // name
+                    image = Image.FromFile(openFileDialog.FileName); // path + name
                     gameImage.BackgroundImage = image;
-                    imageSeach.Text = ofd.FileName;
+                    imageText.Text = openFileDialog.FileName;
+
                 } catch (Exception ex) {
-                    MessageBox.Show(ex.Message);
+                    NiceMessageBox.Show(ex.Message);
                 }
             }
         }

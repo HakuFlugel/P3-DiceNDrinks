@@ -65,8 +65,7 @@ namespace AdministratorPanel {
                 MessageBox.Show(e.Message, "Connection Error");
                 return;
             } catch (Exception e) {
-                MessageBox.Show(e.Message);
-                return;
+                NiceMessageBox.Show(e.Message);
             }
             if (games.Count > 0) {
                 foreach (var item in games) {

@@ -53,9 +53,17 @@ namespace AdministratorPanel {
             container.Controls.Add(CreateControls());
 
             container.Controls.Add(p);
-           
-            p.Controls.Add(deletebutton);
-            deletebutton.Click += this.delete;
+
+            if (canDelete)
+            {
+                Button delete = new Button();
+                delete.Text = "Delete";
+                delete.Name = "delete";
+                delete.Dock = DockStyle.Left;
+                delete.Click += this.delete;
+                p.Controls.Add(delete);
+
+            }
 
             cancelButton.Click += this.cancel;
             p.Controls.Add(cancelButton);
@@ -68,9 +76,9 @@ namespace AdministratorPanel {
             switch (e.CloseReason) {
                 case CloseReason.UserClosing:
                     SystemSounds.Question.Play();
-                    //TODO: see product on close for messagebox text
+                    //TODO: see product on close for NiceMessageBox text
                     if (hasBeenChanged && DialogResult.No ==
-                        MessageBox.Show("Are you sure? Everything unsaved will be lost.",
+                        NiceMessageBox.Show("Are you sure? Everything unsaved will be lost.",
                             "About to close", MessageBoxButtons.YesNo)) {
 
                         e.Cancel = true;
@@ -94,5 +102,58 @@ namespace AdministratorPanel {
         private void cancel(object sender, EventArgs e) {
             Close();
         }
+    }
+
+    class TestPopupbox : FancyPopupBox {
+        //for products
+        protected Product product;
+
+        public TestPopupbox(Product product) {
+
+            this.product = product;
+
+
+        }
+
+        protected override void delete(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        protected override void save(object sender, EventArgs e) {
+            throw new NotImplementedException();
+        }
+
+        protected override Control CreateControls() {
+
+
+            TableLayoutPanel tableLayoutPanel = new TableLayoutPanel();
+            tableLayoutPanel.RowCount = 1;
+            tableLayoutPanel.ColumnCount = 2;
+            tableLayoutPanel.Dock = DockStyle.Fill;
+            tableLayoutPanel.AutoSize = true;
+            tableLayoutPanel.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
+            Controls.Add(tableLayoutPanel);
+
+            for (int ppp = 0; ppp < 2; ppp++) {
+                TableLayoutPanel tp = new TableLayoutPanel();
+                tp.ColumnCount = 1;
+                tp.Dock = DockStyle.Fill;
+                tp.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
+                tp.AutoSize = true;
+                tableLayoutPanel.Controls.Add(tp);
+                for (int i = 0; i < 20; i++) {
+                    NiceTextBox tb = new NiceTextBox();
+                    //tb.Dock = DockStyle.Fill;
+                    tb.waterMark = i.ToString();
+                    tb.clearable = true;
+                    tb.Width = 400;
+
+                    tp.Controls.Add(tb);
+                }
+            }
+
+            return tableLayoutPanel;
+        }
+
     }
 }

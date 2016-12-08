@@ -43,19 +43,19 @@ namespace AdministratorPanel {
                 return;
             }
             calendar.SelectionStart = cd.theDay.Date;
-            //TODO: move to event in reservationtab or should it be part of this class instead?
-            //            calTab.reserveSpaceValue = 0;
-            //            foreach (var item in cd.reservations.FindAll(o => o.pending == false)) {
-            //                calTab.reserveSpaceValue += item.numPeople;
-            //            }
-            //            if (calTab.reserveSpaceValue < 100) {
-            //                calTab.reserveSpace.Value = calTab.reserveSpaceValue;
-            //            }
-            //            else {
-            //                calTab.reserveSpace.Value = 100;
-            //                MessageBox.Show("The newReservation max count is exceeded!");
-            //            }
-            //            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
+//TODO: move to event in reservationtab or should it be part of this class instead?
+//            calTab.reserveSpaceValue = 0;
+//            foreach (var item in cd.reservations.FindAll(o => o.pending == false)) {
+//                calTab.reserveSpaceValue += item.numPeople;
+//            }
+//            if (calTab.reserveSpaceValue < 100) {
+//                calTab.reserveSpace.Value = calTab.reserveSpaceValue;
+//            }
+//            else {
+//                calTab.reserveSpace.Value = 100;
+//                NiceMessageBox.Show("The newReservation max count is exceeded!");
+//            }
+//            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
 
             //            calTab.reservationFull.Checked = cd.isFullChecked;
 

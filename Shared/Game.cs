@@ -5,6 +5,7 @@ using System.Text;
 namespace Shared {
     public class Game {
         public int id;
+        public DateTime timestamp;
         public string bggid;
 
         public string name;

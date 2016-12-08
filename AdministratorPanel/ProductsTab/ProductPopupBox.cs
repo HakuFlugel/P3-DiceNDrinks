@@ -79,10 +79,9 @@ namespace AdministratorPanel {
             this.productTab = productTab;
             this.productItem = productItem;
 
-            Focus();
 
             dataTable.Columns.Add("Name", typeof(string));
-            dataTable.Columns.Add("Price", typeof(decimal));
+            dataTable.Columns.Add("Price", typeof(string));
 
             if (this.productItem != null) {
                 productNameBox.Text = this.productItem.product.name;
@@ -98,7 +97,7 @@ namespace AdministratorPanel {
                         productImagePanel.BackgroundImage = image;
 
                     } catch (Exception e) {
-                        MessageBox.Show(e.Message);
+                        NiceMessageBox.Show(e.Message);
                     }
                 }
 
@@ -107,6 +106,7 @@ namespace AdministratorPanel {
             }
             priceElements.DataSource = dataTable;
             update();
+
         }
 
         private void update() {
@@ -152,7 +152,7 @@ namespace AdministratorPanel {
                 if (ofd.ShowDialog() == DialogResult.OK) {
 
                     if (File.Exists("images/" + ofd.SafeFileName)) {
-                        MessageBox.Show("imagename already exist");
+                        NiceMessageBox.Show("imagename already exist");
                     }
 
                     try {
@@ -161,7 +161,7 @@ namespace AdministratorPanel {
                         productImagePanel.BackgroundImage = image; 
                         
                     } catch (Exception ex) {
-                        MessageBox.Show(ex.Message);
+                        NiceMessageBox.Show(ex.Message);
                     }
                 }
             };
@@ -184,7 +184,7 @@ namespace AdministratorPanel {
             if (priceElements.Count > 0) {
                 foreach (var item in priceElements) {
 
-                    dataTable.Rows.Add(item.name, item.price);
+                    dataTable.Rows.Add(item.name, item.price.ToString());
                 }
             }
         }
@@ -195,8 +195,16 @@ namespace AdministratorPanel {
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                if (dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
-                    MessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
+                bool justReturn = false;
+                decimal bob = 0;
+                try {
+                    bob = decimal.Parse(dataTable.Rows[row][1].ToString());
+                } catch (Exception) {
+                    justReturn = true;
+                }
+
+                if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
+                    NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
                 } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
                     continue;
@@ -241,7 +249,7 @@ namespace AdministratorPanel {
             Directory.CreateDirectory("images");
 
             if (image == null) {
-                if (DialogResult.OK != MessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
+                if (DialogResult.OK != NiceMessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
                     return;
                 }
                 image = productImagePanel.BackgroundImage;
@@ -251,9 +259,9 @@ namespace AdministratorPanel {
                 }
             }
             // convert priceelements to saves
-            List<PriceElement> listOfpriceElements = SavePriceElemets();
-            if (listOfpriceElements == null) {
-                MessageBox.Show("No price set");
+            List<PriceElement> listOfPriceElements = SavePriceElemets();
+            if (listOfPriceElements == null) {
+                NiceMessageBox.Show("No price set");
                 return;
             }
             //make new productSave
@@ -287,6 +295,7 @@ namespace AdministratorPanel {
             productItem.product.image = imageName;
 
             // updates producttab elements
+            
             productTab.MakeItems();
 
             Close();

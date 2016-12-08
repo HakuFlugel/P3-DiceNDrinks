@@ -9,6 +9,7 @@ namespace Shared
     public class ReservationController : ControllerBase
     {
 
+        public int totalSeats;
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
@@ -31,7 +32,7 @@ namespace Shared
         public void updateReservation(Reservation reservation)
         {
             Reservation oldReservation =
-                reservationsCalendar.SelectMany(cd => cd.reservations).FirstOrDefault(r => r.id == reservation.id);
+                reservationsCalendar.SelectMany(cd => cd.reservations).First(r => r.id == reservation.id);
 
             reservation.created = oldReservation.created;
 
@@ -110,21 +111,37 @@ namespace Shared
 
         public void addRoom(Room room) {
             rooms.Add(room);
+            calculateSeats();
+
+            foreach (var day in reservationsCalendar)
+            {
+                day.calculateSeats(this);
+            }
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         public void removeRoom(Room room)
         {
             rooms.Remove(room);
+            calculateSeats();
+
             foreach (var day in reservationsCalendar) {
                 day.unreserveRoom(this, room);
                 //day.roomsReserved.Remove(room);
                 //day.calculateSeats(this);
             }
 
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        public void changeRoom(Room oldroom, Room room) {
+        public void changeRoom(Room room)
+        {
+
+            Room oldroom = rooms.First(r => r.id == room.id);
+
             rooms[rooms.IndexOf(oldroom)] = room;
+            calculateSeats();
 
             foreach (var day in reservationsCalendar) {
                 int roomindex = day.roomsReserved.IndexOf(oldroom);
@@ -133,6 +150,13 @@ namespace Shared
                 day.roomsReserved[roomindex] = room;
                 day.calculateSeats(this);
             }
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void calculateSeats()
+        {
+            totalSeats = rooms.Sum(r => r.seats);
         }
 
         public override void save()
@@ -144,14 +168,14 @@ namespace Shared
          
             
             //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
-
-            int reservedSeats = 0;
+            
 
             if(resDay != null ) {
                 if (resDay.numSeats == 0)
                     resDay.calculateSeats(this);
-                foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
-                    reservedSeats += item.numPeople;
+                    resDay.calculateReservedSeats();
+//                foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
+//                    reservedSeats += item.numPeople;
             }
 
             if (resDay != null && resDay.isLocked && reservation.state != Reservation.State.Denied) {
@@ -184,6 +208,8 @@ namespace Shared
         {
             reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
             rooms = loadFile<Room>("rooms");
+
+            calculateSeats();
         }
 
     }

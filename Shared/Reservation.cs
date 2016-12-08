@@ -8,6 +8,7 @@ namespace Shared {
             Denied = 2,
         }
         public int id;
+        public DateTime timestamp;
         public string name;
         public string email;
         public string phone;

@@ -21,11 +21,12 @@ namespace AdministratorPanel {
             ColumnCount = 1;
 
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
-            MinimumSize = new Size(200,440);
+            MinimumSize = new Size(200, 440);
 
             AutoSize = false;
             AutoScroll = true;
             HScroll = false;
+
         }
 
         public void makeItems(string seach) {

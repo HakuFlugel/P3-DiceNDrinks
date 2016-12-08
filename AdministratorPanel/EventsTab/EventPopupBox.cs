@@ -120,8 +120,8 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            if (DialogResult.Yes == MessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
-                eventsTab.EventList.Remove(evnt);
+            if (DialogResult.Yes == NiceMessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
+                eventsTab.Evnts.Remove(evnt);
                 eventsTab.makeItems();
             }
         }
@@ -139,8 +139,8 @@ namespace AdministratorPanel {
             expectedStartDate =  endDatePicker.Value.Add(expectedStartDate.TimeOfDay);
 
             if (eventName.Text == null || eventDescription.Text == null) {
-                SystemSounds.Hand.Play();
-                MessageBox.Show("You need to add a name and description");
+               
+                NiceMessageBox.Show("You need to input a name and description");
                 return;
             }
 

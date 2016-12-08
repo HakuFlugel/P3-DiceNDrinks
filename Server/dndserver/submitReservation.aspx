@@ -3,51 +3,46 @@
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
 
-    //    if (!diceServer.authentication.authenticate(Request.Form["AdminKey"]))
-    //    {
-    //        //throw new HttpException(404, "Not Found");
-    //        Response.Clear();
-    //        Response.StatusCode = 403;
-    //        Response.End();
-    //    }
-
     string action = Request.Form["Action"];
     string reservationString = Request.Form["Reservation"] ?? "null";
 
     Shared.Reservation reservation = Newtonsoft.Json.JsonConvert.DeserializeObject<Shared.Reservation>(reservationString);
 
+    if (reservation == null || action == null)
+    {
+        Response.Write("No reservation provided");
+        return;
+    }
+
+    //TODO: make sure it handles both correct and incorrect input...
     Application.Lock();
-    if (action == "delete")
+    switch (action)
     {
-        diceServer.reservationController.removeReservation(reservation);
-    }
-    else if (action == "add")
-    {
-        diceServer.reservationController.addReservation(reservation);
-    }
-    else if (action == "update")
-    {
-        diceServer.reservationController.updateReservation(reservation);
+        case "delete":
+            diceServer.reservationController.removeReservation(reservation);
+            Response.Write("deleted");
+            break;
+        case "add":
+            reservation.timestamp = DateTime.UtcNow;
+            diceServer.reservationController.addReservation(reservation);
+            Response.Write("added " + reservation.id);
+            break;
+        case "update":
+            try
+            {
+                reservation.timestamp = DateTime.UtcNow; //TODO: fix merge
+                diceServer.reservationController.updateReservation(reservation);
+                Response.Write("updated");
+            }
+            catch (Exception)
+            {
+                Response.Write("failed");
+            }
+            break;
+        default:
+            Response.Write("invalid action");
+            break;
     }
     Application.UnLock();
-
-
-
-    if (reservation == null)
-    {
-
-        Response.Write("<p>No reservation provided</p>");
-
-
-    }
-    else
-    {
-        Application.Lock();
-        //TODO: check if add, change or remove; maybe earlier
-        diceServer.reservationController.addReservation(reservation);
-        Response.Write("...");
-        Application.UnLock();
-    }
-
 
 %>
