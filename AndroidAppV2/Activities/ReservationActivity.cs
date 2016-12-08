@@ -24,6 +24,9 @@ namespace AndroidAppV2.Activities
         private bool _data; // checks if the user already has made a reservation
         private Button _dateSelectButton;
         private Button _timeSelectButton;
+        private EditText _nameEdit;
+        private EditText _phoneNumEdit;
+        private EditText _emailEdit;
 
         private bool Data
         {
@@ -46,13 +49,26 @@ namespace AndroidAppV2.Activities
             _timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
-            //TODO: Set up for download
-            AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
-            _res = GetReservation();
-            
-            if (_userId == default(int))
-                _state = false;
+            _nameEdit = FindViewById<EditText>(Resource.Id.nameEdit);
+            _phoneNumEdit = FindViewById<EditText>(Resource.Id.phoneNumEdit);
+            _emailEdit = FindViewById<EditText>(Resource.Id.emailEdit);
 
+            //TODO: Set up for download
+            if (!CheckForInternetConnection()) {
+                acceptingButton.Enabled = false;
+                _dateSelectButton.Enabled = false;
+                _timeSelectButton.Enabled = false;
+                sb.Enabled = false;
+            }
+
+            AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
+
+            if (_userId == default(int)) {
+                _state = false;
+            }
+            else {
+                _res = GetReservation();
+            }
             //Using Random because we have no server to request from (method implemention)? TODO: SERVER
 
             if (_res == null)
@@ -60,18 +76,29 @@ namespace AndroidAppV2.Activities
                 _res = new Reservation();
                 sb.Progress = 0;
             }
+            //else if (_res == null && ) {
+
+            //}
             else
-            {
+            { //fix all of this shit.. q.q
                 Data = true;
                 sb.Progress = _res.numPeople - 1;
                 _chosenDateTime = _res.time;
                 _dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
                 _timeSelectButton.Text = _res.time.ToString("HH:mm");
                 FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
-                FindViewById<EditText>(Resource.Id.nameEdit).Text = _res.name;
-                FindViewById<EditText>(Resource.Id.phoneNumEdit).Text = _res.phone;
-                FindViewById<EditText>(Resource.Id.emailEdit).Text = _res.email;
-                FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
+                _nameEdit.Text = _res.name;
+                _phoneNumEdit.Text = _res.phone;
+                _emailEdit.Text = _res.email;
+                if (!_res.pending) {
+                    string pendingState = "<font color='#ffff00'>Awaiting answer</font>";
+                    FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + pendingState;
+                }
+                else {
+                    string confirmedState = "<font color='#00ff00'>Confirmed!</font>";
+                    FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + confirmedState;
+                }
+                
             }
             _dateSelectButton.Click += delegate
             {
@@ -98,9 +125,9 @@ namespace AndroidAppV2.Activities
             {
                 _res.numPeople = sb.Progress + 1;
                 _res.time = _chosenDateTime;
-                _res.name = FindViewById<EditText>(Resource.Id.nameEdit).Text;
-                _res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
-                _res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
+                _res.name = _nameEdit.Text;
+                _res.phone = _phoneNumEdit.Text;
+                _res.email = _emailEdit.Text;
                 _res.created = DateTime.Now;
                 if (_userId != null) {
                     _res.id = _userId;
@@ -161,15 +188,15 @@ namespace AndroidAppV2.Activities
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
             if (Data)
             {
+                UpdateReservation();
                 resSucces.SetMessage("Your reservation has been updated, and are awating a answer!");
                 resSucces.SetTitle("Reservation updated");
-                UpdateReservation();
             }
             else
             {
+                AddReservation();
                 resSucces.SetMessage("Your reservation has been created, and are awating a answer!");
                 resSucces.SetTitle("Reservation sent");
-                AddReservation();
             }
             _state = true;
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) =>
@@ -275,6 +302,19 @@ namespace AndroidAppV2.Activities
         public void OnStopTrackingTouch(SeekBar seekBar)
         {
 
+        }
+
+        public static bool CheckForInternetConnection() {
+            try {
+                using (var client = new WebClient()) {
+                    using (var stream = client.OpenRead("http://172.25.11.113")) {
+                        return true;
+                    }
+                }
+            }
+            catch {
+                return false;
+            }
         }
 
         private void AddReservation()
