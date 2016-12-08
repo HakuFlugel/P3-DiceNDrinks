@@ -249,6 +249,37 @@ namespace AndroidAppV2
 
             return result;
         }
+        public class ImageDownloader {
 
+            private readonly string _gddId;
+            private readonly string _url;
+            public Bitmap Bitmap { get; private set; }
+            public string ImagePath;
+
+            public ImageDownloader(string gddIdIn, string category) {
+                _gddId = gddIdIn; //eg. image.png
+                _url = $"http://172.25.11.113/images/{category}/{gddIdIn}";
+                DownloadImage();
+                SaveImage();
+            }
+
+            private void DownloadImage() {
+                if (!Uri.IsWellFormedUriString(_url, UriKind.Absolute)) return;
+                WebRequest request = WebRequest.Create(_url);
+                WebResponse response = request.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                Bitmap = BitmapFactory.DecodeStream(responseStream);
+            }
+
+            private void SaveImage() {
+                ImagePath = Android.OS.Environment.ExternalStorageDirectory.Path + $"/DnD/images/{_gddId}";
+
+                if (File.Exists(ImagePath))
+                    return;
+                using (FileStream os = new FileStream(ImagePath, FileMode.CreateNew)) {
+                    Bitmap.Compress(Bitmap.CompressFormat.Png, 75, os);
+                }
+            }
+        }
     }
 }
