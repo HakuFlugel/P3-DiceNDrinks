@@ -203,10 +203,9 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
         }
 
-        /*string --> deserialize json(som Tuple ligesom _values) --> tag product list ud af tuple --> product objecter*/
         public List<Product> DownloadProducts() {
             WebClient client = new WebClient();
-            var resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection {
                     {"Type", "Products"}});
             string result = System.Text.Encoding.UTF8.GetString(resp);
@@ -215,6 +214,42 @@ namespace AndroidAppV2
             List<Product> newlist = values.Item2;
 
             return newlist;
+        }
+
+        public List<T> DownloadItem<T>(string type) {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection {
+                    {"Type", type}});
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+
+            return JsonConvert.DeserializeObject<List<T>>(result);
+        }
+
+        public Reservation DownloadReservation(string id) {
+            WebClient client = new WebClient();
+            if (id != null)
+            {
+                byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                    new NameValueCollection {
+                        {"Type", "Reservation"},
+                        {"ReservationID", id}});
+                string result = System.Text.Encoding.UTF8.GetString(resp);
+
+                return JsonConvert.DeserializeObject<Reservation>(result);
+            }
+            else
+            {
+                byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                    new NameValueCollection {
+                        {"Type", "Reservation"},
+                        {"ReservationID", null}});
+                string result = System.Text.Encoding.UTF8.GetString(resp);
+                //Tuple<List<Room>, List<CalendarDay>> values = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(result);
+
+                //return JsonConvert.DeserializeObject<Reservation>(values); TODO: this needs to be fixed
+                return default(Reservation);
+            }
         }
     }
 }
