@@ -105,10 +105,29 @@ namespace AdministratorPanel {
                 Controls.Find("delete", true).First().Enabled = false;
             }
             priceElements.DataSource = dataTable;
+            SubscriptionController();
             update();
 
         }
 
+        private void SubscriptionController() {
+            categoryName.SelectedValueChanged += (s, e) => {
+                sectionName.Items.Clear();
+                if (categoryName.Text != "Category Name" && categoryName.Text != "") {
+                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryName.Text);
+                    sectionName.Items.AddRange(cat.sections.ToArray());
+                    sectionName.Text = "Section Name";
+                }
+                hasBeenChanged = (productItem != null) ? productItem.product.category != categoryName.Text ? true : false : true;
+            };
+            priceElements.CellValueChanged += (s, e) => { hasBeenChanged = true; };
+            productName.TextChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.name != productName.Text ? true : false : true; };
+            sectionName.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionName.Text ? true : false : true; };
+            productImage.BackgroundImageChanged += (s, e) => {hasBeenChanged = (productItem != null) ? Image.FromFile("images/" + productItem.product.image) != productItem.BackgroundImage };
+
+
+        }
+        
         private void update() {
             categoryNameDropDownBoxx.Items.Clear();
             // update dropdowns
@@ -116,14 +135,7 @@ namespace AdministratorPanel {
                 categoryNameDropDownBoxx.Items.Add(item.name);
             }
 
-            categoryNameDropDownBoxx.SelectedValueChanged += (s, e) => {
-                sectionNameDropDownBox.Items.Clear();
-                if (categoryNameDropDownBoxx.Text != "Category Name" && categoryNameDropDownBoxx.Text != "") {
-                    ProductCategory cat = productTab.productCategories.First(o => o.name == categoryNameDropDownBoxx.Text);
-                    sectionNameDropDownBox.Items.AddRange(cat.sections.ToArray());
-                    sectionNameDropDownBox.Text = "Section Name";
-                } 
-            };
+            
         }
 
         protected override Control CreateControls() {
