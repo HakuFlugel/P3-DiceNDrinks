@@ -86,7 +86,7 @@ namespace AndroidAppV2.ListAdapters {
                     _items.Sort((a, b) => a.difficulity.CompareTo(b.difficulity));
                     break;
                 case 7:
-                    _items.Sort((a, b) => a.addedDate.CompareTo(b.addedDate));
+                    _items.Sort((a, b) => a.timestamp.CompareTo(b.timestamp));
                     break;
                 default:
                     throw new KeyNotFoundException($"Could not find key: \"{key}\"");

@@ -31,7 +31,6 @@ namespace Shared {
                     genre.Add(item);
                 difficulity = game.difficulity;
                 publishedYear = game.publishedYear;
-                addedDate = game.addedDate;
                 minPlayers = game.minPlayers;
                 maxPlayers = game.maxPlayers;
                 minPlayTime = game.minPlayTime;
@@ -49,7 +48,6 @@ namespace Shared {
             sb.AppendLine("bggid = " + bggid);
             sb.AppendLine("name = " + name);
             sb.AppendLine("publishedYear = " + publishedYear);
-            sb.AppendLine("added = " + addedDate);
             sb.AppendLine();
             sb.AppendLine("minplayers = " + minPlayers);
             sb.AppendLine("maxplayers = " + maxPlayers);
