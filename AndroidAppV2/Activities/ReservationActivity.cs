@@ -47,10 +47,9 @@ namespace AndroidAppV2.Activities
             Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
 
             //TODO: Set up for download
-
             AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
-            AndroidShared.LoadData(this, "VirtualServerReservation.json", out _res);
-
+            _res = GetReservation();
+            
             if (_userId == default(int))
                 _state = false;
 
@@ -156,27 +155,25 @@ namespace AndroidAppV2.Activities
 
 
             //Saving locally instead of server saving
-            string json = JsonConvert.SerializeObject(res);
-            string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
-            string filename = Path.Combine(path, "VirtualServerReservation.json");
+            //string json = JsonConvert.SerializeObject(res);
+            //string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+            //string filename = Path.Combine(path, "VirtualServerReservation.json");
 
-            File.WriteAllText(filename, json);
+            //File.WriteAllText(filename, json);
 
-            string json2 = JsonConvert.SerializeObject(res.id);
-            string filename2 = Path.Combine(path, "TheUserReservationID.json");
-
-            File.WriteAllText(filename2, json2);
 
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
             if (Data)
             {
                 resSucces.SetMessage("Your reservation has been updated, and are awating a answer!");
                 resSucces.SetTitle("Reservation updated");
+                UpdateReservation();
             }
             else
             {
                 resSucces.SetMessage("Your reservation has been created, and are awating a answer!");
                 resSucces.SetTitle("Reservation sent");
+                AddReservation();
             }
             _state = true;
             resSucces.SetPositiveButton(Resource.String.ok, (senderAlert, args) =>
@@ -295,6 +292,16 @@ namespace AndroidAppV2.Activities
                 });
 
             string result = System.Text.Encoding.UTF8.GetString(resp);
+
+            string[] newResult = result.Split(' ');
+            int id;
+            int.TryParse(newResult[1], out id);
+            _res.id = id;
+
+            string json = JsonConvert.SerializeObject(id);
+            string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+            string filename = Path.Combine(path, "TheUserReservationID.json");
+            File.WriteAllText(filename, json);
 
             //TODO: change reservation state text to display result
 
