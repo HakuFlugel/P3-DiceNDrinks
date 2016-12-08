@@ -2,32 +2,26 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AdministratorPanel
-{
-    public class NiceButton : TableLayoutPanel
-    {
+namespace AdministratorPanel {
+    public class NiceButton : TableLayoutPanel {
         private Color normalColor;
         private Color hoverColor;
 
-        public Color bgColor
-        {
-            set
-            {
+        public Color bgColor {
+            set {
                 normalColor = smartRGB(value.R - 10, value.G - 10, value.B - 10);
                 hoverColor = smartRGB(value.R + 10, value.G + 10, value.B + 10);
                 BackColor = normalColor;
             }
         }
 
-        public NiceButton()
-        {
+        public NiceButton() {
 
         }
 
-        private void makeClickable(Control c)
-        {
+        private void makeClickable(Control c) {
             if (c is Button || c is NiceButton) return;
-
+            Cursor = Cursors.Hand;
             EventHandler onClick = (s, e)    => { this.OnClick(e); };
             EventHandler mouseEnter = (s, e) => { this.OnMouseEnter(e); };
             EventHandler mouseLeave = (s, e) => { this.OnMouseLeave(e); };
@@ -45,48 +39,38 @@ namespace AdministratorPanel
             c.ControlAdded -= controlAdded;
             c.ControlAdded += controlAdded;
 
-            foreach (Control control in c.Controls)
-            {
+            foreach (Control control in c.Controls) {
                 makeClickable(control);
             }
-
         }
 
-        protected override void OnControlAdded(ControlEventArgs e)
-        {
-
+        protected override void OnControlAdded(ControlEventArgs e) {
             makeClickable(e.Control);
 
             base.OnControlAdded(e);
         }
 
-        protected override void OnMouseEnter(EventArgs e)
-        {
+        protected override void OnMouseEnter(EventArgs e) {
             BackColor = hoverColor;
 
             base.OnMouseEnter(e);
         }
 
-        protected override void OnMouseLeave(EventArgs e)
-        {
+        protected override void OnMouseLeave(EventArgs e) {
             BackColor = normalColor;
 
             base.OnMouseLeave(e);
         }
 
-        protected override void OnClick(EventArgs e)
-        {
+        protected override void OnClick(EventArgs e) {
             this.Focus();
             base.OnClick(e);
         }
 
-        private static Color smartRGB(params int[] par)
-        {
-            for (int i = 0; i < par.Length; i++)
-            {
+        private static Color smartRGB(params int[] par) {
+            for (int i = 0; i < par.Length; i++) {
                 par[i] = par[i] > 255 ? 255 : par[i] < 0 ? 0 : par[i];
             }
-
 
             return Color.FromArgb(par[0], par[1], par[2]);
         }

@@ -32,14 +32,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.2-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarDay.cs" />
+    <Compile Include="Controller\ControllerBase.cs" />
+    <Compile Include="Controller\EventsController.cs" />
+    <Compile Include="Controller\GamesController.cs" />
+    <Compile Include="Controller\ProductsController.cs" />
+    <Compile Include="Controller\ReservationController.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Genres.cs" />
     <Compile Include="PriceElement.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductCategory.cs" />
@@ -47,7 +56,12 @@
     <Compile Include="ProductSection.cs" />
     <Compile Include="Reservation.cs" />
     <Compile Include="Room.cs" />
-    <Compile Include="SearchGames.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

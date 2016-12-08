@@ -1,78 +1,99 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using Shared;
 using System;
-using System.Xml;
 using System.IO;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
-        public List<Event> Evnts = new List<Event>();
-        EventList lowertlp = new EventList();
+        public List<Event> EventList = new List<Event>();
+        private EventList lowerTable = new EventList();
+        private FormProgressBar probar;
 
-        public EventsTab() {
-            Load();
+        private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
+            Dock = DockStyle.Fill,                        
+            RowCount = 2,
+            ColumnCount = 1,
+        };
 
+        private FlowLayoutPanel innerTopFlowLayoutPanel = new FlowLayoutPanel() {
+            Dock = DockStyle.Top,
+            FlowDirection = FlowDirection.RightToLeft,
+            AutoSize = true,
+        };
+
+        private Button addEventButton = new Button() {
+            Height = 20,
+            Width = 100,
+            Text = "Add Event",
+        };
+
+        public EventsTab(FormProgressBar probar) {
+            //name of the tab
             Text = "Events";
+            this.probar = probar;
 
-            TableLayoutPanel headtlp = new TableLayoutPanel();
-            headtlp.Dock = DockStyle.Fill;
-            headtlp.BackColor = Color.Transparent;
-            headtlp.RowCount = 2;
-            headtlp.ColumnCount = 1;
-
-            FlowLayoutPanel topflp = new FlowLayoutPanel();
-            topflp.Dock = DockStyle.Top;
-            topflp.FlowDirection = FlowDirection.RightToLeft;
-            topflp.AutoSize = true;
+            Load();
+            probar.addToProbar();                               //For progress bar. 1
 
             makeItems();
+            probar.addToProbar();                               //For progress bar. 2
 
-            Button addEvent = new Button();
-            addEvent.Height = 20;
-            addEvent.Width = 100;
-            addEvent.Text = "Add Event";
-            addEvent.Click += (s, e) => {
+            addEventButton.Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(this);
-                p.Show();
             };
+            probar.addToProbar();                               //For progress bar. 3
 
-            topflp.Controls.Add(addEvent);           
-            headtlp.Controls.Add(topflp);
-            headtlp.Controls.Add(lowertlp);
+            innerTopFlowLayoutPanel.Controls.Add(addEventButton);
+            probar.addToProbar();                               //For progress bar. 4
+                      
+            headerTableLayoutPanel.Controls.Add(innerTopFlowLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 5
 
-            Controls.Add(headtlp);
-            
+            headerTableLayoutPanel.Controls.Add(lowerTable);
+            probar.addToProbar();                               //For progress bar. 6
+
+            Controls.Add(headerTableLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 7
         }
 
         public void makeItems() {
-            lowertlp.Controls.Clear();
+            lowerTable.Controls.Clear();
 
-            foreach (var item in Evnts.OrderBy((Event e) => e.startDate)) {
-                lowertlp.Controls.Add(new EventItem(this, item));
+            foreach (var item in EventList.OrderBy((Event e) => e.startDate)) {
+                lowerTable.Controls.Add(new EventItem(this, item));
             }
         }
 
         public override void Save() {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Event>));
-            using (StreamWriter textWriter = new StreamWriter(@"fix.xml")) {
-                serializer.Serialize(textWriter, Evnts);
+
+            var jsonEvents = JsonConvert.SerializeObject(EventList);
+            Directory.CreateDirectory("Sources");
+            using (StreamWriter textWriter = new StreamWriter(@"Sources/EventList.json")) {
+                foreach (var item in jsonEvents) {
+                    textWriter.Write(item.ToString());
+                }
             }
         }
 
         public override void Load() {
-            //XmlDeclaration deserializer = new XmlDeclaration();
-            XmlSerializer deserializer = new XmlSerializer(typeof(List<Event>));
-            using (FileStream fileReader = new FileStream(@"fix.xml", FileMode.OpenOrCreate)) {
-                try {
-                    Evnts = deserializer.Deserialize(fileReader) as List<Event>;
 
+            string loadStringCategory;
+            if (File.Exists(@"Sources/EventList.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/EventList.json")) {
+                    loadStringCategory = streamReader.ReadToEnd();
+                    streamReader.Close();
                 }
-                catch (Exception) { }
-            }   
+
+                if (loadStringCategory != null) {
+                    EventList = JsonConvert.DeserializeObject<List<Event>>(loadStringCategory);
+                } else {
+                    EventList = new List<Event>();
+                }
+            }
         }
     }
 }

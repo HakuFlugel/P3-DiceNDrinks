@@ -5,7 +5,23 @@ using Shared;
 
 namespace AdministratorPanel {
     public class GamesItem : NiceButton {
-        Game game;
+
+        private TableLayoutPanel gameInformationLeft = new TableLayoutPanel() {
+            ColumnCount = 1,
+            RowCount = 2
+        };
+
+        private TableLayoutPanel gameInformationMiddle = new TableLayoutPanel() {
+            ColumnCount = 1,
+            RowCount = 2
+        };
+
+        private TableLayoutPanel gameInformationRight = new TableLayoutPanel() {
+            ColumnCount = 1,
+            RowCount = 2
+        };
+
+        private Game game;
         public GamesItem(Game game) {
             RowCount = 1;
             this.game = game;
@@ -15,46 +31,28 @@ namespace AdministratorPanel {
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
-
             
+            gameInformationLeft.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
+            gameInformationLeft.Controls.Add(new Label { Text = game.bggid, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
-            TableLayoutPanel x1 = new TableLayoutPanel();
-            x1.ColumnCount = 1;
-            x1.RowCount = 2;
-            x1.Controls.Add(new Label { Text = game.name, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-            x1.Controls.Add(new Label { Text = game.bggid, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-
-            Controls.Add(x1);
-
-            TableLayoutPanel x2 = new TableLayoutPanel();
-            x2.ColumnCount = 1;
-            x2.RowCount = 2;
-            x2.Controls.Add(new Label { Text = "min players: " + game.minPlayers, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-            x2.Controls.Add(new Label { Text = "max players: " + game.maxPlayers, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-
-            Controls.Add(x2);
-
-            TableLayoutPanel x3 = new TableLayoutPanel();
-            x3.ColumnCount = 1;
-            x3.RowCount = 2;
-            x3.Controls.Add(new Label { Text = "min time: " + game.minPlayTime, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-            x3.Controls.Add(new Label { Text = "max time: " + game.maxPlayTime, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
-
+            Controls.Add(gameInformationLeft);
             
-            Controls.Add(x3);
+            gameInformationMiddle.Controls.Add(new Label { Text = "min players: " + game.minPlayers, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
+            gameInformationMiddle.Controls.Add(new Label { Text = "max players: " + game.maxPlayers, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
 
-            Controls.Add(new PictureBox { BackColor = Color.Black, Dock = DockStyle.Right });
+            Controls.Add(gameInformationMiddle);
             
+            gameInformationRight.Controls.Add(new Label { Text = "min time: " + game.minPlayTime, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
+            gameInformationRight.Controls.Add(new Label { Text = "max time: " + game.maxPlayTime, AutoSize = true, Dock = DockStyle.Left, Font = new Font("Arial", 15) });
             
+            Controls.Add(gameInformationRight);
 
+
+            try {
+                Controls.Add(new Panel() { Dock = DockStyle.Right, Size = new Size(128, 128), BackgroundImage = Image.FromFile($"images/{game.imageName}"), BackgroundImageLayout = ImageLayout.Zoom, BackColor = Color.Gray, });
+            } catch (Exception) {
+
+            }
         }
-        protected override void OnClick(EventArgs e) {
-            
-
-            GamePopupBox p = new GamePopupBox(null, game);
-            
-            base.OnClick(e);
-        }
-
     }
 }

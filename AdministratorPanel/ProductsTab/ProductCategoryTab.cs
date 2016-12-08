@@ -19,7 +19,7 @@ namespace AdministratorPanel {
             table.GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             table.AutoSize = true;
             
-            makeItems(productCategory.sections); // make sections
+            makeItems(productCategory.sections); // makes sections
 
             Controls.Add(table);
         }
