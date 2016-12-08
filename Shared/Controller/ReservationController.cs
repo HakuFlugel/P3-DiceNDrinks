@@ -22,11 +22,12 @@ namespace Shared
             reservation.created = DateTime.Now;
 
             addToDay(reservation);
-
             //ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
             checkIfAutoAccept(reservation, findDay(reservation.time));
+
+            save();
         }
         //TODO: make sure it is pending if from user
         public void updateReservation(Reservation reservation)
@@ -44,6 +45,7 @@ namespace Shared
 
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
+            save();
         }
 
         public void removeReservation(Reservation reservation) {
@@ -52,6 +54,8 @@ namespace Shared
 
             //ReservationRemoved?.Invoke(this, new RemoveReservationEventArgs(reservation));
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
+
+            save();
         }
 
         private Random rand = new Random();
@@ -86,6 +90,8 @@ namespace Shared
                 resDay = new CalendarDay() { theDay = date.Date };
                 reservationsCalendar.Add(resDay);
             }
+            resDay.calculateSeats(this);
+
             return resDay;
         }
         public bool checkIfRemove(CalendarDay day) {
@@ -109,7 +115,41 @@ namespace Shared
             //resDay.reservedSeats -= reservation.numPeople;
         }
 
-        public void addRoom(Room room) {
+        public void submitRooms(List<Room> rooms)
+        {
+            List<Room> toremove = new List<Room>();
+            foreach (var existingroom in this.rooms)
+            {
+                if (!rooms.Any(r => r.id == existingroom.id))
+                {
+                    toremove.Add(existingroom);
+                    //reservationController.removeRoom(existingroom);
+                }
+            }
+            foreach (var room in toremove)
+            {
+                removeRoom(room);
+            }
+
+
+            foreach (var room in rooms)
+            {
+
+                if (this.rooms.Any(r => r.name == room.name))
+                {
+                    changeRoom(room);
+                }
+                else
+                {
+                    addRoom(room);
+                }
+            }
+
+            save();
+
+        }
+
+        private void addRoom(Room room) {
             rooms.Add(room);
             calculateSeats();
 
@@ -121,7 +161,7 @@ namespace Shared
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        public void removeRoom(Room room)
+        private void removeRoom(Room room)
         {
             rooms.Remove(room);
             calculateSeats();
@@ -135,7 +175,7 @@ namespace Shared
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        public void changeRoom(Room room)
+        private void changeRoom(Room room)
         {
 
             Room oldroom = rooms.First(r => r.id == room.id);

@@ -23,12 +23,12 @@ namespace Server
         {
             this.path = path;
 
-            authentication = new Authentication(path);
+            authentication = new Authentication(path+"data/");
 
-            reservationController = new ReservationController(path);
-            eventsController = new EventsController(path);
-            gamesController = new GamesController(path);
-            productsController = new ProductsController(path);
+            reservationController = new ReservationController(path+"data/");
+            eventsController = new EventsController(path+"data/");
+            gamesController = new GamesController(path+"data/");
+            productsController = new ProductsController(path+"data/");
 
 
 

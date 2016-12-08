@@ -51,7 +51,7 @@ namespace Shared
 
         protected void saveFile<T>(string name, List<T> content)
         {
-            Directory.CreateDirectory("data");
+            Directory.CreateDirectory(path);
 
             using (StreamWriter streamWriter = new StreamWriter(path + name + ext))
             using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))

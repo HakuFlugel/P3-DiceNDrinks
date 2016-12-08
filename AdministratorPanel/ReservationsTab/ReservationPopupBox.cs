@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
@@ -121,12 +124,35 @@ namespace AdministratorPanel {
         protected override void delete(object sender, EventArgs e) {
             if (DialogResult.Yes == MessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
 
+                WebClient client = new WebClient();
+                var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                    new NameValueCollection() {
+                        {"Action", "delete"},
+                        {"Reservation", JsonConvert.SerializeObject(reservation)}
+                    }
+                );
+
+                string[] response = System.Text.Encoding.Default.GetString(resp).Split(' ');
+
+                if (response[0] != "deleted")
+                {
+                    Console.WriteLine("failed to delete reservation");
+                    return;
+                }
+
                 reservationController.removeReservation(reservation);
 
                 //TODO: move to event on list... _.. er auto-rename
                 //_reservationController.reserveationList.updateCurrentDay(DateTime.Today.Date);
                 //_reservationController.pendingReservationList.updateCurrentDay();
             }
+            //"http://172.25.11.113"
+
+
+
+
+            Close();
+
         }
 
         protected override void save(object sender, EventArgs e) {
@@ -166,7 +192,6 @@ namespace AdministratorPanel {
             // actual saving
 
             Reservation newres = new Reservation();
-            newres.id = reservation.id;
             newres.timestamp = DateTime.UtcNow;
 
             newres.state = (Reservation.State)pendingSet.SelectedValue;
@@ -178,13 +203,46 @@ namespace AdministratorPanel {
             newres.time = newDate;
             //cd.fullness += newReservation.numPeople;
 
+
+            WebClient client = new WebClient();
+            var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                new NameValueCollection() {
+                    {"Action", reservation == null ? "add" : "update"},
+                    {"Reservation", JsonConvert.SerializeObject(newres)}
+                }
+            );
+            string response = System.Text.Encoding.Default.GetString(resp);
+            string[] responsesplit = response.Split(' ');
+
             if (reservation == null) {
+
+                if (responsesplit[0] != "added")
+                {
+                    Console.WriteLine("wrong response: " + response);
+                }
+
+                if (!int.TryParse(responsesplit[1], out newres.id))
+                {
+                    Console.WriteLine("invalid reservation id returned");
+                    return;
+                }
+
                 reservationController.addReservation(newres);
             }
             else
             {
+                newres.id = reservation.id;
                 reservationController.updateReservation(newres);
             }
+//"http://172.25.11.113"
+
+
+//            HttpWebRequest request = WebRequest.CreateHttp("172.25.11.113" + "/submitReservation.aspx");
+//            request.Method = "POST";
+//            request.ContentType = "multipart/form-data";
+//            MultipartFormDataContent content = new MultipartFormDataContent();
+//
+//            content.Add();
 
             this.Close();
 
