@@ -54,12 +54,6 @@ namespace AndroidAppV2.Activities
                 _state = false;
 
             //Using Random because we have no server to request from (method implemention)? TODO: SERVER
-            if (_userId == 0)
-            {
-                Random random = new Random();
-
-                _userId = random.Next(0, 100);
-            }
 
             if (_res == null)
             {
@@ -108,8 +102,10 @@ namespace AndroidAppV2.Activities
                 _res.phone = FindViewById<EditText>(Resource.Id.phoneNumEdit).Text;
                 _res.email = FindViewById<EditText>(Resource.Id.emailEdit).Text;
                 _res.created = DateTime.Now;
-
-                _res.id = _userId;
+                if (_userId != null) {
+                    _res.id = _userId;
+                }
+                
                 SendData(_res);
             };
 
