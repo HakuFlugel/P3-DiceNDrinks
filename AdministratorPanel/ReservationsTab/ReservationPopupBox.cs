@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
+using System.Net;
+using Newtonsoft.Json;
 using System.Media;
 
 namespace AdministratorPanel {
@@ -125,7 +128,7 @@ namespace AdministratorPanel {
             innerRigntTableLayoutPanel.Controls.Add(numPeople);
             innerRigntTableLayoutPanel.Controls.Add(phoneNumber);
             innerRigntTableLayoutPanel.Controls.Add(email);
-            
+
             innerLeftTableLayoutPanel.Controls.Add(datePicker);
             innerLeftTableLayoutPanel.Controls.Add(timePicker);
             innerLeftTableLayoutPanel.Controls.Add(pendingSet);
@@ -136,8 +139,28 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
-            
+
             if (DialogResult.Yes == NiceMessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
+
+                WebClient client = new WebClient();
+                var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                    new NameValueCollection() {
+                        {"Action", "delete"},
+                        {"Reservation", JsonConvert.SerializeObject(reservation)}
+                    }
+                );
+
+                string response = System.Text.Encoding.Default.GetString(resp);
+                Console.WriteLine(response);
+
+                string[] responsesplit = response.Split(' ');
+
+
+                if (responsesplit[0] != "deleted")
+                {
+                    Console.WriteLine("failed to delete reservation");
+                    return;
+                }
 
                 reservationController.removeReservation(reservation);
 
@@ -145,6 +168,13 @@ namespace AdministratorPanel {
                 //_reservationController.reserveationList.updateCurrentDay(DateTime.Today.Date);
                 //_reservationController.pendingReservationList.updateCurrentDay();
             }
+            //"http://172.25.11.113"
+
+
+
+
+            Close();
+
         }
 
         protected override void save(object sender, EventArgs e) {
@@ -153,17 +183,17 @@ namespace AdministratorPanel {
             //TODO: use a proper control for things such as time, so that we don't have to implement these checks all over the program...
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
-                
+
                 NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
-            if ((reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark)) {
-                
+            if (reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark) {
+
                 NiceMessageBox.Show("You need to input a name AND a number of people");
                 return;
             }
             if (phoneNumber.Text == phoneNumber.waterMark && email.Text == email.waterMark) {
-                
+
                 NiceMessageBox.Show("You need to input a phone number or a email");
                 return;
             }
@@ -177,7 +207,7 @@ namespace AdministratorPanel {
             //string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
             //string tempTime = timePicker.Text;
 
-            DateTime dt = datePicker.Value.Add(expectedDate.TimeOfDay);
+            DateTime dt = datePicker.Value.Date.Add(expectedDate.TimeOfDay);
 
             //DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
             //                           CultureInfo.InvariantCulture);
@@ -186,7 +216,7 @@ namespace AdministratorPanel {
 
             Reservation newReservation = new Reservation();
             newReservation.state = (Reservation.State)pendingSet.SelectedValue;
-
+            newReservation.timestamp = DateTime.UtcNow;
             newReservation.name = reservationName.Text;
             int.TryParse(numPeople.Text, out newReservation.numPeople); // TODO: not handling invalid value here
             newReservation.phone = phoneNumber.Text;
@@ -194,10 +224,38 @@ namespace AdministratorPanel {
             newReservation.time = dt;
             //cd.fullness += newReservation.numPeople;
 
+
+            WebClient client = new WebClient();
+            var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                new NameValueCollection() {
+                    {"Action", reservation == null ? "add" : "update"},
+                    {"Reservation", JsonConvert.SerializeObject(newReservation)}
+                }
+            );
+            string response = System.Text.Encoding.Default.GetString(resp);
+            Console.WriteLine(response);
+
+            string[] responsesplit = response.Split(' ');
+
             if (reservation == null) {
+                reservationController.addReservation(newReservation);
+
+                if (responsesplit[0] != "added")
+                {
+                    Console.WriteLine("wrong response: " + response);
+                }
+
+                if (!int.TryParse(responsesplit[1], out newReservation.id))
+                {
+                    Console.WriteLine("invalid reservation id returned");
+                    return;
+                }
+
                 reservationController.addReservation(newReservation);
             }
             else {
+
+                newReservation.id = reservation.id;
                 reservationController.updateReservation(newReservation);
             }
             base.save(sender, e);

@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#"%>
+<%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Linq" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
+<%@ Import Namespace="Shared" %>
 
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
@@ -17,9 +19,10 @@
             break;
 
         case "Products":
-            Response.Write( new Tuple<string,string>(
-                JsonConvert.SerializeObject(diceServer.productsController.categories),
-                JsonConvert.SerializeObject(diceServer.productsController.products)));
+            Response.Write(JsonConvert.SerializeObject(new Tuple<List<ProductCategory>, List<Product>>(
+                diceServer.productsController.categories,
+                diceServer.productsController.products)
+            ));
         break;
 
         case "Events":
@@ -39,8 +42,10 @@
             {
                 // TODO: is admin?
                 // TODO: day fullness
-                Response.Write(JsonConvert.SerializeObject(diceServer.reservationController.rooms));
-                Response.Write(JsonConvert.SerializeObject(diceServer.reservationController.reservationsCalendar));
+                Response.Write(JsonConvert.SerializeObject(new Tuple<List<Room>, List<Shared.CalendarDay>>(
+                    diceServer.reservationController.rooms,
+                    diceServer.reservationController.reservationsCalendar)
+                ));
             }
         break;
         default:
