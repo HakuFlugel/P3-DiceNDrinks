@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 using Android.App;
@@ -10,6 +10,8 @@ using Android.Graphics;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Util;
+using Newtonsoft.Json;
+using Shared;
 using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 using Path = System.IO.Path;
@@ -112,14 +114,41 @@ namespace AndroidAppV2.Activities {
             {
                 case "Products":
                     item = ans.DownloadProducts();
+                    DownloadProductImages(item);
+                    break;
+                case "Games":
+                    item = ans.DownloadItem(location);
+                    DownloadGameImages(item);
+                    break;
+                case "Events":
+                    item = ans.DownloadItem(location);
                     break;
                 default:
-                    item = ans.DownloadItem(location);
+                    item = "";
                     break;
             }
 
             System.IO.File.WriteAllText(saveLocation, item);
+        }
 
+        private static void DownloadGameImages(string jsonlist)
+        {
+            List<Game> list = JsonConvert.DeserializeObject<List<Game>>(jsonlist);
+
+
+            foreach (Game item in list)
+            {
+                new AndroidShared.ImageDownloader(item.imageName, "games");
+            }
+        }
+
+        private static void DownloadProductImages(string jsonlist) {
+            List<Product> list = JsonConvert.DeserializeObject<List<Product>>(jsonlist);
+
+
+            foreach (Product item in list) {
+                new AndroidShared.ImageDownloader(item.image, "products");
+            }
         }
 
         private DateTime[] AskServer() {
