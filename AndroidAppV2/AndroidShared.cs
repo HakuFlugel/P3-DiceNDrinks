@@ -250,36 +250,29 @@ namespace AndroidAppV2
             return result;
         }
 
-        public class ImageDownloader {
+        public static void ImageDownloader(string id, string category)
+        {
+            string url = $"http://172.25.11.113/images/{category}/{id}";
+            SaveImage(DownloadImage(url),id);
+        }
 
-            private readonly string _gddId;
-            private readonly string _url;
-            public Bitmap Bitmap { get; private set; }
-            public string ImagePath;
+        private static Bitmap DownloadImage(string url) {
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                return null;
+            WebRequest request = WebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            Stream responseStream = response.GetResponseStream();
+            Bitmap bitmap = BitmapFactory.DecodeStream(responseStream);
+            return bitmap;
+        }
 
-            public ImageDownloader(string gddIdIn, string category) {
-                _gddId = gddIdIn; //eg. image.png
-                _url = $"http://172.25.11.113/images/{category}/{gddIdIn}";
-                DownloadImage();
-                SaveImage();
-            }
+        private static void SaveImage(Bitmap bitmap, string id) {
+            string imagePath = Android.OS.Environment.ExternalStorageDirectory.Path + $"/DnD/images/{id}";
 
-            private void DownloadImage() {
-                if (!Uri.IsWellFormedUriString(_url, UriKind.Absolute)) return;
-                WebRequest request = WebRequest.Create(_url);
-                WebResponse response = request.GetResponse();
-                Stream responseStream = response.GetResponseStream();
-                Bitmap = BitmapFactory.DecodeStream(responseStream);
-            }
-
-            private void SaveImage() {
-                ImagePath = Android.OS.Environment.ExternalStorageDirectory.Path + $"/DnD/images/{_gddId}";
-
-                if (File.Exists(ImagePath))
-                    return;
-                using (FileStream os = new FileStream(ImagePath, FileMode.CreateNew)) {
-                    Bitmap.Compress(Bitmap.CompressFormat.Png, 75, os);
-                }
+            if (File.Exists(imagePath))
+                return;
+            using (FileStream os = new FileStream(imagePath, FileMode.CreateNew)) {
+                bitmap.Compress(Bitmap.CompressFormat.Png, 75, os);
             }
         }
     }

@@ -63,7 +63,7 @@ namespace AndroidAppV2.Activities {
             string[] items = { "Games", "Products", "Events" };
 
             for (int i = 0; i < 3; i++) {
-                //TODO: enable when we can get timestamp for updates
+                //TODO: create ask server when it is enabled on the server
                     DownloadUpdate(items[i]);
             }
         }
@@ -99,7 +99,7 @@ namespace AndroidAppV2.Activities {
 
             foreach (Game item in list)
             {
-                new AndroidShared.ImageDownloader(item.imageName, "games");
+                AndroidShared.ImageDownloader(item.imageName, "games");
             }
         }
 
@@ -107,7 +107,7 @@ namespace AndroidAppV2.Activities {
             List<Product> list = JsonConvert.DeserializeObject<List<Product>>(jsonlist);
 
             foreach (Product item in list) {
-                new AndroidShared.ImageDownloader(item.image, "products");
+                AndroidShared.ImageDownloader(item.image, "games");
             }
         }
     }
