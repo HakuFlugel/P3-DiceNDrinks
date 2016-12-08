@@ -35,7 +35,6 @@ namespace AdministratorPanel {
 
             Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(evntTab, evnt);
-                p.Show();
             };
             
             leftTableLayoutPanel.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });

@@ -38,7 +38,6 @@ namespace AdministratorPanel {
 
             addItemButton.Click += (s, e) => {
                 ProductPopupBox p = new ProductPopupBox(this);
-                p.Show();
             };
             
             tableLayoutPanel.Controls.Add(addItemButton);

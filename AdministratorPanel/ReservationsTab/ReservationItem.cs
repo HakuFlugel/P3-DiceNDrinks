@@ -107,7 +107,6 @@ namespace AdministratorPanel {
             };
             Click += (s, e) => {
                 ReservationPopupBox p = new ReservationPopupBox(reservationController, res);
-                p.Show();
             };
 
             acceptButton.Click += (s, e) => {
