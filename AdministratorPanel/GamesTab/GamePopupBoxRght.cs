@@ -62,7 +62,7 @@ namespace AdministratorPanel {
                                                                Font = new Font(SystemFonts.DefaultFont.FontFamily, 24),
                                                                Dock = DockStyle.Top});
 
-                MessageBox.Show(e.Message, "Connection Error");
+                NiceMessageBox.Show(e.Message, "Connection Error");
                 return;
             } catch (Exception e) {
                 NiceMessageBox.Show(e.Message);

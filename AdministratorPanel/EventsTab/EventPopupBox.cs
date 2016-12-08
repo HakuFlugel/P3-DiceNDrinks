@@ -153,8 +153,8 @@ namespace AdministratorPanel {
             DateTime expectedStartDate, expectedEndDate;
             if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedStartDate) ||
                 !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedEndDate)) {
-                SystemSounds.Hand.Play();
-                MessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
+                
+                NiceMessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
             expectedStartDate =  startDatePicker.Value.Add(expectedStartDate.TimeOfDay);
