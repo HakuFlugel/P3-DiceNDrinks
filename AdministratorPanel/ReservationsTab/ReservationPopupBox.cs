@@ -144,9 +144,13 @@ namespace AdministratorPanel {
                     }
                 );
 
-                string[] response = System.Text.Encoding.Default.GetString(resp).Split(' ');
+                string response = System.Text.Encoding.Default.GetString(resp);
+                Console.WriteLine(response);
 
-                if (response[0] != "deleted")
+                string[] responsesplit = response.Split(' ');
+
+
+                if (responsesplit[0] != "deleted")
                 {
                     Console.WriteLine("failed to delete reservation");
                     return;
@@ -177,7 +181,7 @@ namespace AdministratorPanel {
                 NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
-            if ((reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark)) {
+            if (reservationName.Text == reservationName.waterMark || numPeople.Text == reservationName.waterMark) {
 
                 NiceMessageBox.Show("You need to input a name AND a number of people");
                 return;
@@ -197,7 +201,7 @@ namespace AdministratorPanel {
             //string tempDate = datePicker.Value.ToString("dd-MM-yyyy");
             //string tempTime = timePicker.Text;
 
-            DateTime dt = datePicker.Value.Add(expectedDate.TimeOfDay);
+            DateTime dt = datePicker.Value.Date.Add(expectedDate.TimeOfDay);
 
             //DateTime newDate = DateTime.ParseExact(tempDate + " " + tempTime + ":00", "dd-MM-yyyy HH:mm:00",
             //                           CultureInfo.InvariantCulture);
@@ -223,6 +227,8 @@ namespace AdministratorPanel {
                 }
             );
             string response = System.Text.Encoding.Default.GetString(resp);
+            Console.WriteLine(response);
+
             string[] responsesplit = response.Split(' ');
 
             if (reservation == null) {
@@ -242,10 +248,8 @@ namespace AdministratorPanel {
                 reservationController.addReservation(newReservation);
             }
             else {
-                //reservationController.updateReservation(newReservation);
-            //else
-            //{
-                newrReservation.id = reservation.id;
+
+                newReservation.id = reservation.id;
                 reservationController.updateReservation(newReservation);
             }
 //"http://172.25.11.113"

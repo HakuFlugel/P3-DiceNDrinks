@@ -158,7 +158,7 @@ namespace AdministratorPanel {
                 return;
             }
             startDate =  startDatePicker.Value.Add(startDate.TimeOfDay);
-            startDate =  endDatePicker.Value.Add(startDate.TimeOfDay);
+            endDate =  endDatePicker.Value.Add(startDate.TimeOfDay);
 
             if (eventName.Text == null || eventDescription.Text == null) {
                
