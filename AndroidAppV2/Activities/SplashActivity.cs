@@ -28,12 +28,12 @@ namespace AndroidAppV2.Activities {
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
             base.OnCreate(savedInstanceState, persistentState);
             Log.Debug(TAG, "SplashActivity.OnCreate");
-            SetContentView(Resource.Layout.Splash);
+
         }
 
         protected override void OnResume() {
             base.OnResume();
-
+            SetContentView(Resource.Layout.Splash);
             Task startupWork = new Task(() => {
                 if (!System.IO.File.Exists(_basePath))
                     FirstTimeSetup();
