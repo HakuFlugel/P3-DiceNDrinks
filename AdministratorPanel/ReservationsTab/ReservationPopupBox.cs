@@ -234,7 +234,6 @@ namespace AdministratorPanel {
             string[] responsesplit = response.Split(' ');
 
             if (reservation == null) {
-                reservationController.addReservation(newReservation);
 
                 if (responsesplit[0] != "added")
                 {
