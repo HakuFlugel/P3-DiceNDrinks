@@ -77,6 +77,12 @@ namespace AdministratorPanel {
         public EventPopupBox(EventsTab eventsTab, Event evnt = null) {
             // name of the popup
             Text = "Event";
+            Name = evnt != null ? evnt.name : "New event";
+
+            if (Application.OpenForms[Name] as EventPopupBox != null)
+                return;
+            else
+                BringToFront();
 
             this.eventsTab = eventsTab;
             this.evnt = evnt;
@@ -148,6 +154,8 @@ namespace AdministratorPanel {
             }
         }
 
+        
+
         protected override void save(object sender, EventArgs e) {
 
             DateTime startDate, endDate;
@@ -184,7 +192,7 @@ namespace AdministratorPanel {
 
             evnt.startDate = startDate;
             evnt.endDate = endDate;
-
+            base.save(sender,e);
             this.Close();
             eventsTab.makeItems();
         }

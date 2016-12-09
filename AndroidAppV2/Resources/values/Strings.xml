@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <resources>
-  <string name="button1">Hello World!</string>
   <string name="exit">Do you really want to exit?</string>
   <string name="yes">Yes</string>
   <string name="no">No</string>
+  <string name="ok">OK</string>
   <string name="foodButton">Food</string>
   <string name="drinkButton">Drinks</string>
   <string name="miscButton">Misc.</string>
@@ -12,5 +12,33 @@
   <string name="difficultyButton">Difficulty</string>
   <string name="gametimeButton">Time</string>
   <string name="mapButton">Find us</string>
-
+  <string name="sort">Sort by...</string>
+  <string name="exitReservation">Do you really want to exit? \nAll your progress will be lost.</string>
+  <string name="phoneNumber">Phone number</string>
+  <string name="writeHere">Write here...</string>
+  <string name="numPeople">Number of people</string>
+  <string name="reservation">Reservation</string>
+  <string name="gameSpinnerPromt">Sort by...</string>
+  <string name="advancedSearch">Advanced Search.</string>
+  <string name="resAcceptButton">Advanced Search.</string>
+  <string name="aboutUsDescription">Dice \'n Drinks is 
+    Aalborg\'s local board game café. Our goal is to offer 
+    you an experience beyond the ordinary. This we will 
+    do with our big board game library, where all games 
+    are free for members, or free for 20 kroner a day. 
+    For the games we serve draft beer from Thisted Brewery, 
+    delicious coffee, tea and chocolate.</string>
+  <string name="aboutUsAdress">Sankelmarksgade 15\n9000 Aalborg\nDenmark</string>
+  <string name="aboutUsPhone">Phone: +45 22 76 76 51</string>
+  <string name="aboutUsEmail">info@dicendrinks.com</string>
+  <string name="aboutUsHours">Monday - Thursday\n16:00 - 24:00\nFriday - Saturday\n12:00 - 02:00\nSunday\n12:00 - 24:00</string>
+  <string-array name="gameSortArray">
+    <item>Alphabetical</item>
+    <item>Min. Players</item>
+    <item>Max. Players</item>
+    <item>Min. Game Time</item>
+    <item>Max. Game Time</item>
+    <item>Difficulty</item>
+    <item>Date Added</item>
+  </string-array>
 </resources>

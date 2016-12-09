@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="8dp">
+    <TextView
+        android:text="GAME"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gameNameText"
+        android:layout_gravity="left"
+        android:layout_marginBottom="5dp" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="5dp">
+        <TextView
+            android:text="DESCRIPTION"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameDescrText"
+            android:layout_below="@id/gameNameText" />
+    </ScrollView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:id="@+id/relativeLayout1">
+        <TextView
+            android:text="PLAYERS"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gamePlayerText"
+            android:layout_below="@id/gameDescrText"
+            android:layout_marginTop="5dp" />
+        <TextView
+            android:text="TIME"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gamePlayTimeText"
+            android:layout_toRightOf="@id/gamePlayerText"
+            android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@id/gamePlayerText"
+            android:layout_marginLeft="10dp" />
+        <TextView
+            android:text="GENRE"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameGenreText"
+            android:layout_below="@id/gamePlayerText"
+            android:layout_marginTop="5dp" />
+        <TextView
+            android:text="DIFFICULITY"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameDiffText"
+            android:layout_below="@id/gameGenreText"
+            android:layout_marginTop="5dp" />
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gameHyperText"
+            android:layout_below="@id/gameDiffText"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <Button
+        android:text="Dismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Button_Dismiss"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

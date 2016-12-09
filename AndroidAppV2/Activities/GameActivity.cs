@@ -1,50 +1,94 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+ï»¿using System.Collections.Generic;
 
 using Android.App;
-using Android.Content;
+using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
+using Android.Support.V4.App;
+using Android.Util;
 using Android.Widget;
 
-namespace AndroidAppV2.Activities
-{
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Games")]
-    public class GameActivity : Activity
-    {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            
+using AndroidAppV2.ListAdapters;
+using AndroidAppV2.ListDialogFragments;
+using Shared;
+
+
+
+namespace AndroidAppV2.Activities {
+    [Activity(Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
+    public class GameActivity : FragmentActivity {
+        private bool _ascending = true;
+
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
-
-
             SetContentView(Resource.Layout.GameLayout);
-            // Create your application here
-            ListView listView = (ListView)FindViewById(Resource.Id.gameListView);
 
-            //base adaptor should be random? list
-            //listView.Adapter = new ArrayAdapter<>();
-            //TODO: Her skal listen med menugenstande linkes til en ArrayAdapter så de kan vises i appen
-            //TODO: derudover skal der også laves funktionalitet til at sortere listen...
-            //https://developer.xamarin.com/recipes/android/data/adapters/use_an_arrayadapter/
-            //https://developer.xamarin.com/api/type/Xamarin.Forms.ListView/
 
-            FindViewById<Button>(Resource.Id.playerButton).Click += delegate
-            {
-                //todo: Fetch food list and set it as adapter
-            };
-            FindViewById<Button>(Resource.Id.difficultyButton).Click += delegate
-            {
-                //todo: Fetch drink list and set it as adapter
-            };
-            FindViewById<Button>(Resource.Id.gametimeButton).Click += delegate
-            {
-                //todo: Fetch misc list and set it as adapter
+            ListView listView = FindViewById<ListView>(Resource.Id.gameListView);
+            Spinner gameSpinner = FindViewById<Spinner>(Resource.Id.gameSpinner);
+            Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
+            EditText gameSearch = FindViewById<EditText>(Resource.Id.gameSearchEdit);
+
+            List<Game> list = GetGames();
+            GameAdapter itemAdapter = new GameAdapter(this, list);
+            listView.Adapter = itemAdapter;
+
+            ArrayAdapter adapter = ArrayAdapter.CreateFromResource(this, Resource.Array.gameSortArray, Android.Resource.Layout.SimpleSpinnerItem);
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            gameSpinner.Adapter = adapter;
+
+            gameSpinner.ItemSelected += delegate {
+                try {
+                    itemAdapter.Sort(gameSpinner.SelectedItemPosition);
+                }
+                catch (KeyNotFoundException e) {
+                    Log.WriteLine(LogPriority.Error, $"X:{this}", e.Message);
+                }
+
+                if (_ascending)
+                    return;
+
+                itemAdapter.SwitchOrder();
+                _ascending = true;
             };
 
+            gameSearch.TextChanged += (s, e) => itemAdapter.NameSearch(gameSearch.Text);
+
+
+            gameButton.Click += delegate {
+                itemAdapter.SwitchOrder();
+                SwitchAscending();
+            };
+
+            listView.Adapter = itemAdapter;
+            listView.ItemClick += (s, e) => {
+                Game theGame = itemAdapter.GetGameByPosition(e.Position);
+
+                GameDialogFragment dialog = new GameDialogFragment();
+                dialog.PassDataToFrag(theGame);
+                dialog.Show(FragmentManager, "Game Dialog");
+            };
         }
+
+        private void SwitchAscending() {
+            Button gameButton = FindViewById<Button>(Resource.Id.gameSortOrderButton);
+
+            if (_ascending) {
+                _ascending = false;
+                gameButton.Text = "â†‘";
+                return;
+            }
+            _ascending = true;
+            gameButton.Text = "â†“";
+        }
+
+
+        private List<Game> GetGames() {
+            List<Game> list;
+
+            AndroidShared.LoadData(this, "games.json", out list);
+
+            return list;
+        }
+
     }
 }

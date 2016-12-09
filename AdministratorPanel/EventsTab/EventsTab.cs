@@ -44,7 +44,6 @@ namespace AdministratorPanel {
 
             addEventButton.Click += (s, e) => {
                 EventPopupBox p = new EventPopupBox(this);
-                p.Show();
             };
             probar.addToProbar();                               //For progress bar. 3
 

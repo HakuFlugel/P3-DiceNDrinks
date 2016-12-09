@@ -1,41 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:p1="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:p1="http://schemas.android.com/apk/res/android"
     p1:minWidth="25px"
     p1:minHeight="25px"
-    p1:layout_width="match_parent"
-    p1:layout_height="match_parent"
-    p1:id="@+id/frameLayout1">
-  <LinearLayout
-      p1:orientation="vertical"
-      p1:minWidth="25px"
-      p1:minHeight="25px"
-      p1:layout_width="match_parent"
-      p1:layout_height="match_parent"
-      p1:id="@+id/linearLayout1"
-      p1:padding="8dp">
-    <TableRow
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/tableRow1">
-      <Button
-          p1:text="@string/playerButton"
-          p1:id="@+id/playerButton"
-          p1:layout_weight="1" />
-      <Button
-          p1:text="@string/difficultyButton"
-          p1:id="@+id/difficultyButton"
-          p1:layout_weight="1" />
-      <Button
-          p1:text="@string/gametimeButton"
-          p1:id="@+id/gametimeButton"
-          p1:layout_weight="1" />
-    </TableRow>
-    <ListView
+    p1:layout_width="wrap_content"
+    p1:layout_height="wrap_content"
+    p1:id="@+id/linearLayout"
+    p1:orientation="vertical"
+    p1:descendantFocusability="beforeDescendants"
+    p1:focusableInTouchMode="true">
+    <LinearLayout
+        p1:orientation="vertical"
         p1:minWidth="25px"
         p1:minHeight="25px"
-        p1:layout_width="match_parent"
-        p1:layout_height="match_parent"
-        p1:id="@+id/gameListView"
-        p1:padding="8dp" />
-  </LinearLayout>
-</FrameLayout>
+        p1:layout_width="wrap_content"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/linearLayout1"
+        p1:padding="8dp">
+        <LinearLayout
+            p1:orientation="horizontal"
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/linearLayout2">
+            <TextView
+                p1:text="@string/sort"
+                p1:textAppearance="?android:attr/textAppearanceMedium"
+                p1:id="@+id/gameSortText"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:layout_weight="1" />
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout3"
+                p1:padding="-8dp"
+                p1:layout_weight="1"
+                p1:elevation="@dimen/abc_action_bar_subtitle_bottom_margin_material"
+                p1:background="#5a595b">
+                <Spinner
+                    p1:id="@+id/gameSpinner"
+                    p1:prompt="@string/gameSpinnerPromt"
+                    p1:minWidth="195dp"
+                    p1:layout_width="match_parent"
+                    p1:layout_height="match_parent"
+                    p1:paddingLeft="5dp" />
+            </LinearLayout>
+            <Button
+                p1:text="↓"
+                p1:id="@+id/gameSortOrderButton"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:layout_weight="1" />
+            <LinearLayout
+                p1:orientation="vertical"
+                p1:minWidth="25px"
+                p1:minHeight="25px"
+                p1:layout_width="wrap_content"
+                p1:layout_height="match_parent"
+                p1:id="@+id/linearLayout4" />
+        </LinearLayout>
+        <EditText
+            p1:hint="Search..."
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/gameSearchEdit"
+            p1:singleLine="true" />
+        <ListView
+            p1:minWidth="25px"
+            p1:minHeight="25px"
+            p1:layout_width="match_parent"
+            p1:layout_height="match_parent"
+            p1:id="@+id/gameListView"
+            p1:drawSelectorOnTop="true"
+            p1:dividerHeight="4dp"
+            p1:padding="8dp" />
+    </LinearLayout>
+</LinearLayout>

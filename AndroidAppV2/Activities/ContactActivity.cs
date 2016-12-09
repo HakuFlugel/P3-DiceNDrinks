@@ -1,38 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 
-namespace AndroidAppV2.Activities
-{
-    [Activity(Theme = "@style/Theme.NoTitle", Label = "Contact")]
-    public class ContactActivity : Activity
-    {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            
+namespace AndroidAppV2.Activities {
+    [Activity(Label = "About Us", ScreenOrientation = ScreenOrientation.Portrait)]
+    public class ContactActivity : Activity {
+        protected override void OnCreate(Bundle savedInstanceState) {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.contactLayout);
 
-            // Create your application here
+            Button button = FindViewById<Button>(Resource.Id.MapButton);
+            TextView phone = FindViewById<TextView>(Resource.Id.AboutUsPhone);
+            TextView mail = FindViewById<TextView>(Resource.Id.AboutUsEmail);
 
-            //TODO: Vi skal ikke rigtig lave noget vidt her... kun noget tekst
-            //https://developer.xamarin.com/recipes/android/fundamentals/intent/launch_the_map_application/
-            Button button = FindViewById<Button>(Resource.Id.button1);
             Android.Net.Uri geoUri = Android.Net.Uri.Parse("geo:57.046581, 9.916551?z=18");
             Intent mapIntent = new Intent(Intent.ActionView, geoUri);
 
-            button.Click += delegate
-            {
+
+            Android.Net.Uri phoneUri = Android.Net.Uri.Parse("tel:+4522767651");
+            Intent phoneIntent = new Intent(Intent.ActionDial, phoneUri);
+
+            Intent mailIntent = new Intent(Intent.ActionSend);
+            mailIntent.PutExtra(Intent.ExtraEmail, new[] { "info@dicendrinks.com" });
+            mailIntent.SetType("message/rfc822");
+
+            phone.Click += delegate {
+                StartActivity(phoneIntent);
+            };
+
+            button.Click += delegate {
                 StartActivity(mapIntent);
+            };
+
+            mail.Click += delegate {
+                StartActivity(mailIntent);
             };
         }
     }

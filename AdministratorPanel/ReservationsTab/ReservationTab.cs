@@ -240,8 +240,8 @@ namespace AdministratorPanel {
             };
 
             addReservation.Click += (s, e) => {
+
                 ReservationPopupBox p = new ReservationPopupBox(reservationController);
-                p.Show();
             };
 
             lockResevations.CheckedChanged += (s, e) => {
