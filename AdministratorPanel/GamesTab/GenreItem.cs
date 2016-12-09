@@ -23,6 +23,8 @@ namespace AdministratorPanel {
         };
 
         public GenreItem(Genres genre, string item, EditGenrePopupbox popbox) {
+            Remove.Size = saveButtom.Size = new Size(50,genreItemTextBox.Height);
+
             saveButtom.Click += (s, e) => {
                 genre.rename(item, genreItemTextBox.Text);
                 popbox.UpdateGenres();
