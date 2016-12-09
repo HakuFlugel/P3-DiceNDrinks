@@ -27,6 +27,7 @@ namespace AdministratorPanel {
         private Button addGenreButton = new Button() {
             MaximumSize = new Size(50, 40),
             Dock = DockStyle.Right,
+             Cursor = Cursors.Hand,
             Text = "Add"
         };
 
