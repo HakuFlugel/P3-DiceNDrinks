@@ -88,7 +88,8 @@
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
         p1:id="@+id/acceptButton"
-        p1:layout_gravity="center_horizontal" />
+        p1:layout_gravity="center_horizontal"
+        p1:layout_marginTop="40dp" />
     <TextView
         p1:text="Reservation state: No Reservation"
         p1:textAppearance="?android:attr/textAppearanceMedium"
@@ -96,4 +97,10 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/textView1"
         p1:padding="8dp" />
+    <Button
+        p1:text="Delete"
+        p1:layout_width="100dp"
+        p1:layout_height="wrap_content"
+        p1:id="@+id/deleteButton"
+        p1:layout_marginTop="35dp" />
 </LinearLayout>

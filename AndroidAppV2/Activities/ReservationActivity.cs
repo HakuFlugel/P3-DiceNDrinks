@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Specialized;
 using System.Linq;
-using Shared;
+using System.IO;
+using System.Net;
 
 using Android.App;
 using Android.OS;
 using Android.Util;
 using Android.Widget;
-using Newtonsoft.Json;
-using System.IO;
-using System.Net;
 using Android.Content.PM;
+
+using Shared;
+using Newtonsoft.Json;
 
 namespace AndroidAppV2.Activities
 {
@@ -24,9 +25,12 @@ namespace AndroidAppV2.Activities
         private bool _data; // checks if the user already has made a reservation
         private Button _dateSelectButton;
         private Button _timeSelectButton;
+        private Button _acceptionButton;
+        private Button _deleteButton;
         private EditText _nameEdit;
         private EditText _phoneNumEdit;
         private EditText _emailEdit;
+        private bool _hasConnectionToServer;
 
         private bool Data
         {
@@ -47,59 +51,69 @@ namespace AndroidAppV2.Activities
             SeekBar sb = FindViewById<SeekBar>(Resource.Id.seekBar1);
             _dateSelectButton = FindViewById<Button>(Resource.Id.dateButton);
             _timeSelectButton = FindViewById<Button>(Resource.Id.timeButton);
-            Button acceptingButton = FindViewById<Button>(Resource.Id.acceptButton);
+            _acceptionButton = FindViewById<Button>(Resource.Id.acceptButton);
+            _deleteButton = FindViewById<Button>(Resource.Id.deleteButton);
 
             _nameEdit = FindViewById<EditText>(Resource.Id.nameEdit);
             _phoneNumEdit = FindViewById<EditText>(Resource.Id.phoneNumEdit);
             _emailEdit = FindViewById<EditText>(Resource.Id.emailEdit);
 
             //TODO: Set up for download
-            if (!CheckForInternetConnection()) {
-                acceptingButton.Enabled = false;
+            
+            _hasConnectionToServer = AndroidShared.CheckForInternetConnection();
+            if (!_hasConnectionToServer) {
+                _acceptionButton.Enabled = false;
+                _deleteButton.Enabled = false;
                 _dateSelectButton.Enabled = false;
                 _timeSelectButton.Enabled = false;
                 sb.Enabled = false;
-            }
-
-            AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
-
-            if (_userId == default(int)) {
-                _state = false;
+                _nameEdit.Enabled = false;
+                _phoneNumEdit.Enabled = false;
+                _emailEdit.Enabled = false;
+                ErrorDialog("There is no connection to Dice N Drinks server... Sorry :(");
             }
             else {
-                _res = GetReservation();
-            }
-            //Using Random because we have no server to request from (method implemention)? TODO: SERVER
+                AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
 
-            if (_res == null)
-            {
-                _res = new Reservation();
-                sb.Progress = 0;
-            }
-            //else if (_res == null && ) {
-
-            //}
-            else
-            { //fix all of this shit.. q.q
-                Data = true;
-                sb.Progress = _res.numPeople - 1;
-                _chosenDateTime = _res.time;
-                _dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
-                _timeSelectButton.Text = _res.time.ToString("HH:mm");
-                FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
-                _nameEdit.Text = _res.name;
-                _phoneNumEdit.Text = _res.phone;
-                _emailEdit.Text = _res.email;
-                if (!_res.pending) {
-                    string pendingState = "<font color='#ffff00'>Awaiting answer</font>";
-                    FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + pendingState;
+                if (_userId == default(int)) {
+                    _state = false;
                 }
                 else {
-                    string confirmedState = "<font color='#00ff00'>Confirmed!</font>";
-                    FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + confirmedState;
+                    _res = GetReservation();
                 }
-                
+
+                if (_res == null) {
+                    _res = new Reservation();
+                    sb.Progress = 0;
+                }
+                else { 
+                    Data = true;
+                    sb.Progress = _res.numPeople - 1;
+                    _chosenDateTime = _res.time;
+                    _dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
+                    _timeSelectButton.Text = _res.time.ToString("HH:mm");
+                    FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
+                    _nameEdit.Text = _res.name;
+                    _phoneNumEdit.Text = _res.phone;
+                    _emailEdit.Text = _res.email;
+                    _deleteButton.Enabled = true;
+                    if (_res.state == Reservation.State.Pending) {
+                        string pendingState = "<font color='#ffff00'>Awaiting answer.</font>";
+                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + pendingState;
+                    }
+                    else if (_res.state == Reservation.State.Accepted) {
+                        string confirmedState = "<font color='#00ff00'>Confirmed!</font>";
+                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + confirmedState;
+                    }
+                    else if (_res.state == Reservation.State.Denied) {
+                        string declinedState = "<font color='#ee0000'>Denied!</font>";
+                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + declinedState;
+                    }
+                }
             }
+
+
+
             _dateSelectButton.Click += delegate
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
@@ -121,7 +135,7 @@ namespace AndroidAppV2.Activities
                 tfrag.Show(FragmentManager, TimePickerFragment.TAG);
             };
 
-            acceptingButton.Click += delegate
+            _acceptionButton.Click += delegate
             {
                 _res.numPeople = sb.Progress + 1;
                 _res.time = _chosenDateTime;
@@ -129,11 +143,20 @@ namespace AndroidAppV2.Activities
                 _res.phone = _phoneNumEdit.Text;
                 _res.email = _emailEdit.Text;
                 _res.created = DateTime.Now;
-                if (_userId != null) {
-                    _res.id = _userId;
-                }
                 
                 SendData(_res);
+            };
+
+            _deleteButton.Click += delegate 
+            {
+                DeleteReservation();
+                sb.Progress = 0;
+                _timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
+                _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
+                _nameEdit.Text = "";
+                _phoneNumEdit.Text = "";
+                _emailEdit.Text = "";
+                _deleteButton.Enabled = false;
             };
 
             sb.Max = 20;
@@ -304,19 +327,6 @@ namespace AndroidAppV2.Activities
 
         }
 
-        public static bool CheckForInternetConnection() {
-            try {
-                using (var client = new WebClient()) {
-                    using (var stream = client.OpenRead("http://172.25.11.113")) {
-                        return true;
-                    }
-                }
-            }
-            catch {
-                return false;
-            }
-        }
-
         private void AddReservation()
         {
             WebClient client = new WebClient();
@@ -380,6 +390,18 @@ namespace AndroidAppV2.Activities
                 }
 
             }
+        }
+
+        private void DeleteReservation() {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                new NameValueCollection
+                {
+                    {"Action", "delete"},
+                    {"Reservation", JsonConvert.SerializeObject(_res)}
+                });
+
+            string result = System.Text.Encoding.UTF8.GetString(resp);
         }
     }
 

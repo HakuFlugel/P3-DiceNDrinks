@@ -16,6 +16,7 @@ using File = System.IO.File;
 using Path = System.IO.Path;
 using System.Collections.Generic;
 using Shared;
+using System.Net.NetworkInformation;
 
 namespace AndroidAppV2
 {
@@ -274,6 +275,19 @@ namespace AndroidAppV2
             using (FileStream os = new FileStream(imagePath, FileMode.CreateNew)) {
                 bitmap.Compress(Bitmap.CompressFormat.Png, 75, os);
             }
+        }
+
+        public static bool CheckForInternetConnection() {
+            var ping = new Ping();
+            string address = "172.25.11.113";
+            byte[] buffer = new byte[32];
+            int timeout = 1000;
+            var pingOptions = new PingOptions();
+            PingReply reply = ping.Send(address, timeout, buffer, pingOptions);
+            if (reply.Status == IPStatus.Success) {
+                return true;
+            }
+            return false;
         }
     }
 }

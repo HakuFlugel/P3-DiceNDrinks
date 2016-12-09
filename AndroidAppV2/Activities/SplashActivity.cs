@@ -36,7 +36,10 @@ namespace AndroidAppV2.Activities {
             Task startupWork = new Task(() => {
                 if (!System.IO.File.Exists(_basePath + "/timestamp.txt"))
                     FirstTimeSetup();
+                if (AndroidShared.CheckForInternetConnection()) {
                     Update();
+                }
+                    
             });
 
             startupWork.ContinueWith(t => {
