@@ -5,10 +5,11 @@ using Shared;
 using System.Text;
 
 namespace AdministratorPanel {
-    public class GenreItem : NiceButton {
+    public class GenreItem : Panel {
         private Button Remove = new Button() {
             MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
+            Cursor = Cursors.Hand,
             Text = "Delete"
         };
 
@@ -17,6 +18,7 @@ namespace AdministratorPanel {
         private Button saveButtom = new Button() {
             MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
+            Cursor = Cursors.Hand,
             Text = "Save"
         };
 
@@ -31,14 +33,13 @@ namespace AdministratorPanel {
                 popbox.UpdateGenres();
             };
 
+            BackColor = Color.LightGray;
             genreItemTextBox.Text = item;
             Controls.Add(genreItemTextBox);
             Controls.Add(saveButtom);
             Controls.Add(Remove);
 
-            RowCount = 1;
-            ColumnCount = 3;
-            bgColor = Color.LightGray;
+            
             Dock = DockStyle.Top;
             AutoSize = true;
             AutoSizeMode = AutoSizeMode.GrowOnly;
