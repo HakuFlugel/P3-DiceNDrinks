@@ -71,11 +71,7 @@ namespace AdministratorPanel {
 
         public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
             Text = "Reservation";
-            Name = (reservation != null) ? reservation.name : "New resevation";
-            if (Application.OpenForms[Name] as ReservationPopupBox != null)
-                return;
-            else
-                BringToFront();
+            
 
             pendingSet.DataSource = Enum.GetValues(typeof(Reservation.State));
             this.reservationController = reservationController;
