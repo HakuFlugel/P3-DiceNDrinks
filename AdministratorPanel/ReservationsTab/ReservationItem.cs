@@ -74,7 +74,7 @@ namespace AdministratorPanel {
         private void controlsController() {
 
             twoButtons.Controls.Add(acceptButton);
-            acceptButton.Text = "Accept";
+
 
             twoButtons.Controls.Add(declineButton);
 
@@ -97,6 +97,7 @@ namespace AdministratorPanel {
                 //TODO: locking reservations = deny remaining reservations?
                 res.state = Reservation.State.Denied;
                 reservationController.updateReservation(res);
+                res.forcedByAdmin = true;
                 update();
 
                 /*foreach (var item in reservationController.calDayList) {
@@ -113,6 +114,7 @@ namespace AdministratorPanel {
                 res.state = Reservation.State.Accepted;
                 update(); //TODO: a little hacky
                 reservationController.updateReservation(res);
+                res.forcedByAdmin = true;
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };

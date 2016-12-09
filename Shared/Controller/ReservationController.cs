@@ -25,7 +25,12 @@ namespace Shared
             //ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
-            checkIfAutoAccept(reservation, findDay(reservation.time));
+            CalendarDay tempday = findDay(reservation.time);
+
+            if (tempday.isLocked)
+                reservation.state = Reservation.State.Denied;
+            else
+                checkIfAutoAccept(reservation, tempday);
 
             save();
         }
@@ -90,7 +95,7 @@ namespace Shared
                 resDay = new CalendarDay() { theDay = date.Date };
                 reservationsCalendar.Add(resDay);
             }
-            resDay.calculateSeats(this);
+            resDay.calculateSeats(this); //TODO: maybe it can be moved into the if above
 
             return resDay;
         }
@@ -218,28 +223,17 @@ namespace Shared
 //                    reservedSeats += item.numPeople;
             }
 
-            if (resDay != null && resDay.isLocked && reservation.state != Reservation.State.Denied) {
-                reservation.state = Reservation.State.Denied;
-                Console.WriteLine("Denied");
-
-
-            } else if ((resDay == null && reservation.numPeople <= 5
+            if ((resDay == null && reservation.numPeople <= 5
              || (!resDay.isLocked
              && resDay.autoAcceptMaxPeople >= reservation.numPeople
              && resDay.isAutoaccept //maybe
              && resDay.acceptPresentage >= (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats))
-             && reservation.state != Reservation.State.Accepted) {
+             && reservation.state != Reservation.State.Accepted && !reservation.forcedByAdmin) {
 
                 reservation.state = Reservation.State.Accepted;
-                Console.WriteLine("Resevation: " + reservation.name + " Accepted");
-                
-                
-
             } else 
                 return;
             updateReservation(reservation);
-
-
 
         }
 

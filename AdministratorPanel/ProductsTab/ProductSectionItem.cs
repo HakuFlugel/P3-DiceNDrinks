@@ -2,7 +2,7 @@
 
 namespace AdministratorPanel {
     class ProductSectionItem : TableLayoutPanel{
-        public FlowLayoutPanel flowPlayoutPanel = new FlowLayoutPanel();
+        public FlowLayoutPanel headerFlowLayoutPanel = new FlowLayoutPanel();
 
         public ProductSectionItem(string section) {
             Name = section;
@@ -23,14 +23,14 @@ namespace AdministratorPanel {
             Controls.Add(title);
 
             // section content
-            flowPlayoutPanel.Dock = DockStyle.Fill;
-            flowPlayoutPanel.AutoSize = true;
-            flowPlayoutPanel.FlowDirection = FlowDirection.LeftToRight;
-            Controls.Add(flowPlayoutPanel);
+            headerFlowLayoutPanel.Dock = DockStyle.Fill;
+            headerFlowLayoutPanel.AutoSize = true;
+            headerFlowLayoutPanel.FlowDirection = FlowDirection.LeftToRight;
+            Controls.Add(headerFlowLayoutPanel);
         }
 
         public void AddItem(Control ctr) {
-            flowPlayoutPanel.Controls.Add(ctr);
+            headerFlowLayoutPanel.Controls.Add(ctr);
         }
     }
 }

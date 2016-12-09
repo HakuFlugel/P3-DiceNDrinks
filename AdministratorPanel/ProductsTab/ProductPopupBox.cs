@@ -109,7 +109,6 @@ namespace AdministratorPanel {
             priceElements.DataSource = dataTable;
             SubscriptionController();
             update();
-
         }
 
         private void SubscriptionController() {
@@ -230,28 +229,33 @@ namespace AdministratorPanel {
 
         protected override void delete(object sender, EventArgs e) {
             ProductCategoryTab categoryTab;
-            ProductSectionItem productSection;
-
+            ProductSectionItem productSectionItem;
             var categoryFound = productTab.tabControl.Controls.Find(productItem.product.category, true);
             categoryTab = categoryFound.First() as ProductCategoryTab;
 
             var sectionFound = categoryTab.table.Controls.Find(productItem.product.section, false);
-            productSection = sectionFound.First() as ProductSectionItem;
-
-            productTab.productList.Remove(productItem.product);
+            productSectionItem = sectionFound.First() as ProductSectionItem;
 
             ProductCategory productCategory = productTab.productCategories.Where(x => x.name == productItem.product.category).First();
 
-            if (productSection.Controls.Count <= 2) {
+            productTab.productList.Remove(productItem.product);                    // removes product
+            productSectionItem.headerFlowLayoutPanel.Controls.Remove(productItem); // removes product item for msection
+
+            Console.WriteLine(productSectionItem.headerFlowLayoutPanel.Controls.Count);
+            if (productSectionItem.headerFlowLayoutPanel.Controls.Count == 0) {
                 productCategory.sections.Remove(productItem.product.section);
-                productTab.Controls.Remove(sectionFound.First());
+                categoryTab.table.Controls.Remove(productSectionItem);
             }
 
-            if (categoryTab.table.Controls.Count <= 2) {
+
+            if (categoryTab.table.Controls.Count == 0) {
                 productTab.productCategories.Remove(productCategory);
                 productTab.tabControl.Controls.Remove(categoryTab);
             }
+
             Close();
+
+            productTab.Update();
         }
 
         protected override void save(object sender, EventArgs e) {

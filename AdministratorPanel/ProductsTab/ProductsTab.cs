@@ -31,7 +31,7 @@ namespace AdministratorPanel {
             Text = "Products";
             this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
-
+             
             Load();
             MakeItems();
             probar.addToProbar();                               //For progress bar. 1

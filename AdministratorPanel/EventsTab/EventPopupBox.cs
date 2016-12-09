@@ -77,12 +77,7 @@ namespace AdministratorPanel {
         public EventPopupBox(EventsTab eventsTab, Event evnt = null) {
             // name of the popup
             Text = "Event";
-            Name = evnt != null ? evnt.name : "New event";
-
-            if (Application.OpenForms[Name] as EventPopupBox != null)
-                return;
-            else
-                BringToFront();
+            
 
             this.eventsTab = eventsTab;
             this.evnt = evnt;

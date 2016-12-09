@@ -8,7 +8,7 @@ using System.Net;
 namespace AdministratorPanel {
     public class GamePopupBoxRght : TableLayoutPanel {
         
-        private TableLayoutPanel gameLisLayoutPanelt = new TableLayoutPanel() {
+        private TableLayoutPanel gameListPanel = new TableLayoutPanel() {
             Dock = DockStyle.Fill, 
             BorderStyle = BorderStyle.Fixed3D,
             ColumnCount = 1,
@@ -29,13 +29,14 @@ namespace AdministratorPanel {
 
         public GamePopupBoxRght(GamePopupBox gamePopupBox) {
             this.gamePopupBox = gamePopupBox;
-            Controls.Add(searchBox);
-            Controls.Add(gameLisLayoutPanelt);
-
+           
             ColumnCount = 1;
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             Dock = DockStyle.Right;
             AutoSize = true;
+
+            Controls.Add(searchBox);
+            Controls.Add(gameListPanel);
 
             searchBox.KeyPress += (s,e) => {
                 if (e.KeyChar != (char)Keys.Enter)
@@ -51,29 +52,27 @@ namespace AdministratorPanel {
         }
 
         private void update() {
-            gameLisLayoutPanelt.Controls.Clear();
+            gameListPanel.Controls.Clear();
             try {
                 games = api.getGames(searchWord);
 
             } catch (WebException e) {
-                gameLisLayoutPanelt.Controls.Add(new Label() { Name = "Error Connection",
+                gameListPanel.Controls.Add(new Label() { Name = "Error Connection",
                                                                Text = "Connection to Geekdo.com failed, it could be because of no internet or geekdo is down",
                                                                Size = new Size(384, 100),
                                                                Font = new Font(SystemFonts.DefaultFont.FontFamily, 24),
                                                                Dock = DockStyle.Top});
-
-                NiceMessageBox.Show(e.Message, "Connection Error");
                 return;
             } catch (Exception e) {
                 NiceMessageBox.Show(e.Message);
             }
             if (games.Count > 0) {
                 foreach (var item in games) {
-                    gameLisLayoutPanelt.Controls.Add(new XmlGameItem(item, gamePopupBox));
+                    gameListPanel.Controls.Add(new XmlGameItem(item, gamePopupBox));
                 }
             }
             else if (searchWord != "")
-                gameLisLayoutPanelt.Controls.Add(new Label() {
+                gameListPanel.Controls.Add(new Label() {
                     Name = "SearchWord Error",
                     Text = "Could not find a game with that name",
                     Size = new Size(384, 100),
