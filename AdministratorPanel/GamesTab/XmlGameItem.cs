@@ -67,10 +67,10 @@ namespace AdministratorPanel {
                 gamePopupbox.gameImage.BackgroundImage = imageDownloader.image;
                 gamePopupbox.imagePath = imageDownloader.ImagePath;
                 gamePopupbox.gameDifficultyBar.Value = game.difficulity;
-
-                imageDownloader.saveImage();
+                gamePopupbox.image = ImagePanel.BackgroundImage;
+                //imageDownloader.saveImage();
                 gamePopupbox.hasBeenChanged = true;
-
+                
                 gamePopupbox.game = game;
                 game.imageName = imageDownloader.ImagePath;
 
