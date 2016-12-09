@@ -18,7 +18,7 @@ using Path = System.IO.Path;
 
 
 namespace AndroidAppV2.Activities {
-    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
+    [Activity(Theme = "@style/Theme.NoTitle", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
          ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : AppCompatActivity {
         // ReSharper disable once InconsistentNaming
@@ -28,13 +28,14 @@ namespace AndroidAppV2.Activities {
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
             base.OnCreate(savedInstanceState, persistentState);
             Log.Debug(TAG, "SplashActivity.OnCreate");
+            SetContentView(Resource.Layout.Splash);
         }
 
         protected override void OnResume() {
             base.OnResume();
 
             Task startupWork = new Task(() => {
-                if (!System.IO.File.Exists(_basePath + "/timestamp.txt"))
+                if (!System.IO.File.Exists(_basePath))
                     FirstTimeSetup();
                     Update();
             });
