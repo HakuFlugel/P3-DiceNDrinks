@@ -239,28 +239,22 @@ namespace AdministratorPanel {
                     Console.WriteLine("wrong response: " + response);
                 }
 
-                if (!int.TryParse(responsesplit[1], out newReservation.id))
+                int reservationID;
+                if (!int.TryParse(responsesplit[1], out reservationID))
                 {
                     Console.WriteLine("invalid reservation id returned");
                     return;
                 }
 
                 reservationController.addReservation(newReservation);
+                newReservation.id = reservationID;
+
             }
             else {
 
                 newReservation.id = reservation.id;
                 reservationController.updateReservation(newReservation);
             }
-//"http://172.25.11.113"
-
-
-//            HttpWebRequest request = WebRequest.CreateHttp("172.25.11.113" + "/submitReservation.aspx");
-//            request.Method = "POST";
-//            request.ContentType = "multipart/form-data";
-//            MultipartFormDataContent content = new MultipartFormDataContent();
-//
-//            content.Add();
 
             this.Close();
         }

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
-using Shared;
+﻿using Shared;
 
 // In case we use Application['string'] to store loaded data, remember to lock and unlock before modifying it...
 

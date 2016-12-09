@@ -196,6 +196,11 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 10
         }
 
+        private void downloadReservations()
+        {
+
+        }
+
         private void subscriberList() {
 
             reservationController.ReservationUpdated += (sender, args) => {
