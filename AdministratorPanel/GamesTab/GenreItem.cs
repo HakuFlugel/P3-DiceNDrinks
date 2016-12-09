@@ -7,7 +7,6 @@ using System.Text;
 namespace AdministratorPanel {
     public class GenreItem : Panel {
         private Button Remove = new Button() {
-            MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
             Cursor = Cursors.Hand,
             Text = "Delete"
@@ -16,7 +15,6 @@ namespace AdministratorPanel {
         private TextBox genreItemTextBox = new TextBox();
 
         private Button saveButtom = new Button() {
-            MaximumSize = new Size(50, 17),
             Dock = DockStyle.Right,
             Cursor = Cursors.Hand,
             Text = "Save"

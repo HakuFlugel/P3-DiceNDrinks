@@ -39,7 +39,8 @@ namespace AdministratorPanel {
 
                 game.minPlayTime = GetInformationInt("minplaytime", node);
 
-                game.maxPlayTime = GetInformationInt("Maximum playtime", node);
+                game.maxPlayTime = GetInformationInt("maxplaytime", node);
+                
 
                 if (game.maxPlayTime == 0) {
                     game.maxPlayTime = game.minPlayTime;

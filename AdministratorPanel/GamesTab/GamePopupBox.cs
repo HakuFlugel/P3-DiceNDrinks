@@ -108,14 +108,14 @@ namespace AdministratorPanel {
         };
 
         public NiceTextBox timeBox = new NiceTextBox() {
-            Name = "minimum / maximum players" + Environment.NewLine + "it takes to play the game." + Environment.NewLine + "eg: 3/10",
+            Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
             waterMark = "min / max players",
             Width = 95,
             Margin = new Padding(0, 0, 0, 20)
         };
 
         public NiceTextBox playerBox = new NiceTextBox() {
-            Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
+            Name = "minimum / maximum players" + Environment.NewLine + "it takes to play the game." + Environment.NewLine + "eg: 3/10",
             waterMark = "min / max time",
             Width = 95,
             Margin = new Padding(5, 0, 0, 20)
@@ -172,8 +172,8 @@ namespace AdministratorPanel {
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
                 yearPublishedBox.Text = this.game.publishedYear.ToString();
-                timeBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
-                playerBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
+                playerBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
+                timeBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
                 string curFile = $"images/{this.game.imageName}";                                                        //Ellers crasher den når der ikke er blevet gemt et billed. 
                 gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");      //Kunne være at hvis der ikke var et billed at den så skulle gemmes med default png.
                 gameDifficultyBar.Value = game.difficulity;
@@ -334,16 +334,15 @@ namespace AdministratorPanel {
             }
             //image
             game.imageName = imagePath;
-
-            image.Save("images/"+ imagePath);
+            if (!File.Exists("images/" + imagePath)) 
+                image.Save("images/"+ imagePath);
 
             if (beforeEditing != null) {
-                
-                beforeEditing = game;
+
+                gametab.games.Remove(beforeEditing);
             }
-            else {
-                gametab.games.Add(game);
-            }
+
+            gametab.games.Add(game);
             gametab.game.makeItems("");
             base.save(sender, e);
         }

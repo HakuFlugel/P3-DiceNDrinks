@@ -63,7 +63,7 @@ namespace AdministratorPanel {
                 gamePopupbox.gameName.Text = game.name;
                 gamePopupbox.gameDescription.Text = game.description;
                 gamePopupbox.timeBox.Text = game.minPlayTime.ToString() + "/" + game.maxPlayTime.ToString();
-                gamePopupbox.playerBox.Text = game.minPlayers.ToString() + "/" + game.maxPlayTime.ToString();
+                gamePopupbox.playerBox.Text = game.minPlayers.ToString() + "/" + game.maxPlayers.ToString();
                 gamePopupbox.gameImage.BackgroundImage = imageDownloader.image;
                 gamePopupbox.imagePath = imageDownloader.ImagePath;
                 gamePopupbox.gameDifficultyBar.Value = game.difficulity;
