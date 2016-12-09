@@ -148,7 +148,7 @@ namespace AdministratorPanel {
         public Game game;
         private Game beforeEditing;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
-        private Image image;
+        public Image image;
         public List<Game> games;
         public string imagePath = "";
 
