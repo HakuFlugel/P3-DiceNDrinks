@@ -188,10 +188,13 @@ namespace AdministratorPanel {
             newReservation.phone = phoneNumber.Text;
             newReservation.email = email.Text;
             newReservation.time = dt;
+            newReservation.forcedByAdmin = true;
             //cd.fullness += newReservation.numPeople;
 
             if (reservation == null) {
+                
                 reservationController.addReservation(newReservation);
+                
             }
             else {
                 reservationController.updateReservation(newReservation);
