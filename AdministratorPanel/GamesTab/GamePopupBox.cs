@@ -154,13 +154,8 @@ namespace AdministratorPanel {
 
         public GamePopupBox(GamesTab gametab, Game game, Genres genres) {
             Text = "Game";
+
             Name = (game != null) ? game.name : "New Game";
-            if (Application.OpenForms[Name] as GamePopupBox != null) {
-                BringToFront();
-                return;
-            }
-                
-            
 
             Size = new Size(500,640);
             this.genres = genres;
