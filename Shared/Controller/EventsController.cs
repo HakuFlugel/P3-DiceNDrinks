@@ -52,12 +52,12 @@ namespace Shared
 
         public override void save()
         {
-            saveFile("reservationsCalendar", events);
+            saveFile("events", events);
         }
 
         public override void load()
         {
-            events = loadFile<Event>("reservationsCalendar");
+            events = loadFile<Event>("events");
         }
 
     }
