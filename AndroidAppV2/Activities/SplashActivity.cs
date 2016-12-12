@@ -64,7 +64,7 @@ namespace AndroidAppV2.Activities {
         }
 
         private void Update() {
-            string[] items = { "Games", "Products", "Events" };
+            string[] items = { "Events", "Games", "Products" };
 
             for (int i = 0; i < 3; i++) {
                 //TODO: create ask server when it is enabled on the server
