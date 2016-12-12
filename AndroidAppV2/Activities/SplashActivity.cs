@@ -28,12 +28,12 @@ namespace AndroidAppV2.Activities {
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
             base.OnCreate(savedInstanceState, persistentState);
             Log.Debug(TAG, "SplashActivity.OnCreate");
-            SetContentView(Resource.Layout.Splash);
+
         }
 
         protected override void OnResume() {
             base.OnResume();
-
+            SetContentView(Resource.Layout.Splash);
             Task startupWork = new Task(() => {
                 if (!System.IO.File.Exists(_basePath))
                     FirstTimeSetup();
@@ -81,11 +81,11 @@ namespace AndroidAppV2.Activities {
             {
                 case "Products":
                     item = ans.DownloadProducts();
-                    DownloadProductImages(item);
+                    //DownloadProductImages(item); //TODO: downloading images does not work atm
                     break;
                 case "Games":
                     item = ans.DownloadItem(location);
-                    DownloadGameImages(item);
+                    //DownloadGameImages(item);
                     break;
                 case "Events":
                     item = ans.DownloadItem(location);
@@ -111,7 +111,7 @@ namespace AndroidAppV2.Activities {
             List<Product> list = JsonConvert.DeserializeObject<List<Product>>(jsonlist);
 
             foreach (Product item in list) {
-                AndroidShared.ImageDownloader(item.image, "games");
+                AndroidShared.ImageDownloader(item.image, "products");
             }
         }
     }

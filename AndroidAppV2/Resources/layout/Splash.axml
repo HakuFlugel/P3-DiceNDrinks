@@ -8,8 +8,12 @@
         p1:src="@drawable/icon"
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
-        p1:layout_centerInParent="true"
-        p1:id="@+id/SplashImage" />
+        p1:id="@+id/SplashImage"
+        p1:elevation="2dp"
+        p1:layout_centerHorizontal="true"
+        p1:maxWidth="50dp"
+        p1:maxHeight="50dp"
+        p1:paddingTop="50dp" />
     <ProgressBar
         p1:layout_width="wrap_content"
         p1:layout_height="wrap_content"
