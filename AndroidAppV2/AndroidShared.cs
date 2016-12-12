@@ -53,12 +53,14 @@ namespace AndroidAppV2
             }
         }
 
-        public async void GetImagesFromSD(Context contex, string image, View view, int id, int[] sizes) {
+        public async void GetImagesFromSD(Context contex, string image, View view, int id, int[] sizes)
+        {
             //sizes[0] is reqWidth sizes[1] is reqHeight
 
             string filename = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, $"DnD/images/{image}");
 
-            if (File.Exists(filename)) {
+            if (File.Exists(filename))
+            {
                 BitmapFactory.Options options = await GetBitmapOptionsOfImage(filename);
 
                 Bitmap bitmapToDisplay =
@@ -66,7 +68,8 @@ namespace AndroidAppV2
 
                 view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
             }
-            else {
+            else
+            {
                 Stream stream = contex.Assets.Open("nopic.jpg");
 
                 BitmapFactory.Options fileNotFound = new BitmapFactory.Options();
@@ -78,7 +81,9 @@ namespace AndroidAppV2
             }
         }
 
-        public async void GetImagesFromResources(Context contex, Resources res, int resId, View view, int viewId, int[] sizes) {
+        public async void GetImagesFromResources(Context contex, Resources res, int resId, View view, int viewId,
+            int[] sizes)
+        {
             BitmapFactory.Options options = await GetBitmapOptionsOfImageFromRes(res, resId);
 
             Bitmap bitmapToDisplay =
@@ -87,17 +92,22 @@ namespace AndroidAppV2
             view.FindViewById<ImageView>(viewId).SetImageBitmap(bitmapToDisplay);
         }
 
-        public async void GetImagesFromAssets(Context contex, string image, View view, int id, int[] sizes) {
+        public async void GetImagesFromAssets(Context contex, string image, View view, int id, int[] sizes)
+        {
             //sizes[0] is reqWidth sizes[1] is reqHeight
             AssetManager am = contex.Assets;
             string fileNotFound = "nopic.jpg";
-            try {
+            try
+            {
                 am.Open(image);
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 BitmapFactory.Options fnFoptions = await GetBitmapOptionsOfImageFromAssetsAsync(contex, fileNotFound);
                 Bitmap fnFbitmapToDisplay =
-                await LoadScaledDownBitmapForDisplayFromAssetsAsync(contex, fileNotFound, fnFoptions, sizes[0], sizes[1]);
+                    await
+                        LoadScaledDownBitmapForDisplayFromAssetsAsync(contex, fileNotFound, fnFoptions, sizes[0],
+                            sizes[1]);
                 view.FindViewById<ImageView>(id).SetImageBitmap(fnFbitmapToDisplay);
                 return;
             }
@@ -109,23 +119,26 @@ namespace AndroidAppV2
 
         }
 
-        private static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        private static int CalculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
+        {
             // Raw height and width of image
             float height = options.OutHeight;
             float width = options.OutWidth;
             double inSampleSize = 1D;
 
-            if (height > reqHeight || width > reqWidth) {
-                int halfHeight = (int)(height / 2);
-                int halfWidth = (int)(width / 2);
+            if (height > reqHeight || width > reqWidth)
+            {
+                int halfHeight = (int) (height/2);
+                int halfWidth = (int) (width/2);
 
                 // Calculate a inSampleSize that is a power of 2 - the decoder will use a value that is a power of two anyway.
-                while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth) {
+                while ((halfHeight/inSampleSize) > reqHeight && (halfWidth/inSampleSize) > reqWidth)
+                {
                     inSampleSize *= 2;
                 }
             }
 
-            return (int)inSampleSize;
+            return (int) inSampleSize;
         }
 
         private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image)
@@ -168,7 +181,8 @@ namespace AndroidAppV2
         }
 
         private static async Task<Bitmap> LoadScaledDownBitmapForDisplayFromResAsync(Resources res, int id,
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+            BitmapFactory.Options options, int reqWidth, int reqHeight)
+        {
             // Calculate inSampleSize
             options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
 
@@ -178,8 +192,11 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeResourceAsync(res, id, options);
         }
 
-        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageFromAssetsAsync(Context context, string path) {
-            BitmapFactory.Options options = new BitmapFactory.Options {
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageFromAssetsAsync(Context context,
+            string path)
+        {
+            BitmapFactory.Options options = new BitmapFactory.Options
+            {
                 InJustDecodeBounds = true
             };
             // The result will be null because InJustDecodeBounds == true.
@@ -191,8 +208,9 @@ namespace AndroidAppV2
             return options;
         }
 
-        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayFromAssetsAsync(Context context, string path, 
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayFromAssetsAsync(Context context, string path,
+            BitmapFactory.Options options, int reqWidth, int reqHeight)
+        {
             // Calculate inSampleSize
             options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
 
@@ -203,49 +221,63 @@ namespace AndroidAppV2
 
             return await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
         }
-        
-        public List<Product> DownloadProductsAsObject() {
+
+        public List<Product> DownloadProductsAsObject()
+        {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
-                new NameValueCollection {
-                    {"Type", "Products"}});
+                new NameValueCollection
+                {
+                    {"Type", "Products"}
+                });
             string result = System.Text.Encoding.UTF8.GetString(resp);
-            Tuple<List<ProductCategory>, List<Product>> values = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
+            Tuple<List<ProductCategory>, List<Product>> values =
+                JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
 
             List<Product> newlist = values.Item2;
 
             return newlist;
         }
 
-        public List<T> DownloadItemAsObject<T>(string type) {
+        public List<T> DownloadItemAsObject<T>(string type)
+        {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
-                new NameValueCollection {
-                    {"Type", type}});
+                new NameValueCollection
+                {
+                    {"Type", type}
+                });
             string result = System.Text.Encoding.UTF8.GetString(resp);
 
             return JsonConvert.DeserializeObject<List<T>>(result);
         }
-        
 
-        public string DownloadProducts() {
+
+        public string DownloadProducts()
+        {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
-                new NameValueCollection {
-                    {"Type", "Products"}});
+                new NameValueCollection
+                {
+                    {"Type", "Products"}
+                });
             string result = System.Text.Encoding.UTF8.GetString(resp);
-            Tuple<List<ProductCategory>, List<Product>> values = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
+            Tuple<List<ProductCategory>, List<Product>> values =
+                JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(result);
 
             result = JsonConvert.SerializeObject(values.Item2);
 
             return result;
         }
 
-        public string DownloadItem(string type) {
+        public string DownloadItem(string type)
+        {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
-                new NameValueCollection {
-                    {"Type", type}});
+                new NameValueCollection
+                {
+                    {"Type", type}
+                });
             string result = System.Text.Encoding.UTF8.GetString(resp);
 
             return result;
@@ -256,17 +288,27 @@ namespace AndroidAppV2
             string url = $"http://172.25.11.113/images/{category}/{id}";
             Bitmap bitmap = DownloadImage(url);
             if (bitmap == null) return;
-            SaveImage(bitmap,id);
+            SaveImage(bitmap, id);
         }
 
-        private static Bitmap DownloadImage(string url) {
+        private static Bitmap DownloadImage(string url)
+        {
             if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 return null;
             WebRequest request = WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            Stream responseStream = response.GetResponseStream();
-            Bitmap bitmap = BitmapFactory.DecodeStream(responseStream);
-            return bitmap;
+            try
+            {
+                WebResponse response = request.GetResponse();
+                Stream responseStream = response.GetResponseStream();
+                Bitmap bitmap = BitmapFactory.DecodeStream(responseStream);
+                return bitmap;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+
         }
 
         private static void SaveImage(Bitmap bitmap, string id) {
