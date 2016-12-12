@@ -25,18 +25,13 @@ namespace AndroidAppV2.ListDialogFragments {
 
             StringBuilder sb = new StringBuilder();
 
-            if (_game.genre.Count != 0)
-            {
-                foreach (string item in _game.genre) {
-                    sb.Append(item + ",  ");
-                }
+            foreach (string item in _game.genre) {
+                sb.Append(item + ",  ");
+            }
+            if (!(sb.Length < 1)) {
                 sb.Remove(sb.Length - 3, 3);
             }
-            else
-            {
-                sb.Append("");
-            }
-
+            
 
             view.FindViewById<TextView>(Resource.Id.gameNameText).Text = _game.name;
             view.FindViewById<TextView>(Resource.Id.gameDescrText).Text = _game.description;
