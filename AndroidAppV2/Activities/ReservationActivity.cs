@@ -31,6 +31,7 @@ namespace AndroidAppV2.Activities
         private EditText _nameEdit;
         private EditText _phoneNumEdit;
         private EditText _emailEdit;
+        private TextView _invitees;
         private bool _hasConnectionToServer;
 
         private bool Data
@@ -59,8 +60,10 @@ namespace AndroidAppV2.Activities
             _phoneNumEdit = FindViewById<EditText>(Resource.Id.phoneNumEdit);
             _emailEdit = FindViewById<EditText>(Resource.Id.emailEdit);
 
+            _invitees = FindViewById<TextView>(Resource.Id.inviteesNum);
+
             //TODO: Set up for download
-            
+
             _hasConnectionToServer = AndroidShared.CheckForInternetConnection();
             if (!_hasConnectionToServer) {
                 _acceptionButton.Enabled = false;
@@ -153,8 +156,9 @@ namespace AndroidAppV2.Activities
             {
                 DeleteReservation();
                 sb.Progress = 0;
-                _timeSelectButton.Text = _chosenDateTime.ToString("HH:mm");
-                _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
+                _invitees.Text = "1";
+                _timeSelectButton.Text = "TIME";
+                _dateSelectButton.Text = "DATE";
                 _nameEdit.Text = "";
                 _phoneNumEdit.Text = "";
                 _emailEdit.Text = "";
@@ -229,7 +233,8 @@ namespace AndroidAppV2.Activities
                 /*Do Nothing*/
             });
             resSucces.Show();
-            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer";
+            FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Yellow);
+            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer.";
 
             Data = true;
 
@@ -315,7 +320,7 @@ namespace AndroidAppV2.Activities
         {
             if (fromUser)
             {
-                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress + 1} people";
+                FindViewById<TextView>(Resource.Id.inviteesNum).Text = $"{seekBar.Progress + 1}";
             }
         }
 
@@ -405,7 +410,7 @@ namespace AndroidAppV2.Activities
                 });
 
             string result = System.Text.Encoding.UTF8.GetString(resp);
-            ErrorDialog(result);
+            ErrorDialog("The reservation has been: " + result);
         }
     }
 
