@@ -12,6 +12,7 @@ using Android.Content.PM;
 
 using Shared;
 using Newtonsoft.Json;
+using Android.Text;
 
 namespace AndroidAppV2.Activities
 {
@@ -96,18 +97,19 @@ namespace AndroidAppV2.Activities
                     _nameEdit.Text = _res.name;
                     _phoneNumEdit.Text = _res.phone;
                     _emailEdit.Text = _res.email;
+                    _userId = _res.id;
                     _deleteButton.Enabled = true;
                     if (_res.state == Reservation.State.Pending) {
-                        string pendingState = "<font color='#ffff00'>Awaiting answer.</font>";
-                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + pendingState;
+                        FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Yellow);
+                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer.";
                     }
                     else if (_res.state == Reservation.State.Accepted) {
-                        string confirmedState = "<font color='#00ff00'>Confirmed!</font>";
-                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + confirmedState;
+                        FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Green);
+                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Confirmed!";
                     }
                     else if (_res.state == Reservation.State.Denied) {
-                        string declinedState = "<font color='#ee0000'>Denied!</font>";
-                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: " + declinedState;
+                        FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Red);
+                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Denied!";
                     }
                 }
             }
@@ -339,6 +341,7 @@ namespace AndroidAppV2.Activities
 
             string result = System.Text.Encoding.UTF8.GetString(resp);
 
+
             string[] newResult = result.Split(' ');
             int id;
             int.TryParse(newResult[1], out id);
@@ -402,6 +405,7 @@ namespace AndroidAppV2.Activities
                 });
 
             string result = System.Text.Encoding.UTF8.GetString(resp);
+            ErrorDialog(result);
         }
     }
 
