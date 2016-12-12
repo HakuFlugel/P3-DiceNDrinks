@@ -303,8 +303,9 @@ namespace AndroidAppV2
                 Bitmap bitmap = BitmapFactory.DecodeStream(responseStream);
                 return bitmap;
             }
-            catch (Exception)
+            catch (WebException e)
             {
+                Log.WriteLine(LogPriority.Error, "X:" + e, $"could not compute url: {url}");
                 return null;
             }
 
