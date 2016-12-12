@@ -278,16 +278,13 @@ namespace AndroidAppV2
         }
 
         public static bool CheckForInternetConnection() {
-            var ping = new Ping();
-            string address = "172.25.11.113";
+            Ping ping = new Ping();
+            const string address = "172.25.11.113";
             byte[] buffer = new byte[32];
-            int timeout = 1000;
-            var pingOptions = new PingOptions();
+            const int timeout = 1000;
+            PingOptions pingOptions = new PingOptions();
             PingReply reply = ping.Send(address, timeout, buffer, pingOptions);
-            if (reply.Status == IPStatus.Success) {
-                return true;
-            }
-            return false;
+            return reply.Status == IPStatus.Success;
         }
     }
 }
