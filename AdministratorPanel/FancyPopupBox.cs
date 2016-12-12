@@ -47,10 +47,10 @@ namespace AdministratorPanel {
 
 
         public FancyPopupBox(bool canDelete = true) {
-            if (Application.OpenForms.OfType<ProductPopupBox>().Any()       && this is ProductPopupBox      ||
-                Application.OpenForms.OfType<GamePopupBox>().Any()          && this is GamePopupBox         ||
-                Application.OpenForms.OfType<ReservationPopupBox>().Any()   && this is ReservationPopupBox  ||
-                Application.OpenForms.OfType<EventPopupBox>().Any()         && this is EventPopupBox) {
+            if (Application.OpenForms.OfType<ProductPopupBox>().Any()       && this is ProductPopupBox
+             || Application.OpenForms.OfType<GamePopupBox>().Any()          && this is GamePopupBox         
+             || Application.OpenForms.OfType<ReservationPopupBox>().Any()   && this is ReservationPopupBox  
+             || Application.OpenForms.OfType<EventPopupBox>().Any()         && this is EventPopupBox) {
 
                 this.BringToFront();
                 this.Focus();

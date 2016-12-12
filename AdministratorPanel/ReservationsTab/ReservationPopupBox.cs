@@ -74,11 +74,7 @@ namespace AdministratorPanel {
 
         public ReservationPopupBox(ReservationController reservationController, Reservation reservation = null) {
             Text = "Reservation";
-            Name = (reservation != null) ? reservation.name : "New resevation";
-            if (Application.OpenForms[Name] as ReservationPopupBox != null)
-                return;
-            else
-                BringToFront();
+
 
             pendingSet.DataSource = Enum.GetValues(typeof(Reservation.State));
             this.reservationController = reservationController;
@@ -142,15 +138,22 @@ namespace AdministratorPanel {
 
             if (DialogResult.Yes == NiceMessageBox.Show("Delete Reservation", "Are you sure you want to delete this newReservation?", MessageBoxButtons.YesNo)) {
 
-                WebClient client = new WebClient();
-                var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                //WebClient client = new WebClient();
+                //var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+                //    new NameValueCollection() {
+                //        {"Action", "delete"},
+                //        {"Reservation", JsonConvert.SerializeObject(reservation)}
+                //    }
+                //);
+
+
+
+                string response = ServerConnection.sendRequest("/submitReservation.aspx",
                     new NameValueCollection() {
                         {"Action", "delete"},
                         {"Reservation", JsonConvert.SerializeObject(reservation)}
                     }
                 );
-
-                string response = System.Text.Encoding.Default.GetString(resp);
                 Console.WriteLine(response);
 
                 string[] responsesplit = response.Split(' ');
@@ -215,6 +218,7 @@ namespace AdministratorPanel {
             // actual saving
 
             Reservation newReservation = new Reservation();
+            newReservation.id = reservation?.id ?? 0;
             newReservation.state = (Reservation.State)pendingSet.SelectedValue;
             newReservation.timestamp = DateTime.UtcNow;
             newReservation.name = reservationName.Text;
@@ -225,40 +229,50 @@ namespace AdministratorPanel {
             //cd.fullness += newReservation.numPeople;
 
 
-            WebClient client = new WebClient();
-            var resp = client.UploadValues("http://172.25.11.113" + "/submitReservation.aspx",
+
+            string response = ServerConnection.sendRequest("/submitReservation.aspx",
                 new NameValueCollection() {
                     {"Action", reservation == null ? "add" : "update"},
                     {"Reservation", JsonConvert.SerializeObject(newReservation)}
                 }
             );
-            string response = System.Text.Encoding.Default.GetString(resp);
+
             Console.WriteLine(response);
 
             string[] responsesplit = response.Split(' ');
 
             if (reservation == null) {
-                reservationController.addReservation(newReservation);
 
                 if (responsesplit[0] != "added")
                 {
                     Console.WriteLine("wrong response: " + response);
+                    return;
                 }
 
-                if (!int.TryParse(responsesplit[1], out newReservation.id))
+                int reservationID;
+                if (!int.TryParse(responsesplit[1], out reservationID))
                 {
                     Console.WriteLine("invalid reservation id returned");
                     return;
                 }
 
+                newReservation.id = reservationID;
                 reservationController.addReservation(newReservation);
+
             }
             else {
+
+
+                if (responsesplit[0] != "updated")
+                {
+                    Console.WriteLine("wrong response: " + response);
+                    return;
+                }
 
                 newReservation.id = reservation.id;
                 reservationController.updateReservation(newReservation);
             }
-            base.save(sender, e);
+
             this.Close();
         }
 

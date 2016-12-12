@@ -76,11 +76,10 @@ namespace AdministratorPanel {
             //...
             //...
 
+            ServerConnection.ip = "172.25.11.113"; // TODO: get this from somewhere
 
             MainWindow p = new MainWindow();
-            //            {
-            //                reservationController = reservationController
-            //            };
+
             p.Start();
         }
     }

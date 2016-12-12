@@ -8,7 +8,7 @@ namespace Server
     public class Authentication
     {
 
-        private Dictionary<string, string> adminKeys;
+        public Dictionary<string, string> adminKeys; //TODO: private
 
         private readonly string path;
         private const string nameext = "adminkeys.json";

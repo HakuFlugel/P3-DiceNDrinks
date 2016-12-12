@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#"%>
+<%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="Shared" %>
 
 <%
@@ -36,6 +37,10 @@
                 Response.Write("deleted");
                 break;
             case "add":
+
+                reservation.id = diceServer.reservationController.getRandomID();
+                reservation.created = DateTime.UtcNow;
+
                 reservation.timestamp = DateTime.UtcNow;
 
                 if (!isAdmin)
@@ -49,6 +54,13 @@
             case "update":
 
                 reservation.timestamp = DateTime.UtcNow;
+
+                if (!isAdmin)
+                {
+                    reservation.state = Reservation.State.Pending;
+                    Response.Write("|" + JsonConvert.SerializeObject(diceServer.authentication.adminKeys) + "|");
+                }
+
                 diceServer.reservationController.updateReservation(reservation);
                 Response.Write("updated");
 
@@ -60,9 +72,9 @@
     }
     catch (Exception e)
     {
-        Response.Write("failed");
+        Response.Write("failed ");
         //TODO: remove
-        Response.Write(e.Message);
+        Response.Write(e);
     }
 
     Application.UnLock();

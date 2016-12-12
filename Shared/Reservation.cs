@@ -16,8 +16,8 @@ namespace Shared {
         public DateTime time;
         public DateTime created;
         public State state;
+        public bool forcedByAdmin = false;
 
         public string message;
-
     }
 }
