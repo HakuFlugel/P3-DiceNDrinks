@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Windows.Forms;
 using Shared;
 using System.Drawing;
 using System.Linq;
+using Newtonsoft.Json;
 
-namespace AdministratorPanel {
-    public class ReservationTab : AdminTabPage {
+namespace AdministratorPanel
+{
+    public class ReservationTab : AdminTabPage
+    {
         public Calendar calendar;
 
         public ReservationList reservationList;
@@ -16,33 +20,39 @@ namespace AdministratorPanel {
         public bool lockedRes = false;
         private FormProgressBar probar;
 
-        public CheckBox lockResevations = new CheckBox() {
+        public CheckBox lockResevations = new CheckBox()
+        {
             Text = "Lock Reservations",
         };
 
-        private ToolTip tooltip = new ToolTip() {
+        private ToolTip tooltip = new ToolTip()
+        {
             AutoPopDelay = 5000,
             InitialDelay = 100,
             ReshowDelay = 500,
             ShowAlways = true
         };
 
-        public NiceTextBox autoAcceptPresentage = new NiceTextBox() {
+        public NiceTextBox autoAcceptPresentage = new NiceTextBox()
+        {
             Width = 30,
             MaxLength = 3,
         };
 
-        public NiceTextBox maxAutoAccept = new NiceTextBox() {
+        public NiceTextBox maxAutoAccept = new NiceTextBox()
+        {
             Width = 30,
             MaxLength = 2,
         };
 
-        public Label reserveSpaceText = new Label() {
+        public Label reserveSpaceText = new Label()
+        {
             Dock = DockStyle.Left,
             Font = new Font("Arial", 16),
         };
 
-        public ProgressBar reserveSpaceWithPending = new ProgressBar() {
+        public ProgressBar reserveSpaceWithPending = new ProgressBar()
+        {
             Style = ProgressBarStyle.Continuous,
             //Dock = DockStyle.Left,
             Minimum = 0,
@@ -52,7 +62,8 @@ namespace AdministratorPanel {
             Margin = Padding.Empty
         };
 
-        public ProgressBar reserveSpaceWithoutPending = new ProgressBar() {
+        public ProgressBar reserveSpaceWithoutPending = new ProgressBar()
+        {
             Style = ProgressBarStyle.Continuous,
             //Dock = DockStyle.Left,
             Minimum = 0,
@@ -62,7 +73,8 @@ namespace AdministratorPanel {
             Margin = Padding.Empty
         };
 
-        private Button addReservation = new Button() {
+        private Button addReservation = new Button()
+        {
             Height = 20,
             Width = 100,
             Dock = DockStyle.Right,
@@ -70,7 +82,8 @@ namespace AdministratorPanel {
 
         };
 
-        private TableLayoutPanel outerTable = new TableLayoutPanel() {
+        private TableLayoutPanel outerTable = new TableLayoutPanel()
+        {
             Dock = DockStyle.Fill,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
             RowCount = 1,
@@ -78,7 +91,8 @@ namespace AdministratorPanel {
 
         };
 
-        private TableLayoutPanel progressbars = new TableLayoutPanel() {
+        private TableLayoutPanel progressbars = new TableLayoutPanel()
+        {
             Dock = DockStyle.Fill,
             Height = 16,
             RowCount = 2,
@@ -96,49 +110,79 @@ namespace AdministratorPanel {
         };
 
         // Left Side
-        private TableLayoutPanel leftTable = new TableLayoutPanel() {
+        private TableLayoutPanel leftTable = new TableLayoutPanel()
+        {
             Dock = DockStyle.Left,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
 
         };
 
-        private TableLayoutPanel rightTable = new TableLayoutPanel() {
+        private TableLayoutPanel rightTable = new TableLayoutPanel()
+        {
             Dock = DockStyle.Fill,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
         };
 
-        private TableLayoutPanel topRightTable = new TableLayoutPanel() {
+        private TableLayoutPanel topRightTable = new TableLayoutPanel()
+        {
             Dock = DockStyle.Top,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             ColumnCount = 7,
         };
 
-        private Button roomsButton = new Button() {
+        private Button roomsButton = new Button()
+        {
             Text = "Modify Rooms",
             AutoSize = true,
 
         };
-        private Button testButton = new Button() {
+
+        private Button testButton = new Button()
+        {
             Text = "TEST Add res",
             AutoSize = true
         };
 
-        public ReservationTab(ReservationController reservationController, FormProgressBar probar) {
+        public ReservationTab(ReservationController reservationController, FormProgressBar probar)
+        {
             //tab name
             Text = "Reservations";
 
             this.reservationController = reservationController;
             this.probar = probar;
-            
+
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Reservations"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var tuple = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(response);
+
+                Console.WriteLine(tuple.Item1);
+                Console.WriteLine(tuple.Item2);
+
+                reservationController.rooms = tuple.Item1;
+                reservationController.reservationsCalendar = tuple.Item2;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
             //TODO: temorary debug
             //reservationController.rooms.Clear();
             //reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
             probar.addToProbar();                               //For progress bar. 1
 
+            //TODO: should probably be put in controller
             foreach (var item in reservationController.reservationsCalendar)
                 if (reservationController.checkIfRemove(item))
                     toremove.Add(item);

@@ -135,6 +135,7 @@
     <Compile Include="ReservationsTab\RoomPopup.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ServerConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

@@ -19,6 +19,5 @@ namespace Shared {
         public bool forcedByAdmin = false;
 
         public string message;
-
     }
 }

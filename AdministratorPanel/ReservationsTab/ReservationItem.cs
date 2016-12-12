@@ -93,7 +93,6 @@ namespace AdministratorPanel {
 
         private void subscribeController() {
             declineButton.Click += (s, e) => {
-                //TODO: should we actually have a state for this?? So that the customer can see that it was rejected for some reason...
                 //TODO: locking reservations = deny remaining reservations?
                 res.state = Reservation.State.Denied;
                 reservationController.updateReservation(res);

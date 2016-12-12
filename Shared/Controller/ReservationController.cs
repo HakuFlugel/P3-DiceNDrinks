@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 // TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
 
@@ -18,8 +19,6 @@ namespace Shared
         //TODO: make sure it is pending if from user
 
         public void addReservation(Reservation reservation) {
-            reservation.id = getRandomID();
-            reservation.created = DateTime.Now;
 
             addToDay(reservation);
             //ReservationAdded?.Invoke(this, new AddReservationEventArgs(reservation));
@@ -45,8 +44,8 @@ namespace Shared
             removeFromDay(oldReservation);
 
             addToDay(reservation);
-            if(reservation.time.Date != oldReservation.time.Date)
-                checkIfAutoAccept(reservation, findDay(reservation.time));
+            //if(reservation.time.Date != oldReservation.time.Date)
+            //    checkIfAutoAccept(reservation, findDay(reservation.time));
 
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
@@ -69,7 +68,7 @@ namespace Shared
         {
         }
 
-        private int getRandomID()
+        public int getRandomID()
         {
             int id;
 
@@ -111,7 +110,9 @@ namespace Shared
 
         private void removeFromDay(Reservation reservation) {
             CalendarDay resDay = reservationsCalendar.First(o => o.theDay == reservation.time.Date);
-            resDay.reservations.Remove(reservation);
+
+            resDay.reservations.RemoveAll(r => r.id == reservation.id);
+            //resDay.reservations.Remove(reservation);
             resDay.calculateReservedSeats(); 
 
             if(checkIfRemove(resDay)) 
