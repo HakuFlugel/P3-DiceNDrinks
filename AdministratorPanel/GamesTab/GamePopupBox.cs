@@ -151,6 +151,7 @@ namespace AdministratorPanel {
         public Image image;
         public List<Game> games;
         public string imagePath = "";
+        
 
         public GamePopupBox(GamesTab gametab, Game game, Genres genres) {
             Text = "Game";
@@ -334,6 +335,14 @@ namespace AdministratorPanel {
             }
             //image
             game.imageName = imagePath;
+            if (beforeEditing != null 
+                && beforeEditing.imageName != null 
+                && imagePath != "images/_default.png" 
+                && imagePath != beforeEditing.imageName 
+                && File.Exists("images/" + imagePath))
+
+                File.Delete("images/" + imagePath);
+
             if (!File.Exists("images/" + imagePath)) 
                 image.Save("images/"+ imagePath);
 
@@ -382,6 +391,8 @@ namespace AdministratorPanel {
             if (openFileDialog.ShowDialog() == DialogResult.OK) {
                 try {
                     game.imageName = openFileDialog.SafeFileName; // name
+                    
+                        
                     imagePath = openFileDialog.SafeFileName;
                     image = Image.FromFile(openFileDialog.FileName); // path + name
                     gameImage.BackgroundImage = image;

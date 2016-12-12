@@ -48,6 +48,15 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 4
         }
 
+        public ProductCategoryTab ProductCategoryTab {
+            get {
+                throw new System.NotImplementedException();
+            }
+
+            set {
+            }
+        }
+
         public void MakeItems() {
             tabControl.Controls.Clear();
 

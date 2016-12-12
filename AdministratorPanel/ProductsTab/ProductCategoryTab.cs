@@ -24,6 +24,15 @@ namespace AdministratorPanel {
             Controls.Add(table);
         }
 
+        internal ProductSectionItem ProductSectionItem {
+            get {
+                throw new System.NotImplementedException();
+            }
+
+            set {
+            }
+        }
+
         public void makeItems(List<string> productSections) {
 
             table.Controls.Clear();

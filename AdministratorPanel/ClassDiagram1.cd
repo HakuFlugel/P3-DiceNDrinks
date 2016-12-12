@@ -1,0 +1,681 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AdministratorPanel.AdminTabPage">
+    <Position X="15.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AdminTabPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.EventItem">
+    <Position X="20.25" Y="8.75" Width="1.75" />
+    <InheritanceLine Type="AdministratorPanel.NiceButton" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="23" Y="10.982" />
+        <Point X="23" Y="11.886" />
+        <Point X="21.125" Y="11.886" />
+        <Point X="21.125" Y="11.204" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAICAAAABAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventsTab\EventItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.EventList">
+    <Position X="19.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>EventsTab\EventList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EventsTab" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.EventPopupBox">
+    <Position X="13.25" Y="22.5" Width="2.25" />
+    <AssociationLine Name="eventsTab" Type="AdministratorPanel.EventsTab" ManuallyRouted="true">
+      <Path>
+        <Point X="15.5" Y="24.881" />
+        <Point X="18.479" Y="24.881" />
+        <Point X="18.479" Y="18.155" />
+        <Point X="18.917" Y="18.155" Type="JumpStart" />
+        <Point X="19.083" Y="18.155" Type="JumpEnd" />
+        <Point X="20.002" Y="18.155" />
+        <Point X="20.002" Y="7.656" />
+        <Point X="16.5" Y="7.656" />
+        <Point X="16.5" Y="7.281" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.458" Y="0.147" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>aCAAAAAAAACAgAAIAiAAAQBAACAAAACAAABEASAAAAI=</HashCode>
+      <FileName>EventsTab\EventPopupBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="eventsTab" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.EventsTab">
+    <Position X="16" Y="4.25" Width="2" />
+    <AssociationLine Name="probar" Type="AdministratorPanel.FormProgressBar" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17" Y="4.25" />
+        <Point X="17" Y="3.875" />
+        <Point X="15.669" Y="3.875" />
+        <Point X="15.669" Y="11.158" />
+        <Point X="14.967" Y="11.158" Type="JumpStart" />
+        <Point X="14.801" Y="11.158" Type="JumpEnd" />
+        <Point X="13.474" Y="11.158" Type="JumpStart" />
+        <Point X="13.307" Y="11.158" Type="JumpEnd" />
+        <Point X="11.919" Y="11.158" Type="JumpStart" />
+        <Point X="11.753" Y="11.158" Type="JumpEnd" />
+        <Point X="10.958" Y="11.158" Type="JumpStart" />
+        <Point X="10.792" Y="11.158" Type="JumpEnd" />
+        <Point X="10.5" Y="11.158" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.147" Y="-0.058" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAACAAAAAIAACBAAAAARAAAAAAAAAABAAA=</HashCode>
+      <FileName>EventsTab\EventsTab.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="probar" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.FancyPopupBox">
+    <Position X="11.25" Y="18" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BABAAAAAAASAAAAAAAAAAQAACGAIAAQAAAAAAQAQAAA=</HashCode>
+      <FileName>FancyPopupBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.FormProgressBar">
+    <Position X="9" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAQAAAAAQAAAA=</HashCode>
+      <FileName>FormProgressBar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.EditGenrePopupbox">
+    <Position X="3.5" Y="1.75" Width="2" />
+    <AssociationLine Name="genre" Type="Shared.Genres">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.149" Y="-0.077" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEgAAAAAAAABCAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>GamesTab\EditGenrePopupBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="genre" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.GamePopupBox">
+    <Position X="18.75" Y="19.25" Width="2" />
+    <InheritanceLine Type="AdministratorPanel.FancyPopupBox" FixedToPoint="true">
+      <Path>
+        <Point X="12" Y="18" />
+        <Point X="12" Y="17.625" />
+        <Point X="14.75" Y="17.625" />
+        <Point X="14.75" Y="17.941" />
+        <Point X="16.479" Y="17.941" Type="JumpStart" />
+        <Point X="16.646" Y="17.941" Type="JumpEnd" />
+        <Point X="19" Y="17.941" />
+        <Point X="19" Y="19.25" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="gametab" Type="AdministratorPanel.GamesTab" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.75" Y="27.473" />
+        <Point X="15.099" Y="27.473" />
+        <Point X="15.099" Y="27.859" />
+        <Point X="6.276" Y="27.859" />
+        <Point X="6.276" Y="7.125" />
+        <Point X="7.75" Y="7.125" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.296" Y="-0.039" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQAgAAADAACAAAIAjAIAAQBCESQAACArBABBYEIEBwI=</HashCode>
+      <FileName>GamesTab\GamePopupBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gametab" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.GamePopupBoxRght">
+    <Position X="18.25" Y="28.25" Width="1.75" />
+    <AssociationLine Name="api" Type="AdministratorPanel.XmlParser">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.259" Y="-0.047" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="gamePopupBox" Type="AdministratorPanel.GamePopupBox" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="20" Y="29.573" />
+        <Point X="20.375" Y="29.573" />
+        <Point X="20.375" Y="27.473" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.074" Y="-0.096" Height="0.182" Width="1.191" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgIAAAAAAAAAAACAgAAAAABCAAAEAEAAA=</HashCode>
+      <FileName>GamesTab\GamePopupBoxRght.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="api" />
+      <Field Name="gamePopupBox" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.GamesItem">
+    <Position X="24.5" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAEAAAAAAAAAAAAACAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>GamesTab\GamesItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.GamesList">
+    <Position X="5" Y="4.75" Width="1.5" />
+    <AssociationLine Name="genres" Type="Shared.Genres">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.093" Y="-0.086" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAEABAAA=</HashCode>
+      <FileName>GamesTab\GamesList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="genres" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.GamesTab">
+    <Position X="7.75" Y="4.25" Width="2" />
+    <AssociationLine Name="game" Type="AdministratorPanel.GamesList">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.102" Y="-0.049" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="genres" Type="Shared.Genres">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.278" Y="0.093" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="probar" Type="AdministratorPanel.FormProgressBar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.063" Y="0.107" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="seachBar" Type="AdministratorPanel.NiceTextBox">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.185" Y="-0.122" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAgIAAAAAAAAAAAIAAACACAAAAAAAIACBAAEAEQAA=</HashCode>
+      <FileName>GamesTab\GamesTab.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="game" />
+      <Field Name="genres" />
+      <Field Name="probar" />
+      <Field Name="seachBar" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.GenreItem">
+    <Position X="4" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAABAAAAAAQAAAAAAACAAAAAAA=</HashCode>
+      <FileName>GamesTab\GenreItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="EditGenrePopupbox" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ImageDownloader">
+    <Position X="22.25" Y="15.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAABAAAAAAAAAAAIAAEAAIAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>GamesTab\ImageDownloader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.XmlGameItem">
+    <Position X="22.25" Y="12.25" Width="1.75" />
+    <AssociationLine Name="gamePopupbox" Type="AdministratorPanel.GamePopupBox" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="23.812" Y="14.511" />
+        <Point X="23.812" Y="14.984" />
+        <Point X="24.44" Y="14.984" />
+        <Point X="24.44" Y="27" />
+        <Point X="20.75" Y="27" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.126" Y="-0.702" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="imageDownloader" Type="AdministratorPanel.ImageDownloader">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.773" Y="0.103" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAgAACAAAAAAAAQAAAAAABACAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>GamesTab\XmlGameItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="gamePopupbox" />
+      <Field Name="imageDownloader" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.XmlParser">
+    <Position X="15.5" Y="27.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABgAgAAABAAAAAAAAAAAAAgCIEAQAAAAAgAAA=</HashCode>
+      <FileName>GamesTab\XmlParser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.MainWindow">
+    <Position X="6.75" Y="13" Width="1.75" />
+    <AssociationLine Name="probar" Type="AdministratorPanel.FormProgressBar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.082" Y="-0.075" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.227" Y="-0.103" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAIAAAAAAACAAAEIAAAAAAABABAAAAAA=</HashCode>
+      <FileName>MainWindow.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="probar" />
+      <Field Name="reservationController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.NiceMessageBox">
+    <Position X="22.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MessageBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.NiceButton">
+    <Position X="22.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAIAEAAAAAAAABACQACAAAAAAAAAAAAAgEAAAA=</HashCode>
+      <FileName>NiceButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.NiceTextBox">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IABAAAAAAAEABAAAAAAAAAAAEAAAIAAAAAAAAAAEAEA=</HashCode>
+      <FileName>NiceTextBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.NiceTransparentLabel">
+    <Position X="8.75" Y="12" Width="1.75" />
+    <AssociationLine Name="FormProgressBar" Type="AdministratorPanel.FormProgressBar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.091" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAgAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NiceTransparrantLabel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FormProgressBar" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ProductCategoryTab">
+    <Position X="12.25" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAABAAAAAAAAAAAAAAAAAAAAIAAABAAA=</HashCode>
+      <FileName>ProductsTab\ProductCategoryTab.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ProductSectionItem" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ProductItem">
+    <Position X="17" Y="12.25" Width="2.25" />
+    <AssociationLine Name="productTab" Type="AdministratorPanel.ProductsTab" ManuallyRouted="true">
+      <Path>
+        <Point X="17" Y="13.621" />
+        <Point X="15.833" Y="13.621" Type="JumpStart" />
+        <Point X="15.667" Y="13.621" Type="JumpEnd" />
+        <Point X="14.967" Y="13.621" Type="JumpStart" />
+        <Point X="14.801" Y="13.621" Type="JumpEnd" />
+        <Point X="14.518" Y="13.621" />
+        <Point X="14.518" Y="13.992" />
+        <Point X="13.583" Y="13.992" Type="JumpStart" />
+        <Point X="13.417" Y="13.992" Type="JumpEnd" />
+        <Point X="11.836" Y="13.992" />
+        <Point X="11.836" Y="7.473" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.472" Y="0.147" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAQAAgAAAAAAAAAgAAASEAAAAAAAEAiAIAAIAAA=</HashCode>
+      <FileName>ProductsTab\ProductItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="productTab" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ProductPopupBox">
+    <Position X="10.25" Y="22.5" Width="2.25" />
+    <InheritanceLine Type="AdministratorPanel.FancyPopupBox" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="12" Y="21.992" />
+        <Point X="12" Y="22.375" />
+        <Point X="12.375" Y="22.375" />
+        <Point X="12.375" Y="22.625" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="productItem" Type="AdministratorPanel.ProductItem" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.75" Y="22.5" />
+        <Point X="10.75" Y="14.25" />
+        <Point X="10.792" Y="14.25" Type="JumpStart" />
+        <Point X="10.958" Y="14.25" Type="JumpEnd" />
+        <Point X="13.417" Y="14.25" Type="JumpStart" />
+        <Point X="13.583" Y="14.25" Type="JumpEnd" />
+        <Point X="14.801" Y="14.25" Type="JumpStart" />
+        <Point X="14.967" Y="14.25" Type="JumpEnd" />
+        <Point X="15.667" Y="14.25" Type="JumpStart" />
+        <Point X="15.833" Y="14.25" Type="JumpEnd" />
+        <Point X="17" Y="14.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.203" Y="-0.117" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="productTab" Type="AdministratorPanel.ProductsTab" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.406" Y="22.5" />
+        <Point X="11.406" Y="22.2" />
+        <Point X="10.875" Y="22.2" />
+        <Point X="10.875" Y="7.473" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.178" Y="0.517" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAAAAAIABACAAAAIBACgAQBEECIIAAAQAAQCAAAGAAA=</HashCode>
+      <FileName>ProductsTab\ProductPopupBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="productItem" />
+      <Field Name="productTab" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ProductSectionItem">
+    <Position X="17.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ProductsTab\ProductSectionItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.ProductsTab">
+    <Position X="10.5" Y="4.25" Width="1.75" />
+    <AssociationLine Name="probar" Type="AdministratorPanel.FormProgressBar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.246" Y="0.183" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="ProductCategoryTab" Type="AdministratorPanel.ProductCategoryTab" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.656" Y="4.25" />
+        <Point X="11.656" Y="3.744" />
+        <Point X="12.938" Y="3.744" />
+        <Point X="12.938" Y="3.069" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.749" Y="0.468" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAEAgIACAAAAAAQAAAAgACAAAAIAABAhAAAAAAAAAAA=</HashCode>
+      <FileName>ProductsTab\ProductsTab.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="probar" />
+      <Property Name="ProductCategoryTab" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.Calendar">
+    <Position X="12.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReservationsTab\Calendar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.PendingReservationItem">
+    <Position X="24.5" Y="10" Width="2" />
+    <InheritanceLine Type="AdministratorPanel.NiceButton" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="23" Y="10.982" />
+        <Point X="23" Y="11.89" />
+        <Point X="25.5" Y="11.89" />
+        <Point X="25.5" Y="11.233" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReservationsTab\PendingReservationItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AdministratorPanel.PendingReservationList">
+    <Position X="17.75" Y="9.25" Width="2" />
+    <AssociationLine Name="cal" Type="AdministratorPanel.Calendar" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17.75" Y="10.5" />
+        <Point X="17.375" Y="10.5" />
+        <Point X="17.375" Y="11.322" />
+        <Point X="15.833" Y="11.322" Type="JumpStart" />
+        <Point X="15.667" Y="11.322" Type="JumpEnd" />
+        <Point X="14.967" Y="11.322" Type="JumpStart" />
+        <Point X="14.801" Y="11.322" Type="JumpEnd" />
+        <Point X="13.906" Y="11.322" />
+        <Point X="13.906" Y="12.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.217" Y="0.23" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="calTab" Type="AdministratorPanel.ReservationTab">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.776" Y="-0.084" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="19.531" Y="10.675" />
+        <Point X="19.531" Y="17.125" />
+        <Point X="16.75" Y="17.125" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.111" Y="-0.079" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAIAAAAgAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>ReservationsTab\PendingReservationList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cal" />
+      <Field Name="calTab" />
+      <Field Name="reservationController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ReservationItem">
+    <Position X="20.25" Y="12.25" Width="1.75" />
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="20.25" Y="16.429" />
+        <Point X="20.086" Y="16.429" Type="JumpStart" />
+        <Point X="19.919" Y="16.429" Type="JumpEnd" />
+        <Point X="19.531" Y="16.429" />
+        <Point X="19.531" Y="17.438" />
+        <Point X="16.75" Y="17.438" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.196" Y="-0.068" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAABAQAAAAAAAIAgAAIIACAABAAEACAgAAAAAwAkADA=</HashCode>
+      <FileName>ReservationsTab\ReservationItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="reservationController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ReservationList">
+    <Position X="12.5" Y="14.5" Width="1.75" />
+    <AssociationLine Name="calendar" Type="AdministratorPanel.Calendar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.348" Y="0.309" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.311" Y="-0.048" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAIAAAAAAAAAAABQAAAAAAAAAAAAJAAA=</HashCode>
+      <FileName>ReservationsTab\ReservationList.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="calendar" />
+      <Field Name="reservationController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ReservationPopupBox">
+    <Position X="15.75" Y="20.25" Width="2.25" />
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="16.125" Y="20.25" />
+        <Point X="16.125" Y="18.066" />
+        <Point X="16.562" Y="18.066" />
+        <Point X="16.562" Y="17.691" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-1.355" Y="0.265" Height="0.182" Width="1.588" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>IAAAABAAAQCAgIAoAAEAARBAQGAIAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>ReservationsTab\ReservationPopupBox.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="reservationController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.ReservationTab">
+    <Position X="13" Y="4.25" Width="2.25" />
+    <AssociationLine Name="probar" Type="AdministratorPanel.FormProgressBar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.096" Y="-0.052" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="calendar" Type="AdministratorPanel.Calendar">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.067" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.25" Y="7.105" />
+        <Point X="15.75" Y="7.105" />
+        <Point X="15.75" Y="17" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.451" Y="0.48" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="autoAcceptPresentage" Type="AdministratorPanel.NiceTextBox">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.191" Y="-0.081" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="maxAutoAccept" Type="AdministratorPanel.NiceTextBox">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.195" Y="-0.105" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="pendingReservationList" Type="AdministratorPanel.PendingReservationList">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.124" Y="-0.08" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="reservationList" Type="AdministratorPanel.ReservationList">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.304" Y="-0.101" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AggdgJYQAVUQIoICAAAAACgACAQAAAAAAAABAkBAACI=</HashCode>
+      <FileName>ReservationsTab\ReservationTab.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="probar" />
+      <Field Name="calendar" />
+      <Field Name="reservationController" />
+      <Field Name="autoAcceptPresentage" />
+      <Field Name="maxAutoAccept" />
+      <Field Name="pendingReservationList" />
+      <Field Name="reservationList" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AdministratorPanel.RoomPopup">
+    <Position X="13.5" Y="18.5" Width="1.75" />
+    <AssociationLine Name="reservationController" Type="Shared.ReservationController" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="13.906" Y="18.5" />
+        <Point X="13.906" Y="17.989" />
+        <Point X="15.938" Y="17.989" />
+        <Point X="15.938" Y="17.691" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.076" Y="0.208" Height="0.182" Width="1.532" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACBAIAAAAAAAQFAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReservationsTab\RoomPopup.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="reservationController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Shared.Genres" Collapsed="true">
+    <Position X="6.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Shared.ReservationController" Collapsed="true">
+    <Position X="15" Y="17" Width="1.75" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

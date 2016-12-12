@@ -10,5 +10,14 @@ namespace AdministratorPanel {
             GrowStyle = TableLayoutPanelGrowStyle.AddRows;
             AutoScroll = true;
         }
+
+        public EventsTab EventsTab {
+            get {
+                throw new System.NotImplementedException();
+            }
+
+            set {
+            }
+        }
     }
 }

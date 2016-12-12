@@ -16,5 +16,14 @@ namespace AdministratorPanel {
                 return parms;
             }
         }
+
+        public FormProgressBar FormProgressBar {
+            get {
+                throw new System.NotImplementedException();
+            }
+
+            set {
+            }
+        }
     }
 }

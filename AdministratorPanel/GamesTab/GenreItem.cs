@@ -45,5 +45,14 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowOnly;
             Margin = new Padding(4, 4, 20, 4);
         }
+
+        public EditGenrePopupbox EditGenrePopupbox {
+            get {
+                throw new System.NotImplementedException();
+            }
+
+            set {
+            }
+        }
     }
 }
