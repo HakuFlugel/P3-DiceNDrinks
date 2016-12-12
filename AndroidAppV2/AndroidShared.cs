@@ -254,7 +254,9 @@ namespace AndroidAppV2
         public static void ImageDownloader(string id, string category)
         {
             string url = $"http://172.25.11.113/images/{category}/{id}";
-            SaveImage(DownloadImage(url),id);
+            Bitmap bitmap = DownloadImage(url);
+            if (bitmap == null) return;
+            SaveImage(bitmap,id);
         }
 
         private static Bitmap DownloadImage(string url) {

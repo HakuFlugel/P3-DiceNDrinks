@@ -81,20 +81,23 @@ namespace AndroidAppV2.Activities {
             {
                 case "Products":
                     item = ans.DownloadProducts();
-                    //DownloadProductImages(item); //TODO: downloading images does not work atm
+                    System.IO.File.WriteAllText(saveLocation, item);
+                    DownloadProductImages(item); //TODO: downloading images does not work atm
                     break;
                 case "Games":
                     item = ans.DownloadItem(location);
+                    System.IO.File.WriteAllText(saveLocation, item);
                     //DownloadGameImages(item);
                     break;
                 case "Events":
                     item = ans.DownloadItem(location);
+                    System.IO.File.WriteAllText(saveLocation, item);
                     break;
                 default:
                     item = "";
                     break;
             }
-            System.IO.File.WriteAllText(saveLocation, item);
+
         }
 
         private static void DownloadGameImages(string jsonlist)
