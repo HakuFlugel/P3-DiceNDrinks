@@ -90,6 +90,8 @@ namespace AndroidAppV2.Activities
                 if (_res == null) {
                     _res = new Reservation();
                     sb.Progress = 0;
+                    _dateSelectButton.Text = DateTime.Now.ToString("dd. MMMMM, yyyy");
+                    _timeSelectButton.Text = DateTime.Now.ToString("HH:mm");
                 }
                 else { 
                     Data = true;
@@ -117,7 +119,7 @@ namespace AndroidAppV2.Activities
                     }
                 }
             }
-
+            getRoomSpace(_chosenDateTime);
 
 
             _dateSelectButton.Click += delegate
@@ -126,22 +128,8 @@ namespace AndroidAppV2.Activities
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
                     _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
-                    int fullness = getRoomSpace(date);
-                    if (fullness < 60) {
-                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Green);
-                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Plenty of seats left";
-                        FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_green);
-                    }
-                    else if(fullness < 85) {
-                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Yellow);
-                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Some seats left";
-                        FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_yellow);
-                    }
-                    else {
-                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Red);
-                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Few seats left";
-                        FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_red);
-                    }
+                    getRoomSpace(date);
+                    
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
@@ -338,7 +326,7 @@ namespace AndroidAppV2.Activities
 
         }
 
-        private int getRoomSpace(DateTime date) {
+        private void getRoomSpace(DateTime date) {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection
@@ -361,8 +349,21 @@ namespace AndroidAppV2.Activities
             else {
                 value = 0;
             }
-
-            return (int)value;
+            if (value < 60) {
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Green);
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Plenty of seats left";
+                FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_green);
+            }
+            else if (value < 85) {
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Yellow);
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Some seats left";
+                FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_yellow);
+            }
+            else {
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Red);
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Few seats left";
+                FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_red);
+            }
         }
 
         private void AddReservation()
