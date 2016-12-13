@@ -42,7 +42,7 @@ namespace AndroidAppV2 {
                 StartActivity(typeof(ContactActivity));
             };
         }
-
+        
         private void SetImages() {
             AndroidShared an = new AndroidShared();
             DisplayMetrics metrics = Resources.DisplayMetrics;

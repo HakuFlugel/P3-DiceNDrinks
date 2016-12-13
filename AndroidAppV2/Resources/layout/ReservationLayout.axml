@@ -97,10 +97,33 @@
         p1:layout_height="wrap_content"
         p1:id="@+id/textView1"
         p1:padding="8dp" />
-    <Button
-        p1:text="Delete"
-        p1:layout_width="100dp"
+    <LinearLayout
+        p1:orientation="horizontal"
+        p1:id="@+id/dateTimeLayout"
         p1:layout_height="wrap_content"
-        p1:id="@+id/deleteButton"
-        p1:layout_marginTop="35dp" />
+        p1:layout_width="match_parent"
+        p1:layout_marginTop="35dp">
+        <Button
+            p1:text="Delete"
+            p1:layout_width="100dp"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/deleteButton"
+            p1:layout_weight="1" />
+        <TextView
+            p1:textAppearance="?android:attr/textAppearanceSmall"
+            p1:layout_width="wrap_content"
+            p1:layout_height="wrap_content"
+            p1:id="@+id/roomSpaceStateText"
+            p1:text="ROOMSPACE_STATE"
+            p1:layout_weight="1"
+            p1:layout_marginLeft="5dp"
+            p1:gravity="right" />
+        <ImageView
+            p1:src="@drawable/reserve_green"
+            p1:layout_width="25dp"
+            p1:layout_height="25dp"
+            p1:id="@+id/roomStateImage"
+            p1:layout_marginTop="10dp"
+            p1:layout_weight="0.5" />
+    </LinearLayout>
 </LinearLayout>

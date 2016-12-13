@@ -13,6 +13,7 @@ using Android.Content.PM;
 using Shared;
 using Newtonsoft.Json;
 using Android.Text;
+using System.Globalization;
 
 namespace AndroidAppV2.Activities
 {
@@ -125,7 +126,22 @@ namespace AndroidAppV2.Activities
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
                     _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
-
+                    int fullness = getRoomSpace(date);
+                    if (fullness < 60) {
+                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Green);
+                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Plenty of seats left";
+                        FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_green);
+                    }
+                    else if(fullness < 85) {
+                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Yellow);
+                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Some seats left";
+                        FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_yellow);
+                    }
+                    else {
+                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Red);
+                        FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Few seats left";
+                        FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_red);
+                    }
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
@@ -320,6 +336,33 @@ namespace AndroidAppV2.Activities
         public void OnStopTrackingTouch(SeekBar seekBar)
         {
 
+        }
+
+        private int getRoomSpace(DateTime date) {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection
+                {
+                    {"Type", "Fullness"},
+                    {"Day", date.ToLongDateString()}
+                });
+
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+            double value;
+            if (!result.StartsWith("failed")) {
+                try {
+                    value = double.Parse(result, CultureInfo.InvariantCulture);
+                }
+                catch (Exception) {
+                    Toast.MakeText(this, $"{result} Could not fetch how many reservation there is on that day", ToastLength.Long).Show();
+                    value = 0;
+                }
+            }
+            else {
+                value = 0;
+            }
+
+            return (int)value;
         }
 
         private void AddReservation()
