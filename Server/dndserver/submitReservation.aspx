@@ -67,8 +67,12 @@
                 break;
             default:
                 Response.Write("invalid action");
-                break;
+                return;
+
         }
+
+        diceServer.setTimestamp("Reservation", DateTime.UtcNow);
+
     }
     catch (Exception e)
     {

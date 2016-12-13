@@ -21,7 +21,7 @@ namespace Server
         public GamesController gamesController;
         public ProductsController productsController;
 
-        private Dictionary<string, DateTime> timestamps;
+        public Dictionary<string, DateTime> timestamps;
         private JsonSerializer jsonSerializer = new JsonSerializer();
 
         public DiceServer(string path)
@@ -46,22 +46,28 @@ namespace Server
 
         public void setTimestamp(string key, DateTime timestamp)
         {
-            timestamps[key] = timestamp;
+            if (timestamp >= timestamps[key])
+            {
+                timestamps[key] = timestamp;
+
+            }
 
             saveTimestamps();
 
         }
 
         private const string nameext = "timestamp.json";
+        private string timestampPath;
 
         protected Dictionary<string, DateTime> loadTimestamps()
         {
             Dictionary<string, DateTime> content = null;
+            timestampPath = path + "/data";
 
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(timestampPath);
             try
             {
-                using (StreamReader streamReader = new StreamReader(path + nameext))
+                using (StreamReader streamReader = new StreamReader(timestampPath + nameext))
                 using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
                 {
                     content = jsonSerializer.Deserialize<Dictionary<string, DateTime>>(jsonTextReader);
@@ -84,9 +90,9 @@ namespace Server
 
         protected void saveTimestamps()
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(timestampPath);
 
-            using (StreamWriter streamWriter = new StreamWriter(path + nameext))
+            using (StreamWriter streamWriter = new StreamWriter(timestampPath + nameext))
             using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
             {
                 jsonSerializer.Serialize(jsonTextWriter, timestamps);

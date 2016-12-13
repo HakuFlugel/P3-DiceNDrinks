@@ -56,6 +56,9 @@
             Response.Write("invalid action");
             break;
     }
+
+    diceServer.setTimestamp("Game", DateTime.UtcNow);
+
     Application.UnLock();
 
 %>

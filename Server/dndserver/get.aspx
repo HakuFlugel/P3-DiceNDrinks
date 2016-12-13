@@ -11,8 +11,8 @@
 
     switch (type)
     {
-        case "revid":
-            Response.Write("5;7;3;14");
+        case "timestamps":
+            Response.Write(JsonConvert.SerializeObject(diceServer.timestamps));
             break;
         case "Games":
             Response.Write(JsonConvert.SerializeObject(diceServer.gamesController.games));
