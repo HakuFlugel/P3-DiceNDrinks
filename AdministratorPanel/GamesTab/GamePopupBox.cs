@@ -4,10 +4,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System;
+using System.Collections.Specialized;
 using Shared;
 using System.Drawing.Imaging;
 using System.Media;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
 
@@ -337,11 +339,28 @@ namespace AdministratorPanel {
 
             image.Save("images/"+ imagePath);
 
+            string response = ServerConnection.sendRequest("/submitGame.aspx",
+                new NameValueCollection() {
+                    {"Action", beforeEditing == null ? "add" : "update"},
+                    {"Game", JsonConvert.SerializeObject(game)}
+                }
+            );
+
+            Console.WriteLine(response);
+
             if (beforeEditing != null) {
-                
+                if (response != "updated")
+                {
+                    return;
+                }
                 beforeEditing = game;
             }
             else {
+
+                if (response != "added")
+                {
+                    return;
+                }
                 gametab.games.Add(game);
             }
             gametab.game.makeItems("");
@@ -349,6 +368,21 @@ namespace AdministratorPanel {
         }
 
         protected override void delete(object sender, EventArgs e) {
+
+            string response = ServerConnection.sendRequest("/submitGame.aspx",
+                new NameValueCollection() {
+                    {"Action", "delete"},
+                    {"Game", JsonConvert.SerializeObject(beforeEditing)}
+                }
+            );
+
+            Console.WriteLine(response);
+
+            if (response != "deleted")
+            {
+                return;
+            }
+
             gametab.games.Remove(beforeEditing);
             gametab.game.makeItems("");
             Close();
