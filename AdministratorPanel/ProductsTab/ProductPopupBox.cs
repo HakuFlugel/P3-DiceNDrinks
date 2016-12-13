@@ -343,22 +343,30 @@ namespace AdministratorPanel {
             productItem.product.section = sectionNameDropDownBox.Text;
             productItem.product.image = imageName;
 
-            string response = ServerConnection.sendRequest("/submitProduct.aspx",
+            try {
+                string response = ServerConnection.sendRequest("/submitProduct.aspx",
                 new NameValueCollection() {
                     {"Action", "update"},
                     {"Product", JsonConvert.SerializeObject(productItem.product)}
                 }
             );
-            Console.WriteLine(response);
+                if (response.StartsWith("exception")) {
+                    throw new Exception(response);
+                }
+                Console.WriteLine(response);
 
-            if (response != "updated")
-            {
+                if (response != "updated") {
+                    return;
+                }
+            }
+            catch (Exception) {
+                NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
                 return;
             }
             //TODO: image
 
             // updates producttab elements
-            
+
             productTab.MakeItems();
             base.save(sender, e);
             Close();

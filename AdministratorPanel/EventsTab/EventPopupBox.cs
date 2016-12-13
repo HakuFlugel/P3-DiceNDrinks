@@ -204,26 +204,28 @@ namespace AdministratorPanel {
 
             evnt.startDate = startDate;
             evnt.endDate = endDate;
-
-            string response = ServerConnection.sendRequest("/submitEvent.aspx",
+            try {
+                string response = ServerConnection.sendRequest("/submitEvent.aspx",
                 new NameValueCollection() {
                     {"Action", isNew ? "add" : "update"},
                     {"Event", JsonConvert.SerializeObject(evnt)}
                 }
             );
 
-            Console.WriteLine(response);
+                Console.WriteLine(response);
 
-            if (response.Split(' ')[0] != (isNew ? "added" : "updated"))
-            {
+                if (response.Split(' ')[0] != (isNew ? "added" : "updated")) {
+                    return;
+                }
+
+                if (isNew) {
+                    int.TryParse(response.Split(' ')[1], out evnt.id);
+                }
+            }
+            catch (Exception) {
+                NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
                 return;
             }
-
-            if (isNew)
-            {
-                int.TryParse(response.Split(' ')[1], out evnt.id);
-            }
-
             base.save(sender,e);
             this.Close();
             eventsTab.makeItems();
