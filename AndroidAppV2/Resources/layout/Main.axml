@@ -72,7 +72,7 @@
             </TableRow>
         </TableLayout>
         <ImageButton
-            p1:src="@drawable/basicload"
+            p1:src="@drawable/nopic"
             p1:layout_width="200.0dp"
             p1:layout_height="200.0dp"
             p1:id="@+id/centerImageButton1"
