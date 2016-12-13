@@ -1,3 +1,4 @@
+using System.IO;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -17,7 +18,6 @@ namespace AndroidAppV2.Activities {
 
             Android.Net.Uri geoUri = Android.Net.Uri.Parse("geo:57.046581, 9.916551?z=18");
             Intent mapIntent = new Intent(Intent.ActionView, geoUri);
-
 
             Android.Net.Uri phoneUri = Android.Net.Uri.Parse("tel:+4522767651");
             Intent phoneIntent = new Intent(Intent.ActionDial, phoneUri);
