@@ -51,31 +51,21 @@ namespace AndroidAppV2 {
             }
         }
 
-        public async void GetImagesFromSD(Context contex, string image, View view, int id, int[] sizes) {
+        public async void GetImages(string image, View view, int id, int[] sizes) {
             //sizes[0] is reqWidth sizes[1] is reqHeight
 
             string filename = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, $"DnD/images/{image}");
 
-            if (File.Exists(filename)) {
-                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(filename);
+            if (!File.Exists(filename)) return;
+            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(filename);
 
-                Bitmap bitmapToDisplay =
-                    await LoadScaledDownBitmapForDisplayAsync(filename, options, sizes[0], sizes[1]);
+            Bitmap bitmapToDisplay =
+                await LoadScaledDownBitmapForDisplayAsync(filename, options, sizes[0], sizes[1]);
 
-                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
-            }
-            else {
-                Stream stream = contex.Assets.Open("nopic.jpg");
-
-                BitmapFactory.Options fileNotFound = new BitmapFactory.Options();
-
-                Bitmap bitmapFileNotFound = await BitmapFactory.DecodeStreamAsync(stream, new Rect(), fileNotFound);
-
-                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapFileNotFound);
-            }
+            view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
         }
 
-        public async void GetImagesFromResources(Context contex, Resources res, int resId, View view, int viewId,
+        public async void GetImages(Context contex, Resources res, int resId, View view, int viewId,
             int[] sizes) {
             BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(res, resId);
 
@@ -85,20 +75,20 @@ namespace AndroidAppV2 {
             view.FindViewById<ImageView>(viewId).SetImageBitmap(bitmapToDisplay);
         }
 
-        public async void GetImagesFromAssets(Context contex, string image, View view, int id, int[] sizes) {
+        public async void GetImages(Context contex, string image, View view, int id, int[] sizes) {
             //sizes[0] is reqWidth sizes[1] is reqHeight
             AssetManager am = contex.Assets;
-            string fileNotFound = "nopic.jpg";
             try {
                 am.Open(image);
             }
             catch (Exception) {
-                BitmapFactory.Options fnFoptions = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
-                Bitmap fnFbitmapToDisplay =
-                    await
-                        LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, fnFoptions, sizes[0],
-                            sizes[1]);
-                view.FindViewById<ImageView>(id).SetImageBitmap(fnFbitmapToDisplay);
+                Stream stream = contex.Assets.Open("nopic.jpg");
+
+                BitmapFactory.Options fileNotFound = new BitmapFactory.Options();
+
+                Bitmap bitmapFileNotFound = await BitmapFactory.DecodeStreamAsync(stream, new Rect(), fileNotFound);
+
+                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapFileNotFound);
                 return;
             }
 
@@ -214,7 +204,7 @@ namespace AndroidAppV2 {
             return newlist;
         }
 
-        public static List<T> DownloadItemAsObject<T>(string type) {
+        public static T DownloadItemAsObject<T>(string type) {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection
@@ -222,7 +212,7 @@ namespace AndroidAppV2 {
                     {"Type", type} });
             string result = System.Text.Encoding.UTF8.GetString(resp);
 
-            return JsonConvert.DeserializeObject<List<T>>(result);
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
         public static string DownloadProducts() {
