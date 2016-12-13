@@ -114,7 +114,6 @@
             p1:layout_width="wrap_content"
             p1:layout_height="wrap_content"
             p1:id="@+id/roomSpaceStateText"
-            p1:text="ROOMSPACE_STATE"
             p1:layout_weight="1"
             p1:layout_marginLeft="5dp"
             p1:gravity="right" />

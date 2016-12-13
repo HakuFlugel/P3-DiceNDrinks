@@ -5,3 +5,4 @@ bin/
 *.bak
 *.user
 Resource.Designer.cs
+/AndroidAppV2/ClassDiagram1.cd
