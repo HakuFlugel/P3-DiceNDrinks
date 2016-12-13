@@ -205,7 +205,7 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
         }
 
-        public List<Product> DownloadProductsAsObject() {
+        public static List<Product> DownloadProductsAsObject() {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection {
@@ -219,7 +219,7 @@ namespace AndroidAppV2
             return newlist;
         }
 
-        public List<T> DownloadItemAsObject<T>(string type) {
+        public static List<T> DownloadItemAsObject<T>(string type) {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection
@@ -231,7 +231,7 @@ namespace AndroidAppV2
         }
 
 
-        public string DownloadProducts() {
+        public static string DownloadProducts() {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection {
@@ -245,7 +245,7 @@ namespace AndroidAppV2
             return result;
         }
 
-        public string DownloadItem(string type) {
+        public static string DownloadItem(string type) {
             WebClient client = new WebClient();
             byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
                 new NameValueCollection {

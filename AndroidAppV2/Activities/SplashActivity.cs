@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ using Shared;
 using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 using Path = System.IO.Path;
-using Android.Widget;
 
 namespace AndroidAppV2.Activities {
     [Activity(Theme = "@style/Theme.NoTitle", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
@@ -52,6 +52,19 @@ namespace AndroidAppV2.Activities {
         private void FirstTimeSetup() {
             File folder = new File(_basePath + "/images");
             folder.Mkdirs();
+            CreateTimestap();
+        }
+
+        private void CreateTimestap() {
+
+            Dictionary<string, DateTime> timestaps = new Dictionary<string, DateTime>
+            {
+                {"Games", DateTime.MinValue},
+                {"Products", DateTime.MinValue},
+                {"Events", DateTime.MinValue}
+            };
+
+            System.IO.File.WriteAllText(_basePath + "/timestamps.json",JsonConvert.SerializeObject(timestaps));
         }
 
         public void SaveImage(string directory, string fileName, Bitmap bitmap) {
@@ -62,36 +75,56 @@ namespace AndroidAppV2.Activities {
         }
 
         private void Update() {
-            string[] items = { "Events", "Games", "Products" };
+            string[] items = { "Events", "Games", "Products", "AboutUs"};
 
-            AndroidShared.TextDownloader("aboutus.txt"); //TODO: Edit when we have exact location
+            Dictionary<string, DateTime> newTimes = DownloadTimestap();
+            Dictionary<string, DateTime> oldTimes = LocalTimestap();
 
-            for (int i = 0; i < 3; i++) {
-                //TODO: create ask server when it is enabled on the server
-                DownloadUpdate(items[i]);
+            foreach (string item in items) {
+                if (newTimes[item].Ticks > oldTimes[item].Ticks) {
+                    DownloadUpdate(item);
+                }
             }
+            UpdateTimestap(newTimes);
+        }
 
+        private Dictionary<string, DateTime> DownloadTimestap() {
+            return JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(AndroidShared.DownloadItem("timestamps"));
+        }
+
+        private Dictionary<string, DateTime> LocalTimestap()
+        {
+            string file = System.IO.File.ReadAllText(_basePath + "/timestamps.json");
+            
+            return JsonConvert.DeserializeObject<Dictionary<string,DateTime>>(file);
+        }
+
+        private void UpdateTimestap(Dictionary<string, DateTime> newTimes) {
+            System.IO.File.WriteAllText(_basePath + "/timestamps.json", JsonConvert.SerializeObject(newTimes));
         }
 
         private void DownloadUpdate(string location) {
-            AndroidShared ans = new AndroidShared(); 
             string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, $"{_basePath}/{location}.json");
             string item;
 
             switch (location)
             {
                 case "Products":
-                    item = ans.DownloadProducts();
+                    item = AndroidShared.DownloadProducts();
                     System.IO.File.WriteAllText(saveLocation, item);
                     DownloadProductImages(item);
                     break;
                 case "Games":
-                    item = ans.DownloadItem(location);
+                    item = AndroidShared.DownloadItem(location);
                     System.IO.File.WriteAllText(saveLocation, item);
                     DownloadGameImages(item);
                     break;
                 case "Events":
-                    item = ans.DownloadItem(location);
+                    item = AndroidShared.DownloadItem(location);
+                    System.IO.File.WriteAllText(saveLocation, item);
+                    break;
+                case "AboutUs":
+                    item = AndroidShared.DownloadItem(location);
                     System.IO.File.WriteAllText(saveLocation, item);
                     break;
             }
