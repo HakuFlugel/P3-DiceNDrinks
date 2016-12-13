@@ -229,48 +229,53 @@ namespace AdministratorPanel {
             //cd.fullness += newReservation.numPeople;
 
 
-
-            string response = ServerConnection.sendRequest("/submitReservation.aspx",
+            try {
+                string response = ServerConnection.sendRequest("/submitReservation.aspx",
                 new NameValueCollection() {
                     {"Action", reservation == null ? "add" : "update"},
                     {"Reservation", JsonConvert.SerializeObject(newReservation)}
                 }
+                
             );
-
-            Console.WriteLine(response);
-
-            string[] responsesplit = response.Split(' ');
-
-            if (reservation == null) {
-
-                if (responsesplit[0] != "added")
-                {
-                    Console.WriteLine("wrong response: " + response);
-                    return;
+                Console.WriteLine(response);
+                if (response.StartsWith("exception")) {
+                    throw new Exception(response);
                 }
 
-                int reservationID;
-                if (!int.TryParse(responsesplit[1], out reservationID))
-                {
-                    Console.WriteLine("invalid reservation id returned");
-                    return;
+                string[] responsesplit = response.Split(' ');
+
+                if (reservation == null) {
+
+                    if (responsesplit[0] != "added") {
+                        Console.WriteLine("wrong response: " + response);
+                        return;
+                    }
+
+                    int reservationID;
+                    if (!int.TryParse(responsesplit[1], out reservationID)) {
+                        Console.WriteLine("invalid reservation id returned");
+                        return;
+                    }
+
+                    newReservation.id = reservationID;
+                    reservationController.addReservation(newReservation);
+
                 }
+                else {
 
-                newReservation.id = reservationID;
-                reservationController.addReservation(newReservation);
 
+                    if (responsesplit[0] != "updated") {
+                        Console.WriteLine("wrong response: " + response);
+                        return;
+                    }
+
+                    newReservation.id = reservation.id;
+                    reservationController.updateReservation(newReservation);
+                }
             }
-            else {
-
-
-                if (responsesplit[0] != "updated")
-                {
-                    Console.WriteLine("wrong response: " + response);
-                    return;
-                }
-
-                newReservation.id = reservation.id;
-                reservationController.updateReservation(newReservation);
+            catch (Exception) {
+                NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
+                return;
             }
 
             this.Close();
