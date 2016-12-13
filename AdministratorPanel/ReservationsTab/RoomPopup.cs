@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Shared;
 
 namespace AdministratorPanel {
@@ -15,9 +17,6 @@ namespace AdministratorPanel {
         public RoomPopup(ReservationController reservationController) : base(canDelete: false) {
             this.reservationController = reservationController;
 
-        }
-
-        protected override void OnShown(EventArgs e) {
             roomTable.Columns.Add("Room");
             roomTable.Columns.Add("Seats");
 
@@ -31,7 +30,6 @@ namespace AdministratorPanel {
             }
 
             roomGrid.DataSource = roomTable;
-
         }
 
         protected override void save(object sender, EventArgs e) {
@@ -54,6 +52,21 @@ namespace AdministratorPanel {
                     return;
                 }
             }
+
+            //TODO: serverconnection
+            string response = ServerConnection.sendRequest("/submitRooms.aspx",
+                new NameValueCollection() {
+                    {"Rooms", JsonConvert.SerializeObject(rooms)}
+                }
+            );
+            Console.WriteLine(response);
+
+            if (response != "success")
+            {
+                Console.WriteLine("failed to submit rooms");
+                return;
+            }
+
 
             reservationController.submitRooms(rooms);
 

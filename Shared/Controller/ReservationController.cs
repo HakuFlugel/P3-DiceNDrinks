@@ -126,7 +126,7 @@ namespace Shared
             List<Room> toremove = new List<Room>();
             foreach (var existingroom in this.rooms)
             {
-                if (!rooms.Any(r => r.id == existingroom.id))
+                if (!rooms.Any(r => r.name == existingroom.name))
                 {
                     toremove.Add(existingroom);
                     //reservationController.removeRoom(existingroom);
@@ -184,7 +184,7 @@ namespace Shared
         private void changeRoom(Room room)
         {
 
-            Room oldroom = rooms.First(r => r.id == room.id);
+            Room oldroom = rooms.First(r => r.name == room.name);
 
             rooms[rooms.IndexOf(oldroom)] = room;
             calculateSeats();

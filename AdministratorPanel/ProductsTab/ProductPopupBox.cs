@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ using System.Drawing;
 using System.Data;
 using System.Drawing.Imaging;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
      public class ProductPopupBox : FancyPopupBox {
@@ -238,6 +240,20 @@ namespace AdministratorPanel {
 
             ProductCategory productCategory = productTab.productCategories.Where(x => x.name == productItem.product.category).First();
 
+            string response = ServerConnection.sendRequest("/submitProduct.aspx",
+                new NameValueCollection() {
+                    {"Action", "delete"},
+                    {"Product", JsonConvert.SerializeObject(productItem.product)}
+                }
+            );
+
+            Console.WriteLine(response);
+
+            if (response != "deleted")
+            {
+                return;
+            }
+
             productTab.productList.Remove(productItem.product);                    // removes product
             productSectionItem.headerFlowLayoutPanel.Controls.Remove(productItem); // removes product item for msection
 
@@ -278,6 +294,9 @@ namespace AdministratorPanel {
                 NiceMessageBox.Show("No price set");
                 return;
             }
+
+            bool isNew = productItem == null;
+
             //make new productSave
             if (productItem == null) {
                 Product product = new Product();
@@ -307,6 +326,20 @@ namespace AdministratorPanel {
             productItem.product.category = categoryNameDropDownBoxx.Text;
             productItem.product.section = sectionNameDropDownBox.Text;
             productItem.product.image = imageName;
+
+            string response = ServerConnection.sendRequest("/submitProduct.aspx",
+                new NameValueCollection() {
+                    {"Action", isNew ? "add" : "update"},
+                    {"Product", JsonConvert.SerializeObject(productItem.product)}
+                }
+            );
+            Console.WriteLine(response);
+
+            if (response != (isNew ? "added" : "updated"))
+            {
+                return;
+            }
+            //TODO: image
 
             // updates producttab elements
             

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
 using System.Media;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
     public class EventPopupBox : FancyPopupBox {
@@ -144,6 +146,20 @@ namespace AdministratorPanel {
 
         protected override void delete(object sender, EventArgs e) {
             if (DialogResult.Yes == NiceMessageBox.Show("Delete Event", "Are you sure you want to delete this event?", MessageBoxButtons.YesNo)) {
+                string response = ServerConnection.sendRequest("/submitEvent.aspx",
+                    new NameValueCollection() {
+                        {"Action", "delete"},
+                        {"Event", JsonConvert.SerializeObject(evnt)}
+                    }
+                );
+
+                Console.WriteLine(response);
+
+                if (response != "deleted")
+                {
+                    return;
+                }
+
                 eventsTab.EventList.Remove(evnt);
                 eventsTab.makeItems();
             }
@@ -169,7 +185,8 @@ namespace AdministratorPanel {
                 return;
             }
 
-            if (evnt == null) {
+            bool isNew = evnt == null;
+            if (isNew) {
                 evnt = new Event();
                 eventsTab.EventList.Add(evnt);
             }
@@ -187,6 +204,19 @@ namespace AdministratorPanel {
 
             evnt.startDate = startDate;
             evnt.endDate = endDate;
+
+            string response = ServerConnection.sendRequest("/submitEvent.aspx",
+                new NameValueCollection() {
+                    {"Action", isNew ? "add" : "update"},
+                    {"Event", JsonConvert.SerializeObject(evnt)}
+                }
+            );
+
+            if (response != (isNew ? "added" : "updated"))
+            {
+                return;
+            }
+
             base.save(sender,e);
             this.Close();
             eventsTab.makeItems();

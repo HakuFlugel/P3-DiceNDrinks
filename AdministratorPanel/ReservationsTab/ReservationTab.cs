@@ -168,8 +168,8 @@ namespace AdministratorPanel
                 Console.WriteLine(tuple.Item1);
                 Console.WriteLine(tuple.Item2);
 
-                reservationController.rooms = tuple.Item1;
-                reservationController.reservationsCalendar = tuple.Item2;
+                reservationController.rooms = tuple.Item1 ?? new List<Room>();
+                reservationController.reservationsCalendar = tuple.Item2 ?? new List<CalendarDay>();
             }
             catch (Exception e)
             {

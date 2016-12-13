@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Shared;
 using System;
+using System.Collections.Specialized;
 using System.IO;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
@@ -37,6 +38,25 @@ namespace AdministratorPanel {
             this.probar = probar;
 
             Load();
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Events"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Event>>(response);
+
+                Console.WriteLine(nottuple);
+
+                EventList = nottuple ?? new List<Event>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             probar.addToProbar();                               //For progress bar. 1
 
             makeItems();
