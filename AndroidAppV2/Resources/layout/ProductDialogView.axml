@@ -12,7 +12,7 @@
         android:id="@+id/productName"
         android:layout_gravity="center_horizontal" />
     <ImageView
-        android:src="@drawable/_default"
+        android:src="@drawable/nopic"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:id="@+id/productImage"

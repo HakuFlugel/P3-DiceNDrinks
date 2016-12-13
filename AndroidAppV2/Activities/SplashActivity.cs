@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -65,10 +64,13 @@ namespace AndroidAppV2.Activities {
         private void Update() {
             string[] items = { "Events", "Games", "Products" };
 
+            AndroidShared.TextDownloader("aboutus.txt"); //TODO: Edit when we have exact location
+
             for (int i = 0; i < 3; i++) {
                 //TODO: create ask server when it is enabled on the server
-                    DownloadUpdate(items[i]);
+                DownloadUpdate(items[i]);
             }
+
         }
 
         private void DownloadUpdate(string location) {
@@ -81,30 +83,25 @@ namespace AndroidAppV2.Activities {
                 case "Products":
                     item = ans.DownloadProducts();
                     System.IO.File.WriteAllText(saveLocation, item);
-                    DownloadProductImages(item); //TODO: downloading images does not work atm
+                    DownloadProductImages(item);
                     break;
                 case "Games":
                     item = ans.DownloadItem(location);
                     System.IO.File.WriteAllText(saveLocation, item);
-                    //DownloadGameImages(item);
+                    DownloadGameImages(item);
                     break;
                 case "Events":
                     item = ans.DownloadItem(location);
                     System.IO.File.WriteAllText(saveLocation, item);
                     break;
-                default:
-                    item = "";
-                    break;
             }
 
         }
 
-        private static void DownloadGameImages(string jsonlist)
-        {
+        private static void DownloadGameImages(string jsonlist) {
             List<Game> list = JsonConvert.DeserializeObject<List<Game>>(jsonlist);
 
-            foreach (Game item in list)
-            {
+            foreach (Game item in list) {
                 AndroidShared.ImageDownloader(item.imageName, "games");
             }
         }
