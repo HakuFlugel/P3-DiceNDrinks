@@ -355,9 +355,9 @@ namespace AdministratorPanel {
                 }
                 Console.WriteLine(response);
 
-            if (response != "updated")
-            {
-                return;
+                if (response != "updated") {
+                    return;
+                }
             }
             catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");

@@ -212,16 +212,15 @@ namespace AdministratorPanel {
                 }
             );
 
-            Console.WriteLine(response);
+                Console.WriteLine(response);
 
-            if (response.Split(' ')[0] != (isNew ? "added" : "updated"))
-            {
-                return;
-            }
+                if (response.Split(' ')[0] != (isNew ? "added" : "updated")) {
+                    return;
+                }
 
-            if (isNew)
-            {
-                int.TryParse(response.Split(' ')[1], out evnt.id);
+                if (isNew) {
+                    int.TryParse(response.Split(' ')[1], out evnt.id);
+                }
             }
             catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
