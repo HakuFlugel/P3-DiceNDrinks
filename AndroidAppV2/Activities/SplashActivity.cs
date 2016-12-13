@@ -15,7 +15,7 @@ using Shared;
 using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 using Path = System.IO.Path;
-
+using Android.Widget;
 
 namespace AndroidAppV2.Activities {
     [Activity(Theme = "@style/Theme.NoTitle", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
@@ -39,8 +39,7 @@ namespace AndroidAppV2.Activities {
                     FirstTimeSetup();
                 if (AndroidShared.CheckForInternetConnection()) {
                     Update();
-                }
-                    
+                }                
             });
 
             startupWork.ContinueWith(t => {

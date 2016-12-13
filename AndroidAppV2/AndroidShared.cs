@@ -17,12 +17,12 @@ using Path = System.IO.Path;
 using System.Collections.Generic;
 using Shared;
 using System.Net.NetworkInformation;
+using Android.App;
 
 namespace AndroidAppV2
 {
     public class AndroidShared
     {
-
         public static void LoadData<T>(Context context, string file, out T type)
         {
             string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "DnD");
@@ -320,6 +320,16 @@ namespace AndroidAppV2
             using (FileStream os = new FileStream(imagePath, FileMode.CreateNew)) {
                 bitmap.Compress(Bitmap.CompressFormat.Png, 75, os);
             }
+        }
+
+        public static void ErrorDialog(string message, Context context) {
+            AlertDialog.Builder error = new AlertDialog.Builder(context);
+            error.SetMessage(message);
+            error.SetTitle("Error");
+            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) => {
+                /*Do Nothing*/
+            });
+            error.Show();
         }
 
         public static bool CheckForInternetConnection() {

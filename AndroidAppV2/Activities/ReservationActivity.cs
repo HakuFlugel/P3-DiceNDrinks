@@ -74,7 +74,7 @@ namespace AndroidAppV2.Activities
                 _nameEdit.Enabled = false;
                 _phoneNumEdit.Enabled = false;
                 _emailEdit.Enabled = false;
-                ErrorDialog("There is no connection to Dice N Drinks server... Sorry :(");
+                AndroidShared.ErrorDialog("Reservations can't be made at this moment (No connection to Dice N Drinks server)", this);
             }
             else {
                 AndroidShared.LoadData(this, "TheUserReservationID.json", out _userId);
@@ -173,12 +173,12 @@ namespace AndroidAppV2.Activities
         {
             if (res.name == "")
             {
-                ErrorDialog("Please write a name");
+                AndroidShared.ErrorDialog("Please write a name", this);
                 return;
             }
             if (res.phone == "" && res.email == "")
             {
-                ErrorDialog("You have to specify either a phonenumber or an email");
+                AndroidShared.ErrorDialog("You have to specify either a phonenumber or an email", this);
                 return;
             }
             if (res.email != "")
@@ -189,19 +189,19 @@ namespace AndroidAppV2.Activities
                 }
                 catch (Java.Lang.Exception en)
                 {
-                    ErrorDialog(en.Message);
+                    AndroidShared.ErrorDialog(en.Message, this);
                     return;
                 }
             }
             int i;
             if (res.phone.Length != 8 || !int.TryParse(res.phone, out i))
             {
-                ErrorDialog("a phone number has to be eight digits: e.g. 12345678");
+                AndroidShared.ErrorDialog("a phone number has to be eight digits: e.g. 12345678", this);
                 return;
             }
             if (_dateSelectButton.Text == "DATE" || _timeSelectButton.Text == "TIME")
             {
-                ErrorDialog("Specify a date and time you want to place your reservation");
+                AndroidShared.ErrorDialog("Specify a date and time you want to place your reservation", this);
                 return;
             }
 
@@ -238,18 +238,6 @@ namespace AndroidAppV2.Activities
 
             Data = true;
 
-        }
-
-        private void ErrorDialog(string message)
-        {
-            AlertDialog.Builder error = new AlertDialog.Builder(this);
-            error.SetMessage(message);
-            error.SetTitle("Error");
-            error.SetPositiveButton(Resource.String.yes, (senderAlert, args) =>
-            {
-                /*Do Nothing*/
-            });
-            error.Show();
         }
 
         private static void EmailCheck(string email)
@@ -410,7 +398,7 @@ namespace AndroidAppV2.Activities
                 });
 
             string result = System.Text.Encoding.UTF8.GetString(resp);
-            ErrorDialog("The reservation has been: " + result);
+            AndroidShared.ErrorDialog("The reservation has been: " + result, this);
         }
     }
 
