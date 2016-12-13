@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Shared;
 
 namespace AdministratorPanel {
@@ -18,9 +20,6 @@ namespace AdministratorPanel {
             roomTable.Columns.Add("Room");
             roomTable.Columns.Add("Seats");
 
-            Console.WriteLine(reservationController); //TODO TODO Is null, but fails on next line
-            Console.WriteLine(reservationController.rooms);
-            Console.WriteLine(reservationController.rooms.Count);
             for (int i = 0; i < reservationController.rooms.Count; i++) {
                 DataRow dr = roomTable.NewRow();
 
@@ -55,6 +54,19 @@ namespace AdministratorPanel {
             }
 
             //TODO: serverconnection
+            string response = ServerConnection.sendRequest("/submitRooms.aspx",
+                new NameValueCollection() {
+                    {"Rooms", JsonConvert.SerializeObject(rooms)}
+                }
+            );
+            Console.WriteLine(response);
+
+            if (response != "success")
+            {
+                Console.WriteLine("failed to submit rooms");
+                return;
+            }
+
 
             reservationController.submitRooms(rooms);
 

@@ -46,7 +46,11 @@ namespace Server
 
         public void setTimestamp(string key, DateTime timestamp)
         {
-            if (timestamp >= timestamps[key])
+            if (!timestamps.ContainsKey(key))
+            {
+                timestamps.Add(key, timestamp);
+            }
+            else if (timestamp >= timestamps[key])
             {
                 timestamps[key] = timestamp;
 
@@ -59,10 +63,10 @@ namespace Server
         private const string nameext = "timestamp.json";
         private string timestampPath;
 
-        protected Dictionary<string, DateTime> loadTimestamps()
+        protected void loadTimestamps()
         {
             Dictionary<string, DateTime> content = null;
-            timestampPath = path + "/data";
+            timestampPath = path + "/data/";
 
             Directory.CreateDirectory(timestampPath);
             try
@@ -85,7 +89,7 @@ namespace Server
                 content = new Dictionary<string, DateTime>();
             }
 
-            return content;
+            timestamps = content;
         }
 
         protected void saveTimestamps()
