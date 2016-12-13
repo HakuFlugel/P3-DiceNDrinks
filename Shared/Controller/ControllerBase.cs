@@ -49,7 +49,36 @@ namespace Shared
             return content;
         }
 
-        protected void saveFile<T>(string name, List<T> content)
+        // Used by Config
+        protected Dictionary<T1, T2> loadFile<T1, T2>(string name)
+        {
+            Dictionary<T1, T2> content = null;
+
+            Directory.CreateDirectory(path);
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(path + name + ext))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    content = jsonSerializer.Deserialize<Dictionary<T1, T2>>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine(name + " not found"); // TODO: put this stuff inside some function
+            }
+
+            if (content == null)
+            {
+                Console.WriteLine(name + " was null after loading... setting it to new list");
+                content = new Dictionary<T1, T2>();
+            }
+
+            return content;
+        }
+
+        protected void saveFile<T>(string name, ICollection<T> content)
         {
             Directory.CreateDirectory(path);
 

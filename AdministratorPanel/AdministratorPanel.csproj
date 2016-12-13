@@ -36,6 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="EventsTab\EventItem.cs">
       <SubType>Component</SubType>
     </Compile>
