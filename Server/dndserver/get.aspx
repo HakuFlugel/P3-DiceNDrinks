@@ -63,9 +63,10 @@
 
                 Response.Write(((double)cd.reservedSeats + cd.reservedSeatsPending)/diceServer.reservationController.totalSeats * 100);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Response.Write("failed");
+                Response.Write("failed ");
+                Response.Write(e);
             }
 
             break;
