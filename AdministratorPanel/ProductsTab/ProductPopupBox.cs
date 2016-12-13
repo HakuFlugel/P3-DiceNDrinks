@@ -206,24 +206,27 @@ namespace AdministratorPanel {
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                bool justReturn = false;
-                decimal bob = 0;
-                try {
-                    bob = decimal.Parse(dataTable.Rows[row][1].ToString());
-                } catch (Exception) {
-                    justReturn = true;
+
+                if (dataTable.Rows[row][0].ToString() == "" && dataTable.Rows[row][1].ToString() == "") {
+                    continue;
                 }
 
-                if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
+
+                bool invalidprice = false;
+                decimal price = 0;
+                try {
+                    price = decimal.Parse(dataTable.Rows[row][1].ToString());
+                } catch (Exception) {
+                    invalidprice = true;
+                }
+                if ((dataTable.Rows[row][0].ToString() != "" && (dataTable.Rows[row][1].ToString() == "")||invalidprice)) {
                     NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
-                } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
-                    continue;
                 }
                 
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
-                priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
+                priceElement.price = price;//decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
                 priceElementList.Add(priceElement);
             }
             return priceElementList;
@@ -295,8 +298,6 @@ namespace AdministratorPanel {
                 return;
             }
 
-            bool isNew = productItem == null;
-
             //make new productSave
             if (productItem == null) {
                 Product product = new Product();
@@ -306,6 +307,21 @@ namespace AdministratorPanel {
                 product.category = categoryNameDropDownBoxx.Text;
                 product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
+
+                string response2 = ServerConnection.sendRequest("/submitProduct.aspx",
+                    new NameValueCollection() {
+                        {"Action", "add"},
+                        {"Product", JsonConvert.SerializeObject(product)}
+                    }
+                );
+                Console.WriteLine(response2);
+
+                if (response2.Split(' ')[0] != "added")
+                {
+                    return;
+                }
+
+                int.TryParse(response2.Split(' ')[1], out product.id);
 
                 productItem = new ProductItem(product, productTab);
 
@@ -327,22 +343,30 @@ namespace AdministratorPanel {
             productItem.product.section = sectionNameDropDownBox.Text;
             productItem.product.image = imageName;
 
-            string response = ServerConnection.sendRequest("/submitProduct.aspx",
+            try {
+                string response = ServerConnection.sendRequest("/submitProduct.aspx",
                 new NameValueCollection() {
-                    {"Action", isNew ? "add" : "update"},
+                    {"Action", "update"},
                     {"Product", JsonConvert.SerializeObject(productItem.product)}
                 }
             );
-            Console.WriteLine(response);
+                if (response.StartsWith("exception")) {
+                    throw new Exception(response);
+                }
+                Console.WriteLine(response);
 
-            if (response != (isNew ? "added" : "updated"))
-            {
+                if (response != "updated") {
+                    return;
+                }
+            }
+            catch (Exception) {
+                NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
                 return;
             }
             //TODO: image
 
             // updates producttab elements
-            
+
             productTab.MakeItems();
             base.save(sender, e);
             Close();

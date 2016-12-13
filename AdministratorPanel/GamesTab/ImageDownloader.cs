@@ -35,11 +35,13 @@ namespace AdministratorPanel {
         }
 
         public void saveImage() {
-            
+
             if (image != null) {
-                //if (File.Exists($"Images/{ImagePath}")) {
-                //    File.Delete($"Images/{ImagePath}");
-                //}
+
+                if (File.Exists($"Images/{ImagePath}")) {
+                    File.Delete($"Images/{ImagePath}");
+                }
+
                 image.Save($"Images/{ImagePath}", ImageFormat.Png);
             }
         }

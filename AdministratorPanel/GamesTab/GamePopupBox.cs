@@ -339,29 +339,36 @@ namespace AdministratorPanel {
 
             image.Save("images/"+ imagePath);
 
-            string response = ServerConnection.sendRequest("/submitGame.aspx",
+            try {
+                string response = ServerConnection.sendRequest("/submitGame.aspx",
                 new NameValueCollection() {
                     {"Action", beforeEditing == null ? "add" : "update"},
                     {"Game", JsonConvert.SerializeObject(game)}
                 }
             );
-
-            Console.WriteLine(response);
-
-            if (beforeEditing != null) {
-                if (response != "updated")
-                {
-                    return;
+                if (response.StartsWith("exception")) {
+                    throw new Exception(response);
                 }
-                beforeEditing = game;
+                Console.WriteLine(response);
+
+                if (beforeEditing != null) {
+                    if (response != "updated") {
+                        return;
+                    }
+                    beforeEditing = game;
+                }
+                else {
+
+                    if (response.Split(' ')[1] != "added") {
+                        return;
+                    }
+                    int.TryParse(response.Split(' ')[1], out game.id);
+                    gametab.games.Add(game);
+                }
             }
-            else {
-
-                if (response != "added")
-                {
-                    return;
-                }
-                gametab.games.Add(game);
+            catch (Exception) {
+                NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
+                return;
             }
             gametab.game.makeItems("");
             base.save(sender, e);

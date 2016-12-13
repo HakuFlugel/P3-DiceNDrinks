@@ -7,7 +7,10 @@
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
 
-    string type = Request.Form["Type"];
+    string adminKey = Request.Form["AdminKey"];
+    bool isAdmin = adminKey != null && diceServer.authentication.authenticate(adminKey);
+
+    string type = Request.Form["Type"] ?? "";
 
     switch (type)
     {
@@ -40,14 +43,33 @@
             }
             else
             {
-                // TODO: is admin?
-                // TODO: day fullness
+                if (!isAdmin)
+                {
+                    return;
+                }
                 Response.Write(JsonConvert.SerializeObject(new Tuple<List<Room>, List<Shared.CalendarDay>>(
                     diceServer.reservationController.rooms,
                     diceServer.reservationController.reservationsCalendar)
                 ));
+
             }
         break;
+
+        case "Fullness":
+            try
+            {
+                DateTime day = DateTime.Parse(Request.Form["Day"] ?? "");
+                Shared.CalendarDay cd = diceServer.reservationController.reservationsCalendar.First(d => d.theDay.Date == day.Date);
+
+                Response.Write(((double)cd.reservedSeats + cd.reservedSeatsPending)/diceServer.reservationController.totalSeats * 100);
+            }
+            catch (Exception)
+            {
+                Response.Write("failed");
+            }
+
+            break;
+
         default:
             Response.Write("invalid request");
             break;

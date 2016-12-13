@@ -5,16 +5,12 @@
 
     string adminKey = Request.Form["AdminKey"];
     bool isAdmin = adminKey != null && diceServer.authentication.authenticate(adminKey);
-        if (isAdmin)
-        {
-            Response.Write("No permission");
-            return;
-            //throw new HttpException(404, "Not Found");
-
-            //Response.Clear();
-            //Response.StatusCode = 403;
-            //Response.End();
-        }
+    if (!isAdmin)
+    {
+        Response.Write("No permission");
+        Response.StatusCode = 403;
+        return;
+    }
 
     string action = Request.Form["Action"];
     string eventString = Request.Form["Event"] ?? "null";
@@ -57,7 +53,7 @@
             break;
     }
 
-    diceServer.setTimestamp("Event", DateTime.UtcNow);
+    diceServer.setTimestamp("Events", DateTime.UtcNow);
 
 
     Application.UnLock();
