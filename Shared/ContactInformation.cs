@@ -2,7 +2,7 @@
 
 namespace Shared {
     [Serializable]
-    class ContactInformation {
+    public class ContactInformation {
         public string description;
         public string email;
         public string number;

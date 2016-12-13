@@ -9,6 +9,17 @@ namespace AdministratorPanel
 
     public class ServerConnection
     {
+        private class WebClientThatHasTimeout : WebClient
+        {
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                WebRequest wr = base.GetWebRequest(address);
+                wr.Timeout = 2000;
+                return wr;
+            }
+        }
+
+
         private const string protocol = "http://";
         public static string ip = "localhost";
 
@@ -23,7 +34,7 @@ namespace AdministratorPanel
         {
             try
             {
-                WebClient client = new WebClient();
+                WebClient client = new WebClientThatHasTimeout();
                 valueCollection.Add("AdminKey", AdminKey);
 
                 byte[] resp = client.UploadValues(protocol + ip + page, valueCollection);
@@ -37,4 +48,6 @@ namespace AdministratorPanel
 
         }
     }
+
+
 }

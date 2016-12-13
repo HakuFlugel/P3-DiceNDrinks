@@ -345,8 +345,6 @@ namespace AndroidAppV2.Activities
             string filename = Path.Combine(path, "TheUserReservationID.json");
             File.WriteAllText(filename, json);
 
-            //TODO: change reservation state text to display result
-
         }
 
         private void UpdateReservation()
@@ -358,10 +356,6 @@ namespace AndroidAppV2.Activities
                     {"Action", "update"},
                     {"Reservation", JsonConvert.SerializeObject(_res)}
                 });
-
-            string result = System.Text.Encoding.UTF8.GetString(resp);
-
-            //TODO: change reservation state text to display result 
         }
 
         private Reservation GetReservation()

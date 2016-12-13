@@ -22,6 +22,8 @@ namespace Server
         public ProductsController productsController;
 
         public Dictionary<string, DateTime> timestamps;
+        public ContactInformation contactInformation;
+
         private JsonSerializer jsonSerializer = new JsonSerializer();
 
         public DiceServer(string path)
@@ -29,6 +31,7 @@ namespace Server
             this.path = path;
 
             loadTimestamps();
+            loadContactInformation();
 
             authentication = new Authentication(path+"data/");
             authentication.load();
@@ -41,6 +44,50 @@ namespace Server
             gamesController.load();
             productsController = new ProductsController(path+"data/");
             productsController.load();
+
+        }
+
+
+        private const string contactinfoNameExt = "contactinfo.json";
+        private string contactinfoPath;
+        private void loadContactInformation()
+        {
+            ContactInformation content = null;
+            contactinfoPath = path + "/data/";
+
+            Directory.CreateDirectory(contactinfoPath);
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(contactinfoPath + contactinfoNameExt))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    content = jsonSerializer.Deserialize<ContactInformation>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("contactinfo not found"); // TODO: put this stuff inside some function
+            }
+
+            if (content == null)
+            {
+                Console.WriteLine("contactinfo was null after loading... setting it to new object");
+                content = new ContactInformation();
+            }
+
+            contactInformation = content;
+        }
+
+        protected void saveContactInformation()
+        {
+            Directory.CreateDirectory(contactinfoPath);
+
+            using (StreamWriter streamWriter = new StreamWriter(contactinfoPath + contactinfoNameExt))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, contactInformation);
+            }
 
         }
 
@@ -60,7 +107,7 @@ namespace Server
 
         }
 
-        private const string nameext = "timestamp.json";
+        private const string timestampNameExt = "timestamp.json";
         private string timestampPath;
 
         protected void loadTimestamps()
@@ -71,7 +118,7 @@ namespace Server
             Directory.CreateDirectory(timestampPath);
             try
             {
-                using (StreamReader streamReader = new StreamReader(timestampPath + nameext))
+                using (StreamReader streamReader = new StreamReader(timestampPath + timestampNameExt))
                 using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
                 {
                     content = jsonSerializer.Deserialize<Dictionary<string, DateTime>>(jsonTextReader);
@@ -96,7 +143,7 @@ namespace Server
         {
             Directory.CreateDirectory(timestampPath);
 
-            using (StreamWriter streamWriter = new StreamWriter(timestampPath + nameext))
+            using (StreamWriter streamWriter = new StreamWriter(timestampPath + timestampNameExt))
             using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
             {
                 jsonSerializer.Serialize(jsonTextWriter, timestamps);
