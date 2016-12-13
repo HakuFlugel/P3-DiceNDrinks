@@ -57,8 +57,7 @@ namespace AndroidAppV2.Activities {
 
         private void CreateTimestap() {
 
-            Dictionary<string, DateTime> timestaps = new Dictionary<string, DateTime>
-            {
+            Dictionary<string, DateTime> timestaps = new Dictionary<string, DateTime> {
                 {"Games", DateTime.MinValue},
                 {"Products", DateTime.MinValue},
                 {"Events", DateTime.MinValue}
@@ -107,8 +106,7 @@ namespace AndroidAppV2.Activities {
             string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, $"{_basePath}/{location}.json");
             string item;
 
-            switch (location)
-            {
+            switch (location) {
                 case "Products":
                     item = AndroidShared.DownloadProducts();
                     System.IO.File.WriteAllText(saveLocation, item);

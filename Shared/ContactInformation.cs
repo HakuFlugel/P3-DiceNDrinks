@@ -7,7 +7,7 @@ namespace Shared {
         public string email;
         public string number;
         public string[] location;
-        public string geoURL;
+        public string geoURI;
         public string[] openingTimes;
     }
 }
