@@ -154,11 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <AndroidAsset Include="Assets\VirtualServerReservation.json" />
-    <AndroidAsset Include="Assets\TheUserReservationID.json" />
-    <AndroidAsset Include="Assets\products.json" />
-    <AndroidAsset Include="Assets\events.json" />
-    <AndroidAsset Include="Assets\games.json" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
@@ -226,55 +221,7 @@
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\_default.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\almkaffe.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\cappuccino.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\chocochino.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\chokolade.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\espresso.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\kaffelatte.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\limfjordsporter.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\nachos.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\popcorn.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\te.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\thyclassic.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\toast.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\varmkakao.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\westonscider.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\nopic.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\BasicLoad.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\F_logo.png" />

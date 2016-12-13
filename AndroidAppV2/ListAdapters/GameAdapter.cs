@@ -34,8 +34,7 @@ namespace AndroidAppV2.ListAdapters {
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.gameItemView, null);
 
             StringBuilder sb = new StringBuilder();
-            if (item.genre.Count != 0)
-            {
+            if (item.genre.Count != 0) {
                 for (int i = 0; i < item.genre.Count && i < 3; i++) {
                     sb.Append(item.genre[i] + ",  ");
                 }
