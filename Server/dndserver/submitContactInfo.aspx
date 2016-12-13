@@ -21,26 +21,22 @@
     try
     {
 
-        string roomsString = Request.Form["Rooms"] ?? "null";
+        string contactinfoString = Request.Form["ContactInfo"] ?? "null";
 
+        ContactInformation contactInformation = Newtonsoft.Json.JsonConvert.DeserializeObject<ContactInformation>(contactinfoString);
 
-
-        List<Shared.Room> rooms = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shared.Room>>(roomsString);
-
-        if (rooms == null)
+        if (contactInformation == null)
         {
-            Response.Write("No rooms provided");
+            Response.Write("No contact information provided");
             return;
         }
 
         Application.Lock();
 
-        diceServer.reservationController.submitRooms(rooms);
-        //TODO: need to update days maybe?
+        diceServer.contactInformation = contactInformation;
         Response.Write("success");
 
-        diceServer.setTimestamp("Reservations", DateTime.UtcNow);
-
+        diceServer.setTimestamp("ContactInfo", DateTime.UtcNow);
 
     }
     catch (Exception e)
