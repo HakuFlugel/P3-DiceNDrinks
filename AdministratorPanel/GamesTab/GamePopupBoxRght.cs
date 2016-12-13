@@ -58,7 +58,7 @@ namespace AdministratorPanel {
 
             } catch (WebException e) {
                 gameListPanel.Controls.Add(new Label() { Name = "Error Connection",
-                                                               Text = "Connection to Geekdo.com failed, it could be because of no internet or geekdo is down",
+                                                               Text = e.ToString(),//"Connection to Geekdo.com failed, it could be because of no internet or geekdo is down",
                                                                Size = new Size(384, 100),
                                                                Font = new Font(SystemFonts.DefaultFont.FontFamily, 24),
                                                                Dock = DockStyle.Top});

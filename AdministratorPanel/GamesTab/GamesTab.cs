@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Windows.Forms;
 using Shared;
@@ -45,6 +47,26 @@ namespace AdministratorPanel {
 
             this.probar = probar;
             Load();
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Games"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response);
+
+                Console.WriteLine(nottuple);
+
+                games = nottuple ?? new List<Game>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
             probar.addToProbar();                               //For progress bar. 1
 
             game = new GamesList(games,this,genres);
