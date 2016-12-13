@@ -206,24 +206,27 @@ namespace AdministratorPanel {
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                bool justReturn = false;
-                decimal bob = 0;
-                try {
-                    bob = decimal.Parse(dataTable.Rows[row][1].ToString());
-                } catch (Exception) {
-                    justReturn = true;
+
+                if (dataTable.Rows[row][0].ToString() == "" && dataTable.Rows[row][1].ToString() == "") {
+                    continue;
                 }
 
-                if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
+
+                bool invalidprice = false;
+                decimal price = 0;
+                try {
+                    price = decimal.Parse(dataTable.Rows[row][1].ToString());
+                } catch (Exception) {
+                    invalidprice = true;
+                }
+                if ((dataTable.Rows[row][0].ToString() != "" && (dataTable.Rows[row][1].ToString() == "")||invalidprice)) {
                     NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
-                } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
-                    continue;
                 }
                 
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
-                priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
+                priceElement.price = price;//decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
                 priceElementList.Add(priceElement);
             }
             return priceElementList;
