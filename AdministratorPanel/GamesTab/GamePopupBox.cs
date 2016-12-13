@@ -357,10 +357,11 @@ namespace AdministratorPanel {
             }
             else {
 
-                if (response != "added")
+                if (response.Split(' ')[1] != "added")
                 {
                     return;
                 }
+                int.TryParse(response.Split(' ')[1], out game.id);
                 gametab.games.Add(game);
             }
             gametab.game.makeItems("");

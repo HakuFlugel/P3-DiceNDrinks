@@ -295,8 +295,6 @@ namespace AdministratorPanel {
                 return;
             }
 
-            bool isNew = productItem == null;
-
             //make new productSave
             if (productItem == null) {
                 Product product = new Product();
@@ -306,6 +304,21 @@ namespace AdministratorPanel {
                 product.category = categoryNameDropDownBoxx.Text;
                 product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
+
+                string response2 = ServerConnection.sendRequest("/submitProduct.aspx",
+                    new NameValueCollection() {
+                        {"Action", "add"},
+                        {"Product", JsonConvert.SerializeObject(product)}
+                    }
+                );
+                Console.WriteLine(response2);
+
+                if (response2.Split(' ')[0] != "added")
+                {
+                    return;
+                }
+
+                int.TryParse(response2.Split(' ')[1], out product.id);
 
                 productItem = new ProductItem(product, productTab);
 
@@ -329,13 +342,13 @@ namespace AdministratorPanel {
 
             string response = ServerConnection.sendRequest("/submitProduct.aspx",
                 new NameValueCollection() {
-                    {"Action", isNew ? "add" : "update"},
+                    {"Action", "update"},
                     {"Product", JsonConvert.SerializeObject(productItem.product)}
                 }
             );
             Console.WriteLine(response);
 
-            if (response != (isNew ? "added" : "updated"))
+            if (response != "updated")
             {
                 return;
             }

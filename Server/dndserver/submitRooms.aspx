@@ -39,7 +39,7 @@
         //TODO: need to update days maybe?
         Response.Write("success");
 
-        diceServer.setTimestamp("Reservation", DateTime.UtcNow);
+        diceServer.setTimestamp("ReservationS", DateTime.UtcNow);
 
 
     }

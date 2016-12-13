@@ -71,7 +71,7 @@
 
         }
 
-        diceServer.setTimestamp("Reservation", DateTime.UtcNow);
+        diceServer.setTimestamp("Reservations", DateTime.UtcNow);
 
     }
     catch (Exception e)

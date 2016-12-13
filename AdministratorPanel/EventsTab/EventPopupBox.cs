@@ -212,9 +212,16 @@ namespace AdministratorPanel {
                 }
             );
 
-            if (response != (isNew ? "added" : "updated"))
+            Console.WriteLine(response);
+
+            if (response.Split(' ')[0] != (isNew ? "added" : "updated"))
             {
                 return;
+            }
+
+            if (isNew)
+            {
+                int.TryParse(response.Split(' ')[1], out evnt.id);
             }
 
             base.save(sender,e);
