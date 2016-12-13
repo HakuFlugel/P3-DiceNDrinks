@@ -15,12 +15,12 @@ namespace AdministratorPanel {
         public RoomPopup(ReservationController reservationController) : base(canDelete: false) {
             this.reservationController = reservationController;
 
-        }
-
-        protected override void OnShown(EventArgs e) {
             roomTable.Columns.Add("Room");
             roomTable.Columns.Add("Seats");
 
+            Console.WriteLine(reservationController); //TODO TODO Is null, but fails on next line
+            Console.WriteLine(reservationController.rooms);
+            Console.WriteLine(reservationController.rooms.Count);
             for (int i = 0; i < reservationController.rooms.Count; i++) {
                 DataRow dr = roomTable.NewRow();
 
@@ -31,7 +31,6 @@ namespace AdministratorPanel {
             }
 
             roomGrid.DataSource = roomTable;
-
         }
 
         protected override void save(object sender, EventArgs e) {
