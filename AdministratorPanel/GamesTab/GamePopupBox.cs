@@ -359,17 +359,17 @@ namespace AdministratorPanel {
                 }
                 else {
 
-                    if (response != "added") {
-                        return;
-                    }
-                    gametab.games.Add(game);
+                if (response.Split(' ')[1] != "added")
+                {
+                    return;
                 }
+                int.TryParse(response.Split(' ')[1], out game.id);
+                gametab.games.Add(game);
             }
-            catch (Exception) {
+                catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
                 return;
             }
-            
             gametab.game.makeItems("");
             base.save(sender, e);
         }

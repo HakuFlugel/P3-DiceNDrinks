@@ -1,5 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Shared;
 using Newtonsoft.Json;
 using System.IO;
@@ -33,6 +35,29 @@ namespace AdministratorPanel {
             tabControl.Dock = DockStyle.Fill;
              
             Load();
+
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Products"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var tuple = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(response);
+
+                Console.WriteLine(tuple.Item1);
+                Console.WriteLine(tuple.Item2);
+
+                productCategories = tuple.Item1 ?? new List<ProductCategory>();
+                productList = tuple.Item2 ?? new List<Product>();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
             MakeItems();
             probar.addToProbar();                               //For progress bar. 1
 

@@ -211,21 +211,22 @@ namespace AdministratorPanel {
                     {"Event", JsonConvert.SerializeObject(evnt)}
                 }
             );
-                if (response.StartsWith("exception")) {
-                    throw new Exception(response);
-                }
-                if (response != (isNew ? "added" : "updated")) {
-                    return;
-                }
+
+            Console.WriteLine(response);
+
+            if (response.Split(' ')[0] != (isNew ? "added" : "updated"))
+            {
+                return;
+            }
+
+            if (isNew)
+            {
+                int.TryParse(response.Split(' ')[1], out evnt.id);
             }
             catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
                 return;
             }
-            
-
-            
-
             base.save(sender,e);
             this.Close();
             eventsTab.makeItems();
