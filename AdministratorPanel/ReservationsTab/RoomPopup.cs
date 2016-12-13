@@ -55,6 +55,8 @@ namespace AdministratorPanel {
                 }
             }
 
+            //TODO: serverconnection
+
             reservationController.submitRooms(rooms);
 
 

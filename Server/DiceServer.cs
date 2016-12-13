@@ -1,4 +1,8 @@
-﻿using Shared;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using Shared;
 
 // In case we use Application['string'] to store loaded data, remember to lock and unlock before modifying it...
 
@@ -17,9 +21,14 @@ namespace Server
         public GamesController gamesController;
         public ProductsController productsController;
 
+        private Dictionary<string, DateTime> timestamps;
+        private JsonSerializer jsonSerializer = new JsonSerializer();
+
         public DiceServer(string path)
         {
             this.path = path;
+
+            loadTimestamps();
 
             authentication = new Authentication(path+"data/");
             authentication.load();
@@ -33,11 +42,56 @@ namespace Server
             productsController = new ProductsController(path+"data/");
             productsController.load();
 
-
-
-            //TODO: make sure it's loaded at the proper time
-            //TODO: admin permission
         }
 
+        public void setTimestamp(string key, DateTime timestamp)
+        {
+            timestamps[key] = timestamp;
+
+            saveTimestamps();
+
+        }
+
+        private const string nameext = "timestamp.json";
+
+        protected Dictionary<string, DateTime> loadTimestamps()
+        {
+            Dictionary<string, DateTime> content = null;
+
+            Directory.CreateDirectory(path);
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(path + nameext))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    content = jsonSerializer.Deserialize<Dictionary<string, DateTime>>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("timestamps not found"); // TODO: put this stuff inside some function
+            }
+
+            if (content == null)
+            {
+                Console.WriteLine("timestamps was null after loading... setting it to new list");
+                content = new Dictionary<string, DateTime>();
+            }
+
+            return content;
+        }
+
+        protected void saveTimestamps()
+        {
+            Directory.CreateDirectory(path);
+
+            using (StreamWriter streamWriter = new StreamWriter(path + nameext))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, timestamps);
+            }
+
+        }
     }
 }

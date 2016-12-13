@@ -55,6 +55,7 @@
     <Content Include="dndserver\submitGame.aspx" />
     <Content Include="dndserver\submitProduct.aspx" />
     <Content Include="dndserver\submitReservation.aspx" />
+    <Content Include="dndserver\submitRooms.aspx" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
