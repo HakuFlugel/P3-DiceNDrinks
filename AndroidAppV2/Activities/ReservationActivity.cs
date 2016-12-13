@@ -7,6 +7,7 @@ using System.Net;
 using Android.App;
 using Android.OS;
 using Android.Util;
+using Android.Views;
 using Android.Widget;
 using Android.Content.PM;
 
@@ -75,6 +76,8 @@ namespace AndroidAppV2.Activities
                 _nameEdit.Enabled = false;
                 _phoneNumEdit.Enabled = false;
                 _emailEdit.Enabled = false;
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Visibility = ViewStates.Invisible;
+                FindViewById<ImageView>(Resource.Id.roomStateImage).Visibility = ViewStates.Invisible;
                 AndroidShared.ErrorDialog("Reservations can't be made at this moment (No connection to Dice N Drinks server)", this);
             }
             else {
@@ -118,8 +121,9 @@ namespace AndroidAppV2.Activities
                         FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Denied!";
                     }
                 }
+                getRoomSpace(_chosenDateTime);
             }
-            getRoomSpace(_chosenDateTime);
+            
 
 
             _dateSelectButton.Click += delegate
