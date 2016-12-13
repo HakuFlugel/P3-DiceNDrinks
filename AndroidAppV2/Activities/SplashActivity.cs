@@ -60,7 +60,8 @@ namespace AndroidAppV2.Activities {
             Dictionary<string, DateTime> timestaps = new Dictionary<string, DateTime> {
                 {"Games", DateTime.MinValue},
                 {"Products", DateTime.MinValue},
-                {"Events", DateTime.MinValue}
+                {"Events", DateTime.MinValue},
+                {"AboutUs", DateTime.MinValue}
             };
 
             System.IO.File.WriteAllText(_basePath + "/timestamps.json",JsonConvert.SerializeObject(timestaps));
@@ -79,15 +80,16 @@ namespace AndroidAppV2.Activities {
             Dictionary<string, DateTime> newTimes = DownloadTimestap();
             Dictionary<string, DateTime> oldTimes = LocalTimestap();
 
-            foreach (string item in items) {
-                if (newTimes[item].Ticks > oldTimes[item].Ticks) {
+            foreach (string item in items)
+            {
+                if (!newTimes.ContainsKey(item) || !oldTimes.ContainsKey(item)) continue;
+                if (newTimes[item].Ticks > oldTimes[item].Ticks) 
                     DownloadUpdate(item);
-                }
             }
             UpdateTimestap(newTimes);
         }
 
-        private Dictionary<string, DateTime> DownloadTimestap() {
+        private static Dictionary<string, DateTime> DownloadTimestap() {
             return JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(AndroidShared.DownloadItem("timestamps"));
         }
 

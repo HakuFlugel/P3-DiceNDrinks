@@ -19,10 +19,8 @@ using Shared;
 using System.Net.NetworkInformation;
 using Android.App;
 
-namespace AndroidAppV2
-{
-    public class AndroidShared
-    {
+namespace AndroidAppV2 {
+    public class AndroidShared {
         public static void LoadData<T>(Context context, string file, out T type)
         {
             string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "DnD");
@@ -59,7 +57,7 @@ namespace AndroidAppV2
             string filename = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, $"DnD/images/{image}");
 
             if (File.Exists(filename)) {
-                BitmapFactory.Options options = await GetBitmapOptionsOfImage(filename);
+                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(filename);
 
                 Bitmap bitmapToDisplay =
                     await LoadScaledDownBitmapForDisplayAsync(filename, options, sizes[0], sizes[1]);
@@ -79,10 +77,10 @@ namespace AndroidAppV2
 
         public async void GetImagesFromResources(Context contex, Resources res, int resId, View view, int viewId,
             int[] sizes) {
-            BitmapFactory.Options options = await GetBitmapOptionsOfImageFromRes(res, resId);
+            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(res, resId);
 
             Bitmap bitmapToDisplay =
-                await LoadScaledDownBitmapForDisplayFromResAsync(res, resId, options, sizes[0], sizes[1]);
+                await LoadScaledDownBitmapForDisplayAsync(res, resId, options, sizes[0], sizes[1]);
 
             view.FindViewById<ImageView>(viewId).SetImageBitmap(bitmapToDisplay);
         }
@@ -95,18 +93,18 @@ namespace AndroidAppV2
                 am.Open(image);
             }
             catch (Exception) {
-                BitmapFactory.Options fnFoptions = await GetBitmapOptionsOfImageFromAssetsAsync(contex, fileNotFound);
+                BitmapFactory.Options fnFoptions = await GetBitmapOptionsOfImageAsync(contex, fileNotFound);
                 Bitmap fnFbitmapToDisplay =
                     await
-                        LoadScaledDownBitmapForDisplayFromAssetsAsync(contex, fileNotFound, fnFoptions, sizes[0],
+                        LoadScaledDownBitmapForDisplayAsync(contex, fileNotFound, fnFoptions, sizes[0],
                             sizes[1]);
                 view.FindViewById<ImageView>(id).SetImageBitmap(fnFbitmapToDisplay);
                 return;
             }
 
-            BitmapFactory.Options options = await GetBitmapOptionsOfImageFromAssetsAsync(contex, image);
+            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(contex, image);
             Bitmap bitmapToDisplay =
-                await LoadScaledDownBitmapForDisplayFromAssetsAsync(contex, image, options, sizes[0], sizes[1]);
+                await LoadScaledDownBitmapForDisplayAsync(contex, image, options, sizes[0], sizes[1]);
             view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
         }
 
@@ -127,7 +125,7 @@ namespace AndroidAppV2
             return (int)inSampleSize;
         }
 
-        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImage(string image)
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(string image)
         {
             BitmapFactory.Options options = new BitmapFactory.Options
             {
@@ -136,6 +134,32 @@ namespace AndroidAppV2
             // The result will be null because InJustDecodeBounds == true.
 
             await BitmapFactory.DecodeFileAsync(image, options);
+
+            return options;
+        }
+
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(Resources res, int id) {
+            BitmapFactory.Options options = new BitmapFactory.Options {
+                InJustDecodeBounds = true
+            };
+            // The result will be null because InJustDecodeBounds == true.
+
+            await BitmapFactory.DecodeResourceAsync(res, id);
+
+
+            return options;
+        }
+
+        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(Context context,
+            string path) {
+            BitmapFactory.Options options = new BitmapFactory.Options {
+                InJustDecodeBounds = true
+            };
+            // The result will be null because InJustDecodeBounds == true.
+
+            Stream file = context.Assets.Open(path);
+
+            await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
 
             return options;
         }
@@ -152,21 +176,7 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeFileAsync(image, options);
         }
 
-        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageFromRes(Resources res, int id)
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options
-            {
-                InJustDecodeBounds = true
-            };
-            // The result will be null because InJustDecodeBounds == true.
-
-            await BitmapFactory.DecodeResourceAsync(res, id);
-
-
-            return options;
-        }
-
-        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayFromResAsync(Resources res, int id,
+        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(Resources res, int id,
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Calculate inSampleSize
             options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
@@ -177,22 +187,7 @@ namespace AndroidAppV2
             return await BitmapFactory.DecodeResourceAsync(res, id, options);
         }
 
-        private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageFromAssetsAsync(Context context,
-            string path) {
-            BitmapFactory.Options options = new BitmapFactory.Options
-            {
-                InJustDecodeBounds = true
-            };
-            // The result will be null because InJustDecodeBounds == true.
-
-            Stream file = context.Assets.Open(path);
-
-            await BitmapFactory.DecodeStreamAsync(file, new Rect(), options);
-
-            return options;
-        }
-
-        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayFromAssetsAsync(Context context, string path,
+        private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(Context context, string path,
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Calculate inSampleSize
             options.InSampleSize = CalculateInSampleSize(options, reqWidth, reqHeight);
@@ -229,7 +224,6 @@ namespace AndroidAppV2
 
             return JsonConvert.DeserializeObject<List<T>>(result);
         }
-
 
         public static string DownloadProducts() {
             WebClient client = new WebClient();
