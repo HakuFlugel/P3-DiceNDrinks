@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalendarDay.cs" />
+    <Compile Include="ContactInformation.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
     <Compile Include="Controller\EventsController.cs" />
     <Compile Include="Controller\GamesController.cs" />
@@ -60,9 +61,7 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
