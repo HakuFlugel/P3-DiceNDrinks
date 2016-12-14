@@ -12,7 +12,7 @@ namespace Server
     public class DiceServer
     {
 
-        private string path;
+        public string path { get; private set; }
 
         public Authentication authentication;
 

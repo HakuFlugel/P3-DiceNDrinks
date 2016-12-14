@@ -67,6 +67,8 @@ namespace AdministratorPanel {
                 Console.WriteLine(tuple.Item1);
                 Console.WriteLine(tuple.Item2);
 
+                // TODO: download all new images(timestamp foreach)
+
                 productCategories = tuple.Item1 ?? new List<ProductCategory>();
                 productList = tuple.Item2 ?? new List<Product>();
 

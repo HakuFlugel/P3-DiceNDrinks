@@ -95,7 +95,7 @@ namespace AdministratorPanel {
 
         private void Update(Product product){
             try {
-                string path = "images/";
+                string path = "images/products/";
                 string fileToLoad = path + product.image;
 
                 if (product.image == null) {

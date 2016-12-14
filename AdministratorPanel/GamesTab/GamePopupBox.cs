@@ -342,7 +342,8 @@ namespace AdministratorPanel {
                 string response = ServerConnection.sendRequest("/submitGame.aspx",
                 new NameValueCollection() {
                     {"Action", beforeEditing == null ? "add" : "update"},
-                    {"Game", JsonConvert.SerializeObject(game)}
+                    {"Game", JsonConvert.SerializeObject(game)},
+                    {"Image", ImageHelper.imageToByteArray(image).ToString()}
                 }
             );
                 if (response.StartsWith("exception")) {

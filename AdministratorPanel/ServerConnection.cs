@@ -50,6 +50,25 @@ namespace AdministratorPanel
             }
 
         }
+
+//        public static string sendImageAsync(string page, string filePath)
+//        {
+//            try
+//            {
+//                WebClient client = new WebClientThatHasTimeout();
+//                valueCollection.Add("AdminKey", AdminKey);
+//                client.UploadFileAsync(page, filePath);
+//                client.
+//                byte[] resp = client.UploadValues(protocol + ip + page, valueCollection);
+//
+//                return System.Text.Encoding.Default.GetString(resp);
+//            }
+//            catch (Exception e)
+//            {
+//                MessageBox.Show(null, e.Message, "Connection Error");
+//                return "exception " + e.Message;
+//            }
+//        }
     }
 
 

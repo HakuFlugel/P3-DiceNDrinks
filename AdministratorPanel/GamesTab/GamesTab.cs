@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using Shared;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
+using System.Net;
 
 namespace AdministratorPanel {
     public class GamesTab : AdminTabPage {
@@ -93,11 +95,42 @@ namespace AdministratorPanel {
                 );
 
                 Console.WriteLine(response);
-                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response) ?? new List<Game>();
 
                 Console.WriteLine(nottuple);
 
-                games = nottuple ?? new List<Game>();
+                // TODO: download all new images(timestamp foreach)
+                foreach (var game in games)
+                {
+                    if (!nottuple.Any(g => g.imageName == game.imageName))
+                    {
+                        if (game.imageName == null && File.Exists("images/games/" + game.imageName))
+                        {
+                            File.Delete("images/games/" + game.imageName);
+                        }
+                    }
+                }
+
+                foreach (var newgame in nottuple)
+                {
+                    if (!File.Exists("images/games/" + newgame.imageName) || newgame.timestamp > games.FirstOrDefault(g => g.id == newgame.id)?.timestamp)
+                    {
+                        if (File.Exists("images/games/" + newgame.imageName))
+                        {
+                            File.Delete("images/games/" + newgame.imageName);
+                        }
+
+                        //TODO: download new here pl0x
+//                        using (WebClient client = new WebClient())
+//                        {
+//                            client.DownloadFileAsync(, @"c:\temp\image35.png");
+//                            client.DownloadFile(new Uri(url), @"c:\temp\image35.png");
+//                        }
+
+                    }
+                }
+
+                games = nottuple;
 
                 game.makeItems();
             }

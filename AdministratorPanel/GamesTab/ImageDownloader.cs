@@ -34,16 +34,16 @@ namespace AdministratorPanel {
             }
         }
 
-        public void saveImage() {
-
-            if (image != null) {
-
-                if (File.Exists($"Images/{ImagePath}")) {
-                    File.Delete($"Images/{ImagePath}");
-                }
-
-                image.Save($"Images/{ImagePath}", ImageFormat.Png);
-            }
-        }
+//        public void saveImage(string typepath) {
+//
+//            if (image != null) {
+//
+//                if (File.Exists($"Images/{typepath}/{ImagePath}")) {
+//                    File.Delete($"Images/{typepath}/{ImagePath}");
+//                }
+//
+//                image.Save($"Images/{ImagePath}", ImageFormat.Png);
+//            }
+//        }
     }
 }

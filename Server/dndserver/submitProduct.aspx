@@ -28,14 +28,29 @@
     switch (action)
     {
         case "delete":
+            if (product.image != null)
+            {
+                try
+                {
+                    System.IO.File.Delete(diceServer.path + "images/products/" + product.image);
+
+                }
+                catch (Exception)
+                {
+                    Response.Write("imgfailed");
+                    return;
+                }
+            }
             diceServer.productsController.removeProduct(product);
+
             Response.Write("deleted");
             break;
         case "add":
             product.timestamp = DateTime.UtcNow;
             diceServer.productsController.addProduct(product);
             Response.Write("added " + product.id);
-            break;
+            goto doafter;
+
         case "update":
             try
             {
@@ -47,7 +62,34 @@
             {
                 Response.Write("failed");
             }
+            //goto doafter;
+
+        doafter:
+            string imgstring = Request.Form["Image"];
+            if (imgstring != null)
+            {
+                try
+                {
+                    byte[] data = new byte[imgstring.Length];
+                    int i = 0;
+                    foreach (var _char in imgstring)
+                    {
+                        data[i++] = Convert.ToByte(_char);
+                    }
+
+                    System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(data);
+
+                    image.Save(diceServer.path + "images/products/" + product.image);
+                }
+                catch (Exception)
+                {
+                    Response.Write("imgfailed");
+                    return;
+                }
+            }
+
             break;
+
         default:
             Response.Write("invalid action");
             break;

@@ -311,7 +311,8 @@ namespace AdministratorPanel {
                 string response2 = ServerConnection.sendRequest("/submitProduct.aspx",
                     new NameValueCollection() {
                         {"Action", "add"},
-                        {"Product", JsonConvert.SerializeObject(product)}
+                        {"Product", JsonConvert.SerializeObject(product)},
+                        {"Image", ImageHelper.imageToByteArray(image).ToString()}
                     }
                 );
                 Console.WriteLine(response2);
@@ -347,7 +348,8 @@ namespace AdministratorPanel {
                 string response = ServerConnection.sendRequest("/submitProduct.aspx",
                 new NameValueCollection() {
                     {"Action", "update"},
-                    {"Product", JsonConvert.SerializeObject(productItem.product)}
+                    {"Product", JsonConvert.SerializeObject(productItem.product)},
+                    {"Image", ImageHelper.imageToByteArray(image).ToString()}
                 }
             );
                 if (response.StartsWith("exception")) {
@@ -363,9 +365,8 @@ namespace AdministratorPanel {
                 NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
                 return;
             }
-            //TODO: image
 
-            // updates producttab elements
+            // TODO: updates producttab elements
 
             productTab.MakeItems();
             base.save(sender, e);
