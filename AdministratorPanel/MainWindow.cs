@@ -17,8 +17,6 @@ namespace AdministratorPanel {
             Text = "↻",
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            //Anchor = AnchorStyles.Top | AnchorStyles.Right,
-
         };
 
         private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel()
