@@ -47,25 +47,7 @@ namespace AdministratorPanel {
 
             this.probar = probar;
             Load();
-            try
-            {
-                string response = ServerConnection.sendRequest("/get.aspx",
-                    new NameValueCollection() {
-                        {"Type", "Games"}
-                    }
-                );
-
-                Console.WriteLine(response);
-                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response);
-
-                Console.WriteLine(nottuple);
-
-                games = nottuple ?? new List<Game>();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            download();
 
             probar.addToProbar();                               //For progress bar. 1
 
@@ -100,6 +82,31 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 5
             innerTableLayoutPanel.Controls.Add(addGameButton);
             probar.addToProbar();                               //For progress bar. 6
+        }
+
+        public override void download()
+        {
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Games"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response);
+
+                Console.WriteLine(nottuple);
+
+                games = nottuple ?? new List<Game>();
+
+                game.makeItems();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         private void update() {

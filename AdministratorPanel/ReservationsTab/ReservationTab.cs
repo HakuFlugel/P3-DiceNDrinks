@@ -154,27 +154,7 @@ namespace AdministratorPanel
             this.reservationController = reservationController;
             this.probar = probar;
 
-            try
-            {
-                string response = ServerConnection.sendRequest("/get.aspx",
-                    new NameValueCollection() {
-                        {"Type", "Reservations"}
-                    }
-                );
-
-                Console.WriteLine(response);
-                var tuple = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(response);
-
-                Console.WriteLine(tuple.Item1);
-                Console.WriteLine(tuple.Item2);
-
-                reservationController.rooms = tuple.Item1 ?? new List<Room>();
-                reservationController.reservationsCalendar = tuple.Item2 ?? new List<CalendarDay>();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            download();
 
             //TODO: temorary debug
             //reservationController.rooms.Clear();
@@ -238,6 +218,36 @@ namespace AdministratorPanel
 
             updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
             probar.addToProbar();                               //For progress bar. 10
+        }
+
+        public override void download()
+        {
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Reservations"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var tuple = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(response);
+
+                Console.WriteLine(tuple.Item1);
+                Console.WriteLine(tuple.Item2);
+
+                reservationController.rooms = tuple.Item1 ?? new List<Room>();
+                reservationController.reservationsCalendar = tuple.Item2 ?? new List<CalendarDay>();
+
+
+                updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date));
+                reservationList.updateCurrentDay();
+                pendingReservationList.makeItems();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         private void downloadReservations()
