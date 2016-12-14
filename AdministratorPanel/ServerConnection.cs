@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Net;
 using System.Runtime.InteropServices.ComTypes;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 
 namespace AdministratorPanel
@@ -32,6 +33,7 @@ namespace AdministratorPanel
 
         public static string sendRequest(string page, NameValueCollection valueCollection)
         {
+
             try
             {
                 WebClient client = new WebClientThatHasTimeout();
@@ -43,6 +45,7 @@ namespace AdministratorPanel
             }
             catch (Exception e)
             {
+                MessageBox.Show(null, e.Message, "Connection Error");
                 return "exception " + e.Message;
             }
 

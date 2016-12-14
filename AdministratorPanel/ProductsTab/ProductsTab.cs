@@ -35,7 +35,26 @@ namespace AdministratorPanel {
             tabControl.Dock = DockStyle.Fill;
              
             Load();
+            download();
 
+
+            MakeItems();
+            probar.addToProbar();                               //For progress bar. 1
+
+            addItemButton.Click += (s, e) => {
+                ProductPopupBox p = new ProductPopupBox(this);
+            };
+            
+            tableLayoutPanel.Controls.Add(addItemButton);
+            probar.addToProbar();                               //For progress bar. 2
+            tableLayoutPanel.Controls.Add(tabControl);
+            probar.addToProbar();                               //For progress bar. 3
+            Controls.Add(tableLayoutPanel);
+            probar.addToProbar();                               //For progress bar. 4
+        }
+
+        public override void download()
+        {
             try
             {
                 string response = ServerConnection.sendRequest("/get.aspx",
@@ -52,25 +71,13 @@ namespace AdministratorPanel {
 
                 productCategories = tuple.Item1 ?? new List<ProductCategory>();
                 productList = tuple.Item2 ?? new List<Product>();
+
+                MakeItems();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
             }
-
-            MakeItems();
-            probar.addToProbar();                               //For progress bar. 1
-
-            addItemButton.Click += (s, e) => {
-                ProductPopupBox p = new ProductPopupBox(this);
-            };
-            
-            tableLayoutPanel.Controls.Add(addItemButton);
-            probar.addToProbar();                               //For progress bar. 2
-            tableLayoutPanel.Controls.Add(tabControl);
-            probar.addToProbar();                               //For progress bar. 3
-            Controls.Add(tableLayoutPanel);
-            probar.addToProbar();                               //For progress bar. 4
         }
 
         public void MakeItems() {

@@ -79,6 +79,8 @@ namespace AdministratorPanel
             Width = 100,
             Dock = DockStyle.Right,
             Text = "Add Reservation",
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink
 
         };
 
@@ -130,14 +132,16 @@ namespace AdministratorPanel
             Dock = DockStyle.Top,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            ColumnCount = 7,
+            ColumnCount = 8,
         };
 
-        private Button roomsButton = new Button()
-        {
-            Text = "Modify Rooms",
-            AutoSize = true,
 
+
+        private Button reserveRoomsButton = new Button()
+        {
+            Text = "Rooms",
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink
         };
 
         private Button testButton = new Button()
@@ -154,27 +158,6 @@ namespace AdministratorPanel
             this.reservationController = reservationController;
             this.probar = probar;
 
-            try
-            {
-                string response = ServerConnection.sendRequest("/get.aspx",
-                    new NameValueCollection() {
-                        {"Type", "Reservations"}
-                    }
-                );
-
-                Console.WriteLine(response);
-                var tuple = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(response);
-
-                Console.WriteLine(tuple.Item1);
-                Console.WriteLine(tuple.Item2);
-
-                reservationController.rooms = tuple.Item1 ?? new List<Room>();
-                reservationController.reservationsCalendar = tuple.Item2 ?? new List<CalendarDay>();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
 
             //TODO: temorary debug
             //reservationController.rooms.Clear();
@@ -216,7 +199,8 @@ namespace AdministratorPanel
             outerTable.Controls.Add(rightTable);
             rightTable.Controls.Add(topRightTable);
             rightTable.Controls.Add(reservationList);
-            topRightTable.Controls.Add(roomsButton);
+            //topRightTable.Controls.Add(modifyRoomsButton);
+            topRightTable.Controls.Add(reserveRoomsButton);
             topRightTable.Controls.Add(progressbars);
             progressbars.Controls.Add(reserveSpaceWithPending);
             progressbars.Controls.Add(reserveSpaceWithoutPending);
@@ -236,13 +220,42 @@ namespace AdministratorPanel
             tooltipController();
             probar.addToProbar();                               //For progress bar. 9
 
-            updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today));
-            probar.addToProbar();                               //For progress bar. 10
+            updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == DateTime.Today.Date));
+            probar.addToProbar();                              //For progress bar. 10
+
+            download();
+
+
         }
 
-        private void downloadReservations()
+        public override void download()
         {
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Reservations"}
+                    }
+                );
 
+                Console.WriteLine(response);
+                var tuple = JsonConvert.DeserializeObject<Tuple<List<Room>, List<CalendarDay>>>(response);
+
+                Console.WriteLine(tuple.Item1);
+                Console.WriteLine(tuple.Item2);
+
+                reservationController.rooms = tuple.Item1 ?? new List<Room>();
+                reservationController.reservationsCalendar = tuple.Item2 ?? new List<CalendarDay>();
+
+
+                updateProgressBar(reservationController.reservationsCalendar.Find(o => o.theDay.Date == calendar.SelectionStart.Date));
+                reservationList.updateCurrentDay();
+                pendingReservationList.makeItems();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         private void subscriberList() {
@@ -277,9 +290,12 @@ namespace AdministratorPanel
                 
             };
 
-            roomsButton.Click += (sender, args) => {
 
-                RoomPopup rp = new RoomPopup(reservationController);
+
+            reserveRoomsButton.Click += (sender, args) =>
+            {
+                RoomPopup rp = new RoomPopup(reservationController,
+                    reservationController.findDay(calendar.SelectionStart.Date));
                 rp.Show();
             };
 

@@ -38,25 +38,7 @@ namespace AdministratorPanel {
             this.probar = probar;
 
             Load();
-            try
-            {
-                string response = ServerConnection.sendRequest("/get.aspx",
-                    new NameValueCollection() {
-                        {"Type", "Events"}
-                    }
-                );
-
-                Console.WriteLine(response);
-                var nottuple = JsonConvert.DeserializeObject<List<Event>>(response);
-
-                Console.WriteLine(nottuple);
-
-                EventList = nottuple ?? new List<Event>();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            download();
             probar.addToProbar();                               //For progress bar. 1
 
             makeItems();
@@ -78,6 +60,32 @@ namespace AdministratorPanel {
 
             Controls.Add(headerTableLayoutPanel);
             probar.addToProbar();                               //For progress bar. 7
+        }
+
+        public override void download()
+        {
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Events"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Event>>(response);
+
+                Console.WriteLine(nottuple);
+
+                EventList = nottuple ?? new List<Event>();
+
+                makeItems();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
 
         public void makeItems() {

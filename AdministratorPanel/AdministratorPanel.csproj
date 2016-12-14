@@ -36,6 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="EventsTab\EventItem.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -132,9 +133,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GamesTab\XmlParser.cs" />
-    <Compile Include="ReservationsTab\RoomPopup.cs">
+    <Compile Include="ReservationsTab\ModifyRoomPopup.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ReservationsTab\RoomPopup.cs" />
     <Compile Include="ServerConnection.cs" />
   </ItemGroup>
   <ItemGroup>

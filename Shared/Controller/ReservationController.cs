@@ -81,11 +81,11 @@ namespace Shared
         private void addToDay(Reservation reservation) {
 
             CalendarDay resDay = findDay(reservation.time);
-            
+
             resDay.reservations.Add(reservation);
             resDay.calculateReservedSeats();
             //resDay.reservedSeats += reservation.numPeople;
-            
+
         }
 
         public CalendarDay findDay(DateTime date) {
@@ -113,11 +113,11 @@ namespace Shared
 
             resDay.reservations.RemoveAll(r => r.id == reservation.id);
             //resDay.reservations.Remove(reservation);
-            resDay.calculateReservedSeats(); 
+            resDay.calculateReservedSeats();
 
-            if(checkIfRemove(resDay)) 
+            if(checkIfRemove(resDay))
                 reservationsCalendar.Remove(resDay);
-            
+
             //resDay.reservedSeats -= reservation.numPeople;
         }
 
@@ -153,11 +153,13 @@ namespace Shared
 
             save();
 
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
+
         }
 
         private void addRoom(Room room) {
             rooms.Add(room);
-            calculateSeats();
+            calculateTotalSeats();
 
             foreach (var day in reservationsCalendar)
             {
@@ -170,7 +172,7 @@ namespace Shared
         private void removeRoom(Room room)
         {
             rooms.Remove(room);
-            calculateSeats();
+            calculateTotalSeats();
 
             foreach (var day in reservationsCalendar) {
                 day.unreserveRoom(this, room);
@@ -187,7 +189,7 @@ namespace Shared
             Room oldroom = rooms.First(r => r.name == room.name);
 
             rooms[rooms.IndexOf(oldroom)] = room;
-            calculateSeats();
+            calculateTotalSeats();
 
             foreach (var day in reservationsCalendar) {
                 int roomindex = day.roomsReserved.IndexOf(oldroom);
@@ -200,7 +202,7 @@ namespace Shared
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        private void calculateSeats()
+        private void calculateTotalSeats()
         {
             totalSeats = rooms.Sum(r => r.seats);
         }
@@ -211,10 +213,10 @@ namespace Shared
             saveFile("rooms", rooms);
         }
         public void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
-         
-            
+
+
             //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
-            
+
 
             if(resDay != null ) {
                 if (resDay.numSeats == 0)
@@ -232,7 +234,7 @@ namespace Shared
              && reservation.state != Reservation.State.Accepted && !reservation.forcedByAdmin) {
 
                 reservation.state = Reservation.State.Accepted;
-            } else 
+            } else
                 return;
             updateReservation(reservation);
 
@@ -244,8 +246,21 @@ namespace Shared
             reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
             rooms = loadFile<Room>("rooms");
 
-            calculateSeats();
+            calculateTotalSeats();
         }
 
+        public void submitReservedRooms(List<Room> list, DateTime day)
+        {
+
+            CalendarDay calendarDay = findDay(day);
+
+            calendarDay.roomsReserved = list;
+            calculateTotalSeats();
+            calendarDay.calculateSeats(this);
+
+            save();
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

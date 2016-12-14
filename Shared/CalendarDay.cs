@@ -33,7 +33,7 @@ namespace Shared {
         }
 
         public void calculateSeats(ReservationController reservationController) {
-            numSeats = reservationController.totalSeats - roomsReserved.Sum(r => r.seats);
+            numSeats = reservationController.totalSeats - roomsReserved?.Sum(r => r?.seats) ?? 0;
         }
 
         public void calculateReservedSeats() {
