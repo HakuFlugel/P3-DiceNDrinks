@@ -12,7 +12,6 @@ namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> EventList = new List<Event>();
         private EventList lowerTable = new EventList();
-        private FormProgressBar probar;
 
         private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
             Dock = DockStyle.Fill,                        
@@ -35,7 +34,6 @@ namespace AdministratorPanel {
         public EventsTab(FormProgressBar probar) {
             //name of the tab
             Text = "Events";
-            this.probar = probar;
 
             Load();
             download();
@@ -45,7 +43,7 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 2
 
             addEventButton.Click += (s, e) => {
-                EventPopupBox p = new EventPopupBox(this);
+                new EventPopupBox(this);
             };
             probar.addToProbar();                               //For progress bar. 3
 

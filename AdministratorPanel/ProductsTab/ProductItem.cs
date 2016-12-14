@@ -115,8 +115,9 @@ namespace AdministratorPanel {
             this.Width = sizeX;
         }
 
-        protected override void OnClick(EventArgs e) {
-            ProductPopupBox p = new ProductPopupBox(productTab, this);
+        protected override void OnClick(EventArgs e)
+        {
+            new ProductPopupBox(productTab, this);
             //base.OnClick(e);
         }
     }

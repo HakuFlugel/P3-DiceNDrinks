@@ -21,10 +21,8 @@ namespace AdministratorPanel {
             RowCount = 2
         };
 
-        private Game game;
         public GamesItem(Game game) {
             RowCount = 1;
-            this.game = game;
             ColumnCount = 4;
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;

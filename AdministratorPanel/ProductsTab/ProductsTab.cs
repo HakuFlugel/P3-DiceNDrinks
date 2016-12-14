@@ -27,11 +27,9 @@ namespace AdministratorPanel {
         public List<ProductCategory> productCategories = new List<ProductCategory>();
         public List<Product> productList = new List<Product>();
         public TabControl tabControl = new TabControl();
-        private FormProgressBar probar;
 
         public ProductsTab(FormProgressBar probar) {
             Text = "Products";
-            this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
              
             Load();
@@ -42,7 +40,7 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 1
 
             addItemButton.Click += (s, e) => {
-                ProductPopupBox p = new ProductPopupBox(this);
+                new ProductPopupBox(this);
             };
             
             tableLayoutPanel.Controls.Add(addItemButton);

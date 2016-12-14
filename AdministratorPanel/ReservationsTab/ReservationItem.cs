@@ -121,7 +121,7 @@ namespace AdministratorPanel {
                 calTab.pendingReservationList.updateCurrentDay();*/
             };
             Click += (s, e) => {
-                ReservationPopupBox p = new ReservationPopupBox(reservationController, reservation);
+                new ReservationPopupBox(reservationController, reservation);
             };
 
             acceptButton.Click += (s, e) => {

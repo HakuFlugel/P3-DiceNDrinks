@@ -149,7 +149,6 @@ namespace AdministratorPanel {
         private GamesTab gametab;
         public Game game;
         private Game beforeEditing;
-        private Image seachImage = Image.FromFile("images/seachIcon.png");
         public Image image;
         public List<Game> games;
         public string imagePath = "";
@@ -235,7 +234,7 @@ namespace AdministratorPanel {
             };
 
             editGenre.Click += (s, e) => {
-                EditGenrePopupbox bob = new EditGenrePopupbox(genres);
+                new EditGenrePopupbox(genres);
             };
         }
 

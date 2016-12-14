@@ -16,7 +16,6 @@ namespace AdministratorPanel {
         public int reserveSpaceValue;
         private ReservationController reservationController;
         public bool lockedRes = false;
-        private FormProgressBar probar;
 
         public CheckBox lockResevations = new CheckBox() {
             Text = "Lock Reservations",
@@ -118,6 +117,7 @@ namespace AdministratorPanel {
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             //ColumnCount = 8,
+            RowCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.AddColumns
         };
 
@@ -141,7 +141,6 @@ namespace AdministratorPanel {
             Text = "Reservations";
 
             this.reservationController = reservationController;
-            this.probar = probar;
 
             //TODO: temorary debug
             //reservationController.rooms.Clear();
@@ -285,7 +284,7 @@ namespace AdministratorPanel {
 
             addReservation.Click += (s, e) => {
 
-                ReservationPopupBox p = new ReservationPopupBox(reservationController);
+                new ReservationPopupBox(reservationController);
             };
 
             lockResevations.CheckedChanged += (s, e) => {

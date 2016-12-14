@@ -34,7 +34,7 @@ namespace AdministratorPanel {
             if (games != null) {
                 foreach (var res in games.Where((Game gam) => (gam.name != null) ? (gam.name.ToLower().Contains(search)) : (gam.id.ToString().ToLower().Contains(search))).OrderBy(o => o.name)) {
                     GamesItem gameitem = new GamesItem(res);
-                    gameitem.Click += (s, e) => { GamePopupBox popupbox = new GamePopupBox(gametab, res, genres); };
+                    gameitem.Click += (s, e) => { new GamePopupBox(gametab, res, genres); };
                     Controls.Add(gameitem);
                 }
             }    

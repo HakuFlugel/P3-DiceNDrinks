@@ -14,7 +14,6 @@ namespace AdministratorPanel {
         public GamesList game;
         private Genres genres = new Genres();
         private string search = "";
-        private FormProgressBar probar;
 
         private TableLayoutPanel outerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
@@ -45,7 +44,6 @@ namespace AdministratorPanel {
             //name of the tab
             Text = "Games";
 
-            this.probar = probar;
             Load();
             download();
 
@@ -70,7 +68,7 @@ namespace AdministratorPanel {
             };
 
             addGameButton.Click += (e, s) => {
-                GamePopupBox gameBox = new GamePopupBox(this, null, genres);
+                new GamePopupBox(this, null, genres);
             };
 
             outerTableLayoutPanel.Controls.Add(game);
