@@ -26,10 +26,8 @@ namespace Shared
 
             CalendarDay tempday = findDay(reservation.time);
 
-            if (tempday.isLocked)
-                reservation.state = Reservation.State.Denied;
-            else
-                checkIfAutoAccept(reservation, tempday);
+            if(reservation.state == Reservation.State.Pending)
+                checkIfAutoAccept(reservation, findDay(reservation.time));
 
             save();
         }
@@ -44,8 +42,8 @@ namespace Shared
             removeFromDay(oldReservation);
 
             addToDay(reservation);
-            //if(reservation.time.Date != oldReservation.time.Date)
-            //    checkIfAutoAccept(reservation, findDay(reservation.time));
+            if(reservation.state == Reservation.State.Pending)
+                checkIfAutoAccept(reservation, findDay(reservation.time));
 
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
@@ -84,7 +82,6 @@ namespace Shared
 
             resDay.reservations.Add(reservation);
             resDay.calculateReservedSeats();
-            //resDay.reservedSeats += reservation.numPeople;
 
         }
 
@@ -218,24 +215,23 @@ namespace Shared
             //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
 
 
-            if(resDay != null ) {
-                if (resDay.numSeats == 0)
-                    resDay.calculateSeats(this);
-                    resDay.calculateReservedSeats();
-//                foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
-//                    reservedSeats += item.numPeople;
+            if (resDay.numSeats == 0)
+                resDay.calculateSeats(this);
+                resDay.calculateReservedSeats();
+
+            if (resDay.isLocked)
+            {
+                reservation.state = Reservation.State.Denied;
+            }
+            else if (reservation.numPeople <= resDay.autoAcceptMaxPeople
+                    && reservation.numPeople <= resDay.numSeats
+                    && resDay.isAutoaccept
+                    && (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats <= resDay.acceptPresentage)
+            {
+                reservation.state = Reservation.State.Accepted;
             }
 
-            if ((resDay == null && reservation.numPeople <= 5
-             || (!resDay.isLocked
-             && resDay.autoAcceptMaxPeople >= reservation.numPeople
-             && resDay.isAutoaccept //maybe
-             && resDay.acceptPresentage >= (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats))
-             && reservation.state != Reservation.State.Accepted && !reservation.forcedByAdmin) {
 
-                reservation.state = Reservation.State.Accepted;
-            } else
-                return;
             updateReservation(reservation);
 
         }
