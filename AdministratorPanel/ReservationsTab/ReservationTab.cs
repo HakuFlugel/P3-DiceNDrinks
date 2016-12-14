@@ -7,10 +7,8 @@ using System.Drawing;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace AdministratorPanel
-{
-    public class ReservationTab : AdminTabPage
-    {
+namespace AdministratorPanel {
+    public class ReservationTab : AdminTabPage {
         public Calendar calendar;
 
         public ReservationList reservationList;
@@ -20,39 +18,33 @@ namespace AdministratorPanel
         public bool lockedRes = false;
         private FormProgressBar probar;
 
-        public CheckBox lockResevations = new CheckBox()
-        {
+        public CheckBox lockResevations = new CheckBox() {
             Text = "Lock Reservations",
         };
 
-        private ToolTip tooltip = new ToolTip()
-        {
+        private ToolTip tooltip = new ToolTip() {
             AutoPopDelay = 5000,
             InitialDelay = 100,
             ReshowDelay = 500,
             ShowAlways = true
         };
 
-        public NiceTextBox autoAcceptPresentage = new NiceTextBox()
-        {
+        public NiceTextBox autoAcceptPresentage = new NiceTextBox() {
             Width = 30,
             MaxLength = 3,
         };
 
-        public NiceTextBox maxAutoAccept = new NiceTextBox()
-        {
+        public NiceTextBox maxAutoAccept = new NiceTextBox() {
             Width = 30,
             MaxLength = 2,
         };
 
-        public Label reserveSpaceText = new Label()
-        {
+        public Label reserveSpaceText = new Label() {
             Dock = DockStyle.Left,
             Font = new Font("Arial", 16),
         };
 
-        public ProgressBar reserveSpaceWithPending = new ProgressBar()
-        {
+        public ProgressBar reserveSpaceWithPending = new ProgressBar() {
             Style = ProgressBarStyle.Continuous,
             //Dock = DockStyle.Left,
             Minimum = 0,
@@ -62,8 +54,7 @@ namespace AdministratorPanel
             Margin = Padding.Empty
         };
 
-        public ProgressBar reserveSpaceWithoutPending = new ProgressBar()
-        {
+        public ProgressBar reserveSpaceWithoutPending = new ProgressBar() {
             Style = ProgressBarStyle.Continuous,
             //Dock = DockStyle.Left,
             Minimum = 0,
@@ -73,8 +64,7 @@ namespace AdministratorPanel
             Margin = Padding.Empty
         };
 
-        private Button addReservation = new Button()
-        {
+        private Button addReservation = new Button() {
             Height = 20,
             Width = 100,
             Dock = DockStyle.Right,
@@ -84,8 +74,7 @@ namespace AdministratorPanel
 
         };
 
-        private TableLayoutPanel outerTable = new TableLayoutPanel()
-        {
+        private TableLayoutPanel outerTable = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
             RowCount = 1,
@@ -93,8 +82,7 @@ namespace AdministratorPanel
 
         };
 
-        private TableLayoutPanel progressbars = new TableLayoutPanel()
-        {
+        private TableLayoutPanel progressbars = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             Height = 16,
             RowCount = 2,
@@ -112,27 +100,25 @@ namespace AdministratorPanel
         };
 
         // Left Side
-        private TableLayoutPanel leftTable = new TableLayoutPanel()
-        {
+        private TableLayoutPanel leftTable = new TableLayoutPanel() {
             Dock = DockStyle.Left,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
 
         };
 
-        private TableLayoutPanel rightTable = new TableLayoutPanel()
-        {
+        private TableLayoutPanel rightTable = new TableLayoutPanel() {
             Dock = DockStyle.Fill,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
         };
 
-        private TableLayoutPanel topRightTable = new TableLayoutPanel()
-        {
+        private TableLayoutPanel topRightTable = new TableLayoutPanel() {
             Dock = DockStyle.Top,
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
-            ColumnCount = 8,
+            //ColumnCount = 8,
+            GrowStyle = TableLayoutPanelGrowStyle.AddColumns
         };
 
 
@@ -150,14 +136,12 @@ namespace AdministratorPanel
             AutoSize = true
         };
 
-        public ReservationTab(ReservationController reservationController, FormProgressBar probar)
-        {
+        public ReservationTab(ReservationController reservationController, FormProgressBar probar) {
             //tab name
             Text = "Reservations";
 
             this.reservationController = reservationController;
             this.probar = probar;
-
 
             //TODO: temorary debug
             //reservationController.rooms.Clear();
@@ -432,7 +416,7 @@ namespace AdministratorPanel
             tooltip.SetToolTip(reserveSpaceWithoutPending, "Fullness counting only accepted reservations." + ((day != null)? Environment.NewLine +
                                      $"{reserveSpaceWithoutPending.Value} / {reserveSpaceWithoutPending.Maximum}" : ""));
 
-            tooltip.SetToolTip(reserveSpaceWithPending, "Fulness, including the pending resevations." + ((day != null)? Environment.NewLine +
+            tooltip.SetToolTip(reserveSpaceWithPending, "Fullness, including the pending resevations." + ((day != null)? Environment.NewLine +
                                      $"{reserveSpaceWithPending.Value} / {reserveSpaceWithPending.Maximum}" : ""));
 
             remainingSeats.Text = $"{totalSeats - reservedSeats}";

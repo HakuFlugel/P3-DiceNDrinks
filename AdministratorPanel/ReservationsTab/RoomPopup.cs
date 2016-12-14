@@ -8,8 +8,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using Shared;
 
-namespace AdministratorPanel
-{
+namespace AdministratorPanel {
     public class RoomPopup : FancyPopupBox // TODO: different base; don't need delete button
     {
         private ReservationController reservationController;

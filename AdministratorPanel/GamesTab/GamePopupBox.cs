@@ -110,14 +110,14 @@ namespace AdministratorPanel {
         };
 
         public NiceTextBox timeBox = new NiceTextBox() {
-            Name = "minimum / maximum players" + Environment.NewLine + "it takes to play the game." + Environment.NewLine + "eg: 3/10",
+            Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
             waterMark = "min / max players",
             Width = 95,
             Margin = new Padding(0, 0, 0, 20)
         };
 
         public NiceTextBox playerBox = new NiceTextBox() {
-            Name = "minimum / maximum time " + Environment.NewLine + "it takes to complete the game." + Environment.NewLine + "eg: 30/60",
+            Name = "minimum / maximum players" + Environment.NewLine + "it takes to play the game." + Environment.NewLine + "eg: 3/10",
             waterMark = "min / max time",
             Width = 95,
             Margin = new Padding(5, 0, 0, 20)
@@ -150,7 +150,7 @@ namespace AdministratorPanel {
         public Game game;
         private Game beforeEditing;
         private Image seachImage = Image.FromFile("images/seachIcon.png");
-        private Image image;
+        public Image image;
         public List<Game> games;
         public string imagePath = "";
 
@@ -174,8 +174,8 @@ namespace AdministratorPanel {
                 gameName.Text = this.game.name;
                 gameDescription.Text = this.game.description;
                 yearPublishedBox.Text = this.game.publishedYear.ToString();
-                timeBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
-                playerBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
+                playerBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
+                timeBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
                 string curFile = $"images/{this.game.imageName}";                                                        //Ellers crasher den når der ikke er blevet gemt et billed. 
                 gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile)? curFile : $"images/_default.png");      //Kunne være at hvis der ikke var et billed at den så skulle gemmes med default png.
                 gameDifficultyBar.Value = game.difficulity;

@@ -15,11 +15,11 @@ namespace AdministratorPanel {
         };
 
         private TableLayoutPanel genreTableLayoutPanel = new TableLayoutPanel() {
-            Dock = DockStyle.Fill,
+            //Dock = DockStyle.fill,
             BorderStyle = BorderStyle.Fixed3D,
             ColumnCount = 1,
             GrowStyle = TableLayoutPanelGrowStyle.AddRows,
-            MinimumSize = new Size(200, 200),
+            MinimumSize = new Size(275, 400),
             AutoSize = false,
             AutoScroll = true
         };
@@ -27,6 +27,7 @@ namespace AdministratorPanel {
         private Button addGenreButton = new Button() {
             MaximumSize = new Size(50, 40),
             Dock = DockStyle.Right,
+             Cursor = Cursors.Hand,
             Text = "Add"
         };
 
@@ -34,7 +35,7 @@ namespace AdministratorPanel {
 
         public EditGenrePopupbox(Genres genre) {
             this.genre = genre;
-            Size = new Size(276, 288);
+            Size = new Size(300, 500);
 
             Controls.Add(headerTableLayoutPanel);
             headerTableLayoutPanel.Controls.Add(genreTableLayoutPanel);

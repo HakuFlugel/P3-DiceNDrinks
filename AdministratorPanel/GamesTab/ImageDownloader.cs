@@ -26,8 +26,8 @@ namespace AdministratorPanel {
                 WebRequest request = WebRequest.Create(url);
                 WebResponse response = request.GetResponse();
                 Stream responseStream = response.GetResponseStream();
-                Bitmap bitmap2 = new Bitmap(responseStream);
-                image = (Image)bitmap2;
+                Bitmap bitmap = new Bitmap(responseStream);
+                image = (Image)bitmap;
             } else {
                 Console.WriteLine("fuck asger");
                 image = null;

@@ -16,7 +16,7 @@ namespace AdministratorPanel {
             AutoSizeMode = AutoSizeMode.GrowAndShrink
         };
 
-        private Panel p = new Panel() {
+        private Panel panel = new Panel() {
             Height = 48,
             Dock = DockStyle.Bottom,
             BackColor = Color.Transparent,
@@ -71,7 +71,7 @@ namespace AdministratorPanel {
             Controls.Add(container);
             container.Controls.Add(CreateControls());
 
-            container.Controls.Add(p);
+            container.Controls.Add(panel);
 
             if (canDelete)
             {
@@ -80,15 +80,15 @@ namespace AdministratorPanel {
                 delete.Name = "delete";
                 delete.Dock = DockStyle.Left;
                 delete.Click += this.delete;
-                p.Controls.Add(delete);
+                panel.Controls.Add(delete);
 
             }
 
             cancelButton.Click += this.cancel;
-            p.Controls.Add(cancelButton);
+            panel.Controls.Add(cancelButton);
 
             saveButton.Click += this.save;
-            p.Controls.Add(saveButton);
+            panel.Controls.Add(saveButton);
             Focus();
 
         }

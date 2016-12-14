@@ -37,12 +37,7 @@ namespace NUnitTest {
             games.Add(game);
             gamesList = new GamesList(games, gamesTab, genres);
 
-            Assert.Fail("this test was invalid");//Assert.IsTrue(games.Find(x => x.name == game.name) == game && gamesList.gametab == gamesTab);
+            Assert.IsTrue(games.Find(x => x.name == game.name) == game);
         }
-
-
     }
-
-
-
 }
