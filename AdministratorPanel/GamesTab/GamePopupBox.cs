@@ -337,7 +337,7 @@ namespace AdministratorPanel {
             //image
             game.imageName = imagePath;
 
-            image.Save("images/"+ imagePath);
+            image?.Save("images/"+ imagePath);
 
             try {
                 string response = ServerConnection.sendRequest("/submitGame.aspx",
