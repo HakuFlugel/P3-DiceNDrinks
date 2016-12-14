@@ -51,18 +51,30 @@ namespace AndroidAppV2 {
             }
         }
 
-        public async void GetImages(string image, View view, int id, int[] sizes) {
+        public async void GetImages(string image, View view, int id, int[] sizes, Context contex) {
             //sizes[0] is reqWidth sizes[1] is reqHeight
 
             string filename = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, $"DnD/images/{image}");
 
-            if (!File.Exists(filename)) return;
-            BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(filename);
+            if (File.Exists(filename))
+            {
+                BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(filename);
 
-            Bitmap bitmapToDisplay =
-                await LoadScaledDownBitmapForDisplayAsync(filename, options, sizes[0], sizes[1]);
+                Bitmap bitmapToDisplay =
+                    await LoadScaledDownBitmapForDisplayAsync(filename, options, sizes[0], sizes[1]);
 
-            view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapToDisplay);
+            }
+            else
+            {
+                Stream stream = contex.Assets.Open("nopic.jpg");
+
+                BitmapFactory.Options fileNotFound = new BitmapFactory.Options();
+
+                Bitmap bitmapFileNotFound = await BitmapFactory.DecodeStreamAsync(stream, new Rect(), fileNotFound);
+
+                view.FindViewById<ImageView>(id).SetImageBitmap(bitmapFileNotFound);
+            }
         }
 
         public async void GetImages(Context contex, Resources res, int resId, View view, int viewId,
