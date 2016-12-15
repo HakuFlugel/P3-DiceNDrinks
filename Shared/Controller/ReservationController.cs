@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using Newtonsoft.Json;
 
 // TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
 
@@ -13,6 +15,14 @@ namespace Shared
         public int totalSeats;
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
+
+        public class AutoAcceptSettings
+        {
+            public int defaultAcceptPercentage = 50;
+            public int defaultAcceptMaxPeople = 5;
+        }
+        public AutoAcceptSettings autoAcceptSettings = new AutoAcceptSettings();
+
 
         public event EventHandler ReservationUpdated;
 
@@ -98,7 +108,7 @@ namespace Shared
         public bool checkIfRemove(CalendarDay day) {
             if (day.theDay < DateTime.Today.AddDays(-1) || !day.isLocked && day.reservations.Count < 1
                  && day.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
-                 && day.defaultAcceptPresentage == day.acceptPresentage)
+                 && day.defaultAcceptPercentage == day.acceptPercentage)
 
                 return true;
             else
@@ -208,11 +218,12 @@ namespace Shared
         {
             saveFile("reservationsCalendar", reservationsCalendar);
             saveFile("rooms", rooms);
+            saveAutoAccept();
         }
         public void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
 
 
-            //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
+            //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPercentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
 
 
             if (resDay.numSeats == 0)
@@ -226,7 +237,7 @@ namespace Shared
             else if (reservation.numPeople <= resDay.autoAcceptMaxPeople
                     && reservation.numPeople <= resDay.numSeats
                     && resDay.isAutoaccept
-                    && (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats <= resDay.acceptPresentage)
+                    && (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats <= resDay.acceptPercentage)
             {
                 reservation.state = Reservation.State.Accepted;
             }
@@ -241,6 +252,7 @@ namespace Shared
         {
             reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
             rooms = loadFile<Room>("rooms");
+            loadAutoAccept();
 
             calculateTotalSeats();
         }
@@ -257,6 +269,45 @@ namespace Shared
             save();
 
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+
+        protected void saveAutoAccept()
+        {
+            Directory.CreateDirectory(path);
+
+            using (StreamWriter streamWriter = new StreamWriter(path + "autoaccept" + ext))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, autoAcceptSettings);
+            }
+
+        }
+
+        protected void loadAutoAccept()
+        {
+
+            Directory.CreateDirectory(path);
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(path + "autoaccept" + ext))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    autoAcceptSettings = jsonSerializer.Deserialize<AutoAcceptSettings>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("autoaccept not found");
+            }
+
+            if (autoAcceptSettings == null)
+            {
+                Console.WriteLine("autoaccept was null after loading... setting it to new list");
+                autoAcceptSettings = new AutoAcceptSettings();
+            }
+
         }
     }
 }

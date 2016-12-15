@@ -70,7 +70,7 @@ namespace AdministratorPanel {
 
         public void lockReservations(bool isChecked) {
             if (cd == null) {
-                cd = new CalendarDay { theDay = calendar.SelectionStart, isFullChecked = false };
+                cd = new CalendarDay(reservationController.) { theDay = calendar.SelectionStart, isFullChecked = false };
                 reservationController.reservationsCalendar.Add(cd);
             }
             cd.isFullChecked = isChecked;

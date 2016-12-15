@@ -103,7 +103,7 @@ namespace AdministratorPanel {
             if (response != "success")
             {
                 Console.WriteLine("failed to submit room reservations");
-                //return;
+                return;
             }
 
             reservationController.submitReservedRooms(rooms, day.theDay.Date);

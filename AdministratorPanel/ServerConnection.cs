@@ -15,7 +15,7 @@ namespace AdministratorPanel
             protected override WebRequest GetWebRequest(Uri address)
             {
                 WebRequest wr = base.GetWebRequest(address);
-                wr.Timeout = 2000;
+                wr.Timeout = 750;
                 return wr;
             }
         }

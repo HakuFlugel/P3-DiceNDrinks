@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"%>
+<%@ Page Language="C#"%>
 
 <%
 
@@ -18,7 +18,7 @@
     try
     {
 
-        string roomsString = Request.Form["Rooms"] ?? "null";
+        string roomsString = Request.Form["AutoAccept"] ?? "null";
 
 
 
@@ -26,7 +26,7 @@
 
         if (rooms == null)
         {
-            Response.Write("No rooms provided");
+            Response.Write("No settings provided");
             return;
         }
 

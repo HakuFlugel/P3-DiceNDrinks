@@ -10,16 +10,14 @@ namespace Shared {
         public int numSeats;
         public bool isLocked = false;
         public bool isAutoaccept = true;
-        public int defaultAcceptPresentage = 50;
-        public int acceptPresentage;
-        public int defaultAcceptMaxPeople = 5;
+        public int acceptPercentage;
         public int autoAcceptMaxPeople;
         public bool isFullChecked;
         public List<Room> roomsReserved = new List<Room>(); // TODO: room fulness, reference? duplicate?
         public DateTime theDay;
 
-        public CalendarDay() {
-            acceptPresentage = defaultAcceptPresentage;
+        public CalendarDay(int defaultAcceptPercentage, int defaultAcceptMaxPeople) {
+            acceptPercentage = defaultAcceptPercentage;
             autoAcceptMaxPeople = defaultAcceptMaxPeople;
         }
         public void reserveRoom(ReservationController reservationController, Room room) {

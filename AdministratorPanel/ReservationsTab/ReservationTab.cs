@@ -38,6 +38,13 @@ namespace AdministratorPanel {
             MaxLength = 2,
         };
 
+        public Button autoAcceptDefault = new Button()
+        {
+            Text = "Set Default",
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink
+        };
+
         public Label reserveSpaceText = new Label() {
             Dock = DockStyle.Left,
             Font = new Font("Arial", 16),
@@ -64,9 +71,9 @@ namespace AdministratorPanel {
         };
 
         private Button addReservation = new Button() {
-            Height = 20,
-            Width = 100,
-            Dock = DockStyle.Right,
+            //Height = 20,
+            //Width = 100,
+            //Dock = DockStyle.Right,
             Text = "Add Reservation",
             AutoSize = true,
             AutoSizeMode = AutoSizeMode.GrowAndShrink
@@ -159,7 +166,7 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 2
 
             CalendarDay tempDate = (reservationController.reservationsCalendar.Find(x => x.theDay == DateTime.Today));
-            autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPresentage.ToString() : "50" ;
+            autoAcceptPresentage.Text = (tempDate != null) ? tempDate.acceptPercentage.ToString() : "50" ;
             maxAutoAccept.Text = (tempDate != null) ? tempDate.autoAcceptMaxPeople.ToString() : "5";
 
             Controls.Add(outerTable);
@@ -193,6 +200,8 @@ namespace AdministratorPanel {
             topRightTable.Controls.Add(lockResevations);
             topRightTable.Controls.Add(autoAcceptPresentage);
             topRightTable.Controls.Add(maxAutoAccept);
+            topRightTable.Controls.Add(autoAcceptDefault);
+
             topRightTable.Controls.Add(addReservation);
 
 
@@ -256,12 +265,12 @@ namespace AdministratorPanel {
 
                 updateProgressBar(day);
 
-                autoAcceptPresentage.Text = (day != null) ? day.acceptPresentage.ToString() : "50";
+                autoAcceptPresentage.Text = (day != null) ? day.acceptPercentage.ToString() : "50";
 
                 maxAutoAccept.Text = (day != null) ? ((day.autoAcceptMaxPeople == 501) ? "0" : day.autoAcceptMaxPeople.ToString()) : "5";
-                    
+
             };
-            
+
             autoAcceptPresentage.LostFocus += (s, e) => {
                 autoAcceptBox();
             };
@@ -270,7 +279,7 @@ namespace AdministratorPanel {
                 if (e.KeyChar != (char)Keys.Enter)
                     return;
                 autoAcceptBox();
-                
+
             };
 
 
@@ -300,12 +309,40 @@ namespace AdministratorPanel {
                     return;
                 maxAutoAcceptBox();
             };
+
+            autoAcceptDefault.Click += (sender, args) =>
+            {
+                CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
+
+                ReservationController.AutoAcceptSettings newsettings = new ReservationController.AutoAcceptSettings()
+                {
+                    defaultAcceptMaxPeople = day.autoAcceptMaxPeople,
+                    defaultAcceptPercentage = day.acceptPercentage
+                };
+
+                string response = ServerConnection.sendRequest("/submitAutoAccept.aspx",
+                    new NameValueCollection() {
+                        {"AutoAccept", JsonConvert.SerializeObject(newsettings)},
+                    }
+                );
+                Console.WriteLine(response);
+
+                if (response != "success")
+                {
+                    Console.WriteLine("failed to submit room reservations");
+                    return;
+                }
+
+                // todo: update existing days maybe
+
+                reservationController.autoAcceptSettings = newsettings;
+            };
         }
 
         private void autoAcceptBox() {
             CalendarDay day = reservationController.findDay(calendar.SelectionRange.Start);
 
-            if (autoAcceptPresentage.Text == day.acceptPresentage.ToString()) {
+            if (autoAcceptPresentage.Text == day.acceptPercentage.ToString()) {
                 return;
             }
 
@@ -325,11 +362,11 @@ namespace AdministratorPanel {
                     if (tempNr > 100 || tempNr < 0)
                         throw new FormatException();
                 } catch (FormatException) {
-                    autoAcceptPresentage.Text = day.acceptPresentage.ToString();
+                    autoAcceptPresentage.Text = day.acceptPercentage.ToString();
                     return;
                 }
             }
-            day.acceptPresentage = tempNr;
+            day.acceptPercentage = tempNr;
             updateCheck(day);
         }
 
@@ -380,6 +417,7 @@ namespace AdministratorPanel {
             tooltip.SetToolTip(lockResevations, "If checked all pending reservations will be declined, and no more reservations can be made");
             //tooltip.SetToolTip(addReservation, "Manually add a resevation");
             tooltip.SetToolTip(maxAutoAccept, "The largest reservation that should be auto accepted" + Environment.NewLine + "0 to allow all sizes.");
+            tooltip.SetToolTip(autoAcceptDefault, "Sets the default auto accept values");
         }
 
         private void updateCheck(CalendarDay day) {
@@ -387,10 +425,10 @@ namespace AdministratorPanel {
 
             if (day.reservations.Count > 0) {
 
-                foreach (var item in day.reservations) 
+                foreach (var item in day.reservations)
                     temp.Add(item);
 
-                foreach(var item in temp) 
+                foreach(var item in temp)
                     reservationController.checkIfAutoAccept(item, day);
             }
         }
@@ -441,7 +479,7 @@ namespace AdministratorPanel {
         }
 
         private void testButtonfunc() {
-            
+
             topRightTable.Controls.Add(testButton);
             testButton.Click += (s, e) => {
                 createResevation();
@@ -481,8 +519,8 @@ namespace AdministratorPanel {
 
             res.time = calendar.SelectionStart;//(rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, 12, 2 /*rand.Next(1, 30)*/);
             res.state = Reservation.State.Pending;
-            res.phone = rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
-                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + 
+            res.phone = rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() +
+                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() +
                         rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString();
 
             res.numPeople = rand.Next(1, 10);

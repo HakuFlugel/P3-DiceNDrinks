@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Authentication.cs" />
     <Compile Include="DiceServer.cs" />
+    <Content Include="dndserver\submitAutoAccept.aspx" />
     <Content Include="dndserver\submitRoomReserved.aspx" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
