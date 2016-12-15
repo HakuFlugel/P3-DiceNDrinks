@@ -343,7 +343,7 @@ namespace AdministratorPanel {
                 new NameValueCollection() {
                     {"Action", beforeEditing == null ? "add" : "update"},
                     {"Game", JsonConvert.SerializeObject(game)},
-                    {"Image", ImageHelper.imageToByteArray(image).ToString()}
+                    {"Image", System.Text.Encoding.UTF8.GetString(ImageHelper.imageToByteArray(image))}
                 }
             );
                 if (response.StartsWith("exception")) {
@@ -367,7 +367,7 @@ namespace AdministratorPanel {
                 }
             }
             catch (Exception) {
-                NiceMessageBox.Show("Failed to save to the server, changes will not be send to the server", "Server connection problem");
+                NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
                 return;
             }
             gametab.game.makeItems("");

@@ -71,12 +71,13 @@
             {
                 try
                 {
-                    byte[] data = new byte[imgstring.Length];
-                    int i = 0;
-                    foreach (var _char in imgstring)
-                    {
-                        data[i++] = Convert.ToByte(_char);
-                    }
+                    byte[] data = System.Text.Encoding.UTF8.GetBytes(imgstring);
+                        //new byte[imgstring.Length];
+                    //int i = 0;
+                    //foreach (var _char in imgstring)
+                    //{
+                    //    data[i++] = Convert.ToByte(_char);
+                    //}
 
                     System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(data);
 
