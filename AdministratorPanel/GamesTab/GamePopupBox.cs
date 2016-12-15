@@ -343,7 +343,7 @@ namespace AdministratorPanel {
                 new NameValueCollection() {
                     {"Action", beforeEditing == null ? "add" : "update"},
                     {"Game", JsonConvert.SerializeObject(game)},
-                    {"Image", System.Text.Encoding.UTF8.GetString(ImageHelper.imageToByteArray(image))}
+                    {"Image", BitConverter.ToString(ImageHelper.imageToByteArray(image))}
                 }
             );
                 if (response.StartsWith("exception")) {

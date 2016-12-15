@@ -312,7 +312,7 @@ namespace AdministratorPanel {
                     new NameValueCollection() {
                         {"Action", "add"},
                         {"Product", JsonConvert.SerializeObject(product)},
-                        {"Image", System.Text.Encoding.UTF8.GetString(ImageHelper.imageToByteArray(image))}
+                        {"Image", BitConverter.ToString(ImageHelper.imageToByteArray(image))}
                     }
                 );
                 Console.WriteLine(response2);
@@ -349,7 +349,7 @@ namespace AdministratorPanel {
                 new NameValueCollection() {
                     {"Action", "update"},
                     {"Product", JsonConvert.SerializeObject(productItem.product)},
-                    {"Image", System.Text.Encoding.UTF8.GetString(ImageHelper.imageToByteArray(image))}
+                    {"Image", BitConverter.ToString(ImageHelper.imageToByteArray(image))}
                 }
             );
                 if (response.StartsWith("exception")) {
