@@ -98,7 +98,7 @@ namespace Shared
         public CalendarDay findDay(DateTime date) {
             CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay.Date == date.Date);
             if (resDay == null) {
-                resDay = new CalendarDay() { theDay = date.Date };
+                resDay = new CalendarDay(autoAcceptSettings.defaultAcceptPercentage, autoAcceptSettings.defaultAcceptMaxPeople) { theDay = date.Date };
                 reservationsCalendar.Add(resDay);
             }
             resDay.calculateSeats(this); //TODO: maybe it can be moved into the if above
@@ -107,8 +107,8 @@ namespace Shared
         }
         public bool checkIfRemove(CalendarDay day) {
             if (day.theDay < DateTime.Today.AddDays(-1) || !day.isLocked && day.reservations.Count < 1
-                 && day.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
-                 && day.defaultAcceptPercentage == day.acceptPercentage)
+                 && autoAcceptSettings.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
+                 && autoAcceptSettings.defaultAcceptPercentage == day.acceptPercentage)
 
                 return true;
             else
