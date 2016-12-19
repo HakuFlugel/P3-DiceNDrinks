@@ -72,7 +72,7 @@
                 {
                     System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(imgstring);
 
-                    image.Save(diceServer.path + "images/products/" + product.image, ImageFormat.Png);
+                    image.Save(diceServer.path + "images/products/" + product.image);
                 }
                 catch (Exception)
                 {

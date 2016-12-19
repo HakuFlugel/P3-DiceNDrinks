@@ -202,9 +202,7 @@ namespace AdministratorPanel
                 playerBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 timeBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
                 string curFile = $"images/{this.game.imageName}";
-                    //Ellers crasher den når der ikke er blevet gemt et billed.
                 gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile) ? curFile : $"images/_default.png");
-                    //Kunne være at hvis der ikke var et billed at den så skulle gemmes med default png.
                 gameDifficultyBar.Value = game.difficulity;
                 imagePath = beforeEditing.imageName;
 
@@ -223,7 +221,7 @@ namespace AdministratorPanel
 
         private void SubscriptionList()
         {
-            bool isNewGame = (beforeEditing != null) ? true : false;
+            bool isNewGame = beforeEditing != null;
 
             /* 
              * Checks if there has been any changes in the game, if there is any changes,
@@ -235,7 +233,7 @@ namespace AdministratorPanel
                 (s, e) =>
                 {
                     hasBeenChanged = (isNewGame)
-                        ? ((beforeEditing.publishedYear.ToString() != yearPublishedBox.Text) ? true : false)
+                        ? (beforeEditing.publishedYear.ToString() != yearPublishedBox.Text)
                         : true;
                 };
             gameName.TextChanged +=

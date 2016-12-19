@@ -73,7 +73,7 @@
                 {
                     System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(imgstring);
 
-                    image.Save(diceServer.path + "images/games/" + game.imageName, ImageFormat.Png);
+                    image.Save(diceServer.path + "images/games/" + game.imageName);
                 }
                 catch (Exception e)
                 {

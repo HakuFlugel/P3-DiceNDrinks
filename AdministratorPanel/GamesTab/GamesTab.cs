@@ -121,7 +121,8 @@ namespace AdministratorPanel {
 
                         using (WebClient client = new WebClient())
                         {
-                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newgame.imageName), "images/games/" + newgame.imageName);
+                            Console.WriteLine("http://" + ServerConnection.ip + "/images/games/" + newgame.imageName);
+                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games/" + newgame.imageName), "images/games/" + newgame.imageName);
                         }
 
                     }
