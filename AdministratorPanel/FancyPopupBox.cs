@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
 using System;
-using Shared;
 using System.Media;
 using System.Linq;
 

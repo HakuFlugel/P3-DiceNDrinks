@@ -4,9 +4,6 @@ using AdministratorPanel;
 using Shared;
 using System.Windows.Forms;
 using System.Linq;
-using System.Drawing;
-using System.Collections.Generic;
-using System.IO;
 
 namespace NUnitTest {
     [TestFixture]

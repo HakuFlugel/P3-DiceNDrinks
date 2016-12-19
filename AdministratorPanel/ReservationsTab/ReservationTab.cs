@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Windows.Forms;
 using Shared;
 using System.Drawing;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace AdministratorPanel {

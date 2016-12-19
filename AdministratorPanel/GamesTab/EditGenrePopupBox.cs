@@ -1,9 +1,6 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using Shared;
-using System.Collections.Generic;
-using System.Net;
 using System.Linq;
 
 namespace AdministratorPanel {

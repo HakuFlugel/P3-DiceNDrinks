@@ -4,9 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
-using System.Net;
 using Newtonsoft.Json;
-using System.Media;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
