@@ -3,7 +3,7 @@
 
 <%
 Response.Write("<title>test</title>");
-Response.Write("Blame Hem hvis det går galt");
+Response.Write("Test");
 Response.Write(Directory.GetCurrentDirectory());
 Response.Write(Server.MapPath("~"));
 
