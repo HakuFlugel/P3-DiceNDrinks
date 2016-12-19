@@ -37,7 +37,6 @@
         try
         {
             diceServer.reservationController.submitReservedRooms(rooms, day.Date);
-            //TODO: need to update days maybe?
 
             diceServer.setTimestamp("Reservations", DateTime.UtcNow);
 
@@ -57,7 +56,6 @@
     catch (Exception e)
     {
         Response.Write("failed ");
-        //TODO: remove
         Response.Write(e);
     }
 

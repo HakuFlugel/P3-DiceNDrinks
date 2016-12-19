@@ -98,7 +98,7 @@ namespace AdministratorPanel {
             switch (e.CloseReason) {
                 case CloseReason.UserClosing:
                     SystemSounds.Question.Play();
-                    //TODO: see product on close for NiceMessageBox text
+
                     if (hasBeenChanged && DialogResult.No ==
                         NiceMessageBox.Show("Are you sure? Everything unsaved will be lost.",
                             "About to close", MessageBoxButtons.YesNo)) {

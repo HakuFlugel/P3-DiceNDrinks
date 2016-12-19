@@ -13,7 +13,7 @@ namespace Shared {
         public int acceptPercentage;
         public int autoAcceptMaxPeople;
         public bool isFullChecked;
-        public List<Room> roomsReserved = new List<Room>(); // TODO: room fulness, reference? duplicate?
+        public List<Room> roomsReserved = new List<Room>();
         public DateTime theDay;
 
         public CalendarDay(int defaultAcceptPercentage, int defaultAcceptMaxPeople) {

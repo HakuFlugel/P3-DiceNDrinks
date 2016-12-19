@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Shared;
 
 namespace AdministratorPanel {
-    public class RoomPopup : FancyPopupBox // TODO: different base; don't need delete button
+    public class RoomPopup : FancyPopupBox
     {
         private ReservationController reservationController;
         private CalendarDay day;
@@ -91,7 +91,6 @@ namespace AdministratorPanel {
                     }
                 }
 
-            //TODO: serverconnection
             string response = ServerConnection.sendRequest("/submitRoomReserved.aspx",
                 new NameValueCollection() {
                     {"Rooms", JsonConvert.SerializeObject(rooms)},

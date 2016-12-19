@@ -16,10 +16,11 @@ namespace Shared
 
         public void addGame(Game newGame)
         {
-            newGame.id = new Random().Next(); // TODO: unique id
+            newGame.id = new Random().Next();
 
             games.Add(newGame);
 
+            save();
             GameUpdated?.Invoke(this, EventArgs.Empty);
         }
 
@@ -35,6 +36,7 @@ namespace Shared
 
             games[games.FindIndex(e => e == oldGame)] = newGame;
 
+            save();
             GameUpdated?.Invoke(this, EventArgs.Empty);
 
         }
@@ -42,8 +44,9 @@ namespace Shared
         public void removeGame(Game oldGame)
         {
 
-            games.Remove(oldGame); //TODO: make sure this uses id to compare
+            games.Remove(oldGame);
 
+            save();
             GameUpdated?.Invoke(this, EventArgs.Empty);
         }
 

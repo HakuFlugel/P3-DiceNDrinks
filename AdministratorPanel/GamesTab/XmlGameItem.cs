@@ -8,7 +8,7 @@ namespace AdministratorPanel {
     public class XmlGameItem : NiceButton {
         private Game game;
         private GamePopupBox gamePopupbox;
-        private ImageDownloader imageDownloader;
+        public ImageDownloader imageDownloader;
 
         private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,

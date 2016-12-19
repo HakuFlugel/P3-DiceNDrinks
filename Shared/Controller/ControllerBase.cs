@@ -37,7 +37,7 @@ namespace Shared
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine(name + " not found"); // TODO: put this stuff inside some function
+                Console.WriteLine(name + " not found");
             }
 
             if (content == null)
@@ -66,7 +66,7 @@ namespace Shared
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine(name + " not found"); // TODO: put this stuff inside some function
+                Console.WriteLine(name + " not found");
             }
 
             if (content == null)

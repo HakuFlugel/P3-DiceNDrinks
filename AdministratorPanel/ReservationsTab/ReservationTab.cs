@@ -102,7 +102,6 @@ namespace AdministratorPanel {
             Font = new Font(DefaultFont.FontFamily, 16),
             TextAlign = ContentAlignment.MiddleCenter,
             AutoSize = true,
-            //TODO:tooltipbelow
         };
 
         // Left Side
@@ -149,13 +148,9 @@ namespace AdministratorPanel {
 
             this.reservationController = reservationController;
 
-            //TODO: temorary debug
-            //reservationController.rooms.Clear();
-            //reservationController.addRoom(new Room() { name = "Testroom", seats = 100 });
             List<CalendarDay> toremove = new List<CalendarDay>();
             probar.addToProbar();                               //For progress bar. 1
 
-            //TODO: should probably be put in controller
             foreach (var item in reservationController.reservationsCalendar)
                 if (reservationController.checkIfRemove(item))
                     toremove.Add(item);
@@ -176,7 +171,7 @@ namespace AdministratorPanel {
 
             pendingReservationList = new PendingReservationList(calendar, this, reservationController);
             probar.addToProbar();                               //For progress bar. 4
-            reservationList = new ReservationList(calendar, reservationController); /*TODO: fix*/
+            reservationList = new ReservationList(calendar, reservationController);
             probar.addToProbar();                               //For progress bar. 5
 
             // Left side
@@ -333,8 +328,6 @@ namespace AdministratorPanel {
                     return;
                 }
 
-                // todo: update existing days maybe
-
                 reservationController.autoAcceptSettings = newsettings;
             };
         }
@@ -460,73 +453,13 @@ namespace AdministratorPanel {
             tooltip.SetToolTip(remainingSeats, $"Remaining seats {totalSeats - reservedSeats} / {totalSeats}");
         }
 
-        // TODO: functions...
         public override void Save() {
-            //            XmlSerializer serializer = new XmlSerializer(typeof(List<CalendarDay>));
-            //            using (StreamWriter textWriter = new StreamWriter(@"Reservations.xml")) {
-            //                serializer.Serialize(textWriter, calDayList);
-            //            }
+            // See ReservationController
         }
 
         public override void Load() {
-            //            XmlSerializer deserializer = new XmlSerializer(typeof(List<CalendarDay>));
-            //            using (FileStream fileReader = new FileStream(@"Reservations.xml", FileMode.OpenOrCreate)) {
-            //                try {
-            //                    calDayList = deserializer.Deserialize(fileReader) as List<CalendarDay>;
-            //                }
-            //                catch (Exception) { }
-            //            }
+            // See ReservationController
         }
 
-        private void testButtonfunc() {
-
-            topRightTable.Controls.Add(testButton);
-            testButton.Click += (s, e) => {
-                createResevation();
-            };
-        }
-
-        public void createResevation() {
-            string[] firstnames = {
-                "Candyce","Leigh",
-                "Carl","Klara","Kristan",
-                "Deidre","Everette","Adelle",
-                "Hulda","Dorthey","Shery",
-                "Alfredia","Suzan","Marna","Kareem",
-                "Tina","Kyong","Sherice",
-                "Damian","Arnold" };
-
-            string[] lastnames = {
-                "Holtkamp","Lamirande","Nestor","Ferree","Donahue",
-                "Montville","Neumeister","Hubert","Richarson","Mancino",
-                "Padilla","Ehret","Claxton","Keyes","Staff","Tower",
-                "Backstrom","Oglesby","Stanger","Flansburg"
-            };
-
-            string[] emailDomain = {
-                "hotmail.com","hotmail.dk","gmail.com","mail.com","mail.dk",
-                "hidemyass.com","webmail.com","webmail.dk","email.com",
-                "email.dk","computer.dk","jordkanin.dk","hem.dk"
-            };
-
-            Random rand = new Random();
-            Reservation res = new Reservation();
-
-            string fnam = firstnames[rand.Next(0, firstnames.Count())];
-            string lnam = lastnames[rand.Next(0, lastnames.Count())];
-            res.name = fnam + " " + lnam;
-            res.email = fnam + rand.Next(0, 425).ToString() + "@" + emailDomain[rand.Next(0,emailDomain.Count())];
-
-            res.time = calendar.SelectionStart;//(rand.Next(0, 5) == 1) ? DateTime.Now : new DateTime(2016, 12, 2 /*rand.Next(1, 30)*/);
-            res.state = Reservation.State.Pending;
-            res.phone = rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() +
-                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString() +
-                        rand.Next(0, 9).ToString() + rand.Next(0, 9).ToString();
-
-            res.numPeople = rand.Next(1, 10);
-            res.created = DateTime.Now;
-            reservationController.addReservation(res);
-            Console.WriteLine("Resevation added at: " + res.time.ToString());
-        }
     }
 }

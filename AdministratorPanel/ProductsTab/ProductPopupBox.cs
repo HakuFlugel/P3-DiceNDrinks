@@ -43,7 +43,7 @@ namespace AdministratorPanel {
             RowHeadersVisible = false,
             ScrollBars = ScrollBars.Vertical,
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells, 
+            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
         };
 
         TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
@@ -77,7 +77,7 @@ namespace AdministratorPanel {
             Text = "Product";
             Name = (productItem != null) ? productItem.product.name : "New product";
             Console.WriteLine(Name);
-            
+
             Focus();
 
             this.productTab = productTab;
@@ -128,7 +128,7 @@ namespace AdministratorPanel {
             sectionNameDropDownBox.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionNameDropDownBox.Text ? true : false : true; };
             productImagePanel.BackgroundImageChanged += (s, e) => { hasBeenChanged = true; };
         }
-        
+
         private void update() {
             categoryNameDropDownBoxx.Items.Clear();
             // update dropdowns
@@ -143,7 +143,7 @@ namespace AdministratorPanel {
 
             // priceElements list display                 
             priceElements.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            
+
             // Add button click event
             productImagePanel.Click += (s, e) => {
 
@@ -169,8 +169,8 @@ namespace AdministratorPanel {
                     try {
                         imageName =  ofd.SafeFileName; // name
                         image = Image.FromFile( ofd.FileName); // path + name
-                        productImagePanel.BackgroundImage = image; 
-                        
+                        productImagePanel.BackgroundImage = image;
+
                     } catch (Exception ex) {
                         NiceMessageBox.Show(ex.Message);
                     }
@@ -186,12 +186,12 @@ namespace AdministratorPanel {
 
             headerTableLayoutPanel.Controls.Add(innerLeftTableLayoutPanel);
             headerTableLayoutPanel.Controls.Add(innerRightTableLayoutPanel);
-            
+
             return headerTableLayoutPanel;
         }
 
         private void loadPriceElements(List<PriceElement> priceElements) {
-            
+
             if (priceElements.Count > 0) {
                 foreach (var item in priceElements) {
 
@@ -199,7 +199,7 @@ namespace AdministratorPanel {
                 }
             }
         }
-        
+
         private List<PriceElement> SavePriceElemets() {
             List<PriceElement> priceElementList = new List<PriceElement>();
 
@@ -223,7 +223,7 @@ namespace AdministratorPanel {
                     NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
                     return null;
                 }
-                
+
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
                 priceElement.price = price;//decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
@@ -279,7 +279,7 @@ namespace AdministratorPanel {
 
         protected override void save(object sender, EventArgs e) {
             // Image save
-            Directory.CreateDirectory("images");
+            Directory.CreateDirectory("images/products/");
 
             if (image == null) {
                 if (DialogResult.OK != NiceMessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
@@ -287,8 +287,8 @@ namespace AdministratorPanel {
                 }
                 image = productImagePanel.BackgroundImage;
             } else {
-                if (!File.Exists("images/" + imageName)) {
-                    image.Save("images/" + imageName);
+                if (!File.Exists("images/products/" + imageName)) {
+                    image.Save("images/products/" + imageName, ImageFormat.Png);
                 }
             }
             // convert priceelements to saves
@@ -312,7 +312,7 @@ namespace AdministratorPanel {
                     new NameValueCollection() {
                         {"Action", "add"},
                         {"Product", JsonConvert.SerializeObject(product)},
-                        {"Image", BitConverter.ToString(ImageHelper.imageToByteArray(image))}
+                        {"Image", ImageHelper.imageToBase64(image)}
                     }
                 );
                 Console.WriteLine(response2);
@@ -349,7 +349,7 @@ namespace AdministratorPanel {
                 new NameValueCollection() {
                     {"Action", "update"},
                     {"Product", JsonConvert.SerializeObject(productItem.product)},
-                    {"Image", BitConverter.ToString(ImageHelper.imageToByteArray(image))}
+                    {"Image", ImageHelper.imageToBase64(image)}
                 }
             );
                 if (response.StartsWith("exception")) {
@@ -365,8 +365,6 @@ namespace AdministratorPanel {
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
                 return;
             }
-
-            // TODO: updates producttab elements
 
             productTab.MakeItems();
             base.save(sender, e);

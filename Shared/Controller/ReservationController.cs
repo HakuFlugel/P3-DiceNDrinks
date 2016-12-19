@@ -5,8 +5,6 @@ using System.Linq;
 using System.Net;
 using Newtonsoft.Json;
 
-// TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
-
 namespace Shared
 {
     public class ReservationController : ControllerBase
@@ -26,7 +24,6 @@ namespace Shared
 
         public event EventHandler ReservationUpdated;
 
-        //TODO: make sure it is pending if from user
 
         public void addReservation(Reservation reservation) {
 
@@ -41,7 +38,6 @@ namespace Shared
 
             save();
         }
-        //TODO: make sure it is pending if from user
         public void updateReservation(Reservation reservation)
         {
             Reservation oldReservation =
@@ -101,7 +97,7 @@ namespace Shared
                 resDay = new CalendarDay(autoAcceptSettings.defaultAcceptPercentage, autoAcceptSettings.defaultAcceptMaxPeople) { theDay = date.Date };
                 reservationsCalendar.Add(resDay);
             }
-            resDay.calculateSeats(this); //TODO: maybe it can be moved into the if above
+            resDay.calculateSeats(this);
 
             return resDay;
         }

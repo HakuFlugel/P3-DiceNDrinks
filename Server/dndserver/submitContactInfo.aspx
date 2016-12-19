@@ -42,7 +42,6 @@
     catch (Exception e)
     {
         Response.Write("failed ");
-        //TODO: remove
         Response.Write(e);
     }
 

@@ -99,7 +99,6 @@ namespace AdministratorPanel {
 
                 Console.WriteLine(nottuple);
 
-                // TODO: download all new images(timestamp foreach)
                 foreach (var game in games)
                 {
                     if (!nottuple.Any(g => g.imageName == game.imageName))
@@ -120,12 +119,10 @@ namespace AdministratorPanel {
                             File.Delete("images/games/" + newgame.imageName);
                         }
 
-                        //TODO: download new here pl0x
-//                        using (WebClient client = new WebClient())
-//                        {
-//                            client.DownloadFileAsync(, @"c:\temp\image35.png");
-//                            client.DownloadFile(new Uri(url), @"c:\temp\image35.png");
-//                        }
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newgame.imageName), "images/games/" + newgame.imageName);
+                        }
 
                     }
                 }

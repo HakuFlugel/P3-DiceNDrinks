@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#"%>
+<%@ Import Namespace="System.Drawing.Imaging" %>
 
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
@@ -23,7 +24,6 @@
         return;
     }
 
-    //TODO: make sure it handles both correct and incorrect input...
     Application.Lock();
     switch (action)
     {
@@ -55,7 +55,7 @@
         case "update":
             try
             {
-                game.timestamp = DateTime.UtcNow; //TODO: fix merge
+                game.timestamp = DateTime.UtcNow;
                 diceServer.gamesController.updateGame(game);
                 Response.Write("updated");
             }
@@ -67,24 +67,17 @@
 
         doafter:
             string imgstring = Request.Form["Image"];
-            if (imgstring != null)
+            if (!string.IsNullOrEmpty(imgstring))
             {
                 try
-                { //System.Text.Encoding.UTF8.GetBytes(imgstring);
-                    byte[] data = new byte[imgstring.Length];
-                    int i = 0;
-                    foreach (var _char in imgstring)
-                    {
-                        data[i++] = Convert.ToByte(_char);
-                    }
-
-                    System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(data);
-
-                    image.Save(diceServer.path + "images/games/" + game.imageName);
-                }
-                catch (Exception)
                 {
-                    Response.Write("imgfailed");
+                    System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(imgstring);
+
+                    image.Save(diceServer.path + "images/games/" + game.imageName, ImageFormat.Png);
+                }
+                catch (Exception e)
+                {
+                    Response.Write(" imgfailed " + e);
                     return;
                 }
             }

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using Shared;
 
 namespace AdministratorPanel {
-    public class ModifyRoomPopup : FancyPopupBox // TODO: different base; don't need delete button
+    public class ModifyRoomPopup : FancyPopupBox
     {
         private ReservationController reservationController;
         private DataGridView roomGrid;
@@ -53,7 +53,6 @@ namespace AdministratorPanel {
                 }
             }
 
-            //TODO: serverconnection
             string response = ServerConnection.sendRequest("/submitRooms.aspx",
                 new NameValueCollection() {
                     {"Rooms", JsonConvert.SerializeObject(rooms)}

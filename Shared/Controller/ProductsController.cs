@@ -9,7 +9,7 @@ namespace Shared
     public class ProductsController : ControllerBase
     {
         public List<Product> products = new List<Product>();
-        public List<ProductCategory> categories = new List<ProductCategory>(); //TODO: make stuff
+        public List<ProductCategory> categories = new List<ProductCategory>();
 
         public ProductsController(string path = "data/") : base(path)
         {
@@ -17,13 +17,13 @@ namespace Shared
 
         public event EventHandler ProductUpdated;
 
-//TODO: cut+pasta category+section stuff from producttab(popup)
         public void addProduct(Product newProduct)
         {
-            newProduct.id = new Random().Next(); // TODO: unique id
+            newProduct.id = new Random().Next();
 
             products.Add(newProduct);
 
+            save();
             ProductUpdated?.Invoke(this, EventArgs.Empty);
         }
 
@@ -40,6 +40,7 @@ namespace Shared
 
             products[products.FindIndex(e => e == oldProduct)] = newProduct;
 
+            save();
             ProductUpdated?.Invoke(this, EventArgs.Empty);
 
         }
@@ -47,8 +48,9 @@ namespace Shared
         public void removeProduct(Product oldProduct)
         {
 
-            products.Remove(oldProduct); //TODO: make sure this uses id to compare
+            products.Remove(oldProduct);
 
+            save();
             ProductUpdated?.Invoke(this, EventArgs.Empty);
         }
 

@@ -6,6 +6,7 @@ using Shared;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace AdministratorPanel {
     public class ProductsTab : AdminTabPage {
@@ -67,8 +68,33 @@ namespace AdministratorPanel {
                 Console.WriteLine(tuple.Item1);
                 Console.WriteLine(tuple.Item2);
 
-                // TODO: download all new images(timestamp foreach)
+                foreach (var game in productList)
+                {
+                    if (!tuple.Item2.Any(g => g.image == game.image))
+                    {
+                        if (game.image == null && File.Exists("images/games/" + game.image))
+                        {
+                            File.Delete("images/games/" + game.image);
+                        }
+                    }
+                }
 
+                foreach (var newgame in tuple.Item2)
+                {
+                    if (!File.Exists("images/games/" + newgame.image) || newgame.timestamp > productList.FirstOrDefault(g => g.id == newgame.id)?.timestamp)
+                    {
+                        if (File.Exists("images/games/" + newgame.image))
+                        {
+                            File.Delete("images/games/" + newgame.image);
+                        }
+
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newgame.image), "images/games/" + newgame.image);
+                        }
+
+                    }
+                }
                 productCategories = tuple.Item1 ?? new List<ProductCategory>();
                 productList = tuple.Item2 ?? new List<Product>();
 

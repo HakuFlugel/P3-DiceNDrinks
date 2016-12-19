@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#"%>
+<%@ Import Namespace="System.Collections.Generic" %>
 
 <%
 
@@ -33,7 +34,6 @@
         Application.Lock();
 
         diceServer.reservationController.submitRooms(rooms);
-        //TODO: need to update days maybe?
         Response.Write("success");
 
         diceServer.setTimestamp("Reservations", DateTime.UtcNow);
@@ -43,7 +43,6 @@
     catch (Exception e)
     {
         Response.Write("failed ");
-        //TODO: remove
         Response.Write(e);
     }
 

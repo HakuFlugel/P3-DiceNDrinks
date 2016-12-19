@@ -7,43 +7,29 @@ using System;
 namespace AdministratorPanel {
     public class ImageDownloader {
 
-        private string gddId;
+        private string bggId;
         private string url;
         public Image image { get; private set; }
         public string ImagePath = "";
 
-        public ImageDownloader(string gddIdIn, string urlIn ) {
-            this.gddId = gddIdIn;
+        public ImageDownloader(string bggIdIn, string urlIn ) {
+            this.bggId = bggIdIn;
             this.url = "http:" + urlIn;
             DownloadImage();
-            ImagePath = $"{gddId}.png";
+            ImagePath = $"{bggId}.png";
         }
 
         public void DownloadImage() {
 
             if (Uri.IsWellFormedUriString(url, UriKind.Absolute)) {
-                Console.WriteLine("ich bist url");
                 WebRequest request = WebRequest.Create(url);
                 WebResponse response = request.GetResponse();
                 Stream responseStream = response.GetResponseStream();
                 Bitmap bitmap = new Bitmap(responseStream);
                 image = (Image)bitmap;
             } else {
-                Console.WriteLine("fuck asger");
                 image = null;
             }
         }
-
-//        public void saveImage(string typepath) {
-//
-//            if (image != null) {
-//
-//                if (File.Exists($"Images/{typepath}/{ImagePath}")) {
-//                    File.Delete($"Images/{typepath}/{ImagePath}");
-//                }
-//
-//                image.Save($"Images/{ImagePath}", ImageFormat.Png);
-//            }
-//        }
     }
 }

@@ -23,7 +23,6 @@
         return;
     }
 
-    //TODO: make sure it handles both correct and incorrect input...
     Application.Lock();
     switch (action)
     {
@@ -39,7 +38,7 @@
         case "update":
             try
             {
-                @event.timestamp = DateTime.UtcNow; //TODO: fix merge
+                @event.timestamp = DateTime.UtcNow;
                 diceServer.eventsController.updateEvent(@event);
                 Response.Write("updated");
             }

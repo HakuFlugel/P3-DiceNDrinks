@@ -15,7 +15,7 @@ namespace AdministratorPanel
             protected override WebRequest GetWebRequest(Uri address)
             {
                 WebRequest wr = base.GetWebRequest(address);
-                wr.Timeout = 750;
+                wr.Timeout = 60*1000;
                 return wr;
             }
         }
@@ -24,7 +24,7 @@ namespace AdministratorPanel
         private const string protocol = "http://";
         public static string ip = "localhost";
 
-        public static string AdminKey = "weeb"; //TODO: stuff
+        public static string AdminKey = "string12398754352352527662424123";
 
         //public ServerConnection(string ip)
         //{
@@ -41,6 +41,8 @@ namespace AdministratorPanel
 
                 byte[] resp = client.UploadValues(protocol + ip + page, valueCollection);
 
+                Console.WriteLine("Request Done");
+
                 return System.Text.Encoding.Default.GetString(resp);
             }
             catch (Exception e)
@@ -48,7 +50,6 @@ namespace AdministratorPanel
                 MessageBox.Show(null, e.Message, "Connection Error");
                 return "exception " + e.Message;
             }
-
         }
 
 //        public static string sendImageAsync(string page, string filePath)

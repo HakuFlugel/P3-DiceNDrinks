@@ -5,7 +5,6 @@ namespace AdministratorPanel {
     public class Calendar : MonthCalendar {
 
         public Calendar() {
-            // TODO: show fullness???!!??
 
             ShowTodayCircle = true; // Red circle
             ShowToday = true; // Text below calendar
@@ -13,7 +12,7 @@ namespace AdministratorPanel {
 
             MaxSelectionCount = 1; // You can select up to 7 days by default
 
-            Font = new Font(Font.OriginalFontName, Font.Size * 1.5f); // TODO: any better altenatives than this? Make our own calendar?
+            Font = new Font(Font.OriginalFontName, Font.Size * 1.5f);
 
             //Padding = Padding.Empty;
             Margin = Padding.Empty;

@@ -1,20 +1,22 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 
 namespace Shared
 {
     public static class ImageHelper
     {
-        public static byte[] imageToByteArray(System.Drawing.Image imageIn)
+        public static string imageToBase64(Image image)
         {
             MemoryStream ms = new MemoryStream();
-            imageIn.Save(ms,System.Drawing.Imaging.ImageFormat.Gif);
-            return  ms.ToArray();
+            image.Save(ms,System.Drawing.Imaging.ImageFormat.Png);
+
+            return Convert.ToBase64String(ms.ToArray());
         }
 
-        public static Image byteArrayToImage(byte[] byteArrayIn)
+        public static Image byteArrayToImage(string base64)
         {
-            MemoryStream ms = new MemoryStream(byteArrayIn);
+            MemoryStream ms = new MemoryStream(Convert.FromBase64String(base64));
             return Image.FromStream(ms);
         }
     }
