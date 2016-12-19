@@ -1,7 +1,5 @@
 ﻿<%@ Page Language="C#"%>
 <%@ Import Namespace="System.Collections.Generic" %>
-<%@ Import Namespace="Newtonsoft.Json" %>
-<%@ Import Namespace="Shared" %>
 
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];

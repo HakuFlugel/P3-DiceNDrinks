@@ -110,7 +110,7 @@ namespace AdministratorPanel {
         [STAThread]
         private static void Main(string[] args) {
 
-            //ServerConnection.ip = "172.25.11.113"; // TODO: get this from somewhere
+            ServerConnection.ip = "172.25.11.113";
 
             MainWindow p = new MainWindow();
 

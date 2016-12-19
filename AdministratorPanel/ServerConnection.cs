@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Net;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
-using Newtonsoft.Json;
 
 namespace AdministratorPanel
 {
@@ -26,11 +24,6 @@ namespace AdministratorPanel
 
         public static string AdminKey = "string12398754352352527662424123";
 
-        //public ServerConnection(string ip)
-        //{
-        //    this.ip = ip;
-        //}
-
         public static string sendRequest(string page, NameValueCollection valueCollection)
         {
 
@@ -52,24 +45,6 @@ namespace AdministratorPanel
             }
         }
 
-//        public static string sendImageAsync(string page, string filePath)
-//        {
-//            try
-//            {
-//                WebClient client = new WebClientThatHasTimeout();
-//                valueCollection.Add("AdminKey", AdminKey);
-//                client.UploadFileAsync(page, filePath);
-//                client.
-//                byte[] resp = client.UploadValues(protocol + ip + page, valueCollection);
-//
-//                return System.Text.Encoding.Default.GetString(resp);
-//            }
-//            catch (Exception e)
-//            {
-//                MessageBox.Show(null, e.Message, "Connection Error");
-//                return "exception " + e.Message;
-//            }
-//        }
     }
 
 

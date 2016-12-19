@@ -1,6 +1,4 @@
 ﻿<%@ Page Language="C#"%>
-<%@ Import Namespace="System.Collections.Generic" %>
-<%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="Shared" %>
 
 <%
