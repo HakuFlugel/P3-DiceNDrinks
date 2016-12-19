@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#"%>
+<%@ Import Namespace="System.Drawing.Imaging" %>
 
 <%
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
@@ -23,23 +24,38 @@
         return;
     }
 
-    //TODO: make sure it handles both correct and incorrect input...
     Application.Lock();
     switch (action)
     {
         case "delete":
+            if (game.imageName != null)
+            {
+                try
+                {
+                    System.IO.File.Delete(diceServer.path + "images/games/" + game.imageName);
+
+                }
+                catch (Exception)
+                {
+                    Response.Write("imgfailed");
+                    return;
+                }
+            }
+
             diceServer.gamesController.removeGame(game);
+
+
             Response.Write("deleted");
             break;
         case "add":
             game.timestamp = DateTime.UtcNow;
             diceServer.gamesController.addGame(game);
             Response.Write("added " + game.id);
-            break;
+            goto doafter;
         case "update":
             try
             {
-                game.timestamp = DateTime.UtcNow; //TODO: fix merge
+                game.timestamp = DateTime.UtcNow;
                 diceServer.gamesController.updateGame(game);
                 Response.Write("updated");
             }
@@ -47,7 +63,27 @@
             {
                 Response.Write("failed");
             }
+            //goto doafter;
+
+        doafter:
+            string imgstring = Request.Form["Image"];
+            if (!string.IsNullOrEmpty(imgstring))
+            {
+                try
+                {
+                    System.Drawing.Image image = Shared.ImageHelper.byteArrayToImage(imgstring);
+
+                    image.Save(diceServer.path + "images/games/" + game.imageName);
+                }
+                catch (Exception e)
+                {
+                    Response.Write(" imgfailed " + e);
+                    return;
+                }
+            }
+
             break;
+
         default:
             Response.Write("invalid action");
             break;

@@ -8,7 +8,7 @@ namespace Server
     public class Authentication
     {
 
-        public Dictionary<string, string> adminKeys; //TODO: private
+        private Dictionary<string, string> adminKeys;
 
         private readonly string path;
         private const string nameext = "adminkeys.json";
@@ -40,7 +40,7 @@ namespace Server
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine(nameext + " not found"); // TODO: put this stuff inside some function
+                Console.WriteLine(nameext + " not found");
             }
 
             if (adminKeys == null)

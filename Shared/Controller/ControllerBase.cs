@@ -8,10 +8,10 @@ namespace Shared
 {
     public abstract class ControllerBase
     {
-        private string path;// = "data/";
-        private const string ext = ".json";
+        protected string path;// = "data/";
+        protected const string ext = ".json";
 
-        private  JsonSerializer jsonSerializer = JsonSerializer.Create();
+        protected  JsonSerializer jsonSerializer = JsonSerializer.Create();
 
         public abstract void save();
         public abstract void load();
@@ -37,7 +37,7 @@ namespace Shared
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine(name + " not found"); // TODO: put this stuff inside some function
+                Console.WriteLine(name + " not found");
             }
 
             if (content == null)
@@ -66,7 +66,7 @@ namespace Shared
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine(name + " not found"); // TODO: put this stuff inside some function
+                Console.WriteLine(name + " not found");
             }
 
             if (content == null)

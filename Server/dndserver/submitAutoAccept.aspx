@@ -1,7 +1,9 @@
-﻿<%@ Page Language="C#"%>
+<%@ Page Language="C#"%>
 <%@ Import Namespace="System.Collections.Generic" %>
 
 <%
+
+
     Server.DiceServer diceServer = (Server.DiceServer)Application["DiceServer"];
 
     string adminKey = Request.Form["AdminKey"];
@@ -17,37 +19,24 @@
     try
     {
 
-        string roomsString = Request.Form["Rooms"] ?? "null";
-        string dayString = Request.Form["Date"] ?? "null";
+        string roomsString = Request.Form["AutoAccept"] ?? "null";
+
 
 
         List<Shared.Room> rooms = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shared.Room>>(roomsString);
-        DateTime day = Newtonsoft.Json.JsonConvert.DeserializeObject<DateTime>(dayString);
 
         if (rooms == null)
         {
-            Response.Write("No rooms provided");
+            Response.Write("No settings provided");
             return;
         }
 
         Application.Lock();
 
-        try
-        {
-            diceServer.reservationController.submitReservedRooms(rooms, day.Date);
+        diceServer.reservationController.submitRooms(rooms);
+        Response.Write("success");
 
-            diceServer.setTimestamp("Reservations", DateTime.UtcNow);
-
-
-            Response.Write("success");
-        }
-        catch (Exception e)
-        {
-
-            Response.Write("failed " + e);
-        }
-
-
+        diceServer.setTimestamp("Reservations", DateTime.UtcNow);
 
 
     }

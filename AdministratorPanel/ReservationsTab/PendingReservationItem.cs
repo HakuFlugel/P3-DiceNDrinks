@@ -6,7 +6,7 @@ using System;
 
 namespace AdministratorPanel {
     public class PendingReservationItem : NiceButton {
-        // TODO: maybe update on event???
+
         public PendingReservationItem(Calendar cal, ReservationTab calTab, DateTime calDay, List<Reservation> resList) {
             RowCount = 1;
             ColumnCount = 1;

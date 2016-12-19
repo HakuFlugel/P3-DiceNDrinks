@@ -61,7 +61,14 @@
                 DateTime day = DateTime.Parse(Request.Form["Day"] ?? "");
                 Shared.CalendarDay cd = diceServer.reservationController.reservationsCalendar.First(d => d.theDay.Date == day.Date);
 
-                Response.Write(((double)cd.reservedSeats + cd.reservedSeatsPending)/diceServer.reservationController.totalSeats * 100);
+                if (cd.isLocked)
+                {
+                    Response.Write((double)100);
+                }
+                else
+                {
+                    Response.Write(((double)cd.reservedSeats + cd.reservedSeatsPending)/diceServer.reservationController.totalSeats * 100);
+                }
             }
             catch (Exception e)
             {

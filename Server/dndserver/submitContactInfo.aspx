@@ -1,6 +1,4 @@
 ﻿<%@ Page Language="C#"%>
-<%@ Import Namespace="System.Collections.Generic" %>
-<%@ Import Namespace="Newtonsoft.Json" %>
 <%@ Import Namespace="Shared" %>
 
 <%
@@ -42,7 +40,6 @@
     catch (Exception e)
     {
         Response.Write("failed ");
-        //TODO: remove
         Response.Write(e);
     }
 

@@ -4,9 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Shared;
 using System.Globalization;
-using System.Net;
 using Newtonsoft.Json;
-using System.Media;
 
 namespace AdministratorPanel {
     class ReservationPopupBox : FancyPopupBox {
@@ -83,7 +81,6 @@ namespace AdministratorPanel {
                 try {
                     reservationName.Text = reservation.name;
                     numPeople.Text = reservation.numPeople.ToString();
-                    /*TODO: better way than this?:*/
                     if (reservation.phone != null) {
                         phoneNumber.Text = reservation.phone;
                     }
@@ -167,14 +164,7 @@ namespace AdministratorPanel {
 
                 reservationController.removeReservation(reservation);
 
-                //TODO: move to event on list... _.. er auto-rename
-                //_reservationController.reserveationList.updateCurrentDay(DateTime.Today.Date);
-                //_reservationController.pendingReservationList.updateCurrentDay();
             }
-            //"http://172.25.11.113"
-
-
-
 
             Close();
 
@@ -182,8 +172,6 @@ namespace AdministratorPanel {
 
         protected override void save(object sender, EventArgs e) {
 
-            //TODO: kan vi ikke bruge Validate til det her?
-            //TODO: use a proper control for things such as time, so that we don't have to implement these checks all over the program...
             DateTime expectedDate;
             if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
 
@@ -222,7 +210,7 @@ namespace AdministratorPanel {
             newReservation.state = (Reservation.State)pendingSet.SelectedValue;
             newReservation.timestamp = DateTime.UtcNow;
             newReservation.name = reservationName.Text;
-            int.TryParse(numPeople.Text, out newReservation.numPeople); // TODO: not handling invalid value here
+            int.TryParse(numPeople.Text, out newReservation.numPeople);
             newReservation.phone = phoneNumber.Text;
             newReservation.email = email.Text;
             newReservation.time = dt;

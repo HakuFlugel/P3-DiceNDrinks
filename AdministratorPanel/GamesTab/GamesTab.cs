@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using Shared;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
+using System.Net;
 
 namespace AdministratorPanel {
     public class GamesTab : AdminTabPage {
@@ -14,7 +16,6 @@ namespace AdministratorPanel {
         public GamesList game;
         private Genres genres = new Genres();
         private string search = "";
-        private FormProgressBar probar;
 
         private TableLayoutPanel outerTableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
@@ -45,7 +46,6 @@ namespace AdministratorPanel {
             //name of the tab
             Text = "Games";
 
-            this.probar = probar;
             Load();
             download();
 
@@ -70,7 +70,7 @@ namespace AdministratorPanel {
             };
 
             addGameButton.Click += (e, s) => {
-                GamePopupBox gameBox = new GamePopupBox(this, null, genres);
+                new GamePopupBox(this, null, genres);
             };
 
             outerTableLayoutPanel.Controls.Add(game);
@@ -95,11 +95,40 @@ namespace AdministratorPanel {
                 );
 
                 Console.WriteLine(response);
-                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Game>>(response) ?? new List<Game>();
 
                 Console.WriteLine(nottuple);
 
-                games = nottuple ?? new List<Game>();
+                foreach (var game in games)
+                {
+                    if (!nottuple.Any(g => g.imageName == game.imageName))
+                    {
+                        if (game.imageName == null && File.Exists("images/games/" + game.imageName))
+                        {
+                            File.Delete("images/games/" + game.imageName);
+                        }
+                    }
+                }
+
+                foreach (var newgame in nottuple)
+                {
+                    if (!File.Exists("images/games/" + newgame.imageName) || newgame.timestamp > games.FirstOrDefault(g => g.id == newgame.id)?.timestamp)
+                    {
+                        if (File.Exists("images/games/" + newgame.imageName))
+                        {
+                            File.Delete("images/games/" + newgame.imageName);
+                        }
+
+                        using (WebClient client = new WebClient())
+                        {
+                            Console.WriteLine("http://" + ServerConnection.ip + "/images/games/" + newgame.imageName);
+                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games/" + newgame.imageName), "images/games/" + newgame.imageName);
+                        }
+
+                    }
+                }
+
+                games = nottuple;
 
                 game.makeItems();
             }

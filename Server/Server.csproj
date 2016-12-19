@@ -39,12 +39,14 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
     <Compile Include="DiceServer.cs" />
+    <Content Include="dndserver\submitAutoAccept.aspx" />
     <Content Include="dndserver\submitRoomReserved.aspx" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

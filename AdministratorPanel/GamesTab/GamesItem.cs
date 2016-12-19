@@ -21,10 +21,8 @@ namespace AdministratorPanel {
             RowCount = 2
         };
 
-        private Game game;
         public GamesItem(Game game) {
             RowCount = 1;
-            this.game = game;
             ColumnCount = 4;
             bgColor = Color.LightGray;
             Dock = DockStyle.Top;
@@ -49,7 +47,7 @@ namespace AdministratorPanel {
 
 
             try {
-                Controls.Add(new Panel() { Dock = DockStyle.Right, Size = new Size(128, 128), BackgroundImage = Image.FromFile($"images/{game.imageName}"), BackgroundImageLayout = ImageLayout.Zoom, BackColor = Color.Gray, });
+                Controls.Add(new Panel() { Dock = DockStyle.Right, Size = new Size(128, 128), BackgroundImage = Image.FromFile($"images/games/{game.imageName}"), BackgroundImageLayout = ImageLayout.Zoom, BackColor = Color.Gray, });
             } catch (Exception) {
 
             }

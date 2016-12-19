@@ -85,7 +85,7 @@ namespace AdministratorPanel {
             Controls.Add(theRightItems);
             //           theWrongItems
 
-            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
+            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true });
             theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
             theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
@@ -121,7 +121,7 @@ namespace AdministratorPanel {
                 calTab.pendingReservationList.updateCurrentDay();*/
             };
             Click += (s, e) => {
-                ReservationPopupBox p = new ReservationPopupBox(reservationController, reservation);
+                new ReservationPopupBox(reservationController, reservation);
             };
 
             acceptButton.Click += (s, e) => {
@@ -142,7 +142,7 @@ namespace AdministratorPanel {
 
                 Console.WriteLine(response);
 
-                update(); //TODO: a little hacky
+                update();
                 reservationController.updateReservation(reservation);
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();

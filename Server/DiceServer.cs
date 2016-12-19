@@ -12,7 +12,7 @@ namespace Server
     public class DiceServer
     {
 
-        private string path;
+        public string path { get; private set; }
 
         public Authentication authentication;
 
@@ -67,7 +67,7 @@ namespace Server
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("contactinfo not found"); // TODO: put this stuff inside some function
+                Console.WriteLine("contactinfo not found");
             }
 
             if (content == null)
@@ -127,7 +127,7 @@ namespace Server
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("timestamps not found"); // TODO: put this stuff inside some function
+                Console.WriteLine("timestamps not found");
             }
 
             if (content == null)

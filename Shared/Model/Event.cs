@@ -7,7 +7,7 @@ namespace Shared {
         public DateTime timestamp;
         public string name;
         public string description;
-        public string facebookID; /*TODO: Facebook stuff*/
+        public string facebookID;
         public DateTime startDate;
         public DateTime endDate;
     }

@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data;
-using System.DirectoryServices;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Shared;
 
-namespace AdministratorPanel
-{
-    public class RoomPopup : FancyPopupBox // TODO: different base; don't need delete button
+namespace AdministratorPanel {
+    public class RoomPopup : FancyPopupBox
     {
         private ReservationController reservationController;
         private CalendarDay day;
@@ -92,7 +89,6 @@ namespace AdministratorPanel
                     }
                 }
 
-            //TODO: serverconnection
             string response = ServerConnection.sendRequest("/submitRoomReserved.aspx",
                 new NameValueCollection() {
                     {"Rooms", JsonConvert.SerializeObject(rooms)},
@@ -104,7 +100,7 @@ namespace AdministratorPanel
             if (response != "success")
             {
                 Console.WriteLine("failed to submit room reservations");
-                //return;
+                return;
             }
 
             reservationController.submitReservedRooms(rooms, day.theDay.Date);
