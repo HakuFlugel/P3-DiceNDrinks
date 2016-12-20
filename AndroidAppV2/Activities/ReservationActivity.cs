@@ -7,12 +7,14 @@ using System.Net;
 using Android.App;
 using Android.OS;
 using Android.Util;
+using Android.Views;
 using Android.Widget;
 using Android.Content.PM;
 
 using Shared;
 using Newtonsoft.Json;
 using Android.Text;
+using System.Globalization;
 
 namespace AndroidAppV2.Activities
 {
@@ -74,6 +76,8 @@ namespace AndroidAppV2.Activities
                 _nameEdit.Enabled = false;
                 _phoneNumEdit.Enabled = false;
                 _emailEdit.Enabled = false;
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Visibility = ViewStates.Invisible;
+                FindViewById<ImageView>(Resource.Id.roomStateImage).Visibility = ViewStates.Invisible;
                 AndroidShared.ErrorDialog("Reservations can't be made at this moment (No connection to Dice N Drinks server)", this);
             }
             else {
@@ -89,6 +93,8 @@ namespace AndroidAppV2.Activities
                 if (_res == null) {
                     _res = new Reservation();
                     sb.Progress = 0;
+                    _dateSelectButton.Text = DateTime.Now.ToString("dd. MMMMM, yyyy");
+                    _timeSelectButton.Text = DateTime.Now.ToString("HH:mm");
                 }
                 else { 
                     Data = true;
@@ -115,8 +121,9 @@ namespace AndroidAppV2.Activities
                         FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Denied!";
                     }
                 }
+                getRoomSpace(_chosenDateTime);
             }
-
+            
 
 
             _dateSelectButton.Click += delegate
@@ -125,7 +132,8 @@ namespace AndroidAppV2.Activities
                 {
                     _chosenDateTime = InsertDateTime(date, _chosenDateTime);
                     _dateSelectButton.Text = _chosenDateTime.ToString("dd. MMMMM, yyyy");
-
+                    getRoomSpace(date);
+                    
                 });
                 dfrag.Show(FragmentManager, DatePickerFragment.TAG);
             };
@@ -320,6 +328,46 @@ namespace AndroidAppV2.Activities
         public void OnStopTrackingTouch(SeekBar seekBar)
         {
 
+        }
+
+        private void getRoomSpace(DateTime date) {
+            WebClient client = new WebClient();
+            byte[] resp = client.UploadValues("http://172.25.11.113" + "/get.aspx",
+                new NameValueCollection
+                {
+                    {"Type", "Fullness"},
+                    {"Day", date.ToLongDateString()}
+                });
+
+            string result = System.Text.Encoding.UTF8.GetString(resp);
+            double value;
+            if (!result.StartsWith("failed")) {
+                try {
+                    value = double.Parse(result, CultureInfo.InvariantCulture);
+                }
+                catch (Exception) {
+                    Toast.MakeText(this, $"{result} Could not fetch how many reservation there is on that day", ToastLength.Long).Show();
+                    value = 0;
+                }
+            }
+            else {
+                value = 0;
+            }
+            if (value < 60) {
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Green);
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Plenty of seats left";
+                FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_green);
+            }
+            else if (value < 85) {
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Yellow);
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Some seats left";
+                FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_yellow);
+            }
+            else {
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).SetTextColor(Android.Graphics.Color.Red);
+                FindViewById<TextView>(Resource.Id.roomSpaceStateText).Text = "Few seats left";
+                FindViewById<ImageView>(Resource.Id.roomStateImage).SetImageResource(Resource.Drawable.reserve_red);
+            }
         }
 
         private void AddReservation()
