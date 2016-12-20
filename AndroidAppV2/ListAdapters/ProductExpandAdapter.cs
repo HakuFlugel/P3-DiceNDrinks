@@ -39,8 +39,7 @@ namespace AndroidAppV2.ListAdapters {
             row.FindViewById<TextView>(Resource.Id.Text1).Text = name;
             row.FindViewById<TextView>(Resource.Id.Text2).Text = price;
             int[] sizes = { 75, 75 };
-            row.FindViewById<ImageView>(Resource.Id.Image).SetImageResource(Resource.Drawable.nopic);
-            androidshared.GetImages(image, row, Resource.Id.Image, sizes);
+            androidshared.GetImages(image, row, Resource.Id.Image, sizes, _context);
 
             return row;
         }

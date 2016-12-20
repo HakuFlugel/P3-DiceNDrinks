@@ -33,12 +33,14 @@ namespace AndroidAppV2.Activities {
         protected override void OnResume() {
             base.OnResume();
             SetContentView(Resource.Layout.Splash);
-            Task startupWork = new Task(() => {
-                if (!System.IO.File.Exists(_basePath))
-                    FirstTimeSetup();
+            Task startupWork = new Task(() =>
+            {
                 if (AndroidShared.CheckForInternetConnection()) {
-                    Update();
-                }                
+                    if (!System.IO.File.Exists(_basePath + "/timestamps.json"))
+                        FirstTimeSetup();
+                    else
+                        Update();
+                }             
             });
 
             startupWork.ContinueWith(t => {
@@ -52,10 +54,16 @@ namespace AndroidAppV2.Activities {
         private void FirstTimeSetup() {
             File folder = new File(_basePath + "/images");
             folder.Mkdirs();
-            CreateTimestap();
+            Dictionary<string, DateTime> timeStamps = CreateTimestap();
+            string[] items = { "Events", "Games", "Products", "AboutUs" };
+
+            foreach (string item in items) {
+                if (timeStamps.ContainsKey(item))
+                    DownloadUpdate(item);
+            }
         }
 
-        private void CreateTimestap() {
+        private Dictionary<string, DateTime> CreateTimestap() {
 
             Dictionary<string, DateTime> timestaps = new Dictionary<string, DateTime> {
                 {"Games", DateTime.MinValue},
@@ -65,6 +73,7 @@ namespace AndroidAppV2.Activities {
             };
 
             System.IO.File.WriteAllText(_basePath + "/timestamps.json",JsonConvert.SerializeObject(timestaps));
+            return timestaps;
         }
 
         public void SaveImage(string directory, string fileName, Bitmap bitmap) {
@@ -80,8 +89,7 @@ namespace AndroidAppV2.Activities {
             Dictionary<string, DateTime> newTimes = DownloadTimestap();
             Dictionary<string, DateTime> oldTimes = LocalTimestap();
 
-            foreach (string item in items)
-            {
+            foreach (string item in items) {
                 if (!newTimes.ContainsKey(item) || !oldTimes.ContainsKey(item)) continue;
                 if (newTimes[item].Ticks > oldTimes[item].Ticks) 
                     DownloadUpdate(item);
@@ -93,14 +101,14 @@ namespace AndroidAppV2.Activities {
             return JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(AndroidShared.DownloadItem("timestamps"));
         }
 
-        private Dictionary<string, DateTime> LocalTimestap()
-        {
+        private Dictionary<string, DateTime> LocalTimestap() {
             string file = System.IO.File.ReadAllText(_basePath + "/timestamps.json");
             
             return JsonConvert.DeserializeObject<Dictionary<string,DateTime>>(file);
         }
 
         private void UpdateTimestap(Dictionary<string, DateTime> newTimes) {
+            System.IO.File.Delete(_basePath + "/timestamps.json");
             System.IO.File.WriteAllText(_basePath + "/timestamps.json", JsonConvert.SerializeObject(newTimes));
         }
 
@@ -128,7 +136,6 @@ namespace AndroidAppV2.Activities {
                     System.IO.File.WriteAllText(saveLocation, item);
                     break;
             }
-
         }
 
         private static void DownloadGameImages(string jsonlist) {
