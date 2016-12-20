@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="Authentication.cs" />
     <Compile Include="DiceServer.cs" />
+    <Content Include="dndserver\data\adminkeys.json" />
+    <Content Include="dndserver\data\rooms.json" />
     <Content Include="dndserver\submitAutoAccept.aspx" />
     <Content Include="dndserver\submitRoomReserved.aspx" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,6 +69,9 @@
       <Project>{6BFEC132-8DC8-488F-A302-09BE8758A671}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dndserver\images\games" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
