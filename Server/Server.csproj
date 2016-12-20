@@ -50,6 +50,7 @@
     <Content Include="dndserver\data\rooms.json" />
     <Content Include="dndserver\submitAutoAccept.aspx" />
     <Content Include="dndserver\submitRoomReserved.aspx" />
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

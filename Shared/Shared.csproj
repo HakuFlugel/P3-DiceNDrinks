@@ -46,7 +46,6 @@
     <Compile Include="Controller\GamesController.cs" />
     <Compile Include="Controller\ProductsController.cs" />
     <Compile Include="Controller\ReservationController.cs" />
-    <Compile Include="ImageHelper.cs" />
     <Compile Include="Model\CalendarDay.cs" />
     <Compile Include="Model\ContactInformation.cs" />
     <Compile Include="Model\Event.cs" />
