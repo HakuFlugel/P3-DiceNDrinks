@@ -173,7 +173,7 @@ namespace AdministratorPanel {
         protected override void save(object sender, EventArgs e) {
 
             DateTime expectedDate;
-            if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out expectedDate)) {
+            if (!DateTime.TryParseExact(timePicker.Text, "H:m", CultureInfo.CurrentCulture, DateTimeStyles.None, out expectedDate)) {
 
                 NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
