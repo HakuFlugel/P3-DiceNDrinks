@@ -173,7 +173,7 @@ namespace AdministratorPanel {
         protected override void save(object sender, EventArgs e) {
 
             DateTime expectedDate;
-            if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
+            if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out expectedDate)) {
 
                 NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
@@ -273,35 +273,27 @@ namespace AdministratorPanel {
 
             const string validLocalSymbols = "!#$%&'*+-/=?^_`{|}~"; // !#$%&'*+-/=?^_`{|}~      quoted og evt. escaped "(),:;<>@[]
             const string validDomainSymbols = ".-";
-            Console.WriteLine(email);
+
             string[] emailParts = email.Split('@');
-            Console.WriteLine(email);
 
             if (emailParts.Length != 2)
                 throw new FormatException("Email address must contain exactly one '@'");
-            Console.WriteLine(email);
 
             if (emailParts[0][0] == '.' || emailParts[0][emailParts[0].Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts[1].Length - 1] == '.')
                 throw new FormatException("Email address local- or domain-part can't start or end with a '.'");
-            Console.WriteLine(email);
 
             if (!emailParts[1].Contains('.'))
                 throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.com");
-            Console.WriteLine(email);
 
             if (email.Contains(".."))
                 throw new FormatException("Email address may not contain consecutive '.'s, ie. '..'.");
-            Console.WriteLine(email);
 
             foreach (char ch in emailParts[0]) {
                 if (!Char.IsLetterOrDigit(ch) && !validLocalSymbols.Contains(ch))
                     throw new FormatException($"Email address local-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validLocalSymbols }\"");
             }
-            Console.WriteLine(email);
 
             foreach (var ch in emailParts[1]) {
-                Console.WriteLine(email);
-
                 if (!Char.IsLetterOrDigit(ch) && !validDomainSymbols.Contains(ch))
                     throw new FormatException($"Email address domain-part contains invalid character '{ch}'. Can only contain letters, numbers and the symbols \"{ validDomainSymbols }\"");
             }
