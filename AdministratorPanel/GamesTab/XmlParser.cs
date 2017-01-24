@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Xml;
 using System.Text.RegularExpressions;
 using Shared;
@@ -11,8 +12,11 @@ namespace AdministratorPanel {
         private XmlDocument xmlDocument = new XmlDocument();
 
         public List<Game> gameSearchResult = new List<Game>();
-        
-        public XmlParser() { }
+
+        public XmlParser()
+        {
+            ServicePointManager.ServerCertificateValidationCallback += (s, ce, ch, ssl) => true;
+        }
         
         public List<Game> getGames(string searchWord) {
             xmlDocument.Load(searchPre + searchWord + searchSuf);
