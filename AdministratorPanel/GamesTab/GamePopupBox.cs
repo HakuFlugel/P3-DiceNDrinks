@@ -421,7 +421,7 @@ namespace AdministratorPanel {
                 } else {
 
                     if (response.Split(' ')[0] != "added") {
-                        NiceMessageBox.Show("Fuck");
+                       
                         return;
 
                     }
