@@ -271,6 +271,7 @@ namespace AdministratorPanel {
                 return;
             }
 
+            base.save(sender, e);
             this.Close();
         }
 

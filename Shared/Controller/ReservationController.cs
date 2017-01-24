@@ -238,7 +238,7 @@ namespace Shared
             }
 
 
-            updateReservation(reservation);
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
         }
 

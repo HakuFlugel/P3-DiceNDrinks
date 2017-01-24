@@ -362,7 +362,7 @@ namespace AdministratorPanel {
                         }
                     );
                     Console.WriteLine(response);
-    
+
                     if (response.StartsWith("exception")) {
                         throw new Exception(response);
                     }
