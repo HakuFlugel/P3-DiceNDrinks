@@ -36,7 +36,7 @@ namespace AndroidAppV2.Activities
         private TextView _invitees;
         private bool _hasConnectionToServer;
 
-        private bool Data
+        private bool HasData
         {
             get { return _data; }
             set
@@ -64,7 +64,6 @@ namespace AndroidAppV2.Activities
 
             _invitees = FindViewById<TextView>(Resource.Id.inviteesNum);
 
-            //TODO: Set up for download
 
             _hasConnectionToServer = AndroidShared.CheckForInternetConnection();
             if (!_hasConnectionToServer) {
@@ -97,7 +96,7 @@ namespace AndroidAppV2.Activities
                     _timeSelectButton.Text = DateTime.Now.ToString("HH:mm");
                 }
                 else { 
-                    Data = true;
+                    HasData = true;
                     sb.Progress = _res.numPeople - 1;
                     _chosenDateTime = _res.time;
                     _dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
@@ -108,17 +107,20 @@ namespace AndroidAppV2.Activities
                     _emailEdit.Text = _res.email;
                     _userId = _res.id;
                     _deleteButton.Enabled = true;
-                    if (_res.state == Reservation.State.Pending) {
-                        FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Yellow);
-                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer.";
-                    }
-                    else if (_res.state == Reservation.State.Accepted) {
-                        FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Green);
-                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Confirmed!";
-                    }
-                    else if (_res.state == Reservation.State.Denied) {
-                        FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Red);
-                        FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Denied!";
+                    switch (_res.state)
+                    {
+                        case Reservation.State.Pending:
+                            FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Yellow);
+                            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer.";
+                            break;
+                        case Reservation.State.Accepted:
+                            FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Green);
+                            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Confirmed!";
+                            break;
+                        case Reservation.State.Denied:
+                            FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Red);
+                            FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Denied!";
+                            break;
                     }
                 }
                 getRoomSpace(_chosenDateTime);
@@ -173,7 +175,7 @@ namespace AndroidAppV2.Activities
                 _deleteButton.Enabled = false;
             };
 
-            sb.Max = 20;
+            sb.Max = 19;
             sb.SetOnSeekBarChangeListener(this);
         }
 
@@ -214,16 +216,8 @@ namespace AndroidAppV2.Activities
             }
 
 
-            //Saving locally instead of server saving
-            //string json = JsonConvert.SerializeObject(res);
-            //string path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
-            //string filename = Path.Combine(path, "VirtualServerReservation.json");
-
-            //File.WriteAllText(filename, json);
-
-
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
-            if (Data)
+            if (HasData)
             {
                 UpdateReservation();
                 resSucces.SetMessage("Your reservation has been updated, and are awating a answer!");
@@ -244,7 +238,7 @@ namespace AndroidAppV2.Activities
             FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Yellow);
             FindViewById<TextView>(Resource.Id.textView1).Text = "Reservations state: Awaiting answer.";
 
-            Data = true;
+            HasData = true;
 
         }
 

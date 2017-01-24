@@ -50,7 +50,7 @@ namespace AndroidAppV2 {
                 type = default(T);
             }
         }
-
+        //from SD
         public async void GetImages(string image, View view, int id, int[] sizes, Context contex) {
             //sizes[0] is reqWidth sizes[1] is reqHeight
 
@@ -76,7 +76,7 @@ namespace AndroidAppV2 {
                 view.FindViewById<ImageView>(id).SetImageBitmap(bitmapFileNotFound);
             }
         }
-
+        //from res 
         public async void GetImages(Context contex, Resources res, int resId, View view, int viewId,
             int[] sizes) {
             BitmapFactory.Options options = await GetBitmapOptionsOfImageAsync(res, resId);
@@ -86,7 +86,7 @@ namespace AndroidAppV2 {
 
             view.FindViewById<ImageView>(viewId).SetImageBitmap(bitmapToDisplay);
         }
-
+        //from assets
         public async void GetImages(Context contex, string image, View view, int id, int[] sizes) {
             //sizes[0] is reqWidth sizes[1] is reqHeight
             AssetManager am = contex.Assets;
@@ -126,7 +126,7 @@ namespace AndroidAppV2 {
             }
             return (int)inSampleSize;
         }
-
+        //from sd
         private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(string image)
         {
             BitmapFactory.Options options = new BitmapFactory.Options
@@ -139,7 +139,7 @@ namespace AndroidAppV2 {
 
             return options;
         }
-
+        //from res
         private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(Resources res, int id) {
             BitmapFactory.Options options = new BitmapFactory.Options {
                 InJustDecodeBounds = true
@@ -151,7 +151,7 @@ namespace AndroidAppV2 {
 
             return options;
         }
-
+        //from assets
         private static async Task<BitmapFactory.Options> GetBitmapOptionsOfImageAsync(Context context,
             string path) {
             BitmapFactory.Options options = new BitmapFactory.Options {
@@ -165,7 +165,7 @@ namespace AndroidAppV2 {
 
             return options;
         }
-
+        //from sd
         private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(string image,
             BitmapFactory.Options options, int reqWidth, int reqHeight)
         {
@@ -177,7 +177,7 @@ namespace AndroidAppV2 {
 
             return await BitmapFactory.DecodeFileAsync(image, options);
         }
-
+        //from res
         private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(Resources res, int id,
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Calculate inSampleSize
@@ -188,7 +188,7 @@ namespace AndroidAppV2 {
 
             return await BitmapFactory.DecodeResourceAsync(res, id, options);
         }
-
+        //from assets
         private static async Task<Bitmap> LoadScaledDownBitmapForDisplayAsync(Context context, string path,
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
             // Calculate inSampleSize
