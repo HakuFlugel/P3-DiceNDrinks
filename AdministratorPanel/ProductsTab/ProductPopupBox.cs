@@ -70,7 +70,7 @@ namespace AdministratorPanel {
         private ProductItem productItem;
         private DataTable dataTable = new DataTable();  // source for priceElement box
         private Image image;
-        private string imageName = "_default.png";      // default image
+        private string imageName;      // default image
 
         public ProductPopupBox(ProductsTab productTab, ProductItem productItem = null) {
             //tab name
@@ -170,7 +170,7 @@ namespace AdministratorPanel {
                     }
 
                     try {
-                        imageName =  ofd.SafeFileName; // name
+                        imageName =  Path.GetFileNameWithoutExtension(ofd.SafeFileName) + ".png"; // name
                         image = Image.FromFile( ofd.FileName); // path + name
                         productImagePanel.BackgroundImage = image;
 

@@ -13,7 +13,7 @@ namespace AdministratorPanel
             protected override WebRequest GetWebRequest(Uri address)
             {
                 WebRequest wr = base.GetWebRequest(address);
-                wr.Timeout = Math.Min(200, (DateTime.Now - lastFail).Seconds * 1300 / 60 + 200);
+                wr.Timeout = Math.Min(10000, (DateTime.Now - lastFail).Seconds * 9800 / 60 + 200);
                 return wr;
             }
         }
