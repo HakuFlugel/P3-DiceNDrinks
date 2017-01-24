@@ -166,7 +166,7 @@ namespace AdministratorPanel {
                 eventsTab.EventList.Remove(evnt);
                 eventsTab.makeItems();
 
-                //Close();
+                Close();
             }
         }
 
