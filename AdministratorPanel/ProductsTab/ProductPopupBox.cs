@@ -341,10 +341,12 @@ namespace AdministratorPanel {
 
 
             } // override a product
-            else if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section) {
-                productItem.Parent.Controls.Remove(productItem);
-                productTab.AddProductItem(productItem);
-
+            else {
+                if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section)
+                {
+                    productItem.Parent.Controls.Remove(productItem);
+                    productTab.AddProductItem(productItem);
+                }
                 // save content
                 productItem.product.name = productNameBox.Text;
                 productItem.product.PriceElements = listOfPriceElements;
