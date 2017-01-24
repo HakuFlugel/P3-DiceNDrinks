@@ -402,7 +402,7 @@ namespace AdministratorPanel {
 
             try
             {
-                game.id = beforeEditing.id;
+                game.id = beforeEditing?.id ?? 0;
 
                 string response = ServerConnection.sendRequest("/submitGame.aspx",
                 new NameValueCollection() {
@@ -411,6 +411,7 @@ namespace AdministratorPanel {
                     {"Image", image != null ? ImageHelper.imageToBase64(image) : ""}
                 }
                 );
+                Console.WriteLine(response);
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
@@ -434,7 +435,8 @@ namespace AdministratorPanel {
                     int.TryParse(response.Split(' ')[1], out game.id);
                     gametab.games.Add(game);
                 }
-            } catch (Exception) {
+            } catch (Exception ex) {
+                Console.WriteLine(ex);
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
 
                 return;
