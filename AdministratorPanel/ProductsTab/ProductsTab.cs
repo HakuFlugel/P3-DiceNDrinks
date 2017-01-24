@@ -112,7 +112,6 @@ namespace AdministratorPanel {
             }
 
             foreach (var item in productList) {
-                Console.WriteLine(item.ToString());
                 if (item.category == "" || item.section == "") {
                     if (invalidProduct == false) {
                         invalidProduct = true;
