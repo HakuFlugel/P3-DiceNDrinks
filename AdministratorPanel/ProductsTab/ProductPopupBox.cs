@@ -332,8 +332,8 @@ namespace AdministratorPanel {
                 productTab.productList.Add(productItem.product);
                 productTab.AddProductItem(productItem);
 
-                Close();
-                return;
+
+                base.save(sender, e);
 
             } // override a product
             else if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section) {
@@ -371,7 +371,6 @@ namespace AdministratorPanel {
 
             productTab.MakeItems();
             base.save(sender, e);
-            Close();
         }
     }
 }

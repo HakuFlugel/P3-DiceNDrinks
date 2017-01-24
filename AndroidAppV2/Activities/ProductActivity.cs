@@ -71,5 +71,10 @@ namespace AndroidAppV2.Activities {
         private static List<string> GetCategories(List<Product> productlist) {
             return productlist.Select(o => o.category).Distinct().ToList();
         }
+
+        protected override void OnResume() {
+            base.OnResume();
+            AndroidShared.Update();
+        }
     }
 }

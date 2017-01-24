@@ -74,5 +74,11 @@ namespace AndroidAppV2 {
             _doubleTapToExit = true;
             Toast.MakeText(this, Resource.String.exit, ToastLength.Long).Show();
         }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            AndroidShared.Update();
+        }
     }
 }

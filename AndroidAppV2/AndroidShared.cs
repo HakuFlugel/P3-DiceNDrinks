@@ -21,6 +21,7 @@ using Android.App;
 
 namespace AndroidAppV2 {
     public class AndroidShared {
+
         public static void LoadData<T>(Context context, string file, out T type)
         {
             string path = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, "DnD");
@@ -331,6 +332,78 @@ namespace AndroidAppV2 {
         private static void SaveText(string text, string id) {
             string path = Android.OS.Environment.ExternalStorageDirectory.Path + $"/DnD/{id}";
             File.WriteAllText(path, text);
+        }
+
+        public static void Update() {
+            string[] items = { "Events", "Games", "Products", "AboutUs" };
+
+            Dictionary<string, DateTime> newTimes = DownloadTimestap();
+            Dictionary<string, DateTime> oldTimes = LocalTimestap();
+
+            foreach (string item in items) {
+                if (!newTimes.ContainsKey(item) || !oldTimes.ContainsKey(item))
+                    continue;
+                if (newTimes[item].Ticks > oldTimes[item].Ticks)
+                    DownloadUpdate(item);
+            }
+            UpdateTimestap(newTimes);
+        }
+
+        private static Dictionary<string, DateTime> DownloadTimestap() {
+            return JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(DownloadItem("timestamps"));
+        }
+
+        private static Dictionary<string, DateTime> LocalTimestap() {
+            string file = File.ReadAllText(Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD" + "/timestamps.json");
+
+            return JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(file);
+        }
+
+        private static void UpdateTimestap(Dictionary<string, DateTime> newTimes) {
+            File.Delete(Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD" + "/timestamps.json");
+            File.WriteAllText(Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD" + "/timestamps.json", JsonConvert.SerializeObject(newTimes));
+        }
+
+        private static void DownloadUpdate(string location) {
+            string saveLocation = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.Path, $"{Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD"}/{location}.json");
+            string item;
+
+            switch (location) {
+                case "Products":
+                    item = DownloadProducts();
+                    File.WriteAllText(saveLocation, item);
+                    DownloadProductImages(item);
+                    break;
+                case "Games":
+                    item = DownloadItem(location);
+                    File.WriteAllText(saveLocation, item);
+                    DownloadGameImages(item);
+                    break;
+                case "Events":
+                    item = DownloadItem(location);
+                    File.WriteAllText(saveLocation, item);
+                    break;
+                case "AboutUs":
+                    item = DownloadItem(location);
+                    File.WriteAllText(saveLocation, item);
+                    break;
+            }
+        }
+
+        private static void DownloadGameImages(string jsonlist) {
+            List<Game> list = JsonConvert.DeserializeObject<List<Game>>(jsonlist);
+
+            foreach (Game item in list) {
+                ImageDownloader(item.imageName, "games");
+            }
+        }
+
+        private static void DownloadProductImages(string jsonlist) {
+            List<Product> list = JsonConvert.DeserializeObject<List<Product>>(jsonlist);
+
+            foreach (Product item in list) {
+                ImageDownloader(item.image, "products");
+            }
         }
     }
 }

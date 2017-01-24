@@ -13,7 +13,6 @@ using Android.Content.PM;
 
 using Shared;
 using Newtonsoft.Json;
-using Android.Text;
 using System.Globalization;
 
 namespace AndroidAppV2.Activities
@@ -479,6 +478,11 @@ namespace AndroidAppV2.Activities
 
             string result = System.Text.Encoding.UTF8.GetString(resp);
             AndroidShared.ErrorDialog("The reservation has been: " + result, this);
+        }
+
+        protected override void OnResume() {
+            base.OnResume();
+            AndroidShared.Update();
         }
     }
 
