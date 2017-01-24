@@ -284,7 +284,7 @@ namespace AdministratorPanel {
             // Image save
             Directory.CreateDirectory("images/products/");
 
-            if (image == null) {
+            if (string.IsNullOrEmpty(imageName)) {
                 if (DialogResult.OK != NiceMessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
                     return;
                 }
@@ -314,6 +314,7 @@ namespace AdministratorPanel {
 
                 product.name = productNameBox.Text;
                 product.PriceElements = listOfPriceElements;
+                Console.WriteLine("catttttttt =" + categoryNameDropDownBoxx.Text);
                 product.category = categoryNameDropDownBoxx.Text;
                 product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
@@ -370,7 +371,8 @@ namespace AdministratorPanel {
                     return;
                 }
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
                 return;
             }

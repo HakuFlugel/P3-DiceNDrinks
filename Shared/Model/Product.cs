@@ -17,5 +17,12 @@ namespace Shared {
         public Product() {
 
         }
+
+        public override string ToString() {
+            return "name= " + name + "\n" +
+                    "category= " + category + "\n" +
+                    "section= " + section + "\n" +
+                    "id= " + id + "\n";
+        }
     }
 }
