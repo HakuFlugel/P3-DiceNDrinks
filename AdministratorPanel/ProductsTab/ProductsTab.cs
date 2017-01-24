@@ -72,28 +72,36 @@ namespace AdministratorPanel {
                 {
                     if (!tuple.Item2.Any(g => g.image == product.image))
                     {
-                        if (product.image == null && File.Exists("images/games/" + product.image))
+                        if (product.image == null && File.Exists("images/products/" + product.image))
                         {
-                            File.Delete("images/games/" + product.image);
+                            File.Delete("images/products/" + product.image);
                         }
                     }
                 }
 
                 foreach (var newproduct in tuple.Item2)
                 {
-                    if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/games/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp))
+                    try
                     {
-                        if (File.Exists("images/games/" + newproduct.image))
+                        if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/products/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp))
                         {
-                            File.Delete("images/games/" + newproduct.image);
-                        }
+                            if (File.Exists("images/products/" + newproduct.image))
+                            {
+                                File.Delete("images/products/" + newproduct.image);
+                            }
 
-                        using (WebClient client = new WebClient())
-                        {
-                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newproduct.image), "images/games/" + newproduct.image);
-                        }
+                            using (WebClient client = new WebClient())
+                            {
+                                client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/products" + newproduct.image), "images/products/" + newproduct.image);
+                            }
 
+                        }
                     }
+                    catch (WebException e)
+                    {
+                        Console.WriteLine(e);
+                    }
+
                 }
                 productCategories = tuple.Item1 ?? new List<ProductCategory>();
                 productList = tuple.Item2 ?? new List<Product>();
