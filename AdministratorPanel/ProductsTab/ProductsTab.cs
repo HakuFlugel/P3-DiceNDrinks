@@ -150,6 +150,11 @@ namespace AdministratorPanel {
         }
 
         public override void Save() {
+            Directory.CreateDirectory("Sources");
+            if (!File.Exists(@"Sources/Products.json")) {
+                File.Create(@"Sources/Products.json");
+            }
+
             var jsonProducts = JsonConvert.SerializeObject(productList);
             using (StreamWriter textWriter = new StreamWriter(@"Sources/Products.json")) {
                 foreach (var item in jsonProducts) {
@@ -159,17 +164,19 @@ namespace AdministratorPanel {
         }
 
         public override void Load() {
-            string loadStringProducts;
+            string loadStringProducts = null;
+            Directory.CreateDirectory("Sources");
+            if (!File.Exists(@"Sources/Products.json")) {
+                File.Create(@"Sources/Products.json");
+            }
 
-            if (File.Exists(@"Sources/Products.json")) {
-                using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
-                    loadStringProducts = streamReader.ReadToEnd();
-                    streamReader.Close();
-                }
+            using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
+                loadStringProducts = streamReader.ReadToEnd();
+                streamReader.Close();
+            }
 
                 if (loadStringProducts != null) {
-                    productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
-                }
+                productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
             }
 
             if (productList == null) {
