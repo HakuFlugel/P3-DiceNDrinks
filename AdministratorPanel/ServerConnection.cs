@@ -13,11 +13,11 @@ namespace AdministratorPanel
             protected override WebRequest GetWebRequest(Uri address)
             {
                 WebRequest wr = base.GetWebRequest(address);
-                wr.Timeout = 750;
+                wr.Timeout = Math.Min(200, (DateTime.Now - lastFail).Seconds * 1300 / 60 + 200);
                 return wr;
             }
         }
-
+        public static DateTime lastFail;
 
         private const string protocol = "http://";
         public static string ip = "localhost";
@@ -40,6 +40,7 @@ namespace AdministratorPanel
             }
             catch (Exception e)
             {
+                lastFail = DateTime.Now;
                 MessageBox.Show(null, e.Message, "Connection Error");
                 return "exception " + e.Message;
             }

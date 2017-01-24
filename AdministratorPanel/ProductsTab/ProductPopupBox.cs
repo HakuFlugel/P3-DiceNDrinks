@@ -301,6 +301,14 @@ namespace AdministratorPanel {
                 return;
             }
 
+            //check if cat is empty or section
+
+            if (string.IsNullOrEmpty(categoryNameDropDownBoxx.Text) || categoryNameDropDownBoxx.Text == "Category Name" ||
+                string.IsNullOrEmpty(sectionNameDropDownBox.Text) || sectionNameDropDownBox.Text == "Section Name") {
+                NiceMessageBox.Show("product category or section is invalid. can not be empty");
+                return;
+            }
+
             //make new productSave
             if (productItem == null) {
                 Product product = new Product();
