@@ -29,10 +29,12 @@ namespace AdministratorPanel {
         public List<Product> productList = new List<Product>();
         public TabControl tabControl = new TabControl();
 
+        private bool invalidProduct = false;
+
         public ProductsTab(FormProgressBar probar) {
             Text = "Products";
             tabControl.Dock = DockStyle.Fill;
-             
+
             Load();
             download();
 
@@ -43,7 +45,7 @@ namespace AdministratorPanel {
             addItemButton.Click += (s, e) => {
                 new ProductPopupBox(this);
             };
-            
+
             tableLayoutPanel.Controls.Add(addItemButton);
             probar.addToProbar();                               //For progress bar. 2
             tableLayoutPanel.Controls.Add(tabControl);
@@ -52,10 +54,8 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 4
         }
 
-        public override void download()
-        {
-            try
-            {
+        public override void download() {
+            try {
                 string response = ServerConnection.sendRequest("/get.aspx",
                     new NameValueCollection() {
                         {"Type", "Products"}
@@ -68,38 +68,28 @@ namespace AdministratorPanel {
                 Console.WriteLine(tuple.Item1);
                 Console.WriteLine(tuple.Item2);
 
-                foreach (var product in productList)
-                {
-                    if (!tuple.Item2.Any(g => g.image == product.image))
-                    {
-                        if (!string.IsNullOrEmpty(product.image) && File.Exists("images/products/" + product.image))
-                        {
+                foreach (var product in productList) {
+                    if (!tuple.Item2.Any(g => g.image == product.image)) {
+                        if (!string.IsNullOrEmpty(product.image) && File.Exists("images/products/" + product.image)) {
                             File.Delete("images/products/" + product.image);
                         }
                     }
                 }
 
-                foreach (var newproduct in tuple.Item2)
-                {
-                    try
-                    {
-                        if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/products/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp))
-                        {
-                            if (File.Exists("images/products/" + newproduct.image))
-                            {
+                foreach (var newproduct in tuple.Item2) {
+                    try {
+                        if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/products/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp)) {
+                            if (File.Exists("images/products/" + newproduct.image)) {
                                 File.Delete("images/products/" + newproduct.image);
                             }
 
-                            using (WebClient client = new WebClient())
-                            {
+                            using (WebClient client = new WebClient()) {
                                 Console.WriteLine("http://" + ServerConnection.ip + "/images/products/" + newproduct.image);
                                 client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/products/" + newproduct.image), "images/products/" + newproduct.image);
                             }
 
                         }
-                    }
-                    catch (WebException e)
-                    {
+                    } catch (WebException e) {
                         Console.WriteLine(e);
                     }
 
@@ -108,9 +98,7 @@ namespace AdministratorPanel {
                 productList = tuple.Item2 ?? new List<Product>();
 
                 MakeItems();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Console.WriteLine(e);
             }
         }
@@ -129,6 +117,18 @@ namespace AdministratorPanel {
         }
 
         public void AddProductItem(ProductItem item) {
+
+            if (item.product.category == "" || item.product.section == "") {
+                if (invalidProduct == false) {
+                    invalidProduct = true;
+                }
+                NiceMessageBox.Show("category or section faliure. the product is added to invalid products");
+                item.product.category = "invalid products";
+                item.product.section = "products";
+                    
+            }
+
+
             var categoryResult = tabControl.Controls.Find(item.product.category, false);
             ProductCategoryTab categoryTab;
 
@@ -175,15 +175,13 @@ namespace AdministratorPanel {
         public override void Load() {
             string loadStringProducts = null;
             Directory.CreateDirectory("Sources");
-            if (!File.Exists(@"Sources/Products.json")) {
-                File.Create(@"Sources/Products.json");
-            }
 
-            using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
-                loadStringProducts = streamReader.ReadToEnd();
-                streamReader.Close();
+            if (File.Exists(@"Sources/Products.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
+                    loadStringProducts = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
             }
-
                 if (loadStringProducts != null) {
                 productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
             }
