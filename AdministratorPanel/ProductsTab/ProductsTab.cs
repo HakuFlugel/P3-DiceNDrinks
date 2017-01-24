@@ -72,7 +72,7 @@ namespace AdministratorPanel {
                 {
                     if (!tuple.Item2.Any(g => g.image == product.image))
                     {
-                        if (product.image == null && File.Exists("images/products/" + product.image))
+                        if (!string.IsNullOrEmpty(product.image) && File.Exists("images/products/" + product.image))
                         {
                             File.Delete("images/products/" + product.image);
                         }
@@ -92,7 +92,8 @@ namespace AdministratorPanel {
 
                             using (WebClient client = new WebClient())
                             {
-                                client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/products" + newproduct.image), "images/products/" + newproduct.image);
+                                Console.WriteLine("http://" + ServerConnection.ip + "/images/products/" + newproduct.image);
+                                client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/products/" + newproduct.image), "images/products/" + newproduct.image);
                             }
 
                         }
