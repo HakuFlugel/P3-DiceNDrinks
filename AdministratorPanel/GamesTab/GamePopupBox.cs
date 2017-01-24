@@ -310,8 +310,7 @@ namespace AdministratorPanel
                 genreItems.Add(new ListViewItem { Name = item, Text = item });
             }
 
-
-            NiceMessageBox.Show(genreItems.Count().ToString());
+            
             try {
                 genreBox.Items.AddRange(genreItems.ToArray());
             }catch (Exception e) {
@@ -466,7 +465,7 @@ namespace AdministratorPanel
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
-                NiceMessageBox.Show(response + " Fuck");
+                NiceMessageBox.Show(response);
 
                 if (beforeEditing != null) {
                     if (response != "updated") {
