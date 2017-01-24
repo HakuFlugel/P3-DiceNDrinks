@@ -68,29 +68,29 @@ namespace AdministratorPanel {
                 Console.WriteLine(tuple.Item1);
                 Console.WriteLine(tuple.Item2);
 
-                foreach (var game in productList)
+                foreach (var product in productList)
                 {
-                    if (!tuple.Item2.Any(g => g.image == game.image))
+                    if (!tuple.Item2.Any(g => g.image == product.image))
                     {
-                        if (game.image == null && File.Exists("images/games/" + game.image))
+                        if (product.image == null && File.Exists("images/games/" + product.image))
                         {
-                            File.Delete("images/games/" + game.image);
+                            File.Delete("images/games/" + product.image);
                         }
                     }
                 }
 
-                foreach (var newgame in tuple.Item2)
+                foreach (var newproduct in tuple.Item2)
                 {
-                    if (!File.Exists("images/games/" + newgame.image) || newgame.timestamp > productList.FirstOrDefault(g => g.id == newgame.id)?.timestamp)
+                    if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/games/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp))
                     {
-                        if (File.Exists("images/games/" + newgame.image))
+                        if (File.Exists("images/games/" + newproduct.image))
                         {
-                            File.Delete("images/games/" + newgame.image);
+                            File.Delete("images/games/" + newproduct.image);
                         }
 
                         using (WebClient client = new WebClient())
                         {
-                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newgame.image), "images/games/" + newgame.image);
+                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newproduct.image), "images/games/" + newproduct.image);
                         }
 
                     }

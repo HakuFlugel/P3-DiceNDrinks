@@ -28,7 +28,7 @@
     switch (action)
     {
         case "delete":
-            if (game.imageName != null)
+            if (!string.IsNullOrEmpty(game.imageName))
             {
                 try
                 {
