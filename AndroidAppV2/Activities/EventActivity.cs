@@ -29,5 +29,10 @@ namespace AndroidAppV2.Activities {
                 dialog.Show(FragmentManager, "Event Dialog");
             };
         }
+
+        protected override void OnResume() {
+            base.OnResume();
+            AndroidShared.Update();
+        }
     }
 }

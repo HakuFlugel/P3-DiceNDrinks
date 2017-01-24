@@ -30,11 +30,11 @@ namespace Shared
         public void updateEvent(Event @event)
         {
             Event oldEvent =
-                events.First(e => e.id == @event.id);
+                events.FirstOrDefault(e => e.id == @event.id);
 
             if (oldEvent == null)
             {
-                return;
+                throw new Exception("Could not find event");
             }
 
             events[events.FindIndex(e => e == oldEvent)] = @event;

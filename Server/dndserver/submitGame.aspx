@@ -59,9 +59,10 @@
                 diceServer.gamesController.updateGame(game);
                 Response.Write("updated");
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Response.Write("failed");
+                Response.Write("failed ");
+                Response.Write(e);
             }
             //goto doafter;
 

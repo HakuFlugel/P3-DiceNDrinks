@@ -27,11 +27,11 @@ namespace Shared
 
         public void updateGame(Game newGame)
         {
-            Game oldGame = games.First(g => g.id == newGame.id);
+            Game oldGame = games.FirstOrDefault(g => g.id == newGame.id);
 
             if (oldGame == null)
             {
-                return;
+                throw new Exception("Could not find game");
             }
 
             games[games.FindIndex(e => e == oldGame)] = newGame;
