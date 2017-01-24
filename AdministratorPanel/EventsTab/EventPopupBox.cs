@@ -170,8 +170,8 @@ namespace AdministratorPanel {
         protected override void save(object sender, EventArgs e) {
 
             DateTime startDate, endDate;
-            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out startDate) ||
-                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out endDate)) {
+            if (!DateTime.TryParseExact(startTimePicker.Text, "HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out startDate) ||
+                !DateTime.TryParseExact(endTimePicker.Text, "HH:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out endDate)) {
                 SystemSounds.Hand.Play();
                 MessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
