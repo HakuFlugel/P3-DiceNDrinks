@@ -47,7 +47,8 @@ namespace Shared
         public void removeEvent(Event oldEvent)
         {
 
-            events.Remove(oldEvent);
+            events.RemoveAll(e => e.id == oldEvent.id);
+            //events.Remove(oldEvent);
 
             save();
             EventUpdated?.Invoke(this, EventArgs.Empty);

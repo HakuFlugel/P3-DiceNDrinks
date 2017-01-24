@@ -44,7 +44,8 @@ namespace Shared
         public void removeGame(Game oldGame)
         {
 
-            games.Remove(oldGame);
+            games.RemoveAll(g => g.id == oldGame.id);
+            //games.Remove(oldGame);
 
             save();
             GameUpdated?.Invoke(this, EventArgs.Empty);

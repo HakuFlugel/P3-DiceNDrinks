@@ -88,8 +88,8 @@ namespace AdministratorPanel {
                 try {
                     eventName.Text = evnt.name;
                     eventDescription.Text = evnt.description;
-                    startDatePicker.Value = evnt.startDate;
-                    endDatePicker.Value = evnt.endDate;
+                    startDatePicker.Value = evnt.startDate.Date;
+                    endDatePicker.Value = evnt.endDate.Date;
                     startTimePicker.Text = evnt.startDate.ToString("HH:mm");
                     endTimePicker.Text = evnt.endDate.ToString("HH:mm");
                 }
@@ -176,8 +176,8 @@ namespace AdministratorPanel {
                 MessageBox.Show("Invalid Time", "The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
             }
-            startDate =  startDatePicker.Value.Add(startDate.TimeOfDay);
-            endDate =  endDatePicker.Value.Add(startDate.TimeOfDay);
+            startDate =  startDatePicker.Value.Date.Add(startDate.TimeOfDay);
+            endDate =  endDatePicker.Value.Date.Add(endDate.TimeOfDay);
 
             if (eventName.Text == null || eventDescription.Text == null) {
                

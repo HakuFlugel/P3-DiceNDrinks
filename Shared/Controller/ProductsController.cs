@@ -46,7 +46,8 @@ namespace Shared
         public void removeProduct(Product oldProduct)
         {
 
-            products.Remove(oldProduct);
+            products.RemoveAll(p => p.id == oldProduct.id);
+            //products.Remove(oldProduct);
 
             save();
             ProductUpdated?.Invoke(this, EventArgs.Empty);
