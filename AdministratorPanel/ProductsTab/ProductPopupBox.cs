@@ -288,7 +288,6 @@ namespace AdministratorPanel {
                 if (DialogResult.OK != NiceMessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
                     return;
                 }
-                image = productImagePanel.BackgroundImage;
             } else {
                 if (!File.Exists("images/products/" + imageName)) {
                     image.Save("images/products/" + imageName, ImageFormat.Png);
@@ -323,7 +322,7 @@ namespace AdministratorPanel {
                     new NameValueCollection() {
                         {"Action", "add"},
                         {"Product", JsonConvert.SerializeObject(product)},
-                        {"Image", ImageHelper.imageToBase64(image)}
+                        {"Image", image != null ? ImageHelper.imageToBase64(image) : ""}
                     }
                 );
                 Console.WriteLine(response2);
@@ -341,13 +340,11 @@ namespace AdministratorPanel {
                 productTab.AddProductItem(productItem);
 
 
-                base.save(sender, e);
-
             } // override a product
             else if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section) {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
-            } 
+
             // save content
             productItem.product.name = productNameBox.Text;
             productItem.product.PriceElements = listOfPriceElements;
@@ -375,6 +372,7 @@ namespace AdministratorPanel {
             catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
                 return;
+            }
             }
 
             productTab.MakeItems();
