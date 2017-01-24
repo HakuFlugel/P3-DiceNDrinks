@@ -68,8 +68,11 @@ namespace AndroidAppV2.Activities {
             List<Product> tempList = productList.FindAll(o => o.category == category);
             return tempList.Select(o => o.section).Distinct().ToList();
         }
-        private static List<string> GetCategories(List<Product> productlist) {
-            return productlist.Select(o => o.category).Distinct().ToList();
+        private static List<string> GetCategories(List<Product> productlist)
+        {
+            List<string> list = productlist.Select(o => o.category).Distinct().ToList();
+            list.Remove(""); //removes invalid categories
+            return list;
         }
 
         protected override void OnResume() {
