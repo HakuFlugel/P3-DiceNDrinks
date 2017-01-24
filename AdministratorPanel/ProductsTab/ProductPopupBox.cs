@@ -359,11 +359,12 @@ namespace AdministratorPanel {
                     {"Product", JsonConvert.SerializeObject(productItem.product)},
                     {"Image", ImageHelper.imageToBase64(image)}
                 }
-            );
+                );
+                Console.WriteLine(response);
+
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
-                Console.WriteLine(response);
 
                 if (response != "updated") {
                     return;
