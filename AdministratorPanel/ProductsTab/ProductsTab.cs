@@ -121,8 +121,8 @@ namespace AdministratorPanel {
             if (item.product.category == "" || item.product.section == "") {
                 if (invalidProduct == false) {
                     invalidProduct = true;
+                    NiceMessageBox.Show("category or section faliure. the product is added to invalid products");
                 }
-                NiceMessageBox.Show("category or section faliure. the product is added to invalid products");
                 item.product.category = "invalid products";
                 item.product.section = "products";
                     
