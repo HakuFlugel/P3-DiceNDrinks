@@ -428,7 +428,7 @@ namespace AdministratorPanel {
                     int.TryParse(response.Split(' ')[1], out game.id);
                     gametab.games.Add(game);
                 }
-            } catch (Exception ex) {
+            } catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
 
                 return;
