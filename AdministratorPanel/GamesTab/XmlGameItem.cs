@@ -8,7 +8,7 @@ namespace AdministratorPanel {
     public class XmlGameItem : NiceButton {
         private Game game;
         private GamePopupBox gamePopupbox;
-        private ImageDownloader imageDownloader;
+        public ImageDownloader imageDownloader;
 
         private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel() {
             ColumnCount = 1,
@@ -63,12 +63,12 @@ namespace AdministratorPanel {
                 gamePopupbox.gameName.Text = game.name;
                 gamePopupbox.gameDescription.Text = game.description;
                 gamePopupbox.timeBox.Text = game.minPlayTime.ToString() + "/" + game.maxPlayTime.ToString();
-                gamePopupbox.playerBox.Text = game.minPlayers.ToString() + "/" + game.maxPlayTime.ToString();
+                gamePopupbox.playerBox.Text = game.minPlayers.ToString() + "/" + game.maxPlayers.ToString();
                 gamePopupbox.gameImage.BackgroundImage = imageDownloader.image;
                 gamePopupbox.imagePath = imageDownloader.ImagePath;
                 gamePopupbox.gameDifficultyBar.Value = game.difficulity;
-
-                imageDownloader.saveImage();
+                gamePopupbox.image = ImagePanel.BackgroundImage;
+                //imageDownloader.saveImage();
                 gamePopupbox.hasBeenChanged = true;
 
                 gamePopupbox.game = game;

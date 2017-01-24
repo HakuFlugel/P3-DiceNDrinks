@@ -1,9 +1,12 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Shared;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using System.Net;
 
 namespace AdministratorPanel {
     public class ProductsTab : AdminTabPage {
@@ -25,19 +28,20 @@ namespace AdministratorPanel {
         public List<ProductCategory> productCategories = new List<ProductCategory>();
         public List<Product> productList = new List<Product>();
         public TabControl tabControl = new TabControl();
-        private FormProgressBar probar;
 
         public ProductsTab(FormProgressBar probar) {
             Text = "Products";
-            this.probar = probar;
             tabControl.Dock = DockStyle.Fill;
              
             Load();
+            download();
+
+
             MakeItems();
             probar.addToProbar();                               //For progress bar. 1
 
             addItemButton.Click += (s, e) => {
-                ProductPopupBox p = new ProductPopupBox(this);
+                new ProductPopupBox(this);
             };
             
             tableLayoutPanel.Controls.Add(addItemButton);
@@ -46,6 +50,60 @@ namespace AdministratorPanel {
             probar.addToProbar();                               //For progress bar. 3
             Controls.Add(tableLayoutPanel);
             probar.addToProbar();                               //For progress bar. 4
+        }
+
+        public override void download()
+        {
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Products"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var tuple = JsonConvert.DeserializeObject<Tuple<List<ProductCategory>, List<Product>>>(response);
+
+                Console.WriteLine(tuple.Item1);
+                Console.WriteLine(tuple.Item2);
+
+                foreach (var game in productList)
+                {
+                    if (!tuple.Item2.Any(g => g.image == game.image))
+                    {
+                        if (game.image == null && File.Exists("images/games/" + game.image))
+                        {
+                            File.Delete("images/games/" + game.image);
+                        }
+                    }
+                }
+
+                foreach (var newgame in tuple.Item2)
+                {
+                    if (!File.Exists("images/games/" + newgame.image) || newgame.timestamp > productList.FirstOrDefault(g => g.id == newgame.id)?.timestamp)
+                    {
+                        if (File.Exists("images/games/" + newgame.image))
+                        {
+                            File.Delete("images/games/" + newgame.image);
+                        }
+
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(new Uri("http://" + ServerConnection.ip + "/images/games" + newgame.image), "images/games/" + newgame.image);
+                        }
+
+                    }
+                }
+                productCategories = tuple.Item1 ?? new List<ProductCategory>();
+                productList = tuple.Item2 ?? new List<Product>();
+
+                MakeItems();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
         public void MakeItems() {

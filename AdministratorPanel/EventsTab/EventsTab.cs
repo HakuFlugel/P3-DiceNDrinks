@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Shared;
 using System;
+using System.Collections.Specialized;
 using System.IO;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
 
 namespace AdministratorPanel {
     public class EventsTab : AdminTabPage {
         public List<Event> EventList = new List<Event>();
         private EventList lowerTable = new EventList();
-        private FormProgressBar probar;
 
         private TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
             Dock = DockStyle.Fill,                        
@@ -34,16 +33,16 @@ namespace AdministratorPanel {
         public EventsTab(FormProgressBar probar) {
             //name of the tab
             Text = "Events";
-            this.probar = probar;
 
             Load();
+            download();
             probar.addToProbar();                               //For progress bar. 1
 
             makeItems();
             probar.addToProbar();                               //For progress bar. 2
 
             addEventButton.Click += (s, e) => {
-                EventPopupBox p = new EventPopupBox(this);
+                new EventPopupBox(this);
             };
             probar.addToProbar();                               //For progress bar. 3
 
@@ -58,6 +57,32 @@ namespace AdministratorPanel {
 
             Controls.Add(headerTableLayoutPanel);
             probar.addToProbar();                               //For progress bar. 7
+        }
+
+        public override void download()
+        {
+            try
+            {
+                string response = ServerConnection.sendRequest("/get.aspx",
+                    new NameValueCollection() {
+                        {"Type", "Events"}
+                    }
+                );
+
+                Console.WriteLine(response);
+                var nottuple = JsonConvert.DeserializeObject<List<Event>>(response);
+
+                Console.WriteLine(nottuple);
+
+                EventList = nottuple ?? new List<Event>();
+
+                makeItems();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
         }
 
         public void makeItems() {

@@ -26,10 +26,10 @@ namespace AndroidAppV2.ListDialogFragments {
             foreach (var item in _product.PriceElements) {
                 sb.Append(item.name + " for " + item.price + " kr,-" + System.Environment.NewLine);
             }
-            AndroidShared an = new AndroidShared();
+            AndroidShared ans = new AndroidShared();
             view.FindViewById<TextView>(Resource.Id.productName).Text = _product.name;
             int[] sizes = { 150, 150 }; //placeholder as we do not have larger images
-            an.GetImagesFromSD(_context, $"{_product.image}.png", view, Resource.Id.productImage, sizes);
+            ans.GetImages(_product.image, view, Resource.Id.productImage, sizes, _context);
             view.FindViewById<TextView>(Resource.Id.productPrices).Text = sb.ToString();
 
             return view;

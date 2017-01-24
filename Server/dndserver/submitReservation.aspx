@@ -58,7 +58,6 @@
                 if (!isAdmin)
                 {
                     reservation.state = Reservation.State.Pending;
-                    Response.Write("|" + JsonConvert.SerializeObject(diceServer.authentication.adminKeys) + "|");
                 }
 
                 diceServer.reservationController.updateReservation(reservation);
@@ -67,13 +66,16 @@
                 break;
             default:
                 Response.Write("invalid action");
-                break;
+                return;
+
         }
+
+        diceServer.setTimestamp("Reservations", DateTime.UtcNow);
+
     }
     catch (Exception e)
     {
         Response.Write("failed ");
-        //TODO: remove
         Response.Write(e);
     }
 

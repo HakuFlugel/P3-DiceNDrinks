@@ -38,30 +38,29 @@
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalendarDay.cs" />
     <Compile Include="Controller\ControllerBase.cs" />
     <Compile Include="Controller\EventsController.cs" />
     <Compile Include="Controller\GamesController.cs" />
     <Compile Include="Controller\ProductsController.cs" />
     <Compile Include="Controller\ReservationController.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="Genres.cs" />
-    <Compile Include="PriceElement.cs" />
-    <Compile Include="Product.cs" />
-    <Compile Include="ProductCategory.cs" />
-    <Compile Include="ProductMenu.cs" />
-    <Compile Include="ProductSection.cs" />
-    <Compile Include="Reservation.cs" />
-    <Compile Include="Room.cs" />
+    <Compile Include="Model\CalendarDay.cs" />
+    <Compile Include="Model\ContactInformation.cs" />
+    <Compile Include="Model\Event.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\Genres.cs" />
+    <Compile Include="Model\PriceElement.cs" />
+    <Compile Include="Model\Product.cs" />
+    <Compile Include="Model\ProductCategory.cs" />
+    <Compile Include="Model\ProductMenu.cs" />
+    <Compile Include="Model\ProductSection.cs" />
+    <Compile Include="Model\Reservation.cs" />
+    <Compile Include="Model\Room.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

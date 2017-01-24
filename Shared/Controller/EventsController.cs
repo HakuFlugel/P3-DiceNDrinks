@@ -18,10 +18,11 @@ namespace Shared
 
         public void addEvent(Event newEvent)
         {
-            newEvent.id = new Random().Next(); // TODO: unique id
+            newEvent.id = new Random().Next();
 
             events.Add(newEvent);
 
+            save();
             EventUpdated?.Invoke(this, EventArgs.Empty);
         }
 
@@ -38,6 +39,7 @@ namespace Shared
 
             events[events.FindIndex(e => e == oldEvent)] = @event;
 
+            save();
             EventUpdated?.Invoke(this, EventArgs.Empty);
 
         }
@@ -45,8 +47,9 @@ namespace Shared
         public void removeEvent(Event oldEvent)
         {
 
-            events.Remove(oldEvent); //TODO: make sure this uses id to compare
+            events.Remove(oldEvent);
 
+            save();
             EventUpdated?.Invoke(this, EventArgs.Empty);
         }
 

@@ -3,7 +3,6 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Util;
 using Android.Widget;
 
@@ -15,7 +14,7 @@ using Shared;
 
 namespace AndroidAppV2.Activities {
     [Activity(Label = "Games", ScreenOrientation = ScreenOrientation.Portrait)]
-    public class GameActivity : FragmentActivity {
+    public class GameActivity : Activity {
         private bool _ascending = true;
 
         protected override void OnCreate(Bundle savedInstanceState) {

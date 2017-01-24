@@ -34,11 +34,13 @@ namespace AndroidAppV2.ListAdapters {
             View view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.gameItemView, null);
 
             StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < item.genre.Count && i < 3; i++) {
-                sb.Append(item.genre[i] + ",  ");
+            if (item.genre.Count != 0) {
+                for (int i = 0; i < item.genre.Count && i < 3; i++) {
+                    sb.Append(item.genre[i] + ",  ");
+                }
+                sb.Remove(sb.Length - 3, 3);
             }
-            sb.Remove(sb.Length - 3, 3);
+
 
             view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = sb.ToString();
             view.FindViewById<TextView>(Resource.Id.gameNameText).Text = item.name;

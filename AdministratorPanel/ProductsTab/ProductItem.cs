@@ -95,7 +95,7 @@ namespace AdministratorPanel {
 
         private void Update(Product product){
             try {
-                string path = "images/";
+                string path = "images/products/";
                 string fileToLoad = path + product.image;
 
                 if (product.image == null) {
@@ -104,7 +104,8 @@ namespace AdministratorPanel {
                 image = Image.FromFile(fileToLoad);
             } catch (Exception) {
                 if (product.image != null) {
-                    NiceMessageBox.Show($"image : {product.image} not found");
+                    //NiceMessageBox.Show($"image : {product.image} not found");
+                    Console.WriteLine($"Error: image \"{product.image}\" not found");
 
                     product.image = null;
                     Update(product);
@@ -114,8 +115,9 @@ namespace AdministratorPanel {
             this.Width = sizeX;
         }
 
-        protected override void OnClick(EventArgs e) {
-            ProductPopupBox p = new ProductPopupBox(productTab, this);
+        protected override void OnClick(EventArgs e)
+        {
+            new ProductPopupBox(productTab, this);
             //base.OnClick(e);
         }
     }

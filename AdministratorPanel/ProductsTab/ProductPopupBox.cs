@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -8,6 +9,7 @@ using System.Drawing;
 using System.Data;
 using System.Drawing.Imaging;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
      public class ProductPopupBox : FancyPopupBox {
@@ -41,7 +43,7 @@ namespace AdministratorPanel {
             RowHeadersVisible = false,
             ScrollBars = ScrollBars.Vertical,
             AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells, 
+            AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells,
         };
 
         TableLayoutPanel headerTableLayoutPanel = new TableLayoutPanel() {
@@ -75,7 +77,7 @@ namespace AdministratorPanel {
             Text = "Product";
             Name = (productItem != null) ? productItem.product.name : "New product";
             Console.WriteLine(Name);
-            
+
             Focus();
 
             this.productTab = productTab;
@@ -126,7 +128,7 @@ namespace AdministratorPanel {
             sectionNameDropDownBox.SelectedValueChanged += (s, e) => { hasBeenChanged = (productItem != null) ? productItem.product.section != sectionNameDropDownBox.Text ? true : false : true; };
             productImagePanel.BackgroundImageChanged += (s, e) => { hasBeenChanged = true; };
         }
-        
+
         private void update() {
             categoryNameDropDownBoxx.Items.Clear();
             // update dropdowns
@@ -141,7 +143,7 @@ namespace AdministratorPanel {
 
             // priceElements list display                 
             priceElements.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            
+
             // Add button click event
             productImagePanel.Click += (s, e) => {
 
@@ -167,8 +169,8 @@ namespace AdministratorPanel {
                     try {
                         imageName =  ofd.SafeFileName; // name
                         image = Image.FromFile( ofd.FileName); // path + name
-                        productImagePanel.BackgroundImage = image; 
-                        
+                        productImagePanel.BackgroundImage = image;
+
                     } catch (Exception ex) {
                         NiceMessageBox.Show(ex.Message);
                     }
@@ -184,12 +186,12 @@ namespace AdministratorPanel {
 
             headerTableLayoutPanel.Controls.Add(innerLeftTableLayoutPanel);
             headerTableLayoutPanel.Controls.Add(innerRightTableLayoutPanel);
-            
+
             return headerTableLayoutPanel;
         }
 
         private void loadPriceElements(List<PriceElement> priceElements) {
-            
+
             if (priceElements.Count > 0) {
                 foreach (var item in priceElements) {
 
@@ -197,31 +199,34 @@ namespace AdministratorPanel {
                 }
             }
         }
-        
+
         private List<PriceElement> SavePriceElemets() {
             List<PriceElement> priceElementList = new List<PriceElement>();
 
             int index = dataTable.Rows.Count;
 
             for (int row = 0; row < index; row++) {
-                bool justReturn = false;
-                decimal bob = 0;
-                try {
-                    bob = decimal.Parse(dataTable.Rows[row][1].ToString());
-                } catch (Exception) {
-                    justReturn = true;
-                }
 
-                if ((dataTable.Rows[row][0] != DBNull.Value && dataTable.Rows[row][1] == DBNull.Value)||justReturn) {
-                    NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
-                    return null;
-                } else if (dataTable.Rows[row][0] == DBNull.Value && dataTable.Rows[row][1] == DBNull.Value) {
+                if (dataTable.Rows[row][0].ToString() == "" && dataTable.Rows[row][1].ToString() == "") {
                     continue;
                 }
-                
+
+
+                bool invalidprice = false;
+                decimal price = 0;
+                try {
+                    price = decimal.Parse(dataTable.Rows[row][1].ToString());
+                } catch (Exception) {
+                    invalidprice = true;
+                }
+                if ((dataTable.Rows[row][0].ToString() != "" && (dataTable.Rows[row][1].ToString() == "")||invalidprice)) {
+                    NiceMessageBox.Show($"Invalid price on row {row+1}.\nThe product was not saved");
+                    return null;
+                }
+
                 PriceElement priceElement = new PriceElement();
                 priceElement.name = dataTable.Rows[row][0].ToString(); // string(name)
-                priceElement.price = decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
+                priceElement.price = price;//decimal.Parse(dataTable.Rows[row][1].ToString()); // decimal(price)
                 priceElementList.Add(priceElement);
             }
             return priceElementList;
@@ -237,6 +242,20 @@ namespace AdministratorPanel {
             productSectionItem = sectionFound.First() as ProductSectionItem;
 
             ProductCategory productCategory = productTab.productCategories.Where(x => x.name == productItem.product.category).First();
+
+            string response = ServerConnection.sendRequest("/submitProduct.aspx",
+                new NameValueCollection() {
+                    {"Action", "delete"},
+                    {"Product", JsonConvert.SerializeObject(productItem.product)}
+                }
+            );
+
+            Console.WriteLine(response);
+
+            if (response != "deleted")
+            {
+                return;
+            }
 
             productTab.productList.Remove(productItem.product);                    // removes product
             productSectionItem.headerFlowLayoutPanel.Controls.Remove(productItem); // removes product item for msection
@@ -260,7 +279,7 @@ namespace AdministratorPanel {
 
         protected override void save(object sender, EventArgs e) {
             // Image save
-            Directory.CreateDirectory("images");
+            Directory.CreateDirectory("images/products/");
 
             if (image == null) {
                 if (DialogResult.OK != NiceMessageBox.Show("No image in product. Do you still want to save", "No Images", MessageBoxButtons.OKCancel)) {
@@ -268,8 +287,8 @@ namespace AdministratorPanel {
                 }
                 image = productImagePanel.BackgroundImage;
             } else {
-                if (!File.Exists("images/" + imageName)) {
-                    image.Save("images/" + imageName);
+                if (!File.Exists("images/products/" + imageName)) {
+                    image.Save("images/products/" + imageName, ImageFormat.Png);
                 }
             }
             // convert priceelements to saves
@@ -278,6 +297,7 @@ namespace AdministratorPanel {
                 NiceMessageBox.Show("No price set");
                 return;
             }
+
             //make new productSave
             if (productItem == null) {
                 Product product = new Product();
@@ -287,6 +307,22 @@ namespace AdministratorPanel {
                 product.category = categoryNameDropDownBoxx.Text;
                 product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
+
+                string response2 = ServerConnection.sendRequest("/submitProduct.aspx",
+                    new NameValueCollection() {
+                        {"Action", "add"},
+                        {"Product", JsonConvert.SerializeObject(product)},
+                        {"Image", ImageHelper.imageToBase64(image)}
+                    }
+                );
+                Console.WriteLine(response2);
+
+                if (response2.Split(' ')[0] != "added")
+                {
+                    return;
+                }
+
+                int.TryParse(response2.Split(' ')[1], out product.id);
 
                 productItem = new ProductItem(product, productTab);
 
@@ -308,8 +344,28 @@ namespace AdministratorPanel {
             productItem.product.section = sectionNameDropDownBox.Text;
             productItem.product.image = imageName;
 
-            // updates producttab elements
-            
+            try {
+                string response = ServerConnection.sendRequest("/submitProduct.aspx",
+                new NameValueCollection() {
+                    {"Action", "update"},
+                    {"Product", JsonConvert.SerializeObject(productItem.product)},
+                    {"Image", ImageHelper.imageToBase64(image)}
+                }
+            );
+                if (response.StartsWith("exception")) {
+                    throw new Exception(response);
+                }
+                Console.WriteLine(response);
+
+                if (response != "updated") {
+                    return;
+                }
+            }
+            catch (Exception) {
+                NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
+                return;
+            }
+
             productTab.MakeItems();
             base.save(sender, e);
             Close();

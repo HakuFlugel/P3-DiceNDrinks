@@ -16,9 +16,8 @@ using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 using Path = System.IO.Path;
 
-
 namespace AndroidAppV2.Activities {
-    [Activity(Theme = "@style/MyTheme.Splash", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
+    [Activity(Theme = "@style/Theme.NoTitle", MainLauncher = true, NoHistory = true, Label = "Dice 'n Drinks",
          ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashActivity : AppCompatActivity {
         // ReSharper disable once InconsistentNaming
@@ -28,15 +27,20 @@ namespace AndroidAppV2.Activities {
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
             base.OnCreate(savedInstanceState, persistentState);
             Log.Debug(TAG, "SplashActivity.OnCreate");
+
         }
 
         protected override void OnResume() {
             base.OnResume();
-
-            Task startupWork = new Task(() => {
-                if (!System.IO.File.Exists(_basePath + "/timestamp.txt"))
-                    FirstTimeSetup();
-                    Update();
+            SetContentView(Resource.Layout.Splash);
+            Task startupWork = new Task(() =>
+            {
+                if (AndroidShared.CheckForInternetConnection()) {
+                    if (!System.IO.File.Exists(_basePath + "/timestamps.json"))
+                        FirstTimeSetup();
+                    else
+                        Update();
+                }             
             });
 
             startupWork.ContinueWith(t => {
@@ -50,6 +54,26 @@ namespace AndroidAppV2.Activities {
         private void FirstTimeSetup() {
             File folder = new File(_basePath + "/images");
             folder.Mkdirs();
+            Dictionary<string, DateTime> timeStamps = CreateTimestap();
+            string[] items = { "Events", "Games", "Products", "AboutUs" };
+
+            foreach (string item in items) {
+                if (timeStamps.ContainsKey(item))
+                    DownloadUpdate(item);
+            }
+        }
+
+        private Dictionary<string, DateTime> CreateTimestap() {
+
+            Dictionary<string, DateTime> timestaps = new Dictionary<string, DateTime> {
+                {"Games", DateTime.MinValue},
+                {"Products", DateTime.MinValue},
+                {"Events", DateTime.MinValue},
+                {"AboutUs", DateTime.MinValue}
+            };
+
+            System.IO.File.WriteAllText(_basePath + "/timestamps.json",JsonConvert.SerializeObject(timestaps));
+            return timestaps;
         }
 
         public void SaveImage(string directory, string fileName, Bitmap bitmap) {
@@ -60,45 +84,64 @@ namespace AndroidAppV2.Activities {
         }
 
         private void Update() {
-            string[] items = { "Games", "Products", "Events" };
+            string[] items = { "Events", "Games", "Products", "AboutUs"};
 
-            for (int i = 0; i < 3; i++) {
-                //TODO: create ask server when it is enabled on the server
-                    DownloadUpdate(items[i]);
+            Dictionary<string, DateTime> newTimes = DownloadTimestap();
+            Dictionary<string, DateTime> oldTimes = LocalTimestap();
+
+            foreach (string item in items) {
+                if (!newTimes.ContainsKey(item) || !oldTimes.ContainsKey(item)) continue;
+                if (newTimes[item].Ticks > oldTimes[item].Ticks) 
+                    DownloadUpdate(item);
             }
+            UpdateTimestap(newTimes);
+        }
+
+        private static Dictionary<string, DateTime> DownloadTimestap() {
+            return JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(AndroidShared.DownloadItem("timestamps"));
+        }
+
+        private Dictionary<string, DateTime> LocalTimestap() {
+            string file = System.IO.File.ReadAllText(_basePath + "/timestamps.json");
+            
+            return JsonConvert.DeserializeObject<Dictionary<string,DateTime>>(file);
+        }
+
+        private void UpdateTimestap(Dictionary<string, DateTime> newTimes) {
+            System.IO.File.Delete(_basePath + "/timestamps.json");
+            System.IO.File.WriteAllText(_basePath + "/timestamps.json", JsonConvert.SerializeObject(newTimes));
         }
 
         private void DownloadUpdate(string location) {
-            AndroidShared ans = new AndroidShared(); 
             string saveLocation = Path.Combine(Environment.ExternalStorageDirectory.Path, $"{_basePath}/{location}.json");
             string item;
 
-            switch (location)
-            {
+            switch (location) {
                 case "Products":
-                    item = ans.DownloadProducts();
+                    item = AndroidShared.DownloadProducts();
+                    System.IO.File.WriteAllText(saveLocation, item);
                     DownloadProductImages(item);
                     break;
                 case "Games":
-                    item = ans.DownloadItem(location);
+                    item = AndroidShared.DownloadItem(location);
+                    System.IO.File.WriteAllText(saveLocation, item);
                     DownloadGameImages(item);
                     break;
                 case "Events":
-                    item = ans.DownloadItem(location);
+                    item = AndroidShared.DownloadItem(location);
+                    System.IO.File.WriteAllText(saveLocation, item);
                     break;
-                default:
-                    item = "";
+                case "AboutUs":
+                    item = AndroidShared.DownloadItem(location);
+                    System.IO.File.WriteAllText(saveLocation, item);
                     break;
             }
-            System.IO.File.WriteAllText(saveLocation, item);
         }
 
-        private static void DownloadGameImages(string jsonlist)
-        {
+        private static void DownloadGameImages(string jsonlist) {
             List<Game> list = JsonConvert.DeserializeObject<List<Game>>(jsonlist);
 
-            foreach (Game item in list)
-            {
+            foreach (Game item in list) {
                 AndroidShared.ImageDownloader(item.imageName, "games");
             }
         }
@@ -107,7 +150,7 @@ namespace AndroidAppV2.Activities {
             List<Product> list = JsonConvert.DeserializeObject<List<Product>>(jsonlist);
 
             foreach (Product item in list) {
-                AndroidShared.ImageDownloader(item.image, "games");
+                AndroidShared.ImageDownloader(item.image, "products");
             }
         }
     }

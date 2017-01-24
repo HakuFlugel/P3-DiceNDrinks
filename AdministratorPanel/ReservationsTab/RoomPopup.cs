@@ -1,72 +1,129 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Shared;
 
 namespace AdministratorPanel {
-    public class RoomPopup : FancyPopupBox // TODO: different base; don't need delete button
+    public class RoomPopup : FancyPopupBox
     {
         private ReservationController reservationController;
-        private DataGridView roomGrid;
-        private DataTable roomTable = new DataTable();
+        private CalendarDay day;
 
-        public RoomPopup(ReservationController reservationController) : base(canDelete: false) {
+        public ListView roomsListView = new ListView()
+        {
+            View = View.Details,
+            LabelEdit = true,
+            AllowColumnReorder = true,
+            CheckBoxes = true,
+            FullRowSelect = true,
+            GridLines = true,
+            Dock = DockStyle.Left,
+            Sorting = SortOrder.Ascending,
+            Width = 200,
+        };
+
+        private Button modifyRoomsButton = new Button()
+        {
+            Text = "Modify Rooms",
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink
+        };
+
+
+        public RoomPopup(ReservationController reservationController, CalendarDay day) : base(canDelete: false)
+        {
+            this.day = day;
             this.reservationController = reservationController;
 
+            modifyRoomsButton.Click += (sender, args) => {
+
+                ModifyRoomPopup rp = new ModifyRoomPopup(reservationController);
+
+                rp.FormClosed += (o, eventArgs) =>
+                {
+                    update();
+                };
+
+                rp.Show();
+            };
+
+            update();
         }
 
-        protected override void OnShown(EventArgs e) {
-            roomTable.Columns.Add("Room");
-            roomTable.Columns.Add("Seats");
+        public void update()
+        {
 
-            for (int i = 0; i < reservationController.rooms.Count; i++) {
-                DataRow dr = roomTable.NewRow();
+            roomsListView.Clear();
 
-                dr["Room"] = reservationController.rooms[i].name;
-                dr["Seats"] = reservationController.rooms[i].seats;
+            roomsListView.Columns.Add("test", -2);
 
-                roomTable.Rows.Add(dr);
+            foreach (var room in reservationController.rooms)
+            {
+                roomsListView.Items.Add(new ListViewItem($"{room.name} : {room.seats}seat{(room.seats != 1 ? "s" : "")}")
+                {
+                    Name = room.name,
+                    Checked = day.roomsReserved.FirstOrDefault(r => r.name == room.name) != null
+                });
             }
-
-            roomGrid.DataSource = roomTable;
-
         }
 
         protected override void save(object sender, EventArgs e) {
             List<Room> rooms = new List<Room>();
 
-            for (int i = 0; i < roomTable.Rows.Count; i++) {
-                try {
-                    if (roomTable.Rows[i]["room"].ToString() == "" && roomTable.Rows[i]["seats"].ToString() == "") {
-                        continue;
+//            for (int i = 0; i < roomsListView.Items.Count; i++)
+//            {
+//                if (roomsListView.Items[i].Checked)
+//                {
+//                    rooms.Add(reservationController.rooms[i]);
+//                }
+//            }
+
+                foreach (ListViewItem item in roomsListView.Items) // NAME field is somehow null
+                {
+                    if (item.Checked)
+                    {
+                        rooms.Add(reservationController.rooms.First(r => r.name == item.Name));
                     }
-
-                    string roomName = roomTable.Rows[i]["room"].ToString();
-                    int seats = int.Parse(roomTable.Rows[i]["seats"].ToString());
-
-                    rooms.Add(new Room { name = roomName, seats = seats });
-
-                } catch (Exception ex) {
-                    Console.WriteLine("saveroom " + ex.Message);
-                    NiceMessageBox.Show("Error on row " + (i + 1) + "\n" + ex.Message);
-                    return;
                 }
+
+            string response = ServerConnection.sendRequest("/submitRoomReserved.aspx",
+                new NameValueCollection() {
+                    {"Rooms", JsonConvert.SerializeObject(rooms)},
+                    {"Date", JsonConvert.SerializeObject(day.theDay.Date)}
+                }
+            );
+            Console.WriteLine(response);
+
+            if (response != "success")
+            {
+                Console.WriteLine("failed to submit room reservations");
+                return;
             }
 
-            reservationController.submitRooms(rooms);
+            reservationController.submitReservedRooms(rooms, day.theDay.Date);
 
 
 
             base.save(sender, e);
         }
 
-        protected override Control CreateControls() {
-            roomGrid = new DataGridView();
-            roomGrid.AutoSize = true;
+        protected override Control CreateControls()
+        {
+            TableLayoutPanel tlp = new TableLayoutPanel()
+            {
+                RowCount = 2,
+                ColumnCount = 1,
+                GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
+                AutoSize = true,
+            };
 
-            return roomGrid;
+            tlp.Controls.Add(roomsListView);
+            tlp.Controls.Add(modifyRoomsButton);
+
+            return tlp;
         }
 
         protected override void delete(object sender, EventArgs e) {

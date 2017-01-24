@@ -12,6 +12,33 @@ namespace AdministratorPanel {
         private FormProgressBar probar = new FormProgressBar();
         private TabControl tabControl = new TabControl();
 
+        private Button refreshButton = new Button()
+        {
+            Text = "↻",
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+        };
+
+        private TableLayoutPanel tableLayoutPanel = new TableLayoutPanel()
+        {
+            ColumnCount = 1,
+            RowCount = 2,
+            GrowStyle = TableLayoutPanelGrowStyle.FixedSize,
+            Dock = DockStyle.Fill,
+            Padding = Padding.Empty,
+            Margin = Padding.Empty
+        };
+
+        private FlowLayoutPanel topFlowPanel = new FlowLayoutPanel()
+        {
+            FlowDirection = FlowDirection.RightToLeft,
+            AutoSize = true,
+            AutoSizeMode = AutoSizeMode.GrowAndShrink,
+            Dock = DockStyle.Top,
+            Padding = Padding.Empty,
+            Margin = Padding.Empty
+        };
+
         public MainWindow() {
             //tab name
             Text = "Dice 'n Drinks";
@@ -25,6 +52,7 @@ namespace AdministratorPanel {
             MinimumSize = new Size(960, 540);
             Width = 960;
             Height = 540;
+            Padding = Padding.Empty;
             
             tabControl.Dock = DockStyle.Fill;
             probar.addToProbar();                               //For progress bar. 1
@@ -44,7 +72,19 @@ namespace AdministratorPanel {
             tabControl.Controls.AddRange(tabs.ToArray());
             probar.addToProbar();                               //For progress bar. 3
 
-            Controls.Add(tabControl);
+            refreshButton.Click += (sender, args) =>
+            {
+                foreach (var tab in tabs)
+                {
+                    tab.download();
+                }
+            };
+            topFlowPanel.Controls.Add(refreshButton);
+            tableLayoutPanel.Controls.Add(topFlowPanel);
+
+            tableLayoutPanel.Controls.Add(tabControl);
+
+            Controls.Add(tableLayoutPanel);
             probar.addToProbar();                               //For progress bar. 4
 
             Activate();
@@ -67,16 +107,10 @@ namespace AdministratorPanel {
             reservationController.save();
         }
 
-        [STAThread] // do we still need thisssss.
+        [STAThread]
         private static void Main(string[] args) {
 
-            //ReservationController reservationController = new ReservationController();
-            //reservationController.load();
-            //...
-            //...
-            //...
-
-            ServerConnection.ip = "172.25.11.113"; // TODO: get this from somewhere
+            ServerConnection.ip = "172.25.11.113";
 
             MainWindow p = new MainWindow();
 

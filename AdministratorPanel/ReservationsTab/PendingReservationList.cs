@@ -20,7 +20,6 @@ namespace AdministratorPanel {
             AutoScroll = true;
             VScroll = true;
 
-            //TODO: is this implementation too hacky? maybe do it in item as mentioned in another todo
             reservationController.ReservationUpdated += (sender, args) =>
             {
                 makeItems();

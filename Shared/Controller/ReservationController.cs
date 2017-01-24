@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Net;
-
-// TODO: reservation af lokale osv. : Vi har List<int> med de rum der har her. Har List<int> på hver dag, hvor de gennem en checkbox eller lignende kan tilføje/fjerne en sådan reservation
+using Newtonsoft.Json;
 
 namespace Shared
 {
@@ -14,9 +13,16 @@ namespace Shared
         public List<Room> rooms = new List<Room>();
         public List<CalendarDay> reservationsCalendar = new List<CalendarDay>();
 
+        public class AutoAcceptSettings
+        {
+            public int defaultAcceptPercentage = 50;
+            public int defaultAcceptMaxPeople = 5;
+        }
+        public AutoAcceptSettings autoAcceptSettings = new AutoAcceptSettings();
+
+
         public event EventHandler ReservationUpdated;
 
-        //TODO: make sure it is pending if from user
 
         public void addReservation(Reservation reservation) {
 
@@ -26,14 +32,11 @@ namespace Shared
 
             CalendarDay tempday = findDay(reservation.time);
 
-            if (tempday.isLocked)
-                reservation.state = Reservation.State.Denied;
-            else
-                checkIfAutoAccept(reservation, tempday);
+            if(reservation.state == Reservation.State.Pending)
+                checkIfAutoAccept(reservation, findDay(reservation.time));
 
             save();
         }
-        //TODO: make sure it is pending if from user
         public void updateReservation(Reservation reservation)
         {
             Reservation oldReservation =
@@ -44,8 +47,8 @@ namespace Shared
             removeFromDay(oldReservation);
 
             addToDay(reservation);
-            //if(reservation.time.Date != oldReservation.time.Date)
-            //    checkIfAutoAccept(reservation, findDay(reservation.time));
+            if(reservation.state == Reservation.State.Pending)
+                checkIfAutoAccept(reservation, findDay(reservation.time));
 
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
 
@@ -81,27 +84,26 @@ namespace Shared
         private void addToDay(Reservation reservation) {
 
             CalendarDay resDay = findDay(reservation.time);
-            
+
             resDay.reservations.Add(reservation);
             resDay.calculateReservedSeats();
-            //resDay.reservedSeats += reservation.numPeople;
-            
+
         }
 
         public CalendarDay findDay(DateTime date) {
             CalendarDay resDay = reservationsCalendar.FirstOrDefault(o => o.theDay.Date == date.Date);
             if (resDay == null) {
-                resDay = new CalendarDay() { theDay = date.Date };
+                resDay = new CalendarDay(autoAcceptSettings.defaultAcceptPercentage, autoAcceptSettings.defaultAcceptMaxPeople) { theDay = date.Date };
                 reservationsCalendar.Add(resDay);
             }
-            resDay.calculateSeats(this); //TODO: maybe it can be moved into the if above
+            resDay.calculateSeats(this);
 
             return resDay;
         }
         public bool checkIfRemove(CalendarDay day) {
             if (day.theDay < DateTime.Today.AddDays(-1) || !day.isLocked && day.reservations.Count < 1
-                 && day.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
-                 && day.defaultAcceptPresentage == day.acceptPresentage)
+                 && autoAcceptSettings.defaultAcceptMaxPeople == day.autoAcceptMaxPeople
+                 && autoAcceptSettings.defaultAcceptPercentage == day.acceptPercentage)
 
                 return true;
             else
@@ -113,11 +115,11 @@ namespace Shared
 
             resDay.reservations.RemoveAll(r => r.id == reservation.id);
             //resDay.reservations.Remove(reservation);
-            resDay.calculateReservedSeats(); 
+            resDay.calculateReservedSeats();
 
-            if(checkIfRemove(resDay)) 
+            if(checkIfRemove(resDay))
                 reservationsCalendar.Remove(resDay);
-            
+
             //resDay.reservedSeats -= reservation.numPeople;
         }
 
@@ -126,7 +128,7 @@ namespace Shared
             List<Room> toremove = new List<Room>();
             foreach (var existingroom in this.rooms)
             {
-                if (!rooms.Any(r => r.id == existingroom.id))
+                if (!rooms.Any(r => r.name == existingroom.name))
                 {
                     toremove.Add(existingroom);
                     //reservationController.removeRoom(existingroom);
@@ -153,11 +155,13 @@ namespace Shared
 
             save();
 
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
+
         }
 
         private void addRoom(Room room) {
             rooms.Add(room);
-            calculateSeats();
+            calculateTotalSeats();
 
             foreach (var day in reservationsCalendar)
             {
@@ -170,7 +174,7 @@ namespace Shared
         private void removeRoom(Room room)
         {
             rooms.Remove(room);
-            calculateSeats();
+            calculateTotalSeats();
 
             foreach (var day in reservationsCalendar) {
                 day.unreserveRoom(this, room);
@@ -184,10 +188,10 @@ namespace Shared
         private void changeRoom(Room room)
         {
 
-            Room oldroom = rooms.First(r => r.id == room.id);
+            Room oldroom = rooms.First(r => r.name == room.name);
 
             rooms[rooms.IndexOf(oldroom)] = room;
-            calculateSeats();
+            calculateTotalSeats();
 
             foreach (var day in reservationsCalendar) {
                 int roomindex = day.roomsReserved.IndexOf(oldroom);
@@ -200,7 +204,7 @@ namespace Shared
             ReservationUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        private void calculateSeats()
+        private void calculateTotalSeats()
         {
             totalSeats = rooms.Sum(r => r.seats);
         }
@@ -209,31 +213,31 @@ namespace Shared
         {
             saveFile("reservationsCalendar", reservationsCalendar);
             saveFile("rooms", rooms);
+            saveAutoAccept();
         }
         public void checkIfAutoAccept(Reservation reservation, CalendarDay resDay) {
-         
-            
-            //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPresentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
-            
 
-            if(resDay != null ) {
-                if (resDay.numSeats == 0)
-                    resDay.calculateSeats(this);
-                    resDay.calculateReservedSeats();
-//                foreach (var item in resDay.reservations.Where(x => x.state == Reservation.State.Accepted))
-//                    reservedSeats += item.numPeople;
+
+            //Console.WriteLine(resDay == null? "DAY IS NULL" : resDay.isAutoaccept.ToString() + " " + resDay.acceptPercentage.ToString() + " <= " + "(" + resDay.reservedSeats.ToString() + "+" + reservation.numPeople.ToString() + ")*100 / " + resDay.numSeats.ToString());
+
+
+            if (resDay.numSeats == 0)
+                resDay.calculateSeats(this);
+                resDay.calculateReservedSeats();
+
+            if (resDay.isLocked)
+            {
+                reservation.state = Reservation.State.Denied;
+            }
+            else if (reservation.numPeople <= resDay.autoAcceptMaxPeople
+                    && reservation.numPeople <= resDay.numSeats
+                    && resDay.isAutoaccept
+                    && (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats <= resDay.acceptPercentage)
+            {
+                reservation.state = Reservation.State.Accepted;
             }
 
-            if ((resDay == null && reservation.numPeople <= 5
-             || (!resDay.isLocked
-             && resDay.autoAcceptMaxPeople >= reservation.numPeople
-             && resDay.isAutoaccept //maybe
-             && resDay.acceptPresentage >= (resDay.reservedSeats + reservation.numPeople) * 100 / resDay.numSeats))
-             && reservation.state != Reservation.State.Accepted && !reservation.forcedByAdmin) {
 
-                reservation.state = Reservation.State.Accepted;
-            } else 
-                return;
             updateReservation(reservation);
 
         }
@@ -243,9 +247,62 @@ namespace Shared
         {
             reservationsCalendar = loadFile<CalendarDay>("reservationsCalendar");
             rooms = loadFile<Room>("rooms");
+            loadAutoAccept();
 
-            calculateSeats();
+            calculateTotalSeats();
         }
 
+        public void submitReservedRooms(List<Room> list, DateTime day)
+        {
+
+            CalendarDay calendarDay = findDay(day);
+
+            calendarDay.roomsReserved = list;
+            calculateTotalSeats();
+            calendarDay.calculateSeats(this);
+
+            save();
+
+            ReservationUpdated?.Invoke(this, EventArgs.Empty);
+        }
+
+
+        protected void saveAutoAccept()
+        {
+            Directory.CreateDirectory(path);
+
+            using (StreamWriter streamWriter = new StreamWriter(path + "autoaccept" + ext))
+            using (JsonTextWriter jsonTextWriter = new JsonTextWriter(streamWriter))
+            {
+                jsonSerializer.Serialize(jsonTextWriter, autoAcceptSettings);
+            }
+
+        }
+
+        protected void loadAutoAccept()
+        {
+
+            Directory.CreateDirectory(path);
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(path + "autoaccept" + ext))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    autoAcceptSettings = jsonSerializer.Deserialize<AutoAcceptSettings>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("autoaccept not found");
+            }
+
+            if (autoAcceptSettings == null)
+            {
+                Console.WriteLine("autoaccept was null after loading... setting it to new list");
+                autoAcceptSettings = new AutoAcceptSettings();
+            }
+
+        }
     }
 }

@@ -30,7 +30,6 @@ namespace AdministratorPanel {
             };
         }
 
-        //TODO: call on change...
         public void updateCurrentDay() {
             makeItems(calendar.SelectionStart.Date);
         }
@@ -43,21 +42,6 @@ namespace AdministratorPanel {
                 return;
             }
             calendar.SelectionStart = cd.theDay.Date;
-//TODO: move to event in reservationtab or should it be part of this class instead?
-//            calTab.reserveSpaceValue = 0;
-//            foreach (var item in cd.reservations.FindAll(o => o.pending == false)) {
-//                calTab.reserveSpaceValue += item.numPeople;
-//            }
-//            if (calTab.reserveSpaceValue < 100) {
-//                calTab.reserveSpace.Value = calTab.reserveSpaceValue;
-//            }
-//            else {
-//                calTab.reserveSpace.Value = 100;
-//                NiceMessageBox.Show("The newReservation max count is exceeded!");
-//            }
-//            calTab.reserveSpaceText.Text = calTab.reserveSpaceValue.ToString() + " / 100";
-
-            //            calTab.reservationFull.Checked = cd.isFullChecked;
 
             //SuspendLayout();
             foreach (var res in cd.reservations.OrderBy(o => o.time.TimeOfDay).OrderBy(o => o.state == Reservation.State.Accepted)) {
@@ -70,7 +54,7 @@ namespace AdministratorPanel {
 
         public void lockReservations(bool isChecked) {
             if (cd == null) {
-                cd = new CalendarDay { theDay = calendar.SelectionStart, isFullChecked = false };
+                cd = new CalendarDay(reservationController.autoAcceptSettings.defaultAcceptPercentage, reservationController.autoAcceptSettings.defaultAcceptMaxPeople) { theDay = calendar.SelectionStart, isFullChecked = false };
                 reservationController.reservationsCalendar.Add(cd);
             }
             cd.isFullChecked = isChecked;

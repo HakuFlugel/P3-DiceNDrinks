@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using Shared;
 using System;
+using System.Collections.Specialized;
+using Newtonsoft.Json;
 
 namespace AdministratorPanel {
     public class ReservationItem : NiceButton {
@@ -13,7 +15,7 @@ namespace AdministratorPanel {
         public DateTime created;
         public Reservation.State pending;
         private ReservationController reservationController;
-        private Reservation res;
+        private Reservation reservation;
 
         Button declineButton = new Button() {
             Text = "Decline",
@@ -40,23 +42,23 @@ namespace AdministratorPanel {
             AutoSize = true,
         };
 
-        public ReservationItem(ReservationController reservationController, Reservation res) {
+        public ReservationItem(ReservationController reservationController, Reservation reservation) {
             this.reservationController = reservationController;
-            this.res = res;
-            if (res.state == Reservation.State.Denied)
+            this.reservation = reservation;
+            if (reservation.state == Reservation.State.Denied)
                 bgColor = Color.IndianRed;
-            else if (res.state == Reservation.State.Accepted)
+            else if (reservation.state == Reservation.State.Accepted)
                 bgColor = Color.LightSeaGreen;
             else
                 bgColor = Color.LightGray;
 
-            name = res.name;
-            email = res.email;
-            phone = res.phone;
-            numPeople = res.numPeople;
-            time = res.time;
-            created = res.created;
-            pending = res.state;
+            name = reservation.name;
+            email = reservation.email;
+            phone = reservation.phone;
+            numPeople = reservation.numPeople;
+            time = reservation.time;
+            created = reservation.created;
+            pending = reservation.state;
 
             RowCount = 1;
             ColumnCount = 3;
@@ -83,7 +85,7 @@ namespace AdministratorPanel {
             Controls.Add(theRightItems);
             //           theWrongItems
 
-            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true }); // TODO: add content from reservation
+            theLeftItems.Controls.Add(new Label { Text = name, AutoSize = true });
             theMiddleItems.Controls.Add(new Label { Text = numPeople.ToString() + " People", AutoSize = true });
             theRightItems.Controls.Add(new Label { Text = "Created: " + created.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
             theRightItems.Controls.Add(new Label { Text = time.ToString("ddddd, dd. MMMM, yyyy HH:mm"), AutoSize = true, Dock = DockStyle.Right });
@@ -93,34 +95,62 @@ namespace AdministratorPanel {
 
         private void subscribeController() {
             declineButton.Click += (s, e) => {
-                //TODO: locking reservations = deny remaining reservations?
-                res.state = Reservation.State.Denied;
-                reservationController.updateReservation(res);
-                res.forcedByAdmin = true;
+
+                reservation.state = Reservation.State.Denied;
+
+                string response = ServerConnection.sendRequest("/submitReservation.aspx",
+                    new NameValueCollection() {
+                        {"Action", "update"},
+                        {"Reservation", JsonConvert.SerializeObject(reservation)}
+                    }
+                );
+
+                if (response != "updated")
+                {
+                    Console.WriteLine("failed" + response);
+                    return;
+                }
+
+                reservationController.updateReservation(reservation);
                 update();
 
                 /*foreach (var item in reservationController.calDayList) {
-                    item.reservations.Remove(res);
+                    item.reservations.Remove(reservation);
                 }
                 calTab.reservationList.updateCurrentDay(time.Date);
                 calTab.pendingReservationList.updateCurrentDay();*/
             };
             Click += (s, e) => {
-                ReservationPopupBox p = new ReservationPopupBox(reservationController, res);
+                new ReservationPopupBox(reservationController, reservation);
             };
 
             acceptButton.Click += (s, e) => {
-                res.state = Reservation.State.Accepted;
-                update(); //TODO: a little hacky
-                reservationController.updateReservation(res);
-                res.forcedByAdmin = true;
+                reservation.state = Reservation.State.Accepted;
+
+                string response = ServerConnection.sendRequest("/submitReservation.aspx",
+                    new NameValueCollection() {
+                        {"Action", "update"},
+                        {"Reservation", JsonConvert.SerializeObject(reservation)}
+                    }
+                );
+
+                if (response != "updated")
+                {
+                    Console.WriteLine("failed" + response);
+                    return;
+                }
+
+                Console.WriteLine(response);
+
+                update();
+                reservationController.updateReservation(reservation);
                 //calTab.reservationList.updateCurrentDay(time.Date);
                 //calTab.pendingReservationList.updateCurrentDay();
             };
         }
 
         public void update() {
-            if (res.state == Reservation.State.Pending) {
+            if (reservation.state == Reservation.State.Pending) {
                 theRightItems.Controls.Add(twoButtons);
             }
             else if(theRightItems.Controls.Contains(twoButtons))

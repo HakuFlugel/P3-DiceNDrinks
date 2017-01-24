@@ -39,22 +39,30 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authentication.cs" />
     <Compile Include="DiceServer.cs" />
+    <Content Include="dndserver\data\adminkeys.json" />
+    <Content Include="dndserver\data\rooms.json" />
+    <Content Include="dndserver\submitAutoAccept.aspx" />
+    <Content Include="dndserver\submitRoomReserved.aspx" />
+    <Compile Include="ImageHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dndserver\get.aspx" />
     <Content Include="dndserver\global.asax" />
     <Content Include="dndserver\index.aspx" />
+    <Content Include="dndserver\submitContactInfo.aspx" />
     <Content Include="dndserver\submitEvent.aspx" />
     <Content Include="dndserver\submitGame.aspx" />
     <Content Include="dndserver\submitProduct.aspx" />
     <Content Include="dndserver\submitReservation.aspx" />
+    <Content Include="dndserver\submitRooms.aspx" />
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +70,9 @@
       <Project>{6BFEC132-8DC8-488F-A302-09BE8758A671}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dndserver\images\games" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

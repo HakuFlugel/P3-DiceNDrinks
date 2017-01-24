@@ -8,10 +8,10 @@ namespace Shared
 {
     public abstract class ControllerBase
     {
-        private string path;// = "data/";
-        private const string ext = ".json";
+        protected string path;// = "data/";
+        protected const string ext = ".json";
 
-        private  JsonSerializer jsonSerializer = JsonSerializer.Create();
+        protected  JsonSerializer jsonSerializer = JsonSerializer.Create();
 
         public abstract void save();
         public abstract void load();
@@ -37,7 +37,7 @@ namespace Shared
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine(name + " not found"); // TODO: put this stuff inside some function
+                Console.WriteLine(name + " not found");
             }
 
             if (content == null)
@@ -49,7 +49,36 @@ namespace Shared
             return content;
         }
 
-        protected void saveFile<T>(string name, List<T> content)
+        // Used by Config
+        protected Dictionary<T1, T2> loadFile<T1, T2>(string name)
+        {
+            Dictionary<T1, T2> content = null;
+
+            Directory.CreateDirectory(path);
+            try
+            {
+                using (StreamReader streamReader = new StreamReader(path + name + ext))
+                using (JsonTextReader jsonTextReader = new JsonTextReader(streamReader))
+                {
+                    content = jsonSerializer.Deserialize<Dictionary<T1, T2>>(jsonTextReader);
+
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine(name + " not found");
+            }
+
+            if (content == null)
+            {
+                Console.WriteLine(name + " was null after loading... setting it to new list");
+                content = new Dictionary<T1, T2>();
+            }
+
+            return content;
+        }
+
+        protected void saveFile<T>(string name, ICollection<T> content)
         {
             Directory.CreateDirectory(path);
 

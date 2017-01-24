@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,12 +28,12 @@ namespace AdministratorPanel {
 
         }
 
-        public void makeItems(string seach) {
+        public void makeItems(string search = "") {
             Controls.Clear();
             if (games != null) {
-                foreach (var res in games.Where((Game gam) => (gam.name != null) ? (gam.name.ToLower().Contains(seach)) : (gam.id.ToString().ToLower().Contains(seach))).OrderBy(o => o.name)) {
+                foreach (var res in games.Where((Game gam) => (gam.name != null) ? (gam.name.ToLower().Contains(search)) : (gam.id.ToString().ToLower().Contains(search))).OrderBy(o => o.name)) {
                     GamesItem gameitem = new GamesItem(res);
-                    gameitem.Click += (s, e) => { GamePopupBox popupbox = new GamePopupBox(gametab, res, genres); };
+                    gameitem.Click += (s, e) => { new GamePopupBox(gametab, res, genres); };
                     Controls.Add(gameitem);
                 }
             }    

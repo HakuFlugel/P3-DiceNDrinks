@@ -1,9 +1,11 @@
 ﻿using System.Windows.Forms;
 
 namespace AdministratorPanel {
-    abstract public class AdminTabPage : TabPage {
-        abstract public void Save();
+    public abstract class AdminTabPage : TabPage {
+        public abstract void Save();
 
-        abstract public void Load();
+        public abstract void Load();
+
+        public abstract void download();
     }
 }

@@ -154,11 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <AndroidAsset Include="Assets\VirtualServerReservation.json" />
-    <AndroidAsset Include="Assets\TheUserReservationID.json" />
-    <AndroidAsset Include="Assets\products.json" />
-    <AndroidAsset Include="Assets\events.json" />
-    <AndroidAsset Include="Assets\games.json" />
     <None Include="GettingStarted.Xamarin" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
@@ -193,6 +188,9 @@
     <AndroidResource Include="Resources\layout\productListGroup.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\Splash.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml">
@@ -223,55 +221,7 @@
     <AndroidResource Include="Resources\drawable\splash_screen.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\_default.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\almkaffe.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\cappuccino.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\chocochino.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\chokolade.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\espresso.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\kaffelatte.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\limfjordsporter.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\nachos.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\popcorn.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\te.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\thyclassic.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\toast.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\varmkakao.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidAsset Include="Assets\ProductPics\westonscider.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidAsset Include="Assets\nopic.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\BasicLoad.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\F_logo.png" />
@@ -293,6 +243,33 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Iconv3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\nopic.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Bottom_Left_Reservation.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Bottom_Right_Events.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Top_Right_Menu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Iconv3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Top_Left_Games.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\reserve_red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\reserve_green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\reserve_yellow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.24.2.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
