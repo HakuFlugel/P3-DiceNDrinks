@@ -323,7 +323,7 @@ namespace AdministratorPanel {
                     new NameValueCollection() {
                         {"Action", "add"},
                         {"Product", JsonConvert.SerializeObject(product)},
-                        {"Image", image !=null ? ImageHelper.imageToBase64(image) : ""}
+                        {"Image", image != null ? ImageHelper.imageToBase64(image) : ""}
                     }
                 );
                 Console.WriteLine(response2);
@@ -341,13 +341,11 @@ namespace AdministratorPanel {
                 productTab.AddProductItem(productItem);
 
 
-                base.save(sender, e);
-
             } // override a product
             else if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section) {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
-            } 
+
             // save content
             productItem.product.name = productNameBox.Text;
             productItem.product.PriceElements = listOfPriceElements;
@@ -376,6 +374,7 @@ namespace AdministratorPanel {
                 Console.WriteLine(ex.Message);
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
                 return;
+            }
             }
 
             productTab.MakeItems();

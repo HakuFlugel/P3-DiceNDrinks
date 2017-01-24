@@ -48,9 +48,17 @@
             Response.Write("deleted");
             break;
         case "add":
-            game.timestamp = DateTime.UtcNow;
-            diceServer.gamesController.addGame(game);
-            Response.Write("added " + game.id);
+            try
+            {
+                game.timestamp = DateTime.UtcNow;
+                diceServer.gamesController.addGame(game);
+                Response.Write("added " + game.id);
+            }
+            catch (Exception e)
+            {
+                Response.Write("failed ");
+                Response.Write(e);
+            }
             goto doafter;
         case "update":
             try
