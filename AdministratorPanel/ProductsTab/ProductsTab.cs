@@ -112,22 +112,21 @@ namespace AdministratorPanel {
             }
 
             foreach (var item in productList) {
+                Console.WriteLine(item.ToString());
+                if (item.category == "" || item.section == "") {
+                    if (invalidProduct == false) {
+                        invalidProduct = true;
+                        NiceMessageBox.Show("category or section faliure. the product is added to invalid products");
+                    }
+                    item.category = "invalid products";
+                    item.section = "products";
+
+                }
                 AddProductItem(new ProductItem(item, this));
             }
         }
 
         public void AddProductItem(ProductItem item) {
-
-            if (item.product.category == "" || item.product.section == "") {
-                if (invalidProduct == false) {
-                    invalidProduct = true;
-                    NiceMessageBox.Show("category or section faliure. the product is added to invalid products");
-                }
-                item.product.category = "invalid products";
-                item.product.section = "products";
-                    
-            }
-
 
             var categoryResult = tabControl.Controls.Find(item.product.category, false);
             ProductCategoryTab categoryTab;
