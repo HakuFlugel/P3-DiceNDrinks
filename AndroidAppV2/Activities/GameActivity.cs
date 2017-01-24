@@ -89,5 +89,10 @@ namespace AndroidAppV2.Activities {
             return list;
         }
 
+        protected override void OnResume() {
+            base.OnResume();
+            AndroidShared.Update();
+        }
+
     }
 }
