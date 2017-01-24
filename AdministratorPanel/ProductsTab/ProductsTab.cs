@@ -81,7 +81,7 @@ namespace AdministratorPanel {
 
                 foreach (var newproduct in tuple.Item2)
                 {
-                    if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/games/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp)
+                    if (!String.IsNullOrEmpty(newproduct.image) && (!File.Exists("images/games/" + newproduct.image) || newproduct.timestamp > productList.FirstOrDefault(g => g.id == newproduct.id)?.timestamp))
                     {
                         if (File.Exists("images/games/" + newproduct.image))
                         {
