@@ -97,7 +97,7 @@ namespace AdministratorPanel {
 
                 if (productItem.product.image != null) {
                     try {
-                        image = Image.FromFile("images/" + productItem.product.image);
+                        image = Image.FromFile("images/products/" + productItem.product.image);
                         productImagePanel.BackgroundImage = image;
 
                     } catch (Exception e) {
@@ -105,8 +105,11 @@ namespace AdministratorPanel {
                     }
                 }
 
-            } else {
-                Controls.Find("delete", true).First().Enabled = false;
+            } else
+            {
+                var firstOrDefault = Controls.Find("delete", true).FirstOrDefault();
+                if (firstOrDefault != null)
+                    firstOrDefault.Enabled = false;
             }
             priceElements.DataSource = dataTable;
             SubscriptionController();
@@ -162,7 +165,7 @@ namespace AdministratorPanel {
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
 
-                    if (File.Exists("images/" + ofd.SafeFileName)) {
+                    if (File.Exists("images/products/" + ofd.SafeFileName)) {
                         NiceMessageBox.Show("imagename already exist");
                     }
 
@@ -329,8 +332,8 @@ namespace AdministratorPanel {
                 productTab.productList.Add(productItem.product);
                 productTab.AddProductItem(productItem);
 
-                Close();
-                return;
+
+                base.save(sender, e);
 
             } // override a product
             else if (categoryNameDropDownBoxx.Text != productItem.product.category || sectionNameDropDownBox.Text != productItem.product.section) {
@@ -368,7 +371,6 @@ namespace AdministratorPanel {
 
             productTab.MakeItems();
             base.save(sender, e);
-            Close();
         }
     }
 }

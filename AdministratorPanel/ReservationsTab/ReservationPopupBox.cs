@@ -96,9 +96,12 @@ namespace AdministratorPanel {
 
                 }
 
-            } else {
+            } else
+            {
                 pendingSet.SelectedItem = Reservation.State.Accepted;
-                Controls.Find("delete", true).First().Enabled = false;
+                var firstOrDefault = Controls.Find("delete", true).FirstOrDefault();
+                if (firstOrDefault != null)
+                    firstOrDefault.Enabled = false;
             }
 
             SubscriptionController();
@@ -173,7 +176,7 @@ namespace AdministratorPanel {
         protected override void save(object sender, EventArgs e) {
 
             DateTime expectedDate;
-            if (!DateTime.TryParseExact(timePicker.Text, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedDate)) {
+            if (!DateTime.TryParseExact(timePicker.Text, "H:m", CultureInfo.CurrentCulture, DateTimeStyles.None, out expectedDate)) {
 
                 NiceMessageBox.Show("The time input box(es) is incorrect please check, if they have the right syntax(hh:mm). Example: 23:59");
                 return;
@@ -208,6 +211,7 @@ namespace AdministratorPanel {
             Reservation newReservation = new Reservation();
             newReservation.id = reservation?.id ?? 0;
             newReservation.state = (Reservation.State)pendingSet.SelectedValue;
+            Console.WriteLine(newReservation.state);
             newReservation.timestamp = DateTime.UtcNow;
             newReservation.name = reservationName.Text;
             int.TryParse(numPeople.Text, out newReservation.numPeople);
@@ -279,11 +283,11 @@ namespace AdministratorPanel {
             if (emailParts.Length != 2)
                 throw new FormatException("Email address must contain exactly one '@'");
 
-            if (emailParts[0][0] == '.' || emailParts[0][emailParts.Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts.Length - 1] == '.')
+            if (emailParts[0][0] == '.' || emailParts[0][emailParts[0].Length - 1] == '.' || emailParts[1][0] == '.' || emailParts[1][emailParts[1].Length - 1] == '.')
                 throw new FormatException("Email address local- or domain-part can't start or end with a '.'");
 
             if (!emailParts[1].Contains('.'))
-                throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.tld");
+                throw new FormatException("Email adress domain part must contain atleast 1 '.'. ie. @domain.com");
 
             if (email.Contains(".."))
                 throw new FormatException("Email address may not contain consecutive '.'s, ie. '..'.");

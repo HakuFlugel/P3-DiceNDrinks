@@ -10,31 +10,27 @@ namespace AdministratorPanel {
             Text = "Delete"
         };
 
-        private TextBox genreItemTextBox = new TextBox();
+        private NiceTextBox genreItemTextBox = new NiceTextBox() {
+            waterMark = "New Genre",
 
-        private Button saveButtom = new Button() {
-            Dock = DockStyle.Right,
-            Cursor = Cursors.Hand,
-            Text = "Save"
         };
+        public GenreItem(Genres genre, string oldname, EditGenrePopupbox popbox) {
+            Remove.Size = new Size(50, genreItemTextBox.Height);
+            Name = oldname;
 
-        public GenreItem(Genres genre, string item, EditGenrePopupbox popbox) {
-            Remove.Size = saveButtom.Size = new Size(50,genreItemTextBox.Height);
-
-            saveButtom.Click += (s, e) => {
-                genre.rename(item, genreItemTextBox.Text);
+            Remove.Click += (s, e) => {
+                genre.remove(oldname);
                 popbox.UpdateGenres();
             };
 
-            Remove.Click += (s, e) => {
-                genre.remove(item);
-                popbox.UpdateGenres();
+            genreItemTextBox.TextChanged += (s, e) => {
+                Name = genreItemTextBox.Text;
             };
 
             BackColor = Color.LightGray;
-            genreItemTextBox.Text = item;
+            genreItemTextBox.Text = oldname;
+
             Controls.Add(genreItemTextBox);
-            Controls.Add(saveButtom);
             Controls.Add(Remove);
 
 
