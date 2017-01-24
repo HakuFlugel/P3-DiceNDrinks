@@ -345,35 +345,36 @@ namespace AdministratorPanel {
                 productItem.Parent.Controls.Remove(productItem);
                 productTab.AddProductItem(productItem);
 
-            // save content
-            productItem.product.name = productNameBox.Text;
-            productItem.product.PriceElements = listOfPriceElements;
-            productItem.product.category = categoryNameDropDownBoxx.Text;
-            productItem.product.section = sectionNameDropDownBox.Text;
-            productItem.product.image = imageName;
+                // save content
+                productItem.product.name = productNameBox.Text;
+                productItem.product.PriceElements = listOfPriceElements;
+                productItem.product.category = categoryNameDropDownBoxx.Text;
+                productItem.product.section = sectionNameDropDownBox.Text;
+                productItem.product.image = imageName;
 
-            try {
-                string response = ServerConnection.sendRequest("/submitProduct.aspx",
-                new NameValueCollection() {
-                    {"Action", "update"},
-                    {"Product", JsonConvert.SerializeObject(productItem.product)},
-                    {"Image", ImageHelper.imageToBase64(image)}
-                }
-            );
-                if (response.StartsWith("exception")) {
-                    throw new Exception(response);
-                }
-                Console.WriteLine(response);
+                try {
+                    string response = ServerConnection.sendRequest("/submitProduct.aspx",
+                        new NameValueCollection() {
+                            {"Action", "update"},
+                            {"Product", JsonConvert.SerializeObject(productItem.product)},
+                            {"Image", image != null ? ImageHelper.imageToBase64(image) : ""}
+                        }
+                    );
+                    Console.WriteLine(response);
+    
+                    if (response.StartsWith("exception")) {
+                        throw new Exception(response);
+                    }
 
-                if (response != "updated") {
+                    if (response != "updated") {
+                        return;
+                    }
+                }
+                catch (Exception ex) {
+                    Console.WriteLine(ex.Message);
+                    NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
                     return;
                 }
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex.Message);
-                NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
-                return;
-            }
             }
 
             productTab.MakeItems();
