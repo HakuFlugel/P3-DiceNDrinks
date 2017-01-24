@@ -437,7 +437,7 @@ namespace AdministratorPanel
             }
             catch (Exception)
             {
-                Console.WriteLine("Could not save image locally");
+                NiceMessageBox.Show("Could not save image locally");
             }
 
             try {
@@ -451,7 +451,7 @@ namespace AdministratorPanel
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
-                Console.WriteLine(response);
+                NiceMessageBox.Show(response + " Fuck");
 
                 if (beforeEditing != null) {
                     if (response != "updated") {
@@ -462,7 +462,9 @@ namespace AdministratorPanel
                 else {
 
                     if (response.Split(' ')[0] != "added") {
+                        NiceMessageBox.Show("Fuck");
                         return;
+                        
                     }
                     int.TryParse(response.Split(' ')[1], out game.id);
                     gametab.games.Add(game);
@@ -470,7 +472,7 @@ namespace AdministratorPanel
             }
             catch (Exception ex) {
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
-                Console.WriteLine(ex);
+                
                 return;
             }
             gametab.game.makeItems("");
