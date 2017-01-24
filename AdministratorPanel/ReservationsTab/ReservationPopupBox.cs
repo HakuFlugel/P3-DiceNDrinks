@@ -250,6 +250,7 @@ namespace AdministratorPanel {
                     }
 
                     newReservation.id = reservationID;
+                    newReservation.created = DateTime.Now;
                     reservationController.addReservation(newReservation);
 
                 }

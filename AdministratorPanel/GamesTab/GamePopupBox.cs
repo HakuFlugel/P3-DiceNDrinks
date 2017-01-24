@@ -414,7 +414,6 @@ namespace AdministratorPanel {
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
-                NiceMessageBox.Show(response);
 
                 if (beforeEditing != null) {
                     if (response != "updated") {
