@@ -29,6 +29,8 @@ namespace AdministratorPanel {
         public List<Product> productList = new List<Product>();
         public TabControl tabControl = new TabControl();
 
+        private bool invalidProduct = false;
+
         public ProductsTab(FormProgressBar probar) {
             Text = "Products";
             tabControl.Dock = DockStyle.Fill;
@@ -115,6 +117,18 @@ namespace AdministratorPanel {
         }
 
         public void AddProductItem(ProductItem item) {
+
+            if (item.product.category == "" || item.product.section == "") {
+                if (invalidProduct == false) {
+                    invalidProduct = true;
+                    NiceMessageBox.Show("category or section faliure. the product is added to invalid products");
+                }
+                item.product.category = "invalid products";
+                item.product.section = "products";
+                    
+            }
+
+
             var categoryResult = tabControl.Controls.Find(item.product.category, false);
             ProductCategoryTab categoryTab;
 
@@ -161,16 +175,14 @@ namespace AdministratorPanel {
         public override void Load() {
             string loadStringProducts = null;
             Directory.CreateDirectory("Sources");
-            if (!File.Exists(@"Sources/Products.json")) {
-                File.Create(@"Sources/Products.json");
-            }
 
-            using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
-                loadStringProducts = streamReader.ReadToEnd();
-                streamReader.Close();
+            if (File.Exists(@"Sources/Products.json")) {
+                using (StreamReader streamReader = new StreamReader(@"Sources/Products.json")) {
+                    loadStringProducts = streamReader.ReadToEnd();
+                    streamReader.Close();
+                }
             }
-
-            if (loadStringProducts != null) {
+                if (loadStringProducts != null) {
                 productList = JsonConvert.DeserializeObject<List<Product>>(loadStringProducts);
             }
 

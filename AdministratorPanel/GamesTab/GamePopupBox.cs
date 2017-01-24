@@ -400,14 +400,17 @@ namespace AdministratorPanel {
                 NiceMessageBox.Show("Could not save image locally");
             }
 
-            try {
+            try
+            {
+                game.id = beforeEditing.id;
+
                 string response = ServerConnection.sendRequest("/submitGame.aspx",
                 new NameValueCollection() {
                     {"Action", beforeEditing == null ? "add" : "update"},
                     {"Game", JsonConvert.SerializeObject(game)},
                     {"Image", image != null ? ImageHelper.imageToBase64(image) : ""}
                 }
-            );
+                );
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
@@ -415,25 +418,29 @@ namespace AdministratorPanel {
 
                 if (beforeEditing != null) {
                     if (response != "updated") {
+                        Console.WriteLine(response);
                         return;
                     }
+                    gametab.games.Remove(beforeEditing);
                     beforeEditing = game;
-                } else {
+                    gametab.games.Add(game);
+                }
+                else {
 
                     if (response.Split(' ')[0] != "added") {
-                       
+
                         return;
 
                     }
                     int.TryParse(response.Split(' ')[1], out game.id);
                     gametab.games.Add(game);
                 }
-            } catch (Exception ex) {
+            } catch (Exception) {
                 NiceMessageBox.Show("Failed to save to the server, changes will be lost if this window is closed", "Server connection problem");
 
                 return;
             }
-            gametab.game.makeItems("");
+            gametab.game.makeItems();
             base.save(sender, e);
         }
 

@@ -29,11 +29,11 @@ namespace Shared
         public void updateProduct(Product newProduct)
         {
 
-            Product oldProduct = products.First(p => p.id == newProduct.id);
+            Product oldProduct = products.FirstOrDefault(p => p.id == newProduct.id);
 
             if (oldProduct == null)
             {
-                return;
+                throw new Exception("Could not find product");
             }
 
             products[products.FindIndex(e => e == oldProduct)] = newProduct;
