@@ -314,7 +314,6 @@ namespace AdministratorPanel {
 
                 product.name = productNameBox.Text;
                 product.PriceElements = listOfPriceElements;
-                Console.WriteLine("catttttttt =" + categoryNameDropDownBoxx.Text);
                 product.category = categoryNameDropDownBoxx.Text;
                 product.section = sectionNameDropDownBox.Text;
                 product.image = imageName;
