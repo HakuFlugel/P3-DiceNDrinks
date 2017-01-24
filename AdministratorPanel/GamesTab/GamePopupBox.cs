@@ -200,7 +200,7 @@ namespace AdministratorPanel
                 yearPublishedBox.Text = this.game.publishedYear.ToString();
                 playerBox.Text = this.game.minPlayers.ToString() + " / " + this.game.maxPlayers.ToString();
                 timeBox.Text = this.game.minPlayTime.ToString() + " / " + this.game.maxPlayTime.ToString();
-                string curFile = $"images/{this.game.imageName}";
+                string curFile = $"images/games/{this.game.imageName}";
                 gameImage.BackgroundImage = Image.FromFile(File.Exists(curFile) ? curFile : $"images/_default.png");
                 gameDifficultyBar.Value = game.difficulity;
                 imagePath = beforeEditing.imageName;

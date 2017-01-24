@@ -97,7 +97,7 @@ namespace AdministratorPanel {
 
                 if (productItem.product.image != null) {
                     try {
-                        image = Image.FromFile("images/" + productItem.product.image);
+                        image = Image.FromFile("images/products/" + productItem.product.image);
                         productImagePanel.BackgroundImage = image;
 
                     } catch (Exception e) {
@@ -162,7 +162,7 @@ namespace AdministratorPanel {
 
                 if (ofd.ShowDialog() == DialogResult.OK) {
 
-                    if (File.Exists("images/" + ofd.SafeFileName)) {
+                    if (File.Exists("images/products/" + ofd.SafeFileName)) {
                         NiceMessageBox.Show("imagename already exist");
                     }
 
