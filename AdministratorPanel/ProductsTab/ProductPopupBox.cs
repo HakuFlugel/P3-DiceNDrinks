@@ -358,7 +358,7 @@ namespace AdministratorPanel {
                 new NameValueCollection() {
                     {"Action", "update"},
                     {"Product", JsonConvert.SerializeObject(productItem.product)},
-                    {"Image", ImageHelper.imageToBase64(image)}
+                    {"Image", image != null ? ImageHelper.imageToBase64(image) : ""}
                 }
                 );
                 Console.WriteLine(response);
