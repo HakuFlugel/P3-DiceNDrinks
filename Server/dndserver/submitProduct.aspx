@@ -28,7 +28,7 @@
     switch (action)
     {
         case "delete":
-            if (product.image != null)
+            if (!string.IsNullOrEmpty(product.image))
             {
                 try
                 {
@@ -66,7 +66,7 @@
 
         doafter:
             string imgstring = Request.Form["Image"];
-            if (imgstring != null)
+            if (!string.IsNullOrEmpty(imgstring))
             {
                 try
                 {

@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="DiceNDrinksApp.AndroidAppV2" android:versionName="1.1_04" android:installLocation="auto" android:versionCode="1">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="DiceNDrinksApp.AndroidAppV2" android:installLocation="auto" android:versionCode="3" android:versionName="2.02">
 	<uses-sdk android:minSdkVersion="16" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.INTERNET" />
 	<application android:label="DiceNDrinksApp" android:icon="@drawable/Icon" android:largeHeap="true"></application>
   #if DEBUG
   [assembly: Application(Debuggable=true)]
