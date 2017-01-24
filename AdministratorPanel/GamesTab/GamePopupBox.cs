@@ -168,7 +168,7 @@ namespace AdministratorPanel
         };
 
         private GamePopupBoxRght rightBox;
-        private List<ListViewItem> genreItems = new List<ListViewItem>();
+        public List<ListViewItem> genreItems = new List<ListViewItem>();
         private Genres genres;
         private GamesTab gametab;
         public Game game;
@@ -185,11 +185,10 @@ namespace AdministratorPanel
             this.genres = genres;
             this.gametab = gametab;
             genreBox.Columns.Add("Genre", -2, HorizontalAlignment.Left);
+           
+            GenreBoxAddItems();
 
-            foreach (var item in genres.differentGenres)
-                genreItems.Add(new ListViewItem {Name = item, Text = item});
-
-            genreBox.Items.AddRange(genreItems.ToArray());
+            
 
             if (game != null)
             {
@@ -301,8 +300,24 @@ namespace AdministratorPanel
             };
 
             editGenre.Click += (s, e) => {
-                new EditGenrePopupbox(genres);
+                new EditGenrePopupbox(genres, this);
             };
+        }
+
+        public void GenreBoxAddItems() {
+
+            foreach (var item in genres.differentGenres) {
+                genreItems.Add(new ListViewItem { Name = item, Text = item });
+            }
+
+
+            NiceMessageBox.Show(genreItems.Count().ToString());
+            try {
+                genreBox.Items.AddRange(genreItems.ToArray());
+            }catch (Exception e) {
+                NiceMessageBox.Show(e.ToString());
+            }
+            
         }
 
         private void toolTipControl()
