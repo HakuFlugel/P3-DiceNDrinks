@@ -130,7 +130,7 @@ namespace AdministratorPanel {
 
                 games = nottuple;
 
-                game.makeItems();
+                game?.makeItems();
             }
             catch (Exception e)
             {
