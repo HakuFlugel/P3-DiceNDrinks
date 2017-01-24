@@ -103,7 +103,7 @@ namespace AdministratorPanel {
                 {
                     if (!nottuple.Any(g => g.imageName == game.imageName))
                     {
-                        if (game.imageName == null && File.Exists("images/games/" + game.imageName))
+                        if (!string.IsNullOrEmpty(game.imageName) && File.Exists("images/games/" + game.imageName))
                         {
                             File.Delete("images/games/" + game.imageName);
                         }

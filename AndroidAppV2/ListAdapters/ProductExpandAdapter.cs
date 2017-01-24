@@ -56,6 +56,9 @@ namespace AndroidAppV2.ListAdapters {
             name = results[childPosition].name;
             image = results[childPosition].image;
             switch (results[childPosition].PriceElements.Count) {
+                case 0:
+                    price = $"";
+                    break;
                 case 1:
                     price = $"{results[childPosition].PriceElements[0].name} for {results[childPosition].PriceElements[0].price} kr.";
                     break;
