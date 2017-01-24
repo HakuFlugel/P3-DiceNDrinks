@@ -292,6 +292,7 @@ namespace AdministratorPanel {
 
             lockResevations.CheckedChanged += (s, e) => {
                 CheckedChanged();
+                download(); //Hem
             };
 
             maxAutoAccept.LostFocus += (s, e) => {
