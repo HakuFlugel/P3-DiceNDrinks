@@ -212,7 +212,9 @@ namespace AdministratorPanel
             else
             {
                 this.game = new Game();
-                Controls.Find("delete", true).First().Enabled = false;
+                var firstOrDefault = Controls.Find("delete", true).FirstOrDefault();
+                if (firstOrDefault != null)
+                    firstOrDefault.Enabled = false;
             }
             SubscriptionList();
             toolTipControl();

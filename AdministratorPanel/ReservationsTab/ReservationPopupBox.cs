@@ -96,9 +96,12 @@ namespace AdministratorPanel {
 
                 }
 
-            } else {
+            } else
+            {
                 pendingSet.SelectedItem = Reservation.State.Accepted;
-                Controls.Find("delete", true).First().Enabled = false;
+                var firstOrDefault = Controls.Find("delete", true).FirstOrDefault();
+                if (firstOrDefault != null)
+                    firstOrDefault.Enabled = false;
             }
 
             SubscriptionController();
@@ -208,6 +211,7 @@ namespace AdministratorPanel {
             Reservation newReservation = new Reservation();
             newReservation.id = reservation?.id ?? 0;
             newReservation.state = (Reservation.State)pendingSet.SelectedValue;
+            Console.WriteLine(newReservation.state);
             newReservation.timestamp = DateTime.UtcNow;
             newReservation.name = reservationName.Text;
             int.TryParse(numPeople.Text, out newReservation.numPeople);

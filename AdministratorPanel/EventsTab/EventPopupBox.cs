@@ -97,8 +97,11 @@ namespace AdministratorPanel {
                 }
 
             }
-            else {
-                Controls.Find("delete", true).First().Enabled = false;
+            else
+            {
+                var firstOrDefault = Controls.Find("delete", true).FirstOrDefault();
+                if (firstOrDefault != null)
+                    firstOrDefault.Enabled = false;
             }
             SubscriberController();
         }
