@@ -53,6 +53,7 @@ namespace AdministratorPanel {
 
                 this.BringToFront();
                 this.Focus();
+                Close();
                 return;
 
             }

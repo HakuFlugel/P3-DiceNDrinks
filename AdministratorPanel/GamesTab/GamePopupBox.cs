@@ -212,7 +212,9 @@ namespace AdministratorPanel
             else
             {
                 this.game = new Game();
-                Controls.Find("delete", true).First().Enabled = false;
+                var firstOrDefault = Controls.Find("delete", true).FirstOrDefault();
+                if (firstOrDefault != null)
+                    firstOrDefault.Enabled = false;
             }
             SubscriptionList();
             toolTipControl();
@@ -310,8 +312,7 @@ namespace AdministratorPanel
                 genreItems.Add(new ListViewItem { Name = item, Text = item });
             }
 
-
-            NiceMessageBox.Show(genreItems.Count().ToString());
+            
             try {
                 genreBox.Items.AddRange(genreItems.ToArray());
             }catch (Exception e) {
@@ -466,7 +467,7 @@ namespace AdministratorPanel
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);
                 }
-                NiceMessageBox.Show(response + " Fuck");
+                NiceMessageBox.Show(response);
 
                 if (beforeEditing != null) {
                     if (response != "updated") {
