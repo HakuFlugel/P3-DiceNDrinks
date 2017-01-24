@@ -38,5 +38,10 @@ namespace AndroidAppV2.Activities {
                 StartActivity(mailIntent);
             };
         }
+
+        protected override void OnResume() {
+            base.OnResume();
+            AndroidShared.Update();
+        }
     }
 }

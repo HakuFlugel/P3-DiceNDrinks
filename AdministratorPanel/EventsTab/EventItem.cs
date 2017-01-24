@@ -38,7 +38,7 @@ namespace AdministratorPanel {
             };
             
             leftTableLayoutPanel.Controls.Add(new Label { Text = name, Font = new Font("Arial", 20), Dock = DockStyle.Top, AutoSize = true });
-            leftTableLayoutPanel.Controls.Add(new Label { Text = description, Dock = DockStyle.Top, Width = 350, Height = 50  });
+            leftTableLayoutPanel.Controls.Add(new Label { Text = description, Dock = DockStyle.Left, Width = 350, Height = 50  });
 
             Controls.Add(leftTableLayoutPanel);
             Controls.Add(new Label { Text = $"\n Start date: {startDate.ToString("ddddd, dd. MMMM, yyyy HH:mm")} \n\n End date: {endDate.ToString("ddddd, dd. MMMM, yyyy HH:mm")}",
