@@ -67,6 +67,19 @@ namespace AndroidAppV2.Activities
 
             _hasConnectionToServer = AndroidShared.CheckForInternetConnection();
             if (!_hasConnectionToServer) {
+                if (LoadDataLocally()) {
+                    sb.Progress = _res.numPeople - 1;
+                    _chosenDateTime = _res.time;
+                    _dateSelectButton.Text = _res.time.ToString("dd. MMMMM, yyyy");
+                    _timeSelectButton.Text = _res.time.ToString("HH:mm");
+                    FindViewById<TextView>(Resource.Id.inviteesNum).Text = _res.numPeople.ToString();
+                    _nameEdit.Text = _res.name;
+                    _phoneNumEdit.Text = _res.phone;
+                    _emailEdit.Text = _res.email;
+                    _userId = _res.id;
+                    FindViewById<TextView>(Resource.Id.textView1).SetTextColor(Android.Graphics.Color.Gray);
+                    FindViewById<TextView>(Resource.Id.textView1).Text = "Status unknown (no connection)";
+                }
                 _acceptionButton.Enabled = false;
                 _deleteButton.Enabled = false;
                 _dateSelectButton.Enabled = false;
@@ -215,18 +228,19 @@ namespace AndroidAppV2.Activities
                 return;
             }
 
+            SaveDataLocally(_res);
 
             AlertDialog.Builder resSucces = new AlertDialog.Builder(this);
             if (HasData)
             {
                 UpdateReservation();
-                resSucces.SetMessage("Your reservation has been updated, and are awating a answer!");
+                resSucces.SetMessage("Your reservation has been updated, and are awating an answer!");
                 resSucces.SetTitle("Reservation updated");
             }
             else
             {
                 AddReservation();
-                resSucces.SetMessage("Your reservation has been created, and are awating a answer!");
+                resSucces.SetMessage("Your reservation has been created, and are awating an answer!");
                 resSucces.SetTitle("Reservation sent");
             }
             _state = true;
@@ -240,6 +254,36 @@ namespace AndroidAppV2.Activities
 
             HasData = true;
 
+        }
+        private bool LoadDataLocally() {
+            string input;
+            var path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+            if (!File.Exists(path + "/VirtualServerReservation.json")) {
+                return false;
+            }
+            var filename = Path.Combine(path, "VirtualServerReservation.json");
+
+            input = File.ReadAllText(filename);
+
+            if (input != null) {
+                _res = JsonConvert.DeserializeObject<Reservation>(input);
+                return true;
+            }
+            return false;
+        }
+
+        private void SaveDataLocally(Reservation res) {
+
+            var json = JsonConvert.SerializeObject(res);
+            var path = Android.OS.Environment.ExternalStorageDirectory.Path + "/DnD";
+            var filename = Path.Combine(path, "VirtualServerReservation.json");
+
+            File.WriteAllText(filename, json);
+
+            var json2 = JsonConvert.SerializeObject(res.id);
+            var filename2 = Path.Combine(path, "TheUserReservationID.json");
+
+            File.WriteAllText(filename2, json2);
         }
 
         private static void EmailCheck(string email)

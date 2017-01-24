@@ -399,7 +399,7 @@ namespace AdministratorPanel {
             if (reservationController.checkIfRemove(day))
                 reservationController.reservationsCalendar.Remove(day);
 
-            updateCheck(day);
+            updateCheck(day); // TODO: stuff, maybe remove function entirely
 
             updateProgressBar(day);
         }
