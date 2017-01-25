@@ -429,6 +429,7 @@ namespace AdministratorPanel {
 
                     if (response.Split(' ')[0] != "added") {
 
+                        Console.WriteLine("invalid response");
                         return;
 
                     }
