@@ -54,7 +54,6 @@ namespace Shared {
         private void addtemplates() {
             differentGenres.Add("Horror");
             differentGenres.Add("Strategy");
-            differentGenres.Add("Horror");
             differentGenres.Add("Family Friendly");
             differentGenres.Add("Coop");
             differentGenres.Add("Challenge");
@@ -62,8 +61,7 @@ namespace Shared {
             differentGenres.Add("RPG");
             differentGenres.Add("Cardgame");
             differentGenres.Add("Casual");
-            differentGenres.Add("Casual");
-            differentGenres.Add("Pary game");
+            differentGenres.Add("Party game");
             differentGenres.Add("Logic game");
             differentGenres.Add("Educational game");
             differentGenres.Add("War game");
