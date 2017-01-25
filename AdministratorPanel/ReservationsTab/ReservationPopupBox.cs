@@ -223,12 +223,11 @@ namespace AdministratorPanel {
 
             try {
                 string response = ServerConnection.sendRequest("/submitReservation.aspx",
-                new NameValueCollection() {
-                    {"Action", reservation == null ? "add" : "update"},
-                    {"Reservation", JsonConvert.SerializeObject(newReservation)}
-                }
-                
-            );
+                    new NameValueCollection() {
+                        {"Action", reservation == null ? "add" : "update"},
+                        {"Reservation", JsonConvert.SerializeObject(newReservation)}
+                    }
+                );
                 Console.WriteLine(response);
                 if (response.StartsWith("exception")) {
                     throw new Exception(response);

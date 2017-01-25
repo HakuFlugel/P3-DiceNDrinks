@@ -324,7 +324,7 @@ namespace AdministratorPanel {
 
                 if (response != "success")
                 {
-                    Console.WriteLine("failed to submit room reservations");
+                    Console.WriteLine("failed to submit auto accept settings");
                     return;
                 }
 

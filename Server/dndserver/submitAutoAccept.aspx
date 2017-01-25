@@ -1,5 +1,6 @@
 <%@ Page Language="C#"%>
 <%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="Shared" %>
 
 <%
 
@@ -23,9 +24,9 @@
 
 
 
-        List<Shared.Room> rooms = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Shared.Room>>(roomsString);
+        ReservationController.AutoAcceptSettings settings = Newtonsoft.Json.JsonConvert.DeserializeObject<ReservationController.AutoAcceptSettings>(roomsString);
 
-        if (rooms == null)
+        if (settings == null)
         {
             Response.Write("No settings provided");
             return;
@@ -33,7 +34,7 @@
 
         Application.Lock();
 
-        diceServer.reservationController.submitRooms(rooms);
+        diceServer.reservationController.autoAcceptSettings = settings;
         Response.Write("success");
 
         diceServer.setTimestamp("Reservations", DateTime.UtcNow);
