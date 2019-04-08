@@ -139,7 +139,6 @@ namespace AndroidAppV2.Activities
             }
             
 
-
             _dateSelectButton.Click += delegate
             {
                 DatePickerFragment dfrag = DatePickerFragment.NewInstance(delegate(DateTime date)
