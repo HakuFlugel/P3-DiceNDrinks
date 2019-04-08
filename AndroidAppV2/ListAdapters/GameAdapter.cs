@@ -41,7 +41,6 @@ namespace AndroidAppV2.ListAdapters {
                 sb.Remove(sb.Length - 3, 3);
             }
 
-
             view.FindViewById<TextView>(Resource.Id.gameGenreText).Text = sb.ToString();
             view.FindViewById<TextView>(Resource.Id.gameNameText).Text = item.name;
             view.FindViewById<TextView>(Resource.Id.gameTimeText).Text = "Time: " + item.minPlayTime + "-" + item.maxPlayTime;
